@@ -1,4 +1,4 @@
-package app.botiga.botiga_biz
+package app.botiga.botiga.biz
 
 import io.flutter.embedding.android.FlutterActivity
 

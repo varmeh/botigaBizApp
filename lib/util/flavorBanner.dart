@@ -11,7 +11,7 @@ class FlavorBanner extends StatelessWidget {
   Future<_Flavor> get _flavor async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     switch (packageInfo.packageName) {
-      case "app.botiga.botigaBiz.dev":
+      case "app.botiga.botiga.biz.dev":
         return _Flavor.dev;
       default:
         return _Flavor.prod;
