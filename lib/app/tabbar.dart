@@ -42,6 +42,7 @@ class _TabbarState extends State<Tabbar> {
           child: _selectedTab.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           items: const [
             BottomNavigationBarItem(
               icon: const Icon(Icons.attach_money),
