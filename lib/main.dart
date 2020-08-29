@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'util/index.dart' show Flavor;
 import 'theme/appTheme.dart';
 import 'app/tabbar.dart';
 
@@ -14,6 +15,8 @@ Future<void> main() async {
       DeviceOrientation.portraitDown,
     ],
   );
+
+  await Flavor.shared.init();
   runApp(BotigaBizApp());
 }
 
