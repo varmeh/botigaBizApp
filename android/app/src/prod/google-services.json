@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "759287362609",
+    "firebase_url": "https://botiga-19b75.firebaseio.com",
+    "project_id": "botiga-19b75",
+    "storage_bucket": "botiga-19b75.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759287362609:android:b58f6047c6b31d493d5110",
+        "android_client_info": {
+          "package_name": "app.botiga.botiga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759287362609-030s49i51gv8603u2ee7i8v601fi070a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwQFal74imnANkH0n6xklKSE7OGj3O7-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759287362609-030s49i51gv8603u2ee7i8v601fi070a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "759287362609-d9r84qhd1vtgkeuosdudbo4eovlek8h2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.botiga.botiga"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759287362609:android:613dd921bc2f9c823d5110",
+        "android_client_info": {
+          "package_name": "app.botiga.botiga.biz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759287362609-030s49i51gv8603u2ee7i8v601fi070a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwQFal74imnANkH0n6xklKSE7OGj3O7-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759287362609-030s49i51gv8603u2ee7i8v601fi070a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "759287362609-d9r84qhd1vtgkeuosdudbo4eovlek8h2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.botiga.botiga"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
