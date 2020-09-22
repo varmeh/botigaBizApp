@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../util/index.dart' show FlavorBanner;
 
@@ -11,6 +13,38 @@ class Tabbar extends StatefulWidget {
 
 class _TabbarState extends State<Tabbar> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final fbm = FirebaseMessaging();
+
+    // Request for permission on notification on Ios device
+    if (Platform.isIOS) {
+      fbm.onIosSettingsRegistered.listen((data) {
+        // save the token  OR subscribe to a topic here
+      });
+      fbm.requestNotificationPermissions();
+    }
+
+    fbm.getToken().then((value) => {
+          //TODO: upload the push notification token to database
+          print('Push Token: $value')
+        });
+
+    fbm.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('onMessage: $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('onLaunch: $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('onResume: $message');
+      },
+    );
+  }
 
   static Widget _screen(String name, Color color) {
     return Container(
