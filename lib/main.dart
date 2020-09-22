@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'util/index.dart' show Flavor;
 import 'theme/appTheme.dart';
@@ -22,6 +24,18 @@ Future<void> main() async {
   await Firebase.initializeApp();
 
   await Flavor.shared.init();
+
+  // Pass all uncaught errors to Crashlytics.
+  if (kReleaseMode) {
+    // Enable crashlytics only in release mode
+    Function originalOnError = FlutterError.onError;
+    FlutterError.onError = (FlutterErrorDetails errorDetails) async {
+      await FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+      // Forward to original handler.
+      originalOnError(errorDetails);
+    };
+  }
+
   runApp(BotigaBizApp());
 }
 
