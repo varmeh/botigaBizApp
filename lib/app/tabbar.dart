@@ -14,6 +14,24 @@ class Tabbar extends StatefulWidget {
 class _TabbarState extends State<Tabbar> {
   int _selectedIndex = 0;
 
+  void _showDialog(dynamic message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: ListTile(
+          title: Text(message['notification']['title']),
+          subtitle: Text(message['notification']['body']),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Ok'),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -36,12 +54,15 @@ class _TabbarState extends State<Tabbar> {
     fbm.configure(
       onMessage: (Map<String, dynamic> message) async {
         print('onMessage: $message');
+        _showDialog(message);
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('onLaunch: $message');
+        _showDialog(message);
       },
       onResume: (Map<String, dynamic> message) async {
         print('onResume: $message');
+        _showDialog(message);
       },
     );
   }
