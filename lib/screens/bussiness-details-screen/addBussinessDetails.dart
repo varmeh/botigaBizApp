@@ -400,7 +400,7 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                       },
                       onSaved: (val) => '',
                       decoration: InputDecoration(
-                          hasFloatingPlaceholder: true,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
                           fillColor: Colors.white,
                           filled: true,
                           labelText: "Brand name",
@@ -419,7 +419,7 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                       },
                       onSaved: (val) => '',
                       decoration: InputDecoration(
-                          hasFloatingPlaceholder: true,
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
                           fillColor: Colors.white,
                           filled: true,
                           labelText: "Tagline",

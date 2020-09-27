@@ -75,7 +75,8 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Email",
@@ -94,7 +95,8 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Phone number",
@@ -113,7 +115,8 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Whatsapp number",
@@ -164,7 +167,8 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Building No. / Flat No.",
@@ -183,7 +187,8 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Street Name/Locality",
@@ -202,7 +207,8 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Pincode",
@@ -221,7 +227,8 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "City",
@@ -240,7 +247,8 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "State",

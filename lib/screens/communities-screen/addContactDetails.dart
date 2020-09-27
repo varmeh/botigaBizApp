@@ -51,7 +51,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                     },
                     onSaved: (val) => '',
                     decoration: InputDecoration(
-                        hasFloatingPlaceholder: true,
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
                         fillColor: Colors.white,
                         filled: true,
                         labelText: "Contact name",
@@ -70,7 +70,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                     },
                     onSaved: (val) => '',
                     decoration: InputDecoration(
-                        hasFloatingPlaceholder: true,
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
                         fillColor: Colors.white,
                         filled: true,
                         labelText: "Email",
@@ -89,7 +89,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                     },
                     onSaved: (val) => '',
                     decoration: InputDecoration(
-                        hasFloatingPlaceholder: true,
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
                         fillColor: Colors.white,
                         filled: true,
                         labelText: "Phone number",
@@ -108,7 +108,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                     },
                     onSaved: (val) => '',
                     decoration: InputDecoration(
-                        hasFloatingPlaceholder: true,
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
                         fillColor: Colors.white,
                         filled: true,
                         labelText: "Whatsapp number",

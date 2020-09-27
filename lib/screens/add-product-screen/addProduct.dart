@@ -418,21 +418,23 @@ class _AddProductState extends State<AddProduct> {
                         height: 26,
                       ),
                       TextFormField(
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                          onSaved: (val) => '',
-                          decoration: InputDecoration(
-                              hasFloatingPlaceholder: true,
-                              fillColor: Colors.white,
-                              filled: true,
-                              labelText: "Product name",
-                              hintText: "Product name",
-                              alignLabelWithHint: true,
-                              border: OutlineInputBorder())),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
+                        onSaved: (val) => '',
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          fillColor: Colors.white,
+                          filled: true,
+                          labelText: "Product name",
+                          hintText: "Product name",
+                          alignLabelWithHint: true,
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
                       SizedBox(
                         height: 26,
                       ),
@@ -470,7 +472,8 @@ class _AddProductState extends State<AddProduct> {
                           },
                           onSaved: (val) => '',
                           decoration: InputDecoration(
-                              hasFloatingPlaceholder: true,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
                               suffixIcon: Image(
                                 height: 22,
                                 image: AssetImage(
@@ -495,7 +498,8 @@ class _AddProductState extends State<AddProduct> {
                           },
                           onSaved: (val) => '',
                           decoration: InputDecoration(
-                              hasFloatingPlaceholder: true,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
                               fillColor: Colors.white,
                               filled: true,
                               labelText: "Quantity",
@@ -600,7 +604,8 @@ class _AddProductState extends State<AddProduct> {
                                 alignLabelWithHint: true,
                                 labelText: "Description",
                                 hintText: "Description",
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 border: OutlineInputBorder())),
                       )
                     : SizedBox()
