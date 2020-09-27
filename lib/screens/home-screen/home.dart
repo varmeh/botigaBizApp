@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../theme/index.dart' show BotigaIcons;
 import '../order-screen/Order.dart';
 import "../store-screen/store.dart";
 import "../profile-screen/profile.dart";
@@ -57,38 +58,29 @@ class _HomeState extends State<Home> {
         ),
         child: BottomNavigationBar(
           onTap: _selectPage,
-          backgroundColor: Theme.of(context).bottomAppBarColor,
-          unselectedItemColor: Colors.black,
-          selectedItemColor: Theme.of(context).accentColor,
           currentIndex: _selectedPageIndex,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: Tab(
-                icon: Image.asset("assets/icons/orders.png"),
-              ),
+              icon: const Icon(BotigaIcons.orders),
               title: Text(
                 'Orders',
               ),
             ),
             BottomNavigationBarItem(
-              icon: Tab(
-                icon: Image.asset("assets/icons/store.png"),
-              ),
+              icon: const Icon(BotigaIcons.store),
               title: Text(
                 'Store',
               ),
             ),
             BottomNavigationBarItem(
-              icon: Tab(icon: Icon(Icons.ac_unit)),
+              icon: const Icon(BotigaIcons.delivery),
               title: Text(
                 'Delivery',
               ),
             ),
             BottomNavigationBarItem(
-              icon: Tab(
-                icon: Image.asset("assets/icons/profile.png"),
-              ),
+              icon: const Icon(BotigaIcons.profile),
               title: Text(
                 "Profile",
               ),

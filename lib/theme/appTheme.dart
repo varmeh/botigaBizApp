@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'lightTheme.dart';
 
 final _textThemeUpdate = TextTheme(
-  headline5: TextStyle(fontWeight: FontWeight.bold),
-  subtitle2: TextStyle(fontWeight: FontWeight.w500),
+  headline6: TextStyle(fontWeight: FontWeight.bold),
+  subtitle1: TextStyle(fontWeight: FontWeight.w500),
 );
 
-final _selectedIconTheme = IconThemeData(size: 40);
-final _unselectedIconTheme = IconThemeData(size: 30);
+final _selectedIconTheme = IconThemeData(size: 28);
+final _unselectedIconTheme = IconThemeData(
+  size: 24,
+  color: Color.fromARGB(63, 18, 23, 21),
+);
 
 class AppTheme {
   static final light = lightTheme.copyWith(
@@ -16,9 +19,10 @@ class AppTheme {
     cardTheme: CardTheme(
       margin: EdgeInsets.only(top: 10.0, left: 8.0, right: 8.0),
     ),
-    // bottomAppBarTheme: lightTheme.bottomAppBarColor.(
-    //   selectedIconTheme: _selectedIconTheme,
-    //   unselectedIconTheme: _unselectedIconTheme,
-    // ),
+    bottomNavigationBarTheme: lightTheme.bottomNavigationBarTheme.copyWith(
+      backgroundColor: Colors.white,
+      selectedIconTheme: _selectedIconTheme,
+      unselectedIconTheme: _unselectedIconTheme,
+    ),
   );
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './textTheme.dart';
+
 // Material Color Theme Creation
 // https://material.io/design/color/the-color-system.html#color-theme-creation
 
@@ -7,16 +9,17 @@ final lightTheme = ThemeData.from(
   colorScheme: ColorScheme(
     brightness: Brightness.light,
     primary: Color(0xff179f57),
-    primaryVariant: Color(0xff3700b3),
+    primaryVariant: Color(0xff0d8144),
     secondary: Color(0xff03dac6),
     secondaryVariant: Color(0xff018786),
-    background: Colors.grey[200],
-    surface: Colors.white,
-    error: Color(0xffb00020),
-    onPrimary: Colors.white,
-    onSecondary: Colors.black,
+    background: Color(0xffe5e5e5),
+    surface: Color(0xffffffff),
+    error: Color(0xffda3030),
+    onPrimary: Color(0xff121715),
+    onSecondary: Color(0xffffffff),
     onBackground: Colors.black,
-    onSurface: Colors.black,
-    onError: Colors.white,
+    onSurface: Color(0x80121715),
+    onError: Color(0xffffffff),
   ),
+  textTheme: textTheme,
 );

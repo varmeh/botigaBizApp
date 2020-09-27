@@ -48,7 +48,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/icons/orders.png
     - assets/icons/building.png
     - assets/icons/search.png
     - assets/icons/back.png
@@ -60,12 +59,10 @@ flutter:
     - assets/icons/pin.png
     - assets/icons/deliverymsg.png
     - assets/icons/out-for-delivery.png
-    - assets/icons/store.png
     - assets/icons/addimage.png
     - assets/icons/rupee.png
     - assets/icons/image_edit.png
     - assets/icons/image_delete.png
-    - assets/icons/profile.png
     - assets/icons/suitcase.png
     - assets/icons/store_details.png
     - assets/icons/money.png
@@ -84,16 +81,15 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family: BotigaIcons
+      fonts:
+        - asset: assets/icons/BotigaIcons.ttf
     - family: Montserrat
       fonts:
         - asset: assets/fonts/Montserrat-Regular.ttf
-          weight: 400
         - asset: assets/fonts/Montserrat-Medium.ttf
-          weight: 500
         - asset: assets/fonts/Montserrat-SemiBold.ttf
-          weight: 600
         - asset: assets/fonts/Montserrat-Bold.ttf
-          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
