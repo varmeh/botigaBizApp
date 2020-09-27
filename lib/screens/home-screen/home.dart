@@ -1,8 +1,9 @@
 import 'dart:io';
+import 'package:botiga_biz/util/index.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../../theme/index.dart' show BotigaIcons;
+import '../../theme/index.dart' show BotigaIcons, FlavorBanner;
 import '../order-screen/Order.dart';
 import "../store-screen/store.dart";
 import "../profile-screen/profile.dart";
@@ -75,47 +76,49 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _pages[_selectedPageIndex]['page'],
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: Colors.black12,
-              width: 1.0,
+    return FlavorBanner(
+      child: Scaffold(
+        body: _pages[_selectedPageIndex]['page'],
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Colors.black12,
+                width: 1.0,
+              ),
             ),
           ),
-        ),
-        child: BottomNavigationBar(
-          onTap: _selectPage,
-          currentIndex: _selectedPageIndex,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(BotigaIcons.orders),
-              title: Text(
-                'Orders',
+          child: BottomNavigationBar(
+            onTap: _selectPage,
+            currentIndex: _selectedPageIndex,
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(BotigaIcons.orders),
+                title: Text(
+                  'Orders',
+                ),
               ),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(BotigaIcons.store),
-              title: Text(
-                'Store',
+              BottomNavigationBarItem(
+                icon: const Icon(BotigaIcons.store),
+                title: Text(
+                  'Store',
+                ),
               ),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(BotigaIcons.delivery),
-              title: Text(
-                'Delivery',
+              BottomNavigationBarItem(
+                icon: const Icon(BotigaIcons.delivery),
+                title: Text(
+                  'Delivery',
+                ),
               ),
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(BotigaIcons.profile),
-              title: Text(
-                "Profile",
+              BottomNavigationBarItem(
+                icon: const Icon(BotigaIcons.profile),
+                title: Text(
+                  "Profile",
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
