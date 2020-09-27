@@ -84,7 +84,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         Container(
                           width: 90,
                           height: 128,
-                          decoration: new BoxDecoration(
+                          decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
@@ -106,9 +106,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
                                 builder: (context) => Container(
-                                  decoration: new BoxDecoration(
+                                  decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: new BorderRadius.only(
+                                    borderRadius: BorderRadius.only(
                                       topLeft: const Radius.circular(16.0),
                                       topRight: const Radius.circular(16.0),
                                     ),
@@ -134,7 +134,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     ),
                                     onDaySelected: (date, events) {
                                       final newDate =
-                                          new DateFormat("d MMM").format(date);
+                                          DateFormat("d MMM").format(date);
                                       Navigator.of(context).pop();
                                       Flushbar(
                                         maxWidth: 335,
@@ -189,7 +189,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         Container(
                           width: 90,
                           height: 128,
-                          decoration: new BoxDecoration(
+                          decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [

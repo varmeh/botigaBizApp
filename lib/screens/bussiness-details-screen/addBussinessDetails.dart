@@ -47,9 +47,9 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                 builder: (context) => Padding(
                   padding: MediaQuery.of(context).viewInsets,
                   child: Container(
-                    decoration: new BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: new BorderRadius.only(
+                      borderRadius: BorderRadius.only(
                         topLeft: const Radius.circular(16.0),
                         topRight: const Radius.circular(16.0),
                       ),
@@ -109,9 +109,8 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                               child: SizedBox(
                                 height: 52,
                                 child: FlatButton(
-                                  shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(6.0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6.0),
                                   ),
                                   onPressed: () {},
                                   color: Color(0xff179F57),
@@ -157,9 +156,9 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.60,
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: new BorderRadius.only(
+          borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(16.0),
             topRight: const Radius.circular(16.0),
           ),
@@ -198,9 +197,9 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
       builder: (context) => Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: new BorderRadius.only(
+            borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16.0),
               topRight: const Radius.circular(16.0),
             ),
@@ -280,8 +279,8 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
               child: SizedBox(
                 height: 52,
                 child: FlatButton(
-                  shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(6.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0),
                   ),
                   onPressed: () {},
                   color: Color(0xff179F57),
@@ -369,8 +368,8 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       FlatButton(
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(6.0)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0)),
                         onPressed: () {
                           showImageSelectOption(context);
                         },
@@ -388,8 +387,8 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                         ),
                       ),
                       FlatButton(
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(6.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6.0),
                         ),
                         onPressed: () {
                           setState(() {

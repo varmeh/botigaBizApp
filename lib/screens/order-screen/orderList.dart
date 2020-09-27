@@ -75,7 +75,7 @@ Widget _orderCard(BuildContext context) {
         width: double.infinity,
         height: 153,
         padding: EdgeInsets.all(0),
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
               color: Color(0xff121714).withOpacity(0.12),

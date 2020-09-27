@@ -51,9 +51,9 @@ class _StoreState extends State<Store> {
                   builder: (context) => Padding(
                     padding: MediaQuery.of(context).viewInsets,
                     child: Container(
-                      decoration: new BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: new BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(16.0),
                           topRight: const Radius.circular(16.0),
                         ),
@@ -136,8 +136,8 @@ class _StoreState extends State<Store> {
                                 width: 10,
                               ),
                               FlatButton(
-                                shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(8.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 onPressed: () {
                                   debugPrint('add');

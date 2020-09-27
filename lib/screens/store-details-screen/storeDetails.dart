@@ -22,8 +22,8 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                 child: SizedBox(
                   height: 52,
                   child: FlatButton(
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(6.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.0),
                     ),
                     onPressed: () {},
                     color: Color(0xff179F57),

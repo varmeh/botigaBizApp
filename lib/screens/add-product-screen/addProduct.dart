@@ -116,9 +116,9 @@ class _AddProductState extends State<AddProduct> {
       builder: (context) => Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: new BorderRadius.only(
+            borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16.0),
               topRight: const Radius.circular(16.0),
             ),
@@ -159,9 +159,9 @@ class _AddProductState extends State<AddProduct> {
       builder: (context) => Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
-          decoration: new BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: new BorderRadius.only(
+            borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16.0),
               topRight: const Radius.circular(16.0),
             ),
@@ -249,8 +249,8 @@ class _AddProductState extends State<AddProduct> {
                 child: SizedBox(
                   height: 52,
                   child: FlatButton(
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(6.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.0),
                     ),
                     onPressed: () {
                       Navigator.pushReplacement(
@@ -378,9 +378,8 @@ class _AddProductState extends State<AddProduct> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   FlatButton.icon(
-                                    shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(8.0),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     icon: Padding(
                                       padding: const EdgeInsets.only(
@@ -545,9 +544,9 @@ class _AddProductState extends State<AddProduct> {
                                 height: 44,
                                 width: 67,
                                 child: FlatButton(
-                                  shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(12.0)),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0),
+                                  ),
                                   onPressed: () {
                                     setState(() {
                                       selectedQuantity = val;

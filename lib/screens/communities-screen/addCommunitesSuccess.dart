@@ -6,9 +6,9 @@ class AddCommunitesSuccess extends StatelessWidget {
     return Container(
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.90,
-        decoration: new BoxDecoration(
+        decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: new BorderRadius.only(
+          borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(16.0),
             topRight: const Radius.circular(16.0),
           ),
@@ -78,9 +78,9 @@ class AddCommunitesSuccess extends StatelessWidget {
               child: Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(left: 22, right: 22, top: 32),
-                decoration: new BoxDecoration(
+                decoration: BoxDecoration(
                   color: Color(0xff121715).withOpacity(0.05),
-                  borderRadius: new BorderRadius.only(
+                  borderRadius: BorderRadius.only(
                     topLeft: const Radius.circular(32.0),
                     topRight: const Radius.circular(32.0),
                   ),
@@ -90,9 +90,9 @@ class AddCommunitesSuccess extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: 48,
-                      decoration: new BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color(0xff179F57),
-                        borderRadius: new BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(16.0),
                           topRight: const Radius.circular(16.0),
                         ),
@@ -111,9 +111,9 @@ class AddCommunitesSuccess extends StatelessWidget {
                     ),
                     Container(
                       height: 150,
-                      decoration: new BoxDecoration(
-                        image: new DecorationImage(
-                          image: new AssetImage("assets/icons/coupan.png"),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/icons/coupan.png"),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -136,8 +136,8 @@ class AddCommunitesSuccess extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           FlatButton(
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(6.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0),
                             ),
                             onPressed: () {},
                             color: Colors.black,
@@ -154,8 +154,8 @@ class AddCommunitesSuccess extends StatelessWidget {
                             ),
                           ),
                           FlatButton.icon(
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(6.0)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6.0)),
                             icon: Padding(
                               padding: const EdgeInsets.only(
                                   left: 13, top: 13, bottom: 13),

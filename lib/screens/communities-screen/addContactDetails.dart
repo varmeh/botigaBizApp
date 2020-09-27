@@ -174,8 +174,8 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                     child: SizedBox(
                       height: 52,
                       child: FlatButton(
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(6.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6.0),
                         ),
                         onPressed: () {
                           Navigator.pop(context);

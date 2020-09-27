@@ -78,9 +78,9 @@ class _CommunityTileState extends State<CommunityTile> {
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.70,
                       width: double.infinity,
-                      decoration: new BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: new BorderRadius.only(
+                        borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(16.0),
                           topRight: const Radius.circular(16.0),
                         ),
@@ -110,7 +110,7 @@ class _CommunityTileState extends State<CommunityTile> {
                           Container(
                             width: double.infinity,
                             height: 128,
-                            decoration: new BoxDecoration(
+                            decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
@@ -138,9 +138,9 @@ class _CommunityTileState extends State<CommunityTile> {
                                           MediaQuery.of(context).size.height *
                                               0.80,
 
-                                      decoration: new BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: new BorderRadius.only(
+                                        borderRadius: BorderRadius.only(
                                           topLeft: const Radius.circular(16.0),
                                           topRight: const Radius.circular(16.0),
                                         ),
@@ -201,9 +201,9 @@ class _CommunityTileState extends State<CommunityTile> {
                                                     height: 52,
                                                     child: FlatButton(
                                                       shape:
-                                                          new RoundedRectangleBorder(
+                                                          RoundedRectangleBorder(
                                                         borderRadius:
-                                                            new BorderRadius
+                                                            BorderRadius
                                                                 .circular(
                                                           6.0,
                                                         ),
@@ -226,11 +226,11 @@ class _CommunityTileState extends State<CommunityTile> {
                                                                       .height *
                                                                   0.90,
                                                               decoration:
-                                                                  new BoxDecoration(
+                                                                  BoxDecoration(
                                                                 color: Colors
                                                                     .white,
                                                                 borderRadius:
-                                                                    new BorderRadius
+                                                                    BorderRadius
                                                                         .only(
                                                                   topLeft:
                                                                       const Radius
@@ -310,7 +310,7 @@ class _CommunityTileState extends State<CommunityTile> {
                           Container(
                             width: double.infinity,
                             height: 128,
-                            decoration: new BoxDecoration(
+                            decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
@@ -337,9 +337,9 @@ class _CommunityTileState extends State<CommunityTile> {
                                       height:
                                           MediaQuery.of(context).size.height *
                                               0.80,
-                                      decoration: new BoxDecoration(
+                                      decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: new BorderRadius.only(
+                                        borderRadius: BorderRadius.only(
                                           topLeft: const Radius.circular(16.0),
                                           topRight: const Radius.circular(16.0),
                                         ),
@@ -400,9 +400,9 @@ class _CommunityTileState extends State<CommunityTile> {
                                                     height: 52,
                                                     child: FlatButton(
                                                       shape:
-                                                          new RoundedRectangleBorder(
+                                                          RoundedRectangleBorder(
                                                         borderRadius:
-                                                            new BorderRadius
+                                                            BorderRadius
                                                                 .circular(
                                                           6.0,
                                                         ),
@@ -425,11 +425,11 @@ class _CommunityTileState extends State<CommunityTile> {
                                                                       .height *
                                                                   0.90,
                                                               decoration:
-                                                                  new BoxDecoration(
+                                                                  BoxDecoration(
                                                                 color: Colors
                                                                     .white,
                                                                 borderRadius:
-                                                                    new BorderRadius
+                                                                    BorderRadius
                                                                         .only(
                                                                   topLeft:
                                                                       const Radius
