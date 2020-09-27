@@ -32,6 +32,12 @@ dependencies:
   flushbar: ^1.10.4
   image_picker: ^0.6.7+9
 
+  # Firebase integration
+  firebase_core: ^0.5.0
+  firebase_messaging: ^7.0.0
+  firebase_analytics: ^6.0.0
+  firebase_crashlytics: '^0.2.0'
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
