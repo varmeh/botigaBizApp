@@ -337,9 +337,8 @@ class _AddProductState extends State<AddProduct> {
                                           onTap: () {
                                             showImageSelectOption(context);
                                           },
-                                          child: Image(
-                                            image: AssetImage(
-                                                'assets/icons/image_edit.png'),
+                                          child: Image.asset(
+                                            'assets/icons/image_edit.png',
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -352,9 +351,8 @@ class _AddProductState extends State<AddProduct> {
                                               _imageFile = null;
                                             });
                                           },
-                                          child: Image(
-                                            image: AssetImage(
-                                                'assets/icons/image_delete.png'),
+                                          child: Image.asset(
+                                            'assets/icons/image_delete.png',
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -390,10 +388,8 @@ class _AddProductState extends State<AddProduct> {
                                         top: 14,
                                         bottom: 14,
                                       ),
-                                      child: Image(
-                                        image: AssetImage(
-                                          'assets/icons/addimage.png',
-                                        ),
+                                      child: Image.asset(
+                                        'assets/icons/addimage.png',
                                       ),
                                     ),
                                     onPressed: () {

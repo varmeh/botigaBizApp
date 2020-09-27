@@ -26,10 +26,9 @@ class OrderList extends StatelessWidget {
                   AppHeader(
                     title: "Orders",
                     actionWidget: IconButton(
-                        icon: Image(
-                          image: AssetImage('assets/icons/search.png'),
-                        ),
-                        onPressed: () {}),
+                      icon: Image.asset('assets/icons/search.png'),
+                      onPressed: () {},
+                    ),
                   ),
                   SizedBox(
                     height: 24,
@@ -110,9 +109,7 @@ Widget _orderCard(BuildContext context) {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            child: Image(
-                              image: AssetImage('assets/icons/building.png'),
-                            ),
+                            child: Image.asset('assets/icons/building.png'),
                           ),
                           SizedBox(
                             width: 7.86,

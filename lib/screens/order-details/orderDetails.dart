@@ -146,9 +146,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500),
                                         ),
-                                        icon: Image(
-                                          image: AssetImage(
-                                              'assets/icons/deliverymsg.png'),
+                                        icon: Image.asset(
+                                          'assets/icons/deliverymsg.png',
                                         ),
                                         flushbarPosition: FlushbarPosition.TOP,
                                         flushbarStyle: FlushbarStyle.FLOATING,
@@ -169,9 +168,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Image(
-                                    image: AssetImage('assets/icons/delay.png'),
-                                  ),
+                                  Image.asset('assets/icons/delay.png'),
                                   Text(
                                     'Mark as delay',
                                     textAlign: TextAlign.center,
@@ -218,9 +215,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Image(
-                                    image: AssetImage(
-                                        'assets/icons/out-for-delivery.png'),
+                                  Image.asset(
+                                    'assets/icons/out-for-delivery.png',
                                   ),
                                   Text(
                                     'Out for delivery',

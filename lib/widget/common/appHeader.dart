@@ -18,9 +18,7 @@ class AppHeader extends StatelessWidget {
                 Navigator.pop(context);
               },
               child: Container(
-                child: Image(
-                  image: AssetImage('assets/icons/back.png'),
-                ),
+                child: Image.asset('assets/icons/back.png'),
               ),
             ),
             SizedBox(

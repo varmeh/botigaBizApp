@@ -57,9 +57,7 @@ Widget _orderCard(BuildContext context, String apartmentName, String revenue,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              child: Image(
-                                image: AssetImage('assets/icons/building.png'),
-                              ),
+                              child: Image.asset('assets/icons/building.png'),
                             ),
                             SizedBox(
                               width: 7.86,
