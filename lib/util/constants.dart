@@ -13,4 +13,10 @@ class Constants {
     right: 15.0,
     bottom: 10.0,
   );
+
+  //Order String Constants
+  static const rupeeSymbol = '\u20B9';
+  static const viewAllOrders = 'See all orders';
+  static const revenue = 'REVENUE';
+  static const orders = 'ORDERS';
 }

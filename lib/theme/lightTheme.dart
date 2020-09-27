@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 final lightTheme = ThemeData.from(
   colorScheme: ColorScheme(
     brightness: Brightness.light,
-    primary: Color(0xff6200ee),
+    primary: Color(0xff179f57),
     primaryVariant: Color(0xff3700b3),
     secondary: Color(0xff03dac6),
     secondaryVariant: Color(0xff018786),
