@@ -64,13 +64,17 @@ class _HomeState extends State<Home> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: Tab(icon: Image.asset("assets/icons/orders.png")),
+              icon: Tab(
+                icon: Image.asset("assets/icons/orders.png"),
+              ),
               title: Text(
                 'Orders',
               ),
             ),
             BottomNavigationBarItem(
-              icon: Tab(icon: Image.asset("assets/icons/store.png")),
+              icon: Tab(
+                icon: Image.asset("assets/icons/store.png"),
+              ),
               title: Text(
                 'Store',
               ),
@@ -82,7 +86,9 @@ class _HomeState extends State<Home> {
               ),
             ),
             BottomNavigationBarItem(
-              icon: Tab(icon: Image.asset("assets/icons/profile.png")),
+              icon: Tab(
+                icon: Image.asset("assets/icons/profile.png"),
+              ),
               title: Text(
                 "Profile",
               ),

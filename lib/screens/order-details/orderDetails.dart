@@ -35,7 +35,11 @@ class _OrderDetailsState extends State<OrderDetails> {
         child: ListView(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20, top: 25),
+              padding: const EdgeInsets.only(
+                left: 20.0,
+                right: 20,
+                top: 25,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -50,9 +54,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                       child: Text(
                         'Cancel order',
                         style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            color: Color(0xffDA3030)),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Color(0xffDA3030),
+                        ),
                       ),
                     ),
                   ),
@@ -97,87 +102,87 @@ class _OrderDetailsState extends State<OrderDetails> {
                           child: InkWell(
                             onTap: () {
                               showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  builder: (context) => Container(
-                                      decoration: new BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: new BorderRadius.only(
-                                          topLeft: const Radius.circular(16.0),
-                                          topRight: const Radius.circular(16.0),
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => Container(
+                                  decoration: new BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: new BorderRadius.only(
+                                      topLeft: const Radius.circular(16.0),
+                                      topRight: const Radius.circular(16.0),
+                                    ),
+                                  ),
+                                  child: TableCalendar(
+                                    startDay: DateTime.now(),
+                                    availableCalendarFormats: const {
+                                      CalendarFormat.month: 'Month',
+                                    },
+                                    calendarStyle: CalendarStyle(
+                                      selectedColor: Color(0xff179F57),
+                                      outsideDaysVisible: true,
+                                      weekendStyle: TextStyle()
+                                          .copyWith(color: Colors.black),
+                                    ),
+                                    daysOfWeekStyle: DaysOfWeekStyle(
+                                      weekendStyle: TextStyle()
+                                          .copyWith(color: Colors.black54),
+                                    ),
+                                    headerStyle: HeaderStyle(
+                                      centerHeaderTitle: false,
+                                      formatButtonVisible: false,
+                                    ),
+                                    onDaySelected: (date, events) {
+                                      final newDate =
+                                          new DateFormat("d MMM").format(date);
+                                      Navigator.of(context).pop();
+                                      Flushbar(
+                                        maxWidth: 335,
+                                        backgroundColor: Color(0xff2591B2),
+                                        messageText: Text(
+                                          'Delivery date changed to $newDate',
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500),
                                         ),
-                                      ),
-                                      child: TableCalendar(
-                                        startDay: DateTime.now(),
-                                        availableCalendarFormats: const {
-                                          CalendarFormat.month: 'Month',
-                                        },
-                                        calendarStyle: CalendarStyle(
-                                          selectedColor: Color(0xff179F57),
-                                          outsideDaysVisible: true,
-                                          weekendStyle: TextStyle()
-                                              .copyWith(color: Colors.black),
+                                        icon: Image(
+                                          image: AssetImage(
+                                              'assets/icons/deliverymsg.png'),
                                         ),
-                                        daysOfWeekStyle: DaysOfWeekStyle(
-                                          weekendStyle: TextStyle()
-                                              .copyWith(color: Colors.black54),
-                                        ),
-                                        headerStyle: HeaderStyle(
-                                          centerHeaderTitle: false,
-                                          formatButtonVisible: false,
-                                        ),
-                                        onDaySelected: (date, events) {
-                                          final newDate =
-                                              new DateFormat("d MMM")
-                                                  .format(date);
-                                          Navigator.of(context).pop();
-                                          Flushbar(
-                                            maxWidth: 335,
-                                            backgroundColor: Color(0xff2591B2),
-                                            messageText: Text(
-                                              'Delivery date changed to $newDate',
-                                              style: TextStyle(
-                                                  fontSize: 15.0,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            icon: Image(
-                                              image: AssetImage(
-                                                  'assets/icons/deliverymsg.png'),
-                                            ),
-                                            flushbarPosition:
-                                                FlushbarPosition.TOP,
-                                            flushbarStyle:
-                                                FlushbarStyle.FLOATING,
-                                            duration: Duration(seconds: 3),
-                                            margin: EdgeInsets.all(20),
-                                            padding: EdgeInsets.all(20),
-                                            borderRadius: 8,
-                                          )..show(context);
-                                        },
-                                        calendarController: _calendarController,
-                                      )));
+                                        flushbarPosition: FlushbarPosition.TOP,
+                                        flushbarStyle: FlushbarStyle.FLOATING,
+                                        duration: Duration(seconds: 3),
+                                        margin: EdgeInsets.all(20),
+                                        padding: EdgeInsets.all(20),
+                                        borderRadius: 8,
+                                      ).show(context);
+                                    },
+                                    calendarController: _calendarController,
+                                  ),
+                                ),
+                              );
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image(
-                                      image:
-                                          AssetImage('assets/icons/delay.png'),
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Image(
+                                    image: AssetImage('assets/icons/delay.png'),
+                                  ),
+                                  Text(
+                                    'Mark as delay',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      letterSpacing: 0.2,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                    Text(
-                                      'Mark as delay',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          letterSpacing: 0.2,
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ]),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -210,23 +215,25 @@ class _OrderDetailsState extends State<OrderDetails> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Image(
-                                      image: AssetImage(
-                                          'assets/icons/out-for-delivery.png'),
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/icons/out-for-delivery.png'),
+                                  ),
+                                  Text(
+                                    'Out for delivery',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xff179F57),
+                                      fontSize: 12,
+                                      letterSpacing: 0.2,
+                                      fontWeight: FontWeight.w500,
                                     ),
-                                    Text(
-                                      'Out for delivery',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Color(0xff179F57),
-                                          fontSize: 12,
-                                          letterSpacing: 0.2,
-                                          fontWeight: FontWeight.w500),
-                                    )
-                                  ]),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         )

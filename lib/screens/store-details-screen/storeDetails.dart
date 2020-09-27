@@ -23,15 +23,17 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                   height: 52,
                   child: FlatButton(
                     shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(6.0)),
+                      borderRadius: new BorderRadius.circular(6.0),
+                    ),
                     onPressed: () {},
                     color: Color(0xff179F57),
                     child: Text(
                       'Save details',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -42,7 +44,11 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(
-                top: 40, left: 20, right: 20, bottom: 20.0),
+              top: 40,
+              left: 20,
+              right: 20,
+              bottom: 20.0,
+            ),
             child: Container(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,62 +73,65 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                           height: 32,
                         ),
                         TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => '',
-                            decoration: InputDecoration(
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                fillColor: Colors.white,
-                                filled: true,
-                                labelText: "Email",
-                                hintText: "Email",
-                                alignLabelWithHint: true,
-                                border: OutlineInputBorder())),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          onSaved: (val) => '',
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "Email",
+                            hintText: "Email",
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                         SizedBox(
                           height: 16,
                         ),
                         TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => '',
-                            decoration: InputDecoration(
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                fillColor: Colors.white,
-                                filled: true,
-                                labelText: "Phone number",
-                                hintText: "Phone number",
-                                alignLabelWithHint: true,
-                                border: OutlineInputBorder())),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          onSaved: (val) => '',
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "Phone number",
+                            hintText: "Phone number",
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                         SizedBox(
                           height: 16,
                         ),
                         TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => '',
-                            decoration: InputDecoration(
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                fillColor: Colors.white,
-                                filled: true,
-                                labelText: "Whatsapp number",
-                                hintText: "Whatsapp number",
-                                alignLabelWithHint: true,
-                                border: OutlineInputBorder())),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          onSaved: (val) => '',
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "Whatsapp number",
+                            hintText: "Whatsapp number",
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                         SizedBox(
                           height: 16,
                         ),
@@ -148,9 +157,10 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                               child: Text(
                                 "Whatsapp number same as phone number above",
                                 style: TextStyle(
-                                    color: Color(0xff121715),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500),
+                                  color: Color(0xff121715),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ],
@@ -159,102 +169,107 @@ class _AddStoreDeatilsState extends State<AddStoreDeatils> {
                           height: 16,
                         ),
                         TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => '',
-                            decoration: InputDecoration(
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                fillColor: Colors.white,
-                                filled: true,
-                                labelText: "Building No. / Flat No.",
-                                hintText: "Building No. / Flat No.",
-                                alignLabelWithHint: true,
-                                border: OutlineInputBorder())),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          onSaved: (val) => '',
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "Building No. / Flat No.",
+                            hintText: "Building No. / Flat No.",
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                         SizedBox(
                           height: 16,
                         ),
                         TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => '',
-                            decoration: InputDecoration(
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                fillColor: Colors.white,
-                                filled: true,
-                                labelText: "Street Name/Locality",
-                                hintText: "Street Name/Locality",
-                                alignLabelWithHint: true,
-                                border: OutlineInputBorder())),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          onSaved: (val) => '',
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "Street Name/Locality",
+                            hintText: "Street Name/Locality",
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                         SizedBox(
                           height: 16,
                         ),
                         TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => '',
-                            decoration: InputDecoration(
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                fillColor: Colors.white,
-                                filled: true,
-                                labelText: "Pincode",
-                                hintText: "Pincode",
-                                alignLabelWithHint: true,
-                                border: OutlineInputBorder())),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          onSaved: (val) => '',
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "Pincode",
+                            hintText: "Pincode",
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                         SizedBox(
                           height: 16,
                         ),
                         TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => '',
-                            decoration: InputDecoration(
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                fillColor: Colors.white,
-                                filled: true,
-                                labelText: "City",
-                                hintText: "City",
-                                alignLabelWithHint: true,
-                                border: OutlineInputBorder())),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          onSaved: (val) => '',
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "City",
+                            hintText: "City",
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                         SizedBox(
                           height: 16,
                         ),
                         TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => '',
-                            decoration: InputDecoration(
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                fillColor: Colors.white,
-                                filled: true,
-                                labelText: "State",
-                                hintText: "State",
-                                alignLabelWithHint: true,
-                                border: OutlineInputBorder())),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          onSaved: (val) => '',
+                          decoration: InputDecoration(
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            fillColor: Colors.white,
+                            filled: true,
+                            labelText: "State",
+                            hintText: "State",
+                            alignLabelWithHint: true,
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                         SizedBox(
                           height: 69,
                         )

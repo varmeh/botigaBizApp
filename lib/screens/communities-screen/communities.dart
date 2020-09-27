@@ -36,9 +36,10 @@ class _CommunityTileState extends State<CommunityTile> {
           title: Text(
             widget.title,
             style: TextStyle(
-                color: Color(0xff121715),
-                fontSize: 15,
-                fontWeight: FontWeight.w500),
+              color: Color(0xff121715),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           trailing: Transform.scale(
             alignment: Alignment.centerRight,

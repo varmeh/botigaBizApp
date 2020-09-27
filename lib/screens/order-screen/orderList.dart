@@ -15,7 +15,11 @@ class OrderList extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 25),
+              padding: const EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 25,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -30,12 +34,14 @@ class OrderList extends StatelessWidget {
                   SizedBox(
                     height: 24,
                   ),
-                  Text("TODAY",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Color(0xff121715),
-                        fontWeight: FontWeight.w500,
-                      )),
+                  Text(
+                    "TODAY",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Color(0xff121715),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   SizedBox(
                     height: 25,
                   ),
@@ -80,7 +86,7 @@ Widget _orderCard(BuildContext context) {
                 0.0, // Move to right 10  horizontally
                 0.0, // Move to bottom 10 Vertically
               ),
-            )
+            ),
           ],
         ),
         child: Card(
@@ -91,75 +97,82 @@ Widget _orderCard(BuildContext context) {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 32, bottom: 16, left: 27.86),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          child: Image(
-                            image: AssetImage('assets/icons/building.png'),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 32,
+                        bottom: 16,
+                        left: 27.86,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            child: Image(
+                              image: AssetImage('assets/icons/building.png'),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 7.86,
-                        ),
-                        Text(
-                          'Riverside apartment',
-                          style: Theme.of(context).textTheme.headline6,
-                        )
-                      ],
+                          SizedBox(
+                            width: 7.86,
+                          ),
+                          Text(
+                            'Riverside apartment',
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 27.86, bottom: 27),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              '${Constants.revenue}',
-                              style: Theme.of(context).textTheme.subtitle2,
-                            ),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              '${Constants.rupeeSymbol} 6, 680',
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: 95,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "${Constants.orders}",
-                              style: Theme.of(context).textTheme.subtitle2,
-                            ),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              '80',
-                              style: Theme.of(context).textTheme.headline6,
-                            )
-                          ],
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 27.86,
+                        bottom: 27,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                '${Constants.revenue}',
+                                style: Theme.of(context).textTheme.subtitle2,
+                              ),
+                              SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                '${Constants.rupeeSymbol} 6, 680',
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 95,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "${Constants.orders}",
+                                style: Theme.of(context).textTheme.subtitle2,
+                              ),
+                              SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                '80',
+                                style: Theme.of(context).textTheme.headline6,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

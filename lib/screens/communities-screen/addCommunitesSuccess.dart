@@ -24,12 +24,13 @@ class AddCommunitesSuccess extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                      })
+                    icon: Icon(Icons.clear),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                  )
                 ],
               ),
             ),
@@ -62,10 +63,11 @@ class AddCommunitesSuccess extends StatelessWidget {
                     "Delivering orders in 3 days",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13,
-                        color: Color(0xff121715).withOpacity(0.5)),
-                  )
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                      color: Color(0xff121715).withOpacity(0.5),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -99,10 +101,11 @@ class AddCommunitesSuccess extends StatelessWidget {
                         child: Text(
                           "SHARE WITH YOUR CUSTOMERS",
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              letterSpacing: 1,
-                              fontWeight: FontWeight.w700),
+                            color: Colors.white,
+                            fontSize: 12,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),
@@ -118,11 +121,13 @@ class AddCommunitesSuccess extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             top: 32.0, right: 20, left: 20, bottom: 20),
                         child: Text(
-                            "Hi, Now you can see our entire catalog of healthynuts online. Place orders anytime and track conveniently. Download Botiga app now. https://botiga.app/xcGha",
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: Color(0xff3D2A0D))),
+                          "Hi, Now you can see our entire catalog of healthynuts online. Place orders anytime and track conveniently. Download Botiga app now. https://botiga.app/xcGha",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xff3D2A0D),
+                          ),
+                        ),
                       ),
                     ),
                     Padding(
@@ -132,7 +137,8 @@ class AddCommunitesSuccess extends StatelessWidget {
                         children: <Widget>[
                           FlatButton(
                             shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(6.0)),
+                              borderRadius: new BorderRadius.circular(6.0),
+                            ),
                             onPressed: () {},
                             color: Colors.black,
                             child: Padding(
@@ -140,9 +146,10 @@ class AddCommunitesSuccess extends StatelessWidget {
                               child: Text(
                                 'Copy message',
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600),
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
@@ -152,21 +159,23 @@ class AddCommunitesSuccess extends StatelessWidget {
                             icon: Padding(
                               padding: const EdgeInsets.only(
                                   left: 13, top: 13, bottom: 13),
-                              child: Image.asset('assets/icons/watsapp.png'
-                                  // image: AssetImage('assets/icons/watsapp.png'),
-                                  ),
+                              child: Image.asset('assets/icons/watsapp.png'),
                             ),
                             onPressed: () {},
                             color: Colors.black,
                             label: Padding(
                               padding: const EdgeInsets.only(
-                                  right: 13, top: 13, bottom: 13),
+                                right: 13,
+                                top: 13,
+                                bottom: 13,
+                              ),
                               child: Text(
                                 'Share',
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500),
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           )

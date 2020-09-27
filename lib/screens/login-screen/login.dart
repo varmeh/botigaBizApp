@@ -9,8 +9,12 @@ class Login extends StatelessWidget {
       child: Container(
         child: RaisedButton(
           onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (BuildContext context) => Home()));
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => Home(),
+              ),
+            );
           },
           child: Text("login"),
         ),

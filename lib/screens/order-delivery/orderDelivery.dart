@@ -21,16 +21,18 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                     height: 52,
                     child: FlatButton(
                       shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(6.0)),
+                        borderRadius: new BorderRadius.circular(6.0),
+                      ),
                       onPressed: () {},
                       textColor: Colors.red,
                       color: Color(0xff179F57),
                       child: Text(
                         'Mark as delivered',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600),
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),
@@ -42,7 +44,11 @@ class _OrderDeliveryState extends State<OrderDelivery> {
           child: ListView(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(left: 20.0, right: 20, top: 25),
+                padding: const EdgeInsets.only(
+                  left: 20.0,
+                  right: 20,
+                  top: 25,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -57,9 +63,10 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                         child: Text(
                           'Cancel order',
                           style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15,
-                              color: Color(0xffDA3030)),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            color: Color(0xffDA3030),
+                          ),
                         ),
                       ),
                     ),

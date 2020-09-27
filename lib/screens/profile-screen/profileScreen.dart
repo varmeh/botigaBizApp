@@ -19,9 +19,10 @@ class ProfileScreen extends StatelessWidget {
               child: Text(
                 "Business details",
                 style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500),
+                  color: Color(0xff121715),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
             trailing: Icon(
@@ -41,9 +42,10 @@ class ProfileScreen extends StatelessWidget {
               child: Text(
                 "Store details",
                 style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500),
+                  color: Color(0xff121715),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
             trailing: Icon(
@@ -60,9 +62,10 @@ class ProfileScreen extends StatelessWidget {
               child: Text(
                 "Payment Information",
                 style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500),
+                  color: Color(0xff121715),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
             trailing: Icon(
@@ -79,9 +82,10 @@ class ProfileScreen extends StatelessWidget {
               child: Text(
                 "Logout",
                 style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500),
+                  color: Color(0xff121715),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
             trailing: Icon(

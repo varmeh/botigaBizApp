@@ -25,28 +25,33 @@ class _SelectAreaState extends State<SelectArea> {
               height: 20,
             ),
             TextField(
-                style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal),
-                decoration: InputDecoration(
-                    fillColor: Theme.of(context).backgroundColor,
-                    filled: true,
-                    contentPadding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
-                    suffixIcon: Icon(
-                      Icons.search,
-                      color: Color(0xff121715),
-                    ),
-                    hintText: "Search...",
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    border: OutlineInputBorder(
-                        // borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(8.0)),
-                    focusedBorder: OutlineInputBorder(
-                        // borderSide: BorderSide(color: Colors.white),
-                        borderRadius: BorderRadius.circular(8.0)))),
+              style: TextStyle(
+                fontSize: 15.0,
+                color: Colors.black,
+                fontWeight: FontWeight.normal,
+              ),
+              decoration: InputDecoration(
+                fillColor: Theme.of(context).backgroundColor,
+                filled: true,
+                contentPadding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
+                suffixIcon: Icon(
+                  Icons.search,
+                  color: Color(0xff121715),
+                ),
+                hintText: "Search...",
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                border: OutlineInputBorder(
+                  // borderSide: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  // borderSide: BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
             SizedBox(
               height: 20,
             ),
@@ -62,28 +67,37 @@ class _SelectAreaState extends State<SelectArea> {
               width: double.infinity,
               height: 92,
               decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                  ),
-                  color: Color(0xffFDF6EC),
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                border: Border.all(
+                  color: Colors.white,
+                ),
+                color: Color(0xffFDF6EC),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text("STAY TUNED",
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: 13,
-                          fontWeight: FontWeight.bold)),
+                  Text(
+                    "STAY TUNED",
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   SizedBox(
                     height: 8,
                   ),
-                  Text("We are adding new location every week",
-                      style: TextStyle(
-                          color: Color(0xff815B23),
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500)),
+                  Text(
+                    "We are adding new location every week",
+                    style: TextStyle(
+                      color: Color(0xff815B23),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
             )
@@ -103,7 +117,10 @@ Widget getTile(String txt, BuildContext context) {
     title: Text(
       txt,
       style: TextStyle(
-          color: Color(0xff121715), fontSize: 17, fontWeight: FontWeight.w500),
+        color: Color(0xff121715),
+        fontSize: 17,
+        fontWeight: FontWeight.w500,
+      ),
     ),
   );
 }

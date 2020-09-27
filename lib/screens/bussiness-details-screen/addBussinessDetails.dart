@@ -72,29 +72,34 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                           height: 24,
                         ),
                         TextField(
-                            style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.black,
-                                fontWeight: FontWeight.normal),
-                            decoration: InputDecoration(
-                                fillColor: Colors.black.withOpacity(0.05),
-                                filled: true,
-                                contentPadding:
-                                    EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
-                                hintText: "Write your business category",
-                                hintStyle: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black.withOpacity(0.5)),
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(8.0)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.white),
-                                    borderRadius: BorderRadius.circular(8.0)))),
+                          style: TextStyle(
+                              fontSize: 15.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal),
+                          decoration: InputDecoration(
+                            fillColor: Colors.black.withOpacity(0.05),
+                            filled: true,
+                            contentPadding:
+                                EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
+                            hintText: "Write your business category",
+                            hintStyle: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black.withOpacity(0.5),
+                            ),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 40,
                         ),
@@ -105,16 +110,18 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                                 height: 52,
                                 child: FlatButton(
                                   shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(6.0)),
+                                    borderRadius:
+                                        new BorderRadius.circular(6.0),
+                                  ),
                                   onPressed: () {},
                                   color: Color(0xff179F57),
                                   child: Text(
                                     'Save category',
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w600),
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -207,9 +214,10 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
               Text(
                 "Add image",
                 style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
+                  color: Color(0xff121715),
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               SizedBox(
                 height: 24,
@@ -219,13 +227,17 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                   _onImageButtonPressed(ImageSource.camera, context);
                 },
                 contentPadding: EdgeInsets.only(left: 0.0),
-                leading: Icon(Icons.camera_alt, color: Color(0xff121715)),
+                leading: Icon(
+                  Icons.camera_alt,
+                  color: Color(0xff121715),
+                ),
                 title: Text(
                   'Take photo',
                   style: TextStyle(
-                      color: Color(0xff121715),
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500),
+                    color: Color(0xff121715),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               ListTile(
@@ -240,9 +252,10 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                 title: Text(
                   'Choose from gallery',
                   style: TextStyle(
-                      color: Color(0xff121715),
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500),
+                    color: Color(0xff121715),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               SizedBox(
@@ -259,30 +272,33 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Container(
-          color: Colors.white,
-          padding: EdgeInsets.all(10),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: SizedBox(
-                  height: 52,
-                  child: FlatButton(
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(6.0)),
-                    onPressed: () {},
-                    color: Color(0xff179F57),
-                    child: Text(
-                      'Add Product',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
+        color: Colors.white,
+        padding: EdgeInsets.all(10),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: SizedBox(
+                height: 52,
+                child: FlatButton(
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(6.0),
+                  ),
+                  onPressed: () {},
+                  color: Color(0xff179F57),
+                  child: Text(
+                    'Add Product',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
       body: Container(
           padding: const EdgeInsets.only(top: 25, left: 20, right: 20),
           color: Colors.white,
@@ -313,14 +329,17 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                               fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.circular(50),
-                          ))
+                          ),
+                        )
                       : Container(
                           height: 96,
                           width: 96,
                           margin: EdgeInsets.only(top: 25.0, bottom: 20),
                           decoration: BoxDecoration(
-                              color: Color(0xff121715).withOpacity(0.05),
-                              shape: BoxShape.circle)),
+                            color: Color(0xff121715).withOpacity(0.05),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
                   Container(
                     child: Text(
                       "Health & hunger",
@@ -338,9 +357,10 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                     "Prateek mishra singh",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13,
-                        color: Color(0xff121715).withOpacity(0.5)),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13,
+                      color: Color(0xff121715).withOpacity(0.5),
+                    ),
                   ),
                   SizedBox(
                     height: 24,
@@ -360,15 +380,17 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                           child: Text(
                             'Change logo',
                             style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600),
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
                       FlatButton(
                         shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(6.0)),
+                          borderRadius: new BorderRadius.circular(6.0),
+                        ),
                         onPressed: () {
                           setState(() {
                             _imageFile = null;
@@ -380,9 +402,10 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                           child: Text(
                             'Remove logo',
                             style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
@@ -392,40 +415,44 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                     height: 24,
                   ),
                   TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Required';
-                        }
-                        return null;
-                      },
-                      onSaved: (val) => '',
-                      decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelText: "Brand name",
-                          hintText: "Brand name",
-                          alignLabelWithHint: true,
-                          border: OutlineInputBorder())),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    onSaved: (val) => '',
+                    decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      fillColor: Colors.white,
+                      filled: true,
+                      labelText: "Brand name",
+                      hintText: "Brand name",
+                      alignLabelWithHint: true,
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                   SizedBox(
                     height: 24,
                   ),
                   TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Required';
-                        }
-                        return null;
-                      },
-                      onSaved: (val) => '',
-                      decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelText: "Tagline",
-                          hintText: "Tagline",
-                          alignLabelWithHint: true,
-                          border: OutlineInputBorder())),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Required';
+                      }
+                      return null;
+                    },
+                    onSaved: (val) => '',
+                    decoration: InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      fillColor: Colors.white,
+                      filled: true,
+                      labelText: "Tagline",
+                      hintText: "Tagline",
+                      alignLabelWithHint: true,
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                   SizedBox(
                     height: 24,
                   ),
@@ -440,14 +467,17 @@ class _AddBussinessDetailsState extends State<AddBussinessDetails> {
                       onTap: () {
                         showCategories();
                       },
-                      trailing: Icon(Icons.keyboard_arrow_down,
-                          color: Color(0xff121715)),
+                      trailing: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Color(0xff121715),
+                      ),
                       title: Text(
                         'Select Category',
                         style: TextStyle(
-                            color: Color(0xff121715).withOpacity(0.75),
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400),
+                          color: Color(0xff121715).withOpacity(0.75),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ),

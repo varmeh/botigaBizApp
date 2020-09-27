@@ -55,9 +55,10 @@ class _CommunityTileState extends State<CommunityTile> {
           title: Text(
             widget.title,
             style: TextStyle(
-                color: Color(0xff121715),
-                fontSize: 15,
-                fontWeight: FontWeight.w500),
+              color: Color(0xff121715),
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           trailing: Transform.scale(
             alignment: Alignment.centerRight,
@@ -85,7 +86,11 @@ class _CommunityTileState extends State<CommunityTile> {
                         ),
                       ),
                       padding: EdgeInsets.only(
-                          left: 20, right: 20, bottom: 20, top: 32),
+                        left: 20,
+                        right: 20,
+                        bottom: 20,
+                        top: 32,
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,9 +99,10 @@ class _CommunityTileState extends State<CommunityTile> {
                           Text(
                             "How do you deliver?",
                             style: TextStyle(
-                                color: Color(0xff121715),
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold),
+                              color: Color(0xff121715),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           SizedBox(
                             height: 24,
@@ -122,168 +128,179 @@ class _CommunityTileState extends State<CommunityTile> {
                             child: InkWell(
                               onTap: () {
                                 showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (builder) {
-                                      return Container(
-                                        width: double.infinity,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.80,
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (builder) {
+                                    return Container(
+                                      width: double.infinity,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.80,
 
-                                        decoration: new BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: new BorderRadius.only(
-                                            topLeft:
-                                                const Radius.circular(16.0),
-                                            topRight:
-                                                const Radius.circular(16.0),
-                                          ),
+                                      decoration: new BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: new BorderRadius.only(
+                                          topLeft: const Radius.circular(16.0),
+                                          topRight: const Radius.circular(16.0),
                                         ),
-                                        //could change this to Color(0xFF737373),
-                                        //so you don't have to change MaterialApp canvasColor
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(20.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: <Widget>[
-                                                  AppHeader(
-                                                    title: "Fixed duration",
-                                                    actionWidget:
-                                                        SizedBox.shrink(),
+                                      ),
+                                      //could change this to Color(0xFF737373),
+                                      //so you don't have to change MaterialApp canvasColor
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                AppHeader(
+                                                  title: "Fixed duration",
+                                                  actionWidget:
+                                                      SizedBox.shrink(),
+                                                ),
+                                                SizedBox(
+                                                  height: 24,
+                                                ),
+                                                Text(
+                                                  "Deliver order in",
+                                                  style: TextStyle(
+                                                    color: Color(0xff121715),
+                                                    fontSize: 22,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
-                                                  SizedBox(
-                                                    height: 24,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    top: 20.0,
+                                                    bottom: 20,
                                                   ),
-                                                  Text(
-                                                    "Deliver order in",
-                                                    style: TextStyle(
-                                                        color:
-                                                            Color(0xff121715),
-                                                        fontSize: 22,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 20.0,
-                                                            bottom: 20),
-                                                    child: SizedBox(
-                                                        height: MediaQuery.of(
-                                                                    context)
+                                                  child: SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
                                                                 .size
                                                                 .height *
                                                             0.45,
-                                                        child:
-                                                            ListWheelScrollViewFixedDuration()),
+                                                    child:
+                                                        ListWheelScrollViewFixedDuration(),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
-                                            Container(
-                                                padding: EdgeInsets.all(10),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: SizedBox(
-                                                        height: 52,
-                                                        child: FlatButton(
-                                                          shape: new RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  new BorderRadius
-                                                                          .circular(
-                                                                      6.0)),
-                                                          onPressed: () {
-                                                            showModalBottomSheet(
-                                                                context:
-                                                                    context,
-                                                                isScrollControlled:
-                                                                    true,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                builder:
-                                                                    (builder) {
-                                                                  return Container(
-                                                                      width: double
-                                                                          .infinity,
-                                                                      height: MediaQuery.of(context)
-                                                                              .size
-                                                                              .height *
-                                                                          0.90,
-                                                                      decoration:
-                                                                          new BoxDecoration(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        borderRadius:
-                                                                            new BorderRadius.only(
-                                                                          topLeft:
-                                                                              const Radius.circular(16.0),
-                                                                          topRight:
-                                                                              const Radius.circular(16.0),
-                                                                        ),
-                                                                      ),
-                                                                      //could change this to Color(0xFF737373),
-                                                                      //so you don't have to change MaterialApp canvasColor
-                                                                      child:
-                                                                          AddContactDetails());
-                                                                });
-                                                          },
-                                                          textColor: Colors.red,
-                                                          color:
-                                                              Color(0xff179F57),
-                                                          child: Text(
-                                                            'Next',
-                                                            style: TextStyle(
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.all(10),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    height: 52,
+                                                    child: FlatButton(
+                                                      shape:
+                                                          new RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            new BorderRadius
+                                                                .circular(
+                                                          6.0,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        showModalBottomSheet(
+                                                          context: context,
+                                                          isScrollControlled:
+                                                              true,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          builder: (builder) {
+                                                            return Container(
+                                                              width: double
+                                                                  .infinity,
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.90,
+                                                              decoration:
+                                                                  new BoxDecoration(
                                                                 color: Colors
                                                                     .white,
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          ),
+                                                                borderRadius:
+                                                                    new BorderRadius
+                                                                        .only(
+                                                                  topLeft:
+                                                                      const Radius
+                                                                          .circular(
+                                                                    16.0,
+                                                                  ),
+                                                                  topRight:
+                                                                      const Radius
+                                                                          .circular(
+                                                                    16.0,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              //could change this to Color(0xFF737373),
+                                                              //so you don't have to change MaterialApp canvasColor
+                                                              child:
+                                                                  AddContactDetails(),
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      textColor: Colors.red,
+                                                      color: Color(0xff179F57),
+                                                      child: Text(
+                                                        'Next',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ))
-                                          ],
-                                        ),
-                                      );
-                                    });
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        "Fixed Duration",
-                                        style: TextStyle(
-                                            color: Color(0xff121715),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Fixed Duration",
+                                      style: TextStyle(
+                                        color: Color(0xff121715),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text(
-                                        'Deliver orders within specific days of order placement. ex: 2 days from order',
-                                        style: TextStyle(
-                                            color: Color(0xff121715)
-                                                .withOpacity(0.5),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    ]),
+                                    ),
+                                    Text(
+                                      'Deliver orders within specific days of order placement. ex: 2 days from order',
+                                      style: TextStyle(
+                                        color:
+                                            Color(0xff121715).withOpacity(0.5),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -311,168 +328,176 @@ class _CommunityTileState extends State<CommunityTile> {
                             child: InkWell(
                               onTap: () {
                                 showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (builder) {
-                                      return Container(
-                                        width: double.infinity,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.80,
-
-                                        decoration: new BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: new BorderRadius.only(
-                                            topLeft:
-                                                const Radius.circular(16.0),
-                                            topRight:
-                                                const Radius.circular(16.0),
-                                          ),
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (builder) {
+                                    return Container(
+                                      width: double.infinity,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.80,
+                                      decoration: new BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: new BorderRadius.only(
+                                          topLeft: const Radius.circular(16.0),
+                                          topRight: const Radius.circular(16.0),
                                         ),
-                                        //could change this to Color(0xFF737373),
-                                        //so you don't have to change MaterialApp canvasColor
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(20.0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: <Widget>[
-                                                  AppHeader(
-                                                    title: "Fixed day",
-                                                    actionWidget:
-                                                        SizedBox.shrink(),
+                                      ),
+                                      //could change this to Color(0xFF737373),
+                                      //so you don't have to change MaterialApp canvasColor
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: <Widget>[
+                                                AppHeader(
+                                                  title: "Fixed day",
+                                                  actionWidget:
+                                                      SizedBox.shrink(),
+                                                ),
+                                                SizedBox(
+                                                  height: 24,
+                                                ),
+                                                Text(
+                                                  "Deliver order in",
+                                                  style: TextStyle(
+                                                    color: Color(0xff121715),
+                                                    fontSize: 22,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
-                                                  SizedBox(
-                                                    height: 24,
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    top: 20.0,
+                                                    bottom: 20,
                                                   ),
-                                                  Text(
-                                                    "Deliver order in",
-                                                    style: TextStyle(
-                                                        color:
-                                                            Color(0xff121715),
-                                                        fontSize: 22,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            top: 20.0,
-                                                            bottom: 20),
-                                                    child: SizedBox(
-                                                        height: MediaQuery.of(
-                                                                    context)
+                                                  child: SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
                                                                 .size
                                                                 .height *
                                                             0.45,
-                                                        child:
-                                                            ListWheelScrollViewFixedDay()),
+                                                    child:
+                                                        ListWheelScrollViewFixedDay(),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
-                                            Container(
-                                                padding: EdgeInsets.all(10),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: SizedBox(
-                                                        height: 52,
-                                                        child: FlatButton(
-                                                          shape: new RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  new BorderRadius
-                                                                          .circular(
-                                                                      6.0)),
-                                                          onPressed: () {
-                                                            showModalBottomSheet(
-                                                                context:
-                                                                    context,
-                                                                isScrollControlled:
-                                                                    true,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                builder:
-                                                                    (builder) {
-                                                                  return Container(
-                                                                      width: double
-                                                                          .infinity,
-                                                                      height: MediaQuery.of(context)
-                                                                              .size
-                                                                              .height *
-                                                                          0.90,
-                                                                      decoration:
-                                                                          new BoxDecoration(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        borderRadius:
-                                                                            new BorderRadius.only(
-                                                                          topLeft:
-                                                                              const Radius.circular(16.0),
-                                                                          topRight:
-                                                                              const Radius.circular(16.0),
-                                                                        ),
-                                                                      ),
-                                                                      //could change this to Color(0xFF737373),
-                                                                      //so you don't have to change MaterialApp canvasColor
-                                                                      child:
-                                                                          AddContactDetails());
-                                                                });
-                                                          },
-                                                          textColor: Colors.red,
-                                                          color:
-                                                              Color(0xff179F57),
-                                                          child: Text(
-                                                            'Next',
-                                                            style: TextStyle(
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.all(10),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    height: 52,
+                                                    child: FlatButton(
+                                                      shape:
+                                                          new RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            new BorderRadius
+                                                                .circular(
+                                                          6.0,
+                                                        ),
+                                                      ),
+                                                      onPressed: () {
+                                                        showModalBottomSheet(
+                                                          context: context,
+                                                          isScrollControlled:
+                                                              true,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          builder: (builder) {
+                                                            return Container(
+                                                              width: double
+                                                                  .infinity,
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.90,
+                                                              decoration:
+                                                                  new BoxDecoration(
                                                                 color: Colors
                                                                     .white,
-                                                                fontSize: 15,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                          ),
+                                                                borderRadius:
+                                                                    new BorderRadius
+                                                                        .only(
+                                                                  topLeft:
+                                                                      const Radius
+                                                                              .circular(
+                                                                          16.0),
+                                                                  topRight:
+                                                                      const Radius
+                                                                              .circular(
+                                                                          16.0),
+                                                                ),
+                                                              ),
+                                                              //could change this to Color(0xFF737373),
+                                                              //so you don't have to change MaterialApp canvasColor
+                                                              child:
+                                                                  AddContactDetails(),
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                      textColor: Colors.red,
+                                                      color: Color(0xff179F57),
+                                                      child: Text(
+                                                        'Next',
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ))
-                                          ],
-                                        ),
-                                      );
-                                    });
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        "Fixed Day",
-                                        style: TextStyle(
-                                            color: Color(0xff121715),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold),
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      "Fixed Day",
+                                      style: TextStyle(
+                                        color: Color(0xff121715),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      Text(
-                                        'Deliver orders on a specific day of the week. ex: every Sunday',
-                                        style: TextStyle(
-                                            color: Color(0xff121715)
-                                                .withOpacity(0.5),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    ]),
+                                    ),
+                                    Text(
+                                      'Deliver orders on a specific day of the week. ex: every Sunday',
+                                      style: TextStyle(
+                                        color:
+                                            Color(0xff121715).withOpacity(0.5),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -516,63 +541,70 @@ class _ListWheelScrollViewFixedDayState
         child: Text(
           'Sunday',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 0 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 0 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           'Monday',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 1 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 1 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           'Tuesday',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 2 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 2 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           'Wednesday',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 3 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 3 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           'Thrusday',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 4 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 4 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           'Friday',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 5 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 5 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           'Saturday',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 6 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 6 ? Colors.black : Colors.black12,
+          ),
         ),
       )
     ];
@@ -614,63 +646,70 @@ class _ListWheelScrollViewFixedDurationState
         child: Text(
           '1 days',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 0 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 0 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           '2 days',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 1 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 1 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           '3 days',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 2 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 2 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           '4 days',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 3 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 3 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           '5 days',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 4 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 4 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           '6 days',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 5 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 5 ? Colors.black : Colors.black12,
+          ),
         ),
       ),
       Center(
         child: Text(
           '7 days',
           style: TextStyle(
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              color: _selectedItemIndex == 6 ? Colors.black : Colors.black12),
+            fontSize: 34,
+            fontWeight: FontWeight.bold,
+            color: _selectedItemIndex == 6 ? Colors.black : Colors.black12,
+          ),
         ),
       )
     ];

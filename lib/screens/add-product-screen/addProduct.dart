@@ -250,21 +250,25 @@ class _AddProductState extends State<AddProduct> {
                   height: 52,
                   child: FlatButton(
                     shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(6.0)),
+                      borderRadius: new BorderRadius.circular(6.0),
+                    ),
                     onPressed: () {
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  AddProductSuccess()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              AddProductSuccess(),
+                        ),
+                      );
                     },
                     color: Color(0xff179F57),
                     child: Text(
                       'Add Product',
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600),
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -304,56 +308,59 @@ class _AddProductState extends State<AddProduct> {
                       _imageFile != null
                           ? ConstrainedBox(
                               constraints: BoxConstraints.tight(
-                                  Size(double.infinity, 176)),
+                                Size(double.infinity, 176),
+                              ),
                               child: Stack(
                                 alignment: AlignmentDirectional.center,
                                 children: <Widget>[
                                   Container(
-                                      width: double.infinity,
-                                      height: 176,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
+                                    width: double.infinity,
+                                    height: 176,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: ClipRRect(
+                                      child: Image.file(
+                                        File(_imageFile.path),
+                                        fit: BoxFit.cover,
                                       ),
-                                      child: ClipRRect(
-                                        child: Image.file(
-                                          File(_imageFile.path),
-                                          fit: BoxFit.cover,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      )),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
                                   Positioned(
-                                      bottom: 12,
-                                      right: 12,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: <Widget>[
-                                          GestureDetector(
-                                              onTap: () {
-                                                showImageSelectOption(context);
-                                              },
-                                              child: Image(
-                                                image: AssetImage(
-                                                    'assets/icons/image_edit.png'),
-                                                fit: BoxFit.cover,
-                                              )),
-                                          SizedBox(
-                                            width: 12,
+                                    bottom: 12,
+                                    right: 12,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          onTap: () {
+                                            showImageSelectOption(context);
+                                          },
+                                          child: Image(
+                                            image: AssetImage(
+                                                'assets/icons/image_edit.png'),
+                                            fit: BoxFit.cover,
                                           ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                _imageFile = null;
-                                              });
-                                            },
-                                            child: Image(
-                                              image: AssetImage(
-                                                  'assets/icons/image_delete.png'),
-                                              fit: BoxFit.cover,
-                                            ),
+                                        ),
+                                        SizedBox(
+                                          width: 12,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _imageFile = null;
+                                            });
+                                          },
+                                          child: Image(
+                                            image: AssetImage(
+                                                'assets/icons/image_delete.png'),
+                                            fit: BoxFit.cover,
                                           ),
-                                        ],
-                                      )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             )
@@ -417,13 +424,14 @@ class _AddProductState extends State<AddProduct> {
                                       "Adding image will increase people interest in your product",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          color: Color(0xff121715)
-                                              .withOpacity(0.5),
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 12,
-                                          letterSpacing: 0.2),
+                                        color:
+                                            Color(0xff121715).withOpacity(0.5),
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 12,
+                                        letterSpacing: 0.2,
+                                      ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
@@ -453,11 +461,13 @@ class _AddProductState extends State<AddProduct> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(
-                                style: BorderStyle.solid,
-                                color: Colors.black.withOpacity(0.25),
-                                width: 1.0)),
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            style: BorderStyle.solid,
+                            color: Colors.black.withOpacity(0.25),
+                            width: 1.0,
+                          ),
+                        ),
                         child: ListTile(
                           onTap: () {
                             showCategories();
@@ -467,9 +477,10 @@ class _AddProductState extends State<AddProduct> {
                           title: Text(
                             'Select Category',
                             style: TextStyle(
-                                color: Color(0xff121715).withOpacity(0.75),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400),
+                              color: Color(0xff121715).withOpacity(0.75),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                       ),
@@ -477,48 +488,48 @@ class _AddProductState extends State<AddProduct> {
                         height: 26,
                       ),
                       TextFormField(
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                          onSaved: (val) => '',
-                          decoration: InputDecoration(
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              suffixIcon: Image(
-                                height: 22,
-                                image: AssetImage(
-                                  'assets/icons/rupee.png',
-                                ),
-                              ),
-                              fillColor: Colors.white,
-                              filled: true,
-                              labelText: "Price",
-                              hintText: "Price",
-                              alignLabelWithHint: true,
-                              border: OutlineInputBorder())),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
+                        onSaved: (val) => '',
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          suffixIcon: Image.asset(
+                            'assets/icons/rupee.png',
+                            height: 22,
+                          ),
+                          fillColor: Colors.white,
+                          filled: true,
+                          labelText: "Price",
+                          hintText: "Price",
+                          alignLabelWithHint: true,
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
                       SizedBox(
                         height: 26,
                       ),
                       TextFormField(
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Required';
-                            }
-                            return null;
-                          },
-                          onSaved: (val) => '',
-                          decoration: InputDecoration(
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                              fillColor: Colors.white,
-                              filled: true,
-                              labelText: "Quantity",
-                              hintText: "Quantity",
-                              alignLabelWithHint: true,
-                              border: OutlineInputBorder())),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Required';
+                          }
+                          return null;
+                        },
+                        onSaved: (val) => '',
+                        decoration: InputDecoration(
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          fillColor: Colors.white,
+                          filled: true,
+                          labelText: "Quantity",
+                          hintText: "Quantity",
+                          alignLabelWithHint: true,
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -530,37 +541,39 @@ class _AddProductState extends State<AddProduct> {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
-                        ...["Kg", "gm", "liter", "ml", "pc"].map((val) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
-                            child: Container(
-                              height: 44,
-                              width: 67,
-                              child: FlatButton(
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(12.0)),
-                                onPressed: () {
-                                  setState(() {
-                                    selectedQuantity = val;
-                                  });
-                                },
-                                color: selectedQuantity == val
-                                    ? Color(0xff179F57)
-                                    : Colors.black.withOpacity(0.25),
-                                child: Text(
-                                  '$val',
-                                  style: TextStyle(
-                                      color: selectedQuantity == val
-                                          ? Colors.white
-                                          : Color(0xff121715),
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600),
+                        ...["Kg", "gm", "liter", "ml", "pc"].map(
+                          (val) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: Container(
+                                height: 44,
+                                width: 67,
+                                child: FlatButton(
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(12.0)),
+                                  onPressed: () {
+                                    setState(() {
+                                      selectedQuantity = val;
+                                    });
+                                  },
+                                  color: selectedQuantity == val
+                                      ? Color(0xff179F57)
+                                      : Colors.black.withOpacity(0.25),
+                                  child: Text(
+                                    '$val',
+                                    style: TextStyle(
+                                        color: selectedQuantity == val
+                                            ? Colors.white
+                                            : Color(0xff121715),
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        })
+                            );
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -601,25 +614,26 @@ class _AddProductState extends State<AddProduct> {
                         padding: const EdgeInsets.only(
                             left: 20, right: 20, bottom: 26),
                         child: TextFormField(
-                            onSaved: (val) => '',
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return '';
-                              }
-                              return null;
-                            },
-                            maxLines: 3,
-                            maxLength: 80,
-                            keyboardType: TextInputType.multiline,
-                            decoration: InputDecoration(
-                                fillColor: Colors.white,
-                                filled: true,
-                                alignLabelWithHint: true,
-                                labelText: "Description",
-                                hintText: "Description",
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.always,
-                                border: OutlineInputBorder())),
+                          onSaved: (val) => '',
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return '';
+                            }
+                            return null;
+                          },
+                          maxLines: 3,
+                          maxLength: 80,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            alignLabelWithHint: true,
+                            labelText: "Description",
+                            hintText: "Description",
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
                       )
                     : SizedBox()
               ],

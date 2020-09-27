@@ -39,23 +39,27 @@ Widget getTile(context) {
           text: TextSpan(
             text: '03 ',
             style: TextStyle(
-                letterSpacing: 1,
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: Color(0xff121614).withOpacity(0.5)),
+              letterSpacing: 1,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Color(0xff121614).withOpacity(0.5),
+            ),
             children: <TextSpan>[
               TextSpan(
-                  text: ' ',
-                  style: TextStyle(
-                    letterSpacing: 20,
-                  )),
+                text: ' ',
+                style: TextStyle(
+                  letterSpacing: 20,
+                ),
+              ),
               TextSpan(
-                  text: 'DESERT',
-                  style: TextStyle(
-                      letterSpacing: 1,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xff121714))),
+                text: 'DESERT',
+                style: TextStyle(
+                  letterSpacing: 1,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xff121714),
+                ),
+              ),
             ],
           ),
         ),
@@ -64,7 +68,7 @@ Widget getTile(context) {
       Divider(
         color: Theme.of(context).backgroundColor,
         thickness: 1,
-      )
+      ),
     ],
   );
 }

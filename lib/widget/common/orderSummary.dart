@@ -10,9 +10,10 @@ class OrderSummary extends StatelessWidget {
         Text(
           "Renuka Devi",
           style: TextStyle(
-              color: Color(0xff121715),
-              fontSize: 22,
-              fontWeight: FontWeight.w600),
+            color: Color(0xff121715),
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 22.0),
@@ -25,11 +26,14 @@ class OrderSummary extends StatelessWidget {
                 width: 15,
               ),
               Flexible(
-                child: Text('Order number: #1234128',
-                    style: TextStyle(
-                        color: Color(0xff121715),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500)),
+                child: Text(
+                  'Order number: #1234128',
+                  style: TextStyle(
+                    color: Color(0xff121715),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               )
             ],
           ),
@@ -45,11 +49,14 @@ class OrderSummary extends StatelessWidget {
                 width: 15,
               ),
               Flexible(
-                child: Text('31 Aug, 2020 8:10 AM',
-                    style: TextStyle(
-                        color: Color(0xff121715),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500)),
+                child: Text(
+                  '31 Aug, 2020 8:10 AM',
+                  style: TextStyle(
+                    color: Color(0xff121715),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               )
             ],
           ),
@@ -66,11 +73,13 @@ class OrderSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                    'No. 22, Block - A, West towers, Riverside apartments, Whitefield',
-                    style: TextStyle(
-                        color: Color(0xff121715),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500)),
+                  'No. 22, Block - A, West towers, Riverside apartments, Whitefield',
+                  style: TextStyle(
+                    color: Color(0xff121715),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               )
             ],
           ),
@@ -86,11 +95,14 @@ class OrderSummary extends StatelessWidget {
                 width: 15,
               ),
               Flexible(
-                child: Text('Expected delivery 16 Sept',
-                    style: TextStyle(
-                        color: Color(0xff121715),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500)),
+                child: Text(
+                  'Expected delivery 16 Sept',
+                  style: TextStyle(
+                    color: Color(0xff121715),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               )
             ],
           ),
@@ -117,9 +129,10 @@ class OrderSummary extends StatelessWidget {
                     label: Text(
                       'Call',
                       style: TextStyle(
-                          color: Color(0xff121715),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
+                        color: Color(0xff121715),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
@@ -144,9 +157,10 @@ class OrderSummary extends StatelessWidget {
                     label: Text(
                       'Whatsapp',
                       style: TextStyle(
-                          color: Color(0xff121715),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
+                        color: Color(0xff121715),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
@@ -175,10 +189,11 @@ class OrderListSummary extends StatelessWidget {
           child: Text(
             '3 Items',
             style: TextStyle(
-                color: Color(0xff121715),
-                fontSize: 12,
-                letterSpacing: 0.2,
-                fontWeight: FontWeight.w500),
+              color: Color(0xff121715),
+              fontSize: 12,
+              letterSpacing: 0.2,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
         Divider(
@@ -204,21 +219,27 @@ class OrderListSummary extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Flexible(
-                child: Text('Total',
-                    style: TextStyle(
-                        color: Color(0xff121715),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600)),
+                child: Text(
+                  'Total',
+                  style: TextStyle(
+                    color: Color(0xff121715),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
               SizedBox(
                 width: 15,
               ),
               Flexible(
-                child: Text('${Constants.rupeeSymbol}1020',
-                    style: TextStyle(
-                        color: Color(0xff121715),
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600)),
+                child: Text(
+                  '${Constants.rupeeSymbol}1020',
+                  style: TextStyle(
+                    color: Color(0xff121715),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               )
             ],
           ),
@@ -238,21 +259,27 @@ class OrderListItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Flexible(
-            child: Text('1 X English Bakewell Tart',
-                style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500)),
+            child: Text(
+              '1 X English Bakewell Tart',
+              style: TextStyle(
+                color: Color(0xff121715),
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
           SizedBox(
             width: 15,
           ),
           Flexible(
-            child: Text('${Constants.rupeeSymbol}120',
-                style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500)),
+            child: Text(
+              '${Constants.rupeeSymbol}120',
+              style: TextStyle(
+                color: Color(0xff121715),
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           )
         ],
       ),

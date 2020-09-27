@@ -29,9 +29,10 @@ class AppHeader extends StatelessWidget {
             Text(
               '$title',
               style: TextStyle(
-                  color: Color(0xff121715),
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold),
+                color: Color(0xff121715),
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
