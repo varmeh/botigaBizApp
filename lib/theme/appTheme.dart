@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'lightTheme.dart';
 
 final _textThemeUpdate = TextTheme(
-  headline: TextStyle(fontWeight: FontWeight.bold),
-  subtitle: TextStyle(fontWeight: FontWeight.w500),
+  headline5: TextStyle(fontWeight: FontWeight.bold),
+  subtitle2: TextStyle(fontWeight: FontWeight.w500),
 );
 
 final _selectedIconTheme = IconThemeData(size: 40);

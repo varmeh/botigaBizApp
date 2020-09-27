@@ -59,7 +59,7 @@ Widget _orderCard(BuildContext context, String apartmentName, String revenue,
                           ),
                           Text(
                             '$apartmentName',
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.headline6,
                           )
                         ],
                       ),
@@ -72,14 +72,16 @@ Widget _orderCard(BuildContext context, String apartmentName, String revenue,
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text('${Constants.revenue}',
-                                  style: Theme.of(context).textTheme.subtitle),
+                              Text(
+                                '${Constants.revenue}',
+                                style: Theme.of(context).textTheme.subtitle2,
+                              ),
                               SizedBox(
                                 height: 3,
                               ),
                               Text(
                                 '${Constants.rupeeSymbol} $revenue',
-                                style: Theme.of(context).textTheme.subtitle,
+                                style: Theme.of(context).textTheme.subtitle2,
                               ),
                             ],
                           ),
@@ -89,14 +91,16 @@ Widget _orderCard(BuildContext context, String apartmentName, String revenue,
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text("${Constants.orders}",
-                                  style: Theme.of(context).textTheme.subtitle),
+                              Text(
+                                "${Constants.orders}",
+                                style: Theme.of(context).textTheme.subtitle2,
+                              ),
                               SizedBox(
                                 height: 3,
                               ),
                               Text(
                                 '$totalOrder',
-                                style: Theme.of(context).textTheme.subtitle,
+                                style: Theme.of(context).textTheme.subtitle2,
                               )
                             ],
                           ),

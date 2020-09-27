@@ -110,7 +110,7 @@ Widget _orderCard(BuildContext context) {
                         ),
                         Text(
                           'Riverside apartment',
-                          style: Theme.of(context).textTheme.title,
+                          style: Theme.of(context).textTheme.headline6,
                         )
                       ],
                     ),
@@ -123,14 +123,16 @@ Widget _orderCard(BuildContext context) {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text('${Constants.revenue}',
-                                style: Theme.of(context).textTheme.subtitle),
+                            Text(
+                              '${Constants.revenue}',
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
                             SizedBox(
                               height: 3,
                             ),
                             Text(
                               '${Constants.rupeeSymbol} 6, 680',
-                              style: Theme.of(context).textTheme.title,
+                              style: Theme.of(context).textTheme.headline6,
                             ),
                           ],
                         ),
@@ -140,14 +142,16 @@ Widget _orderCard(BuildContext context) {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("${Constants.orders}",
-                                style: Theme.of(context).textTheme.subtitle),
+                            Text(
+                              "${Constants.orders}",
+                              style: Theme.of(context).textTheme.subtitle2,
+                            ),
                             SizedBox(
                               height: 3,
                             ),
                             Text(
                               '80',
-                              style: Theme.of(context).textTheme.title,
+                              style: Theme.of(context).textTheme.headline6,
                             )
                           ],
                         ),

@@ -29,7 +29,7 @@ dependencies:
   cupertino_icons: ^0.1.3
   package_info: ^0.4.3
   table_calendar: ^2.2.2
-  flushbar: 1.9.1
+  flushbar: ^1.10.4
   image_picker: ^0.6.7+9
 
 dev_dependencies:
@@ -48,29 +48,29 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/icons/orders.png
-   - assets/icons/building.png
-   - assets/icons/search.png
-   - assets/icons/back.png
-   - assets/icons/delay.png
-   - assets/icons/call.png
-   - assets/icons/watsapp.png
-   - assets/icons/tag.png
-   - assets/icons/clock.png
-   - assets/icons/pin.png
-   - assets/icons/deliverymsg.png
-   - assets/icons/out-for-delivery.png
-   - assets/icons/store.png
-   - assets/icons/addimage.png
-   - assets/icons/rupee.png
-   - assets/icons/image_edit.png
-   - assets/icons/image_delete.png
-   - assets/icons/profile.png
-   - assets/icons/suitcase.png
-   - assets/icons/store_details.png
-   - assets/icons/money.png
-   - assets/icons/exit.png
-   - assets/icons/coupan.png
+    - assets/icons/orders.png
+    - assets/icons/building.png
+    - assets/icons/search.png
+    - assets/icons/back.png
+    - assets/icons/delay.png
+    - assets/icons/call.png
+    - assets/icons/watsapp.png
+    - assets/icons/tag.png
+    - assets/icons/clock.png
+    - assets/icons/pin.png
+    - assets/icons/deliverymsg.png
+    - assets/icons/out-for-delivery.png
+    - assets/icons/store.png
+    - assets/icons/addimage.png
+    - assets/icons/rupee.png
+    - assets/icons/image_edit.png
+    - assets/icons/image_delete.png
+    - assets/icons/profile.png
+    - assets/icons/suitcase.png
+    - assets/icons/store_details.png
+    - assets/icons/money.png
+    - assets/icons/exit.png
+    - assets/icons/coupan.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -84,16 +84,16 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-      - family: Montserrat
-        fonts:
-          - asset: assets/fonts/Montserrat-Regular.ttf
-            weight: 400
-          - asset: assets/fonts/Montserrat-Medium.ttf
-            weight: 500
-          - asset: assets/fonts/Montserrat-SemiBold.ttf
-            weight: 600
-          - asset: assets/fonts/Montserrat-Bold.ttf
-            weight: 700
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Montserrat-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Montserrat-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Montserrat-Bold.ttf
+          weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

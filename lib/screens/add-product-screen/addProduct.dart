@@ -58,13 +58,14 @@ class LabeledCheckbox extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Expanded(
-                child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w400,
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
-            )),
+            ),
             value
                 ? IconButton(
                     icon: Icon(
@@ -83,7 +84,8 @@ class LabeledCheckbox extends StatelessWidget {
                     ),
                     onPressed: () {
                       onChanged(true);
-                    })
+                    },
+                  )
           ],
         ),
       ),
@@ -240,35 +242,36 @@ class _AddProductState extends State<AddProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: SizedBox(
-                    height: 52,
-                    child: FlatButton(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(6.0)),
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    AddProductSuccess()));
-                      },
-                      color: Color(0xff179F57),
-                      child: Text(
-                        'Add Product',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600),
-                      ),
+          padding: EdgeInsets.all(10),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: SizedBox(
+                  height: 52,
+                  child: FlatButton(
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(6.0)),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  AddProductSuccess()));
+                    },
+                    color: Color(0xff179F57),
+                    child: Text(
+                      'Add Product',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
-              ],
-            )),
+              ),
+            ],
+          ),
+        ),
         body: Container(
           color: Colors.white,
           child: Padding(
@@ -338,16 +341,17 @@ class _AddProductState extends State<AddProduct> {
                                             width: 12,
                                           ),
                                           GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _imageFile = null;
-                                                });
-                                              },
-                                              child: Image(
-                                                image: AssetImage(
-                                                    'assets/icons/image_delete.png'),
-                                                fit: BoxFit.cover,
-                                              )),
+                                            onTap: () {
+                                              setState(() {
+                                                _imageFile = null;
+                                              });
+                                            },
+                                            child: Image(
+                                              image: AssetImage(
+                                                  'assets/icons/image_delete.png'),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ],
                                       )),
                                 ],
@@ -357,25 +361,32 @@ class _AddProductState extends State<AddProduct> {
                               width: double.infinity,
                               height: 176,
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  border: Border.all(
-                                      style: BorderStyle.solid,
-                                      color: Colors.black.withOpacity(0.25),
-                                      width: 1.0)),
+                                borderRadius: BorderRadius.circular(8.0),
+                                border: Border.all(
+                                  style: BorderStyle.solid,
+                                  color: Colors.black.withOpacity(0.25),
+                                  width: 1.0,
+                                ),
+                              ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                   FlatButton.icon(
                                     shape: new RoundedRectangleBorder(
-                                        borderRadius:
-                                            new BorderRadius.circular(8.0)),
+                                      borderRadius:
+                                          new BorderRadius.circular(8.0),
+                                    ),
                                     icon: Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 20, top: 14, bottom: 14),
+                                        left: 20,
+                                        top: 14,
+                                        bottom: 14,
+                                      ),
                                       child: Image(
                                         image: AssetImage(
-                                            'assets/icons/addimage.png'),
+                                          'assets/icons/addimage.png',
+                                        ),
                                       ),
                                     ),
                                     onPressed: () {
@@ -384,16 +395,18 @@ class _AddProductState extends State<AddProduct> {
                                     color: Colors.black.withOpacity(0.05),
                                     label: Padding(
                                       padding: const EdgeInsets.only(
-                                          right: 20,
-                                          top: 14,
-                                          bottom: 14,
-                                          left: 8),
+                                        right: 20,
+                                        top: 14,
+                                        bottom: 14,
+                                        left: 8,
+                                      ),
                                       child: Text(
                                         'Add image',
                                         style: TextStyle(
-                                            color: Color(0xff372D21),
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500),
+                                          color: Color(0xff372D21),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
                                   ),
