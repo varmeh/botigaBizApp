@@ -209,9 +209,10 @@ class _AddProductState extends State<AddProduct> {
                 title: Text(
                   'Choose from gallery',
                   style: TextStyle(
-                      color: Color(0xff121715),
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500),
+                    color: Color(0xff121715),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               SizedBox(
@@ -388,9 +389,8 @@ class _AddProductState extends State<AddProduct> {
                                         top: 14,
                                         bottom: 14,
                                       ),
-                                      child: Image.asset(
-                                        'assets/icons/addimage.png',
-                                      ),
+                                      child:
+                                          Icon(BotigaIcons.gallery, size: 18),
                                     ),
                                     onPressed: () {
                                       showImageSelectOption(context);
@@ -493,9 +493,10 @@ class _AddProductState extends State<AddProduct> {
                         onSaved: (val) => '',
                         decoration: InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.always,
-                          suffixIcon: Image.asset(
-                            'assets/icons/rupee.png',
-                            height: 22,
+                          suffixIcon: Icon(
+                            BotigaIcons.rupee,
+                            size: 14,
+                            color: Colors.black,
                           ),
                           fillColor: Colors.white,
                           filled: true,

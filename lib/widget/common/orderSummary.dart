@@ -20,7 +20,7 @@ class OrderSummary extends StatelessWidget {
           padding: const EdgeInsets.only(top: 22.0),
           child: Row(
             children: <Widget>[
-              Image.asset('assets/icons/tag.png'),
+              Icon(BotigaIcons.tag),
               SizedBox(
                 width: 15,
               ),
@@ -62,7 +62,7 @@ class OrderSummary extends StatelessWidget {
           padding: const EdgeInsets.only(top: 22.0),
           child: Row(
             children: <Widget>[
-              Image.asset('assets/icons/pin.png'),
+              Icon(BotigaIcons.pin),
               SizedBox(
                 width: 15,
               ),
@@ -86,6 +86,7 @@ class OrderSummary extends StatelessWidget {
               Icon(
                 BotigaIcons.truck,
                 size: 26,
+                color: Colors.black,
               ),
               SizedBox(
                 width: 15,

@@ -27,7 +27,7 @@ class OrderList extends StatelessWidget {
                   AppHeader(
                     title: "Orders",
                     actionWidget: IconButton(
-                      icon: Image.asset('assets/icons/search.png'),
+                      icon: Icon(BotigaIcons.search),
                       onPressed: () {},
                     ),
                   ),

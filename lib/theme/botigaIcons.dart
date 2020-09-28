@@ -21,6 +21,8 @@ class BotigaIcons {
   static const _kFontFam = 'BotigaIcons';
   static const _kFontPkg = null;
 
+  static const IconData arrowBack =
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData store =
       IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData bin =
@@ -31,12 +33,8 @@ class BotigaIcons {
       IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData camera =
       IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData clock =
-      IconData(0xe80d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData delay =
       IconData(0xe80e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData edit =
-      IconData(0xe80f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData exit =
       IconData(0xe810, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData gallery =
@@ -47,18 +45,22 @@ class BotigaIcons {
       IconData(0xe813, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData package =
       IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData pin =
-      IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData profile =
       IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData storedetails =
-      IconData(0xe819, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData suitcase =
       IconData(0xe81a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData tag =
-      IconData(0xe81b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData truck =
       IconData(0xe81c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData delete =
       IconData(0xe81d, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData storeDetails =
+      IconData(0xe81e, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData rupee =
+      IconData(0xe81f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData pin =
+      IconData(0xe833, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData tag =
+      IconData(0xf313, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData search =
+      IconData(0xf3c3, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

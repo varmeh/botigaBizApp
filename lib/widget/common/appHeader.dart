@@ -1,3 +1,4 @@
+import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 
 class AppHeader extends StatelessWidget {
@@ -18,7 +19,7 @@ class AppHeader extends StatelessWidget {
                 Navigator.pop(context);
               },
               child: Container(
-                child: Image.asset('assets/icons/back.png'),
+                child: Icon(BotigaIcons.arrowBack),
               ),
             ),
             SizedBox(
