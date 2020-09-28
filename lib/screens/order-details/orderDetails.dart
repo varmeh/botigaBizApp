@@ -5,6 +5,7 @@ import '../order-delivery/orderDelivery.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:intl/intl.dart';
+import '../../theme/index.dart' show BotigaIcons;
 
 class OrderDetails extends StatefulWidget {
   static const routeName = '/order-details';
@@ -52,7 +53,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       child: Text(
-                        'Cancel order',
+                        'Cancel Order',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
@@ -146,9 +147,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               color: Colors.white,
                                               fontWeight: FontWeight.w500),
                                         ),
-                                        icon: Image.asset(
-                                          'assets/icons/deliverymsg.png',
-                                        ),
+                                        icon: Icon(BotigaIcons.truck),
                                         flushbarPosition: FlushbarPosition.TOP,
                                         flushbarStyle: FlushbarStyle.FLOATING,
                                         duration: Duration(seconds: 3),
@@ -168,7 +167,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Image.asset('assets/icons/delay.png'),
+                                  Icon(BotigaIcons.delay),
                                   Text(
                                     'Mark as delay',
                                     textAlign: TextAlign.center,
@@ -215,8 +214,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Image.asset(
-                                    'assets/icons/out-for-delivery.png',
+                                  Icon(
+                                    BotigaIcons.truck,
+                                    color: Theme.of(context).primaryColor,
+                                    size: 34,
                                   ),
                                   Text(
                                     'Out for delivery',

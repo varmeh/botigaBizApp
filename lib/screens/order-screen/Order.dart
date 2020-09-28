@@ -2,6 +2,7 @@ import '../order-screen/orderList.dart';
 import 'package:flutter/material.dart';
 import '../../widget/common/orderRow.dart';
 import '../../util/constants.dart';
+import '../../theme/index.dart' show BotigaIcons;
 
 class Order extends StatefulWidget {
   static const routeName = '/order-screen';
@@ -57,7 +58,10 @@ Widget _orderCard(BuildContext context, String apartmentName, String revenue,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              child: Image.asset('assets/icons/building.png'),
+                              child: Icon(
+                                BotigaIcons.building,
+                                size: 18,
+                              ),
                             ),
                             SizedBox(
                               width: 7.86,

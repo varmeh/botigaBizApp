@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../bussiness-details-screen/addBussinessDetails.dart';
 import "../store-details-screen/storeDetails.dart";
+import '../../theme/index.dart' show BotigaIcons;
 
 class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -12,7 +13,10 @@ class ProfileScreen extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(AddBussinessDetails.routeName);
             },
-            leading: Image.asset("assets/icons/suitcase.png"),
+            leading: Icon(
+              BotigaIcons.suitcase,
+              color: Colors.black,
+            ),
             contentPadding: EdgeInsets.only(left: 0, right: 0),
             title: Align(
               alignment: Alignment(-1.2, 0),
@@ -55,7 +59,10 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Image.asset("assets/icons/money.png"),
+            leading: Icon(
+              BotigaIcons.money,
+              color: Colors.black,
+            ),
             contentPadding: EdgeInsets.only(left: 0, right: 0),
             title: Align(
               alignment: Alignment(-1.3, 0),
@@ -75,7 +82,10 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Image.asset("assets/icons/exit.png"),
+            leading: Icon(
+              BotigaIcons.exit,
+              color: Colors.black,
+            ),
             contentPadding: EdgeInsets.only(left: 0, right: 0),
             title: Align(
               alignment: Alignment(-1.2, 0),

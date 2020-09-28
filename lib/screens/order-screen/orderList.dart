@@ -3,6 +3,7 @@ import '../../widget/common/orderRow.dart';
 import '../../widget/common/appHeader.dart';
 import '../order-details/orderDetails.dart';
 import '../../util/constants.dart';
+import '../../theme/index.dart' show BotigaIcons;
 
 class OrderList extends StatelessWidget {
   static const routeName = '/all-orders-list';
@@ -109,7 +110,10 @@ Widget _orderCard(BuildContext context) {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           Container(
-                            child: Image.asset('assets/icons/building.png'),
+                            child: Icon(
+                              BotigaIcons.building,
+                              size: 18,
+                            ),
                           ),
                           SizedBox(
                             width: 7.86,

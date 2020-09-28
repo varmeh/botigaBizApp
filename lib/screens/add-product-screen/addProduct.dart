@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
 import '../add-product-success/addProductSuccess.dart';
+import '../../theme/index.dart' show BotigaIcons;
 
 class MyStatefulWidget extends StatefulWidget {
   final label;

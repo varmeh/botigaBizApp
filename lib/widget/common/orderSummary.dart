@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../util/constants.dart';
+import '../../theme/index.dart' show BotigaIcons;
 
 class OrderSummary extends StatelessWidget {
   @override
@@ -82,7 +83,10 @@ class OrderSummary extends StatelessWidget {
           padding: const EdgeInsets.only(top: 22.0),
           child: Row(
             children: <Widget>[
-              Image.asset('assets/icons/delivery.png'),
+              Icon(
+                BotigaIcons.truck,
+                size: 26,
+              ),
               SizedBox(
                 width: 15,
               ),
@@ -109,7 +113,11 @@ class OrderSummary extends StatelessWidget {
                   height: 44,
                   // width: 165,
                   child: FlatButton.icon(
-                    icon: Image.asset('assets/icons/call.png'),
+                    icon: Icon(
+                      BotigaIcons.call,
+                      color: Colors.black,
+                      size: 18,
+                    ),
                     onPressed: () {},
                     textColor: Colors.white,
                     color: Color(0xff121715).withOpacity(0.05),
