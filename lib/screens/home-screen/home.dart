@@ -3,7 +3,8 @@ import 'package:botiga_biz/util/index.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../../theme/index.dart' show BotigaIcons, FlavorBanner;
+import '../../theme/index.dart' show BotigaIcons;
+import '../../util/index.dart' show FlavorBanner;
 import '../order-screen/Order.dart';
 import "../store-screen/store.dart";
 import "../profile-screen/profile.dart";
@@ -106,7 +107,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               BottomNavigationBarItem(
-                icon: const Icon(BotigaIcons.delivery),
+                icon: const Icon(BotigaIcons.package),
                 title: Text(
                   'Delivery',
                 ),
