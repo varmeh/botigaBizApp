@@ -8,6 +8,7 @@ import '../../util/index.dart' show FlavorBanner;
 import '../order-screen/Order.dart';
 import "../store-screen/store.dart";
 import "../profile-screen/profile.dart";
+import "../delivery-screen/deliveryScreen.dart";
 
 class Home extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -32,7 +33,7 @@ class _HomeState extends State<Home> {
         'title': 'Store',
       },
       {
-        'page': null,
+        'page': DeliveryScreen(),
         'title': 'Categories',
       },
       {
@@ -43,7 +44,7 @@ class _HomeState extends State<Home> {
 
     final fbm = FirebaseMessaging();
 
-    // Request for permission on notification on Ios device
+    Request for permission on notification on Ios device
     if (Platform.isIOS) {
       fbm.onIosSettingsRegistered.listen((data) {
         // save the token  OR subscribe to a topic here

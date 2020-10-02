@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -21,6 +22,15 @@ import 'screens/communities-screen/selectArea.dart';
 import 'screens/communities-screen/selectCommunites.dart';
 import 'screens/bussiness-details-screen/addBussinessDetails.dart';
 import 'screens/store-details-screen/storeDetails.dart';
+import 'screens/delivery-screen/deliveryScreen.dart';
+import 'screens/SignUp/SignUpWelcome.dart';
+import 'screens/SignUp/SignupVerifyOtp.dart';
+import 'screens/SignUp/SignupBussinessDetails.dart';
+import 'screens/SignUp/SignupStoreDetails.dart';
+import 'screens/SignUp/SignUpSetPin.dart';
+import 'screens/SignUp/SignUpPinSucessFull.dart';
+import 'screens/login-screen/EnterPin.dart';
+import 'screens/login-screen/ForgotPin.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,14 +86,23 @@ class BotigaBizApp extends StatelessWidget {
         SelectArea.routeName: (ctx) => SelectArea(),
         SelectCommunites.routeName: (ctx) => SelectCommunites(),
         AddBussinessDetails.routeName: (ctx) => AddBussinessDetails(),
-        AddStoreDeatils.routeName: (ctx) => AddStoreDeatils()
+        AddStoreDeatils.routeName: (ctx) => AddStoreDeatils(),
+        DeliveryScreen.routeName: (ctx) => DeliveryScreen(),
+        SignupWelcome.routeName: (ctx) => SignupWelcome(),
+        SignUpOtp.routeName: (ctx) => SignUpOtp(),
+        SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
+        SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
+        SignUpSetPin.routeName: (ctx) => SignUpSetPin(),
+        SignupPinSuccessfull.routeName: (ctx) => SignupPinSuccessfull(),
+        EnterPin.routeName: (ctx) => EnterPin(),
+        LoginForgotPin.routeName: (ctx) => LoginForgotPin()
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
           builder: (ctx) => null,
         );
       },
-      navigatorObservers: <NavigatorObserver>[observer],
+      // navigatorObservers: <NavigatorObserver>[observer],
     );
   }
 }

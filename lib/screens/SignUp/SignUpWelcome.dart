@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import './EnterPin.dart';
+import './SignupVerifyOtp.dart';
 
-class Login extends StatelessWidget {
+class SignupWelcome extends StatefulWidget {
+  static const routeName = '/signup-welcome';
+  @override
+  _SignupWelcomeState createState() => _SignupWelcomeState();
+}
+
+class _SignupWelcomeState extends State<SignupWelcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +21,7 @@ class Login extends StatelessWidget {
               padding: const EdgeInsets.only(
                   top: 70, bottom: 60, left: 20, right: 20),
               child: Text(
-                "Login",
+                "Welcome to Botiga",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -64,7 +70,7 @@ class Login extends StatelessWidget {
                                 borderRadius: new BorderRadius.circular(6.0)),
                             onPressed: () {
                               Navigator.of(context)
-                                  .pushNamed(EnterPin.routeName);
+                                  .pushNamed(SignUpOtp.routeName);
                             },
                             color: Color(0xff179F57),
                             child: Padding(
