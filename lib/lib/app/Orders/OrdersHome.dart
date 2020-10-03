@@ -1,16 +1,16 @@
-import '../order-screen/orderList.dart';
 import 'package:flutter/material.dart';
-import '../../widget/common/orderRow.dart';
+import 'orderRow.dart';
+import 'orderList.dart';
 import '../../util/constants.dart';
 import '../../theme/index.dart' show BotigaIcons;
 
-class Order extends StatefulWidget {
-  static const routeName = '/order-screen';
+class OrdersHome extends StatefulWidget {
+  static const routeName = '/orders-home';
   @override
-  _OrderState createState() => _OrderState();
+  _OrdersHomeState createState() => _OrdersHomeState();
 }
 
-class _OrderState extends State<Order> {
+class _OrdersHomeState extends State<OrdersHome> {
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -25,6 +25,7 @@ class _OrderState extends State<Order> {
 
 Widget _orderCard(BuildContext context, String apartmentName, String revenue,
     String totalOrder, List orderList) {
+  final contextTheme = Theme.of(context);
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +69,7 @@ Widget _orderCard(BuildContext context, String apartmentName, String revenue,
                             ),
                             Text(
                               '$apartmentName',
-                              style: Theme.of(context).textTheme.headline6,
+                              style: contextTheme.textTheme.headline6,
                             )
                           ],
                         ),
@@ -83,14 +84,14 @@ Widget _orderCard(BuildContext context, String apartmentName, String revenue,
                               children: <Widget>[
                                 Text(
                                   '${Constants.revenue}',
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: contextTheme.textTheme.subtitle2,
                                 ),
                                 SizedBox(
                                   height: 3,
                                 ),
                                 Text(
                                   '${Constants.rupeeSymbol} $revenue',
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: contextTheme.textTheme.subtitle2,
                                 ),
                               ],
                             ),
@@ -102,14 +103,14 @@ Widget _orderCard(BuildContext context, String apartmentName, String revenue,
                               children: <Widget>[
                                 Text(
                                   "${Constants.orders}",
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: contextTheme.textTheme.subtitle2,
                                 ),
                                 SizedBox(
                                   height: 3,
                                 ),
                                 Text(
                                   '$totalOrder',
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: contextTheme.textTheme.subtitle2,
                                 )
                               ],
                             ),
@@ -117,7 +118,7 @@ Widget _orderCard(BuildContext context, String apartmentName, String revenue,
                         ),
                       ),
                       Divider(
-                        color: Theme.of(context).backgroundColor,
+                        color: contextTheme.backgroundColor,
                         thickness: 1,
                         indent: 20,
                         endIndent: 20,

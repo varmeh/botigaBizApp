@@ -11,10 +11,10 @@ import 'util/index.dart' show Flavor;
 import 'theme/appTheme.dart';
 import 'screens/login-screen/login.dart';
 import 'screens/home-screen/home.dart';
-import 'screens/order-screen/orderList.dart';
-import 'screens/order-screen/Order.dart';
-import 'screens/order-details/orderDetails.dart';
-import 'screens/order-delivery/orderDelivery.dart';
+import 'app/Orders/orderList.dart';
+import 'app/Orders/OrdersHome.dart';
+import 'app/Orders/orderDetails.dart';
+import 'app/Orders/orderDelivery.dart';
 import 'screens/store-screen/store.dart';
 import 'screens/add-product-screen/addProduct.dart';
 import 'screens/add-product-success/addProductSuccess.dart';
@@ -22,7 +22,7 @@ import 'screens/communities-screen/selectArea.dart';
 import 'screens/communities-screen/selectCommunites.dart';
 import 'screens/bussiness-details-screen/addBussinessDetails.dart';
 import 'screens/store-details-screen/storeDetails.dart';
-import 'screens/delivery-screen/deliveryScreen.dart';
+import 'app/Delivery/deliveryScreen.dart';
 import 'screens/SignUp/SignUpWelcome.dart';
 import 'screens/SignUp/SignupVerifyOtp.dart';
 import 'screens/SignUp/SignupBussinessDetails.dart';
@@ -76,7 +76,7 @@ class BotigaBizApp extends StatelessWidget {
       home: Login(),
       routes: {
         Home.routeName: (ctx) => Home(),
-        Order.routeName: (ctx) => Order(),
+        OrdersHome.routeName: (ctx) => OrdersHome(),
         OrderList.routeName: (ctx) => OrderList(),
         OrderDetails.routeName: (ctx) => OrderDetails(),
         OrderDelivery.routeName: (ctx) => OrderDelivery(),

@@ -7,6 +7,7 @@ class OrderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final contextTextTheme = Theme.of(context).textTheme;
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -30,14 +31,10 @@ class OrderRow extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      "#1234128 .8 ITEMS",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        wordSpacing: 1,
-                      ),
-                    ),
+                    Text("#1234128 .8 ITEMS",
+                        style: contextTextTheme.subtitle1.copyWith(
+                          wordSpacing: 1,
+                        )),
                     Container(
                       decoration: BoxDecoration(
                         color: Color(0xffE9A136),
@@ -49,12 +46,9 @@ class OrderRow extends StatelessWidget {
                           EdgeInsets.only(left: 6, right: 6, top: 4, bottom: 4),
                       child: Text(
                         "OPEN",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1,
-                        ),
+                        style: contextTextTheme.overline.copyWith(
+                            letterSpacing: 1,
+                            color: Theme.of(context).colorScheme.surface),
                       ),
                     )
                   ],
@@ -65,20 +59,13 @@ class OrderRow extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      "31 Aug, 2020 8:10 AM",
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.grey[500],
-                      ),
-                    ),
+                    Text("31 Aug, 2020 8:10 AM",
+                        style: contextTextTheme.overline
+                            .copyWith(color: Colors.grey[500])),
                     Text(
                       '${Constants.rupeeSymbol} 460',
-                      style: TextStyle(
-                        fontSize: 15,
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.normal,
+                      style: contextTextTheme.subtitle1.copyWith(
+                        wordSpacing: 1,
                       ),
                     ),
                   ],

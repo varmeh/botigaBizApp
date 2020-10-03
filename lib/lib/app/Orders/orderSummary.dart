@@ -10,11 +10,10 @@ class OrderSummary extends StatelessWidget {
       children: <Widget>[
         Text(
           "Renuka Devi",
-          style: TextStyle(
-            color: Color(0xff121715),
-            fontSize: 22,
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(context)
+              .textTheme
+              .headline3
+              .copyWith(color: Theme.of(context).colorScheme.onPrimary),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 22.0),
@@ -25,14 +24,9 @@ class OrderSummary extends StatelessWidget {
                 width: 15,
               ),
               Flexible(
-                child: Text(
-                  'Order number: #1234128',
-                  style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                child: Text('Order number: #1234128',
+                    style: Theme.of(context).textTheme.caption.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary)),
               )
             ],
           ),
@@ -48,11 +42,10 @@ class OrderSummary extends StatelessWidget {
               Flexible(
                 child: Text(
                   '31 Aug, 2020 8:10 AM',
-                  style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 ),
               )
             ],
@@ -69,11 +62,10 @@ class OrderSummary extends StatelessWidget {
               Flexible(
                 child: Text(
                   'No. 22, Block - A, West towers, Riverside apartments, Whitefield',
-                  style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 ),
               )
             ],
@@ -94,11 +86,10 @@ class OrderSummary extends StatelessWidget {
               Flexible(
                 child: Text(
                   'Expected delivery 16 Sept',
-                  style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .copyWith(color: Theme.of(context).colorScheme.onPrimary),
                 ),
               )
             ],
@@ -127,11 +118,8 @@ class OrderSummary extends StatelessWidget {
                     highlightColor: Colors.orangeAccent,
                     label: Text(
                       'Call',
-                      style: TextStyle(
-                        color: Color(0xff121715),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary),
                     ),
                   ),
                 ),
@@ -153,11 +141,8 @@ class OrderSummary extends StatelessWidget {
                     highlightColor: Colors.orangeAccent,
                     label: Text(
                       'Whatsapp',
-                      style: TextStyle(
-                        color: Color(0xff121715),
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary),
                     ),
                   ),
                 ),
@@ -185,12 +170,9 @@ class OrderListSummary extends StatelessWidget {
               const EdgeInsets.only(left: 20, right: 20, top: 8, bottom: 8),
           child: Text(
             '3 Items',
-            style: TextStyle(
-              color: Color(0xff121715),
-              fontSize: 12,
-              letterSpacing: 0.2,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.caption.copyWith(
+                color: Theme.of(context).colorScheme.onPrimary,
+                letterSpacing: 0.2),
           ),
         ),
         Divider(
@@ -218,11 +200,9 @@ class OrderListSummary extends StatelessWidget {
               Flexible(
                 child: Text(
                   'Total',
-                  style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.caption.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                 ),
               ),
               SizedBox(
@@ -231,11 +211,9 @@ class OrderListSummary extends StatelessWidget {
               Flexible(
                 child: Text(
                   '${Constants.rupeeSymbol}1020',
-                  style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.caption.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                 ),
               )
             ],
@@ -258,11 +236,9 @@ class OrderListItem extends StatelessWidget {
           Flexible(
             child: Text(
               '1 X English Bakewell Tart',
-              style: TextStyle(
-                color: Color(0xff121715),
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.caption.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
             ),
           ),
           SizedBox(
@@ -271,11 +247,9 @@ class OrderListItem extends StatelessWidget {
           Flexible(
             child: Text(
               '${Constants.rupeeSymbol}120',
-              style: TextStyle(
-                color: Color(0xff121715),
-                fontSize: 13,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.caption.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
             ),
           )
         ],

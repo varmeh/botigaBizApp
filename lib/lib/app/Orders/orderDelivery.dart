@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widget/common/appHeader.dart';
-import '../../widget/common/orderSummary.dart';
+import 'orderSummary.dart';
 
 class OrderDelivery extends StatefulWidget {
   static const routeName = '/order-delivery';
@@ -28,11 +28,9 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                       color: Color(0xff179F57),
                       child: Text(
                         'Mark as delivered',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(
+                              color: Theme.of(context).colorScheme.surface,
+                            ),
                       ),
                     ),
                   ),
@@ -62,11 +60,9 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                         splashColor: Colors.transparent,
                         child: Text(
                           'Cancel order',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            color: Color(0xffDA3030),
-                          ),
+                          style: Theme.of(context).textTheme.subtitle1.copyWith(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
                         ),
                       ),
                     ),

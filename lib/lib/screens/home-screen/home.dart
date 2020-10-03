@@ -5,10 +5,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../theme/index.dart' show BotigaIcons;
 import '../../util/index.dart' show FlavorBanner;
-import '../order-screen/Order.dart';
+import '../../app/Orders/OrdersHome.dart';
 import "../store-screen/store.dart";
 import "../profile-screen/profile.dart";
-import "../delivery-screen/deliveryScreen.dart";
+import '../../app/Delivery/deliveryScreen.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
     super.initState();
     _pages = [
       {
-        'page': Order(),
+        'page': OrdersHome(),
         'title': 'Orders',
       },
       {
@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
 
     final fbm = FirebaseMessaging();
 
-    Request for permission on notification on Ios device
+    //Request for permission on notification on Ios device
     if (Platform.isIOS) {
       fbm.onIosSettingsRegistered.listen((data) {
         // save the token  OR subscribe to a topic here

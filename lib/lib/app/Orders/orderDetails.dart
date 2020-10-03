@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../widget/common/appHeader.dart';
-import '../../widget/common/orderSummary.dart';
-import '../order-delivery/orderDelivery.dart';
+import 'orderDelivery.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:intl/intl.dart';
+import '../../widget/common/appHeader.dart';
+import 'orderSummary.dart';
 import '../../theme/index.dart' show BotigaIcons;
 
 class OrderDetails extends StatefulWidget {
@@ -32,7 +32,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         child: ListView(
           children: <Widget>[
             Padding(
@@ -52,14 +52,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                       },
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
-                      child: Text(
-                        'Cancel Order',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: Color(0xffDA3030),
-                        ),
-                      ),
+                      child: Text('Cancel Order',
+                          style: Theme.of(context).textTheme.subtitle1.copyWith(
+                              color: Theme.of(context).colorScheme.error)),
                     ),
                   ),
                   SizedBox(
@@ -86,7 +81,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           width: 90,
                           height: 128,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.surface,
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
@@ -108,7 +103,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 backgroundColor: Colors.transparent,
                                 builder: (context) => Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
                                     borderRadius: BorderRadius.only(
                                       topLeft: const Radius.circular(16.0),
                                       topRight: const Radius.circular(16.0),
@@ -120,14 +116,19 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       CalendarFormat.month: 'Month',
                                     },
                                     calendarStyle: CalendarStyle(
-                                      selectedColor: Color(0xff179F57),
+                                      selectedColor:
+                                          Theme.of(context).colorScheme.primary,
                                       outsideDaysVisible: true,
-                                      weekendStyle: TextStyle()
-                                          .copyWith(color: Colors.black),
+                                      weekendStyle: TextStyle().copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary),
                                     ),
                                     daysOfWeekStyle: DaysOfWeekStyle(
-                                      weekendStyle: TextStyle()
-                                          .copyWith(color: Colors.black54),
+                                      weekendStyle: TextStyle().copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface),
                                     ),
                                     headerStyle: HeaderStyle(
                                       centerHeaderTitle: false,
@@ -142,12 +143,20 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         backgroundColor: Color(0xff2591B2),
                                         messageText: Text(
                                           'Delivery date changed to $newDate',
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle1
+                                              .copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surface,
+                                              ),
                                         ),
-                                        icon: Icon(BotigaIcons.truck),
+                                        icon: Icon(BotigaIcons.truck,
+                                            size: 30,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .surface),
                                         flushbarPosition: FlushbarPosition.TOP,
                                         flushbarStyle: FlushbarStyle.FLOATING,
                                         duration: Duration(seconds: 3),
@@ -171,11 +180,12 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   Text(
                                     'Mark as delay',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      letterSpacing: 0.2,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .overline
+                                        .copyWith(
+                                          letterSpacing: 0.2,
+                                        ),
                                   )
                                 ],
                               ),
@@ -189,7 +199,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           width: 90,
                           height: 128,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.surface,
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
@@ -222,12 +232,15 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   Text(
                                     'Out for delivery',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xff179F57),
-                                      fontSize: 12,
-                                      letterSpacing: 0.2,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .overline
+                                        .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          letterSpacing: 0.2,
+                                        ),
                                   )
                                 ],
                               ),
