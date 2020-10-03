@@ -35,7 +35,7 @@ class OrderSummary extends StatelessWidget {
           padding: const EdgeInsets.only(top: 22.0),
           child: Row(
             children: <Widget>[
-              Image.asset('assets/icons/clock.png'),
+              Image.asset('assets/images/clock.png'),
               SizedBox(
                 width: 15,
               ),
@@ -132,7 +132,7 @@ class OrderSummary extends StatelessWidget {
                   height: 44,
                   // width: 165,
                   child: FlatButton.icon(
-                    icon: Image.asset('assets/icons/watsapp.png'),
+                    icon: Image.asset('assets/images/watsapp.png'),
                     onPressed: () {},
                     textColor: Colors.white,
                     color: Color(0xff121715).withOpacity(0.05),
