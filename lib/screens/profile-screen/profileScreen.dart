@@ -39,7 +39,7 @@ class ProfileScreen extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(AddStoreDeatils.routeName);
             },
-            leading: Image.asset("assets/images/store_details.png"),
+            leading: Image.asset("assets/icons/store_details.png"),
             contentPadding: EdgeInsets.only(left: 0, right: 0),
             title: Align(
               alignment: Alignment(-1.2, 0),

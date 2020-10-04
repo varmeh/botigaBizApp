@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import "../category-screen/category.dart";
-import "../product-screen/product.dart";
-import '../add-product-screen/addProduct.dart';
+import 'Categories/category.dart';
+import 'Products/product.dart';
+import '../../screens/add-product-screen/addProduct.dart';
 
 class Store extends StatefulWidget {
   static const routeName = '/store-screen';

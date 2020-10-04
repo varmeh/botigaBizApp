@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../util/constants.dart';
 import '../../theme/index.dart' show BotigaIcons;
+import '../../models/Orders/OrderByDateDetail.dart';
 
 class OrderSummary extends StatelessWidget {
+  final OrderByDateDetail orderDetail;
+  OrderSummary(this.orderDetail);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          "Renuka Devi",
+          "${orderDetail.buyer.name}",
           style: Theme.of(context)
               .textTheme
               .headline3
@@ -24,7 +28,7 @@ class OrderSummary extends StatelessWidget {
                 width: 15,
               ),
               Flexible(
-                child: Text('Order number: #1234128',
+                child: Text('Order number: #${orderDetail.order.number}',
                     style: Theme.of(context).textTheme.caption.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary)),
               )
@@ -35,13 +39,13 @@ class OrderSummary extends StatelessWidget {
           padding: const EdgeInsets.only(top: 22.0),
           child: Row(
             children: <Widget>[
-              Image.asset('assets/images/clock.png'),
+              Image.asset('assets/icons/clock.png'),
               SizedBox(
                 width: 15,
               ),
               Flexible(
                 child: Text(
-                  '31 Aug, 2020 8:10 AM',
+                  '${orderDetail.order.orderDate}',
                   style: Theme.of(context)
                       .textTheme
                       .caption
@@ -61,7 +65,7 @@ class OrderSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  'No. 22, Block - A, West towers, Riverside apartments, Whitefield',
+                  '${orderDetail.buyer.house}',
                   style: Theme.of(context)
                       .textTheme
                       .caption
@@ -85,7 +89,7 @@ class OrderSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  'Expected delivery 16 Sept',
+                  '${orderDetail.order.expectedDeliveryDate}',
                   style: Theme.of(context)
                       .textTheme
                       .caption
@@ -132,7 +136,7 @@ class OrderSummary extends StatelessWidget {
                   height: 44,
                   // width: 165,
                   child: FlatButton.icon(
-                    icon: Image.asset('assets/images/watsapp.png'),
+                    icon: Image.asset('assets/icons/watsapp.png'),
                     onPressed: () {},
                     textColor: Colors.white,
                     color: Color(0xff121715).withOpacity(0.05),
@@ -156,6 +160,9 @@ class OrderSummary extends StatelessWidget {
 }
 
 class OrderListSummary extends StatelessWidget {
+  final OrderByDateDetail orderDetail;
+  OrderListSummary(this.orderDetail);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -169,7 +176,7 @@ class OrderListSummary extends StatelessWidget {
           padding:
               const EdgeInsets.only(left: 20, right: 20, top: 8, bottom: 8),
           child: Text(
-            '3 Items',
+            '${orderDetail.order.products.length} Items',
             style: Theme.of(context).textTheme.caption.copyWith(
                 color: Theme.of(context).colorScheme.onPrimary,
                 letterSpacing: 0.2),
@@ -179,8 +186,8 @@ class OrderListSummary extends StatelessWidget {
           color: Theme.of(context).backgroundColor,
           thickness: 1,
         ),
-        ...[1, 2, 3].map((el) {
-          return OrderListItem();
+        ...orderDetail.order.products.map((el) {
+          return OrderListItem(el.name, el.price, el.quantity, el.unitInfo);
         }),
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
@@ -210,7 +217,7 @@ class OrderListSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '${Constants.rupeeSymbol}1020',
+                  '${Constants.rupeeSymbol}${orderDetail.order.totalAmount}',
                   style: Theme.of(context).textTheme.caption.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
@@ -225,6 +232,12 @@ class OrderListSummary extends StatelessWidget {
 }
 
 class OrderListItem extends StatelessWidget {
+  final String name;
+  final int price;
+  final int quantity;
+  final String unitInfo;
+  OrderListItem(this.name, this.price, this.quantity, this.unitInfo);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -235,7 +248,7 @@ class OrderListItem extends StatelessWidget {
         children: <Widget>[
           Flexible(
             child: Text(
-              '1 X English Bakewell Tart',
+              '$quantity X $name',
               style: Theme.of(context).textTheme.caption.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
@@ -246,7 +259,7 @@ class OrderListItem extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              '${Constants.rupeeSymbol}120',
+              '${Constants.rupeeSymbol}${quantity * price}',
               style: Theme.of(context).textTheme.caption.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),

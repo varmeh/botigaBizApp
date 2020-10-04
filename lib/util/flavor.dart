@@ -27,7 +27,7 @@ class Flavor {
     }
   }
 
-  bool get isProduction => _flavor == _Flavor.prod;
+  bool get isProduction => _flavor == _Flavor.dev;
 
   Color get bannerColor => isProduction ? Colors.transparent : Colors.brown;
 
@@ -35,5 +35,5 @@ class Flavor {
 
   String get baseUrl => isProduction
       ? 'http://production.url'
-      : 'https://f75cdc27-ecda-41c5-8b58-470f8004ecea.mock.pstmn.io';
+      : 'https://b5fcdfb2-e6be-4d97-b3bc-64ae4f03983a.mock.pstmn.io';
 }

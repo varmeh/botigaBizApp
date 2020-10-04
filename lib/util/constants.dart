@@ -19,4 +19,11 @@ class Constants {
   static const viewAllOrders = 'See all orders';
   static const revenue = 'REVENUE';
   static const orders = 'ORDERS';
+
+  //Seller related to api call
+  static const SELLER_BASE_URL = '/api/seller/';
+  static const String AGGREGATED_ORDERS_INFORMATION =
+      '$SELLER_BASE_URL/orders/aggregate/2020-09-30';
+  static const String ORDER_BYDATE_APARTMENT =
+      '$SELLER_BASE_URL/orders/5f5a35d281710e963e530a5b/2020-09-30';
 }

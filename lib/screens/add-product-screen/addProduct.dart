@@ -340,7 +340,7 @@ class _AddProductState extends State<AddProduct> {
                                             showImageSelectOption(context);
                                           },
                                           child: Image.asset(
-                                            'assets/images/image_edit.png',
+                                            'assets/icons/image_edit.png',
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -354,7 +354,7 @@ class _AddProductState extends State<AddProduct> {
                                             });
                                           },
                                           child: Image.asset(
-                                            'assets/images/image_delete.png',
+                                            'assets/icons/image_delete.png',
                                             fit: BoxFit.cover,
                                           ),
                                         ),

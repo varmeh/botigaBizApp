@@ -3,7 +3,13 @@ import '../../util/constants.dart';
 
 class OrderRow extends StatelessWidget {
   final Function tapHandler;
-  OrderRow(this.tapHandler);
+  final String number;
+  final String orderDate;
+  final String status;
+  final int totalAmount;
+  final int productsLength;
+  OrderRow(this.tapHandler, this.number, this.productsLength, this.orderDate,
+      this.status, this.totalAmount);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +37,7 @@ class OrderRow extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("#1234128 .8 ITEMS",
+                    Text("#$number .$productsLength ITEMS",
                         style: contextTextTheme.subtitle1.copyWith(
                           wordSpacing: 1,
                         )),
@@ -45,7 +51,7 @@ class OrderRow extends StatelessWidget {
                       padding:
                           EdgeInsets.only(left: 6, right: 6, top: 4, bottom: 4),
                       child: Text(
-                        "OPEN",
+                        '${status.toUpperCase()}',
                         style: contextTextTheme.overline.copyWith(
                             letterSpacing: 1,
                             color: Theme.of(context).colorScheme.surface),
@@ -59,11 +65,11 @@ class OrderRow extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("31 Aug, 2020 8:10 AM",
+                    Text('$orderDate',
                         style: contextTextTheme.overline
                             .copyWith(color: Colors.grey[500])),
                     Text(
-                      '${Constants.rupeeSymbol} 460',
+                      '${Constants.rupeeSymbol} $totalAmount',
                       style: contextTextTheme.subtitle1.copyWith(
                         wordSpacing: 1,
                       ),

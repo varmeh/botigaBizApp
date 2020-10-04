@@ -113,7 +113,7 @@ class AddCommunitesSuccess extends StatelessWidget {
                       height: 150,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/images/coupan.png"),
+                          image: AssetImage("assets/icons/coupan.png"),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -159,7 +159,7 @@ class AddCommunitesSuccess extends StatelessWidget {
                             icon: Padding(
                               padding: const EdgeInsets.only(
                                   left: 13, top: 13, bottom: 13),
-                              child: Image.asset('assets/images/watsapp.png'),
+                              child: Image.asset('assets/icons/watsapp.png'),
                             ),
                             onPressed: () {},
                             color: Colors.black,

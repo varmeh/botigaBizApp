@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'orderDelivery.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:intl/intl.dart';
 import '../../widget/common/appHeader.dart';
 import 'orderSummary.dart';
 import '../../theme/index.dart' show BotigaIcons;
+import '../../providers/Orders/OrdersProvider.dart';
+import '../../models/Orders/OrderByDateDetail.dart';
 
 class OrderDetails extends StatefulWidget {
   static const routeName = '/order-details';
@@ -30,9 +33,15 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> routeArgs =
+        ModalRoute.of(context).settings.arguments;
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    final OrderByDateDetail orderDetail =
+        ordersProvider.getOrderDetails(routeArgs['orderId']);
+
     return Scaffold(
       body: Container(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).colorScheme.background,
         child: ListView(
           children: <Widget>[
             Padding(
@@ -60,7 +69,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   SizedBox(
                     height: 20,
                   ),
-                  OrderSummary()
+                  OrderSummary(orderDetail)
                 ],
               ),
             ),
@@ -68,7 +77,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  OrderListSummary(),
+                  OrderListSummary(orderDetail),
                   SizedBox(
                     height: 87,
                   ),
@@ -215,8 +224,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                           child: InkWell(
                             onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed(OrderDelivery.routeName);
+                              Navigator.of(context).pushNamed(
+                                  OrderDelivery.routeName,
+                                  arguments: {
+                                    'orderId': orderDetail.id,
+                                  });
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
