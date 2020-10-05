@@ -48,7 +48,7 @@ class Login extends StatelessWidget {
                           onSaved: (val) => '',
                           decoration: InputDecoration(
                               prefixIcon: Icon(Icons.phone),
-                              // hasFloatingPlaceholder: true,
+                              // floatingLabelBehavior: FloatingLabelBehavior.always,
                               fillColor: Colors.white,
                               filled: true,
                               // labelText: "Phone number",

@@ -76,7 +76,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             onSaved: (val) => '',
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.email),
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Email",
@@ -96,7 +97,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             onSaved: (val) => '',
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.message),
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Whatsapp number",
@@ -151,7 +153,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Building No. / Flat No.",
@@ -170,7 +173,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Street Name/Locality",
@@ -189,7 +193,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "Pincode",
@@ -208,7 +213,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "City",
@@ -227,7 +233,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             },
                             onSaved: (val) => '',
                             decoration: InputDecoration(
-                                hasFloatingPlaceholder: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.always,
                                 fillColor: Colors.white,
                                 filled: true,
                                 labelText: "State",

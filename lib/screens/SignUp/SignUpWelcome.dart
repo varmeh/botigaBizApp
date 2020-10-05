@@ -54,7 +54,7 @@ class _SignupWelcomeState extends State<SignupWelcome> {
                           onSaved: (val) => '',
                           decoration: InputDecoration(
                               prefixIcon: Icon(Icons.phone),
-                              // hasFloatingPlaceholder: true,
+                              // floatingLabelBehavior: FloatingLabelBehavior.always,
                               fillColor: Colors.white,
                               filled: true,
                               // labelText: "Phone number",

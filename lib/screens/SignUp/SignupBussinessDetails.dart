@@ -431,7 +431,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         },
                         onSaved: (val) => '',
                         decoration: InputDecoration(
-                            hasFloatingPlaceholder: true,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
                             fillColor: Colors.white,
                             filled: true,
                             labelText: "Business Name",
@@ -450,7 +451,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         },
                         onSaved: (val) => '',
                         decoration: InputDecoration(
-                            hasFloatingPlaceholder: true,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
                             fillColor: Colors.white,
                             filled: true,
                             labelText: "Business Owner First Name",
@@ -469,7 +470,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         },
                         onSaved: (val) => '',
                         decoration: InputDecoration(
-                            hasFloatingPlaceholder: true,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
                             fillColor: Colors.white,
                             filled: true,
                             labelText: "Business Owner Last Name",
@@ -488,7 +489,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         },
                         onSaved: (val) => '',
                         decoration: InputDecoration(
-                            hasFloatingPlaceholder: true,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
                             fillColor: Colors.white,
                             filled: true,
                             labelText: "Brand Name",
@@ -507,7 +508,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         },
                         onSaved: (val) => '',
                         decoration: InputDecoration(
-                            hasFloatingPlaceholder: true,
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
                             fillColor: Colors.white,
                             filled: true,
                             labelText: "Tagline",
