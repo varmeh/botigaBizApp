@@ -31,6 +31,8 @@ import 'screens/SignUp/SignUpSetPin.dart';
 import 'screens/SignUp/SignUpPinSucessFull.dart';
 import 'screens/login-screen/EnterPin.dart';
 import 'screens/login-screen/ForgotPin.dart';
+import 'package:provider/provider.dart';
+import './providers/Orders/OrdersProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,40 +71,47 @@ class BotigaBizApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      themeMode: ThemeMode.light,
-      title: 'Botiga Business',
-      theme: AppTheme.light,
-      home: Login(),
-      routes: {
-        Home.routeName: (ctx) => Home(),
-        OrdersHome.routeName: (ctx) => OrdersHome(),
-        OrderList.routeName: (ctx) => OrderList(),
-        OrderDetails.routeName: (ctx) => OrderDetails(),
-        OrderDelivery.routeName: (ctx) => OrderDelivery(),
-        Store.routeName: (ctx) => Store(),
-        AddProduct.routeName: (ctx) => AddProduct(),
-        AddProductSuccess.routeName: (ctx) => AddProductSuccess(),
-        SelectArea.routeName: (ctx) => SelectArea(),
-        SelectCommunites.routeName: (ctx) => SelectCommunites(),
-        AddBussinessDetails.routeName: (ctx) => AddBussinessDetails(),
-        AddStoreDeatils.routeName: (ctx) => AddStoreDeatils(),
-        DeliveryScreen.routeName: (ctx) => DeliveryScreen(),
-        SignupWelcome.routeName: (ctx) => SignupWelcome(),
-        SignUpOtp.routeName: (ctx) => SignUpOtp(),
-        SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
-        SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
-        SignUpSetPin.routeName: (ctx) => SignUpSetPin(),
-        SignupPinSuccessfull.routeName: (ctx) => SignupPinSuccessfull(),
-        EnterPin.routeName: (ctx) => EnterPin(),
-        LoginForgotPin.routeName: (ctx) => LoginForgotPin()
-      },
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (ctx) => null,
-        );
-      },
-      // navigatorObservers: <NavigatorObserver>[observer],
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => OrdersProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        themeMode: ThemeMode.light,
+        title: 'Botiga Business',
+        theme: AppTheme.light,
+        home: Login(),
+        routes: {
+          Home.routeName: (ctx) => Home(),
+          OrdersHome.routeName: (ctx) => OrdersHome(),
+          OrderList.routeName: (ctx) => OrderList(),
+          OrderDetails.routeName: (ctx) => OrderDetails(),
+          OrderDelivery.routeName: (ctx) => OrderDelivery(),
+          Store.routeName: (ctx) => Store(),
+          AddProduct.routeName: (ctx) => AddProduct(),
+          AddProductSuccess.routeName: (ctx) => AddProductSuccess(),
+          SelectArea.routeName: (ctx) => SelectArea(),
+          SelectCommunites.routeName: (ctx) => SelectCommunites(),
+          AddBussinessDetails.routeName: (ctx) => AddBussinessDetails(),
+          AddStoreDeatils.routeName: (ctx) => AddStoreDeatils(),
+          DeliveryScreen.routeName: (ctx) => DeliveryScreen(),
+          SignupWelcome.routeName: (ctx) => SignupWelcome(),
+          SignUpOtp.routeName: (ctx) => SignUpOtp(),
+          SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
+          SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
+          SignUpSetPin.routeName: (ctx) => SignUpSetPin(),
+          SignupPinSuccessfull.routeName: (ctx) => SignupPinSuccessfull(),
+          EnterPin.routeName: (ctx) => EnterPin(),
+          LoginForgotPin.routeName: (ctx) => LoginForgotPin()
+        },
+        onUnknownRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (ctx) => null,
+          );
+        },
+        // navigatorObservers: <NavigatorObserver>[observer],
+      ),
     );
   }
 }

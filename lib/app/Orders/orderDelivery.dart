@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../widget/common/appHeader.dart';
 import 'orderSummary.dart';
+import '../../providers/Orders/OrdersProvider.dart';
+import '../../models/Orders/OrderByDateDetail.dart';
+import 'package:provider/provider.dart';
 
 class OrderDelivery extends StatefulWidget {
   static const routeName = '/order-delivery';
@@ -11,6 +14,11 @@ class OrderDelivery extends StatefulWidget {
 class _OrderDeliveryState extends State<OrderDelivery> {
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> routeArgs =
+        ModalRoute.of(context).settings.arguments;
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    final OrderByDateDetail orderDetail =
+        ordersProvider.getOrderDetails(routeArgs['orderId']);
     return Scaffold(
         bottomNavigationBar: Container(
             padding: EdgeInsets.all(10),
@@ -69,11 +77,11 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                     SizedBox(
                       height: 20,
                     ),
-                    OrderSummary()
+                    OrderSummary(orderDetail)
                   ],
                 ),
               ),
-              OrderListSummary(),
+              OrderListSummary(orderDetail),
             ],
           ),
         ));

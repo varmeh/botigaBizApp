@@ -80,6 +80,16 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(0),
+          child: AppBar(
+            elevation: 0,
+            backgroundColor:
+                Theme.of(context).colorScheme.primary, // status bar color
+            brightness: Brightness.light, // status bar brightness
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: _pages[_selectedPageIndex]['page'],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
@@ -97,27 +107,19 @@ class _HomeState extends State<Home> {
             items: [
               BottomNavigationBarItem(
                 icon: const Icon(BotigaIcons.orders),
-                title: Text(
-                  'Orders',
-                ),
+                label: 'Orders',
               ),
               BottomNavigationBarItem(
                 icon: const Icon(BotigaIcons.store),
-                title: Text(
-                  'Store',
-                ),
+                label: 'Store',
               ),
               BottomNavigationBarItem(
                 icon: const Icon(BotigaIcons.package),
-                title: Text(
-                  'Delivery',
-                ),
+                label: 'Delivery',
               ),
               BottomNavigationBarItem(
                 icon: const Icon(BotigaIcons.profile),
-                title: Text(
-                  "Profile",
-                ),
+                label: "Profile",
               ),
             ],
           ),
