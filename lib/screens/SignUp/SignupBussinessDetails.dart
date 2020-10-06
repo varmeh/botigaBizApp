@@ -432,7 +432,6 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         onSaved: (val) => '',
                         decoration: InputDecoration(
                             floatingLabelBehavior: FloatingLabelBehavior.always,
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
                             fillColor: Colors.white,
                             filled: true,
                             labelText: "Business Name",
