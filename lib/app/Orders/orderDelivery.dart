@@ -31,7 +31,9 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6.0),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        ordersProvider.setDeliveryStatus("delivered");
+                      },
                       textColor: Colors.red,
                       color: Color(0xff179F57),
                       child: Text(
@@ -66,11 +68,19 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                         },
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
-                        child: Text(
-                          'Cancel order',
-                          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                                color: Theme.of(context).colorScheme.error,
-                              ),
+                        child: InkWell(
+                          onTap: () {
+                            ordersProvider.cancelOrder(routeArgs['orderId']);
+                          },
+                          child: Text(
+                            'Cancel order',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(
+                                  color: Theme.of(context).colorScheme.error,
+                                ),
+                          ),
                         ),
                       ),
                     ),

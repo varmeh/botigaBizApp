@@ -41,6 +41,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
     return Scaffold(
       body: Container(
+        color: Colors.white,
         child: ListView(
           children: <Widget>[
             Padding(
@@ -60,9 +61,18 @@ class _OrderDetailsState extends State<OrderDetails> {
                       },
                       highlightColor: Colors.transparent,
                       splashColor: Colors.transparent,
-                      child: Text('Cancel Order',
-                          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                              color: Theme.of(context).colorScheme.error)),
+                      child: InkWell(
+                        onTap: () {
+                          ordersProvider.cancelOrder(routeArgs['orderId']);
+                        },
+                        child: Text('Cancel Order',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.error)),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -143,35 +153,42 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       formatButtonVisible: false,
                                     ),
                                     onDaySelected: (date, events) {
-                                      final newDate =
-                                          DateFormat("d MMM").format(date);
-                                      Navigator.of(context).pop();
-                                      Flushbar(
-                                        maxWidth: 335,
-                                        backgroundColor: Color(0xff2591B2),
-                                        messageText: Text(
-                                          'Delivery date changed to $newDate',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .subtitle1
-                                              .copyWith(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .surface,
-                                              ),
-                                        ),
-                                        icon: Icon(BotigaIcons.truck,
-                                            size: 30,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .surface),
-                                        flushbarPosition: FlushbarPosition.TOP,
-                                        flushbarStyle: FlushbarStyle.FLOATING,
-                                        duration: Duration(seconds: 3),
-                                        margin: EdgeInsets.all(20),
-                                        padding: EdgeInsets.all(20),
-                                        borderRadius: 8,
-                                      ).show(context);
+                                      ordersProvider
+                                          .setDeliveryDelayed()
+                                          .then((value) {
+                                        final newDate =
+                                            DateFormat("d MMM").format(date);
+                                        Navigator.of(context).pop();
+                                        Flushbar(
+                                          maxWidth: 335,
+                                          backgroundColor: Color(0xff2591B2),
+                                          messageText: Text(
+                                            'Delivery date changed to $newDate',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle1
+                                                .copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .surface,
+                                                ),
+                                          ),
+                                          icon: Icon(BotigaIcons.truck,
+                                              size: 30,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surface),
+                                          flushbarPosition:
+                                              FlushbarPosition.TOP,
+                                          flushbarStyle: FlushbarStyle.FLOATING,
+                                          duration: Duration(seconds: 3),
+                                          margin: EdgeInsets.all(20),
+                                          padding: EdgeInsets.all(20),
+                                          borderRadius: 8,
+                                        ).show(context);
+                                      }).catchError((error) {
+                                        print(error);
+                                      });
                                     },
                                     calendarController: _calendarController,
                                   ),

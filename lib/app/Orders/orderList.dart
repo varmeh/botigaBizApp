@@ -82,13 +82,21 @@ class _OrderListState extends State<OrderList> {
                               ),
                             ),
                             SizedBox(
-                              height: 24,
+                              height: 15,
                             ),
-                            Text("TODAY",
-                                style: contextTheme.textTheme.subtitle1
-                                    .copyWith(
-                                        color: contextTheme
-                                            .colorScheme.onPrimary)),
+                            Row(
+                              children: <Widget>[
+                                Text("TODAY",
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.expand_more_sharp,
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),

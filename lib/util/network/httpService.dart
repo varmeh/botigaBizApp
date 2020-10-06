@@ -13,6 +13,26 @@ class HttpService {
     return _returnResponse(response);
   }
 
+  Future<dynamic> put(String url, final body) async {
+    Map headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final response =
+        await http.put('$_baseUrl$url', body: body, headers: headers);
+    return _returnResponse(response);
+  }
+
+  Future<dynamic> post(String url, final body) async {
+    Map headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final response =
+        await http.post('$_baseUrl$url', body: body, headers: headers);
+    return _returnResponse(response);
+  }
+
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
