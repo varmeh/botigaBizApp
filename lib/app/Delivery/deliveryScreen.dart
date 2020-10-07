@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import '../../widget/common/appHeader.dart';
 import '../../providers/Delivery/DeliveryProvider.dart';
+import '../../providers/Apartment/ApartmentProvide.dart';
 import '../../theme/index.dart' show BotigaIcons;
 import '../../util/constants.dart';
 import '../../models/Delivery/DeliveryByDateDetails.dart';
@@ -20,7 +21,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   bool _isInit = false;
   String apartmentName = "";
   String selectedStatus = "";
-  String slectedDate = "TODAY";
+  String slectedDate = "";
   bool isFloatingButtonClicked = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   CalendarController _calendarController;
@@ -41,7 +42,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   loadSettings() async {
     setState(() {
       selectedStatus = 'All';
-      apartmentName = 'Riverside appartments';
+      apartmentName = 'Select apartment';
+      slectedDate = 'TODAY';
     });
   }
 
@@ -67,6 +69,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   @override
   void didChangeDependencies() {
     if (!_isInit) {
+      Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
       fetchDeliveryData();
       _isInit = true;
     }
@@ -87,31 +90,38 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           child: SizedBox(
             width: 291,
             height: 360,
-            child: Drawer(
-                child: Container(
-              padding: EdgeInsets.all(20),
-              color: Colors.white,
-              child: ListView(
-                padding: EdgeInsets.all(0),
-                children: <Widget>[
-                  ...[1, 2, 3, 4, 5, 6, 7, 8].map((i) {
-                    return ListTile(
-                        title: const Text(
-                          "Adarsh Plam Acres",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w500),
-                        ),
-                        onTap: () {
-                          print("ListTile");
-                          Navigator.of(context).pop();
-                          setState(() {
-                            isFloatingButtonClicked = false;
+            child: Consumer<ApartmentProvider>(
+                builder: (ctx, apartmentprovider, _) {
+              final apartments = apartmentprovider.allAprtment;
+              if (apartments.length == 0) {
+                return SizedBox();
+              }
+              return Drawer(
+                  child: Container(
+                padding: EdgeInsets.all(20),
+                color: Colors.white,
+                child: ListView(
+                  padding: EdgeInsets.all(0),
+                  children: <Widget>[
+                    ...apartments.map((apartment) {
+                      return ListTile(
+                          title: Text(
+                            '${apartment.apartmentName}',
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w500),
+                          ),
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            setState(() {
+                              isFloatingButtonClicked = false;
+                              apartmentName = apartment.apartmentName;
+                            });
                           });
-                        });
-                  }),
-                ],
-              ),
-            )),
+                    }),
+                  ],
+                ),
+              ));
+            }),
           ),
         ),
         alignment: Alignment(1, 0.8),
