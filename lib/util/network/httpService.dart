@@ -14,7 +14,7 @@ class HttpService {
   }
 
   Future<dynamic> put(String url, final body) async {
-    Map headers = {
+    Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
@@ -24,7 +24,7 @@ class HttpService {
   }
 
   Future<dynamic> post(String url, final body) async {
-    Map headers = {
+    Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
     };
