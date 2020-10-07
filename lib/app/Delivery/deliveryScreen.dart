@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../Orders/orderDetails.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 import '../../widget/common/appHeader.dart';
 import '../../providers/Delivery/DeliveryProvider.dart';
 import '../../theme/index.dart' show BotigaIcons;
@@ -19,12 +20,22 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   bool _isInit = false;
   String apartmentName = "";
   String selectedStatus = "";
+  String slectedDate = "TODAY";
   bool isFloatingButtonClicked = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  CalendarController _calendarController;
+
   @override
   void initState() {
     super.initState();
     loadSettings();
+    _calendarController = CalendarController();
+  }
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
   }
 
   loadSettings() async {
@@ -34,25 +45,29 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     });
   }
 
+  void fetchDeliveryData() {
+    final deliveryProvider =
+        Provider.of<DeliveryProvider>(context, listen: false);
+    setState(() {
+      _isError = false;
+      _isLoading = true;
+    });
+    deliveryProvider.fetchDeliveryByDateDeatils().then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    }).catchError((err) {
+      setState(() {
+        _isError = true;
+        _isLoading = false;
+      });
+    });
+  }
+
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      final deliveryProvider =
-          Provider.of<DeliveryProvider>(context, listen: false);
-      setState(() {
-        _isError = false;
-        _isLoading = true;
-      });
-      deliveryProvider.fetchDeliveryByDateDeatils().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      }).catchError((err) {
-        setState(() {
-          _isError = true;
-          _isLoading = false;
-        });
-      });
+      fetchDeliveryData();
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -61,6 +76,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _scaffoldKey,
       endDrawer: Align(
         child: ClipRRect(
@@ -106,15 +122,27 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
               // Add your onPressed code here!
               setState(() {
                 isFloatingButtonClicked = !isFloatingButtonClicked;
-                _scaffoldKey.currentState.openEndDrawer();
               });
             },
-            label: Text(
-              'Sun city by Rega',
-              style: Theme.of(context)
-                  .textTheme
-                  .overline
-                  .copyWith(color: Theme.of(context).colorScheme.primary),
+            label: Padding(
+              padding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 30),
+              child: InkWell(
+                onTap: () {
+                  _scaffoldKey.currentState.openEndDrawer();
+                  setState(() {
+                    isFloatingButtonClicked = false;
+                    _scaffoldKey.currentState.openEndDrawer();
+                  });
+                },
+                child: Text(
+                  'Select apartment',
+                  style: Theme.of(context).textTheme.overline.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+              ),
             ),
             icon: Icon(
               Icons.chevron_left,
@@ -122,7 +150,9 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             ),
             backgroundColor: Colors.white,
           ),
-          alignment: Alignment(1.5, 1)),
+          alignment: !isFloatingButtonClicked
+              ? Alignment(4, 0.9)
+              : Alignment(1.8, 0.9)),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
@@ -197,6 +227,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                             setState(() {
                                               selectedStatus = val;
                                             });
+                                            fetchDeliveryData();
                                           },
                                           color: selectedStatus == val
                                               ? Theme.of(context)
@@ -245,7 +276,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 7.86,
+                                    width: 3,
                                   ),
                                   Text(
                                     '$apartmentName',
@@ -255,25 +286,83 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                 ],
                               ),
                             ),
-                            Container(
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.65,
+                                    decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(16.0),
+                                        topRight: const Radius.circular(16.0),
+                                      ),
+                                    ),
+                                    child: TableCalendar(
+                                      startDay: DateTime.now(),
+                                      availableCalendarFormats: const {
+                                        CalendarFormat.month: 'Month',
+                                      },
+                                      calendarStyle: CalendarStyle(
+                                        selectedColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        outsideDaysVisible: true,
+                                        weekendStyle: TextStyle().copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary),
+                                      ),
+                                      daysOfWeekStyle: DaysOfWeekStyle(
+                                        weekendStyle: TextStyle().copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface),
+                                      ),
+                                      headerStyle: HeaderStyle(
+                                        centerHeaderTitle: false,
+                                        formatButtonVisible: false,
+                                      ),
+                                      onDaySelected: (date, events) {
+                                        final newDate =
+                                            DateFormat("yMd").format(date);
+                                        Navigator.of(context).pop();
+                                        setState(() {
+                                          slectedDate = newDate;
+                                        });
+                                        fetchDeliveryData();
+                                      },
+                                      calendarController: _calendarController,
+                                    ),
+                                  ),
+                                );
+                              },
                               child: Row(
                                 children: <Widget>[
-                                  Text("TODAY",
+                                  Text('$slectedDate',
                                       style: Theme.of(context)
                                           .textTheme
                                           .subtitle1),
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.expand_more_sharp,
-                                      size: 30,
-                                    ),
-                                    onPressed: () {},
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  Icon(
+                                    Icons.expand_more_sharp,
+                                    size: 25,
                                   ),
                                 ],
                               ),
                             )
                           ],
                         ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       ),
                       Consumer<DeliveryProvider>(
                           builder: (ctx, deliveryprovider, _) {

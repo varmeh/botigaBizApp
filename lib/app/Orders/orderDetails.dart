@@ -120,6 +120,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
                                 builder: (context) => Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.65,
                                   decoration: BoxDecoration(
                                     color:
                                         Theme.of(context).colorScheme.surface,
