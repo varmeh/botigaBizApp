@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../Orders/orderDetails.dart';
 import '../../widget/common/appHeader.dart';
+import '../../providers/Delivery/DeliveryProvider.dart';
 import '../../theme/index.dart' show BotigaIcons;
 import '../../util/constants.dart';
+import '../../models/Delivery/DeliveryByDateDetails.dart';
 
 class DeliveryScreen extends StatefulWidget {
   static const routeName = '/all-delivery-list';
@@ -11,7 +14,11 @@ class DeliveryScreen extends StatefulWidget {
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
-  String selectedQuantity = "";
+  bool _isLoading = false;
+  bool _isError = false;
+  bool _isInit = false;
+  String apartmentName = "";
+  String selectedStatus = "";
   bool isFloatingButtonClicked = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
@@ -22,8 +29,33 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   loadSettings() async {
     setState(() {
-      selectedQuantity = 'All';
+      selectedStatus = 'All';
+      apartmentName = 'Riverside appartments';
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      final deliveryProvider =
+          Provider.of<DeliveryProvider>(context, listen: false);
+      setState(() {
+        _isError = false;
+        _isLoading = true;
+      });
+      deliveryProvider.fetchDeliveryByDateDeatils().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      }).catchError((err) {
+        setState(() {
+          _isError = true;
+          _isLoading = false;
+        });
+      });
+      _isInit = true;
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -91,114 +123,187 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             backgroundColor: Colors.white,
           ),
           alignment: Alignment(1.5, 1)),
-      body: Container(
-        color: Colors.white,
-        child: ListView(
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 25),
-                  child: AppHeader(
-                    showBackBtn: false,
-                    title: "Delivery",
-                    actionWidget: IconButton(
-                        icon: Icon(BotigaIcons.search), onPressed: () {}),
+      body: _isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : _isError
+              ? Center(
+                  child: Icon(
+                    Icons.error_outline,
+                    color: Theme.of(context).colorScheme.error,
                   ),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: Text(
-                    "Order to be sent out today",
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          color: Color(0xff000000).withOpacity(0.5),
-                        ),
-                  ),
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Container(
-                    height: 44,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        ...[
-                          "All",
-                          "Open",
-                          "out for delivery",
-                          "Deliverd",
-                          "Delayed"
-                        ].map((val) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 12),
+                )
+              : Container(
+                  color: Colors.white,
+                  child: ListView(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, top: 25),
+                            child: AppHeader(
+                              showBackBtn: false,
+                              title: "Delivery",
+                              actionWidget: IconButton(
+                                  icon: Icon(BotigaIcons.search),
+                                  onPressed: () {}),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 4,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20),
+                            child: Text(
+                              "Order to be sent out today",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1
+                                  .copyWith(
+                                    color: Color(0xff000000).withOpacity(0.5),
+                                  ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 25,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
                             child: Container(
                               height: 44,
-                              child: FlatButton(
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(12.0)),
-                                onPressed: () {
-                                  setState(() {
-                                    selectedQuantity = val;
-                                  });
-                                },
-                                color: selectedQuantity == val
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context)
-                                        .colorScheme
-                                        .background
-                                        .withOpacity(0.50),
-                                child: Text('$val',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .caption
-                                        .copyWith(
-                                          color: selectedQuantity == val
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: <Widget>[
+                                  ...[
+                                    "All",
+                                    "Open",
+                                    "out for delivery",
+                                    "Deliverd",
+                                    "Delayed"
+                                  ].map((val) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 12),
+                                      child: Container(
+                                        height: 44,
+                                        child: FlatButton(
+                                          shape: new RoundedRectangleBorder(
+                                              borderRadius:
+                                                  new BorderRadius.circular(
+                                                      12.0)),
+                                          onPressed: () {
+                                            setState(() {
+                                              selectedStatus = val;
+                                            });
+                                          },
+                                          color: selectedStatus == val
                                               ? Theme.of(context)
                                                   .colorScheme
-                                                  .surface
+                                                  .primary
                                               : Theme.of(context)
                                                   .colorScheme
-                                                  .onPrimary,
-                                        )),
+                                                  .background
+                                                  .withOpacity(0.50),
+                                          child: Text('$val',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .caption
+                                                  .copyWith(
+                                                    color: selectedStatus == val
+                                                        ? Theme.of(context)
+                                                            .colorScheme
+                                                            .surface
+                                                        : Theme.of(context)
+                                                            .colorScheme
+                                                            .onPrimary,
+                                                  )),
+                                        ),
+                                      ),
+                                    );
+                                  })
+                                ],
                               ),
                             ),
-                          );
-                        })
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                children: [
+                                  Container(
+                                    child: Icon(
+                                      BotigaIcons.building,
+                                      size: 18,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 7.86,
+                                  ),
+                                  Text(
+                                    '$apartmentName',
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1,
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Text("TODAY",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .subtitle1),
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.expand_more_sharp,
+                                      size: 30,
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Consumer<DeliveryProvider>(
+                          builder: (ctx, deliveryprovider, _) {
+                        final deliveryByDateDetails =
+                            deliveryprovider.deliveryByDateDetails;
+                        if (deliveryprovider == null) {
+                          return SizedBox();
+                        }
+
+                        return Column(
+                          children: [
+                            ...deliveryByDateDetails.map((deliveryRow) {
+                              return DeliveryRow(deliveryRow);
+                            })
+                          ],
+                        );
+                      }),
+                      SizedBox(
+                        height: 100,
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            ...[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((el) {
-              return DeliveryRow(() {
-                Navigator.of(context).pushNamed(OrderDetails.routeName);
-              });
-            }),
-            SizedBox(
-              height: 100,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
 
 class DeliveryRow extends StatelessWidget {
-  final Function tapHandler;
-  DeliveryRow(this.tapHandler);
+  final DeliveryByDateDetails delivery;
+  DeliveryRow(this.delivery);
 
   @override
   Widget build(BuildContext context) {
@@ -238,7 +343,7 @@ class DeliveryRow extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "No.202, Sarojini Devi",
+                            "No.202, ${delivery.buyer.name}",
                             style:
                                 Theme.of(context).textTheme.subtitle1.copyWith(
                                       wordSpacing: 1,
@@ -248,7 +353,7 @@ class DeliveryRow extends StatelessWidget {
                             height: 4,
                           ),
                           Text(
-                            "#1234128 • 8 ITEMS",
+                            "#${delivery.order.number} • ${delivery.order.products.length} ITEMS",
                             style: Theme.of(context)
                                 .textTheme
                                 .caption
@@ -260,7 +365,7 @@ class DeliveryRow extends StatelessWidget {
                           Row(
                             children: <Widget>[
                               Text(
-                                '${Constants.rupeeSymbol} 460',
+                                '${Constants.rupeeSymbol} ${delivery.order.totalAmount}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
@@ -279,7 +384,7 @@ class DeliveryRow extends StatelessWidget {
                                 padding: EdgeInsets.only(
                                     left: 6, right: 6, top: 4, bottom: 4),
                                 child: Text(
-                                  "OPEN",
+                                  "${delivery.order.status}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .overline

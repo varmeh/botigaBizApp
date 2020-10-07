@@ -33,6 +33,7 @@ import 'screens/login-screen/EnterPin.dart';
 import 'screens/login-screen/ForgotPin.dart';
 import 'package:provider/provider.dart';
 import './providers/Orders/OrdersProvider.dart';
+import './providers/Delivery/DeliveryProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +76,9 @@ class BotigaBizApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => OrdersProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DeliveryProvider(),
         ),
       ],
       child: MaterialApp(

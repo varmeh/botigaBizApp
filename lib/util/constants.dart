@@ -23,6 +23,7 @@ class Constants {
   //Seller related to api call
   static const SELLER_BASE_URL = '/api/seller/';
 
+  //ORDER
   static const String AGGREGATED_ORDERS_INFORMATION =
       '$SELLER_BASE_URL/orders/aggregate/2020-09-30';
   static const String ORDER_BYDATE_APARTMENT =
@@ -32,4 +33,8 @@ class Constants {
   static const String ORDER_DELIVERY_STATUS_SET =
       '$SELLER_BASE_URL/orders/delivery/status';
   static const String CANCEL_ORDER = '$SELLER_BASE_URL/orders/cancel';
+
+  //DELIVERY
+  static const String DELIVERY_BY_DATE =
+      '$SELLER_BASE_URL/orders/delivery/5f5a35d281710e963e530a5b/2020-10-01';
 }

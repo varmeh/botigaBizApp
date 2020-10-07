@@ -48,7 +48,6 @@ class _OrderListState extends State<OrderList> {
 
   @override
   Widget build(BuildContext context) {
-    final contextTheme = Theme.of(context);
     return Scaffold(
       body: _isLoading
           ? Center(
