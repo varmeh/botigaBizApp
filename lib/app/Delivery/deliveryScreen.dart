@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import '../../widget/common/appHeader.dart';
+import 'package:flutter/rendering.dart';
 import '../../providers/Delivery/DeliveryProvider.dart';
 import '../../providers/Apartment/ApartmentProvide.dart';
 import '../../theme/index.dart';
@@ -22,20 +22,29 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   String apartmentName = "";
   String selectedStatus = "";
   String slectedDate = "";
-  bool isFloatingButtonClicked = true;
+  bool fabIsVisible = false;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   CalendarController _calendarController;
+  ScrollController _scrollcontroller;
 
   @override
   void initState() {
     super.initState();
     loadSettings();
     _calendarController = CalendarController();
+    _scrollcontroller = ScrollController();
+    _scrollcontroller.addListener(() {
+      setState(() {
+        fabIsVisible = _scrollcontroller.position.userScrollDirection ==
+            ScrollDirection.reverse;
+      });
+    });
   }
 
   @override
   void dispose() {
     _calendarController.dispose();
+    _scrollcontroller.dispose();
     super.dispose();
   }
 
@@ -79,6 +88,31 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppTheme.surfaceColor,
+        elevation: 0,
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        title: Align(
+          child: Text(
+            "Delivery",
+            style: TextStyle(
+                color: AppTheme.color100,
+                fontSize: 22,
+                fontWeight: FontWeight.w700),
+          ),
+          alignment: Alignment.centerLeft,
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              BotigaIcons.search,
+              color: AppTheme.color100,
+            ),
+            onPressed: () {},
+          )
+        ],
+      ),
       backgroundColor: AppTheme.backgroundColor,
       key: _scaffoldKey,
       endDrawer: Align(
@@ -112,7 +146,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                           onTap: () {
                             Navigator.of(context).pop();
                             setState(() {
-                              isFloatingButtonClicked = false;
                               apartmentName = apartment.apartmentName;
                             });
                           });
@@ -130,27 +163,18 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             onPressed: () {
               // Add your onPressed code here!
               setState(() {
-                isFloatingButtonClicked = !isFloatingButtonClicked;
+                _scaffoldKey.currentState.openEndDrawer();
               });
             },
             label: Padding(
               padding: const EdgeInsets.only(
                   left: 0, top: 10, bottom: 10, right: 30),
-              child: InkWell(
-                onTap: () {
-                  _scaffoldKey.currentState.openEndDrawer();
-                  setState(() {
-                    isFloatingButtonClicked = false;
-                    _scaffoldKey.currentState.openEndDrawer();
-                  });
-                },
-                child: Text(
-                  'Select apartment',
-                  style: AppTheme.textStyle
-                      .colored(AppTheme.primaryColor)
-                      .w600
-                      .size(12),
-                ),
+              child: Text(
+                'Select apartment',
+                style: AppTheme.textStyle
+                    .colored(AppTheme.primaryColor)
+                    .w600
+                    .size(12),
               ),
             ),
             icon: Icon(
@@ -159,9 +183,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             ),
             backgroundColor: Colors.white,
           ),
-          alignment: !isFloatingButtonClicked
-              ? Alignment(3.6, 0.9)
-              : Alignment(1.8, 0.9)),
+          alignment: fabIsVisible ? Alignment(3.6, 0.9) : Alignment(1.8, 0.9)),
       body: _isLoading
           ? Center(
               child: CircularProgressIndicator(),
@@ -173,216 +195,302 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                     color: Theme.of(context).colorScheme.error,
                   ),
                 )
-              : Container(
-                  color: AppTheme.surfaceColor,
-                  child: ListView(
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 20, top: 25),
-                            child: AppHeader(
-                              showBackBtn: false,
-                              title: "Delivery",
-                              actionWidget: IconButton(
-                                  icon: Icon(
-                                    BotigaIcons.search,
-                                    size: 25,
-                                  ),
-                                  onPressed: () {}),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20, right: 20),
-                            child: Text(
-                              "Order to be sent out today",
-                              style: AppTheme.textStyle.color50.w500.size(15),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 25,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Container(
-                              height: 44,
-                              child: ListView(
-                                scrollDirection: Axis.horizontal,
-                                children: <Widget>[
-                                  ...[
-                                    "All",
-                                    "Open",
-                                    "out for delivery",
-                                    "Deliverd",
-                                    "Delayed"
-                                  ].map((val) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(right: 12),
-                                      child: Container(
-                                        height: 44,
-                                        child: FlatButton(
-                                          shape: new RoundedRectangleBorder(
-                                              borderRadius:
-                                                  new BorderRadius.circular(
-                                                      12.0)),
-                                          onPressed: () {
-                                            setState(() {
-                                              selectedStatus = val;
-                                            });
-                                            fetchDeliveryData();
-                                          },
-                                          color: selectedStatus == val
-                                              ? AppTheme.primaryColor
-                                              : AppTheme.backgroundColor,
-                                          child: Text('$val',
-                                              style: selectedStatus == val
-                                                  ? AppTheme.textStyle
-                                                      .colored(
-                                                          AppTheme.surfaceColor)
-                                                      .w500
-                                                      .size(12)
-                                                  : AppTheme
-                                                      .textStyle.color100.w500
-                                                      .size(12)),
-                                        ),
-                                      ),
-                                    );
-                                  })
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, top: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              : SafeArea(
+                  child: Container(
+                    color: AppTheme.surfaceColor,
+                    child: ListView(
+                      controller: _scrollcontroller,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: [
-                                  Container(
-                                    child: Icon(
-                                      BotigaIcons.building,
-                                      size: 18,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 3,
-                                  ),
-                                  Text(
-                                    '$apartmentName',
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1,
-                                  )
-                                ],
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: Text(
+                                "Order to be sent out today",
+                                style: AppTheme.textStyle.color50.w500.size(15),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  builder: (context) => Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.65,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          Theme.of(context).colorScheme.surface,
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: const Radius.circular(16.0),
-                                        topRight: const Radius.circular(16.0),
-                                      ),
-                                    ),
-                                    child: TableCalendar(
-                                      startDay: DateTime.now(),
-                                      availableCalendarFormats: const {
-                                        CalendarFormat.month: 'Month',
-                                      },
-                                      calendarStyle: CalendarStyle(
-                                        selectedColor: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        outsideDaysVisible: true,
-                                        weekendStyle: TextStyle().copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary),
-                                      ),
-                                      daysOfWeekStyle: DaysOfWeekStyle(
-                                        weekendStyle: TextStyle().copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface),
-                                      ),
-                                      headerStyle: HeaderStyle(
-                                        centerHeaderTitle: false,
-                                        formatButtonVisible: false,
-                                      ),
-                                      onDaySelected: (date, events) {
-                                        final newDate =
-                                            DateFormat("yMd").format(date);
-                                        Navigator.of(context).pop();
-                                        setState(() {
-                                          slectedDate = newDate;
-                                        });
-                                        fetchDeliveryData();
-                                      },
-                                      calendarController: _calendarController,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: Row(
-                                children: <Widget>[
-                                  Text('$slectedDate',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Icon(
-                                    Icons.expand_more_sharp,
-                                    size: 25,
-                                  ),
-                                ],
+                            SizedBox(
+                              height: 25,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Container(
+                                height: 44,
+                                child: ListView(
+                                  scrollDirection: Axis.horizontal,
+                                  children: <Widget>[
+                                    ...[
+                                      "All",
+                                      "Open",
+                                      "Out for delivery",
+                                      "Deliverd",
+                                      "Delayed"
+                                    ].map((val) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 12),
+                                        child: Container(
+                                          height: 44,
+                                          child: FlatButton(
+                                            shape: new RoundedRectangleBorder(
+                                                borderRadius:
+                                                    new BorderRadius.circular(
+                                                        12.0)),
+                                            onPressed: () {
+                                              setState(() {
+                                                selectedStatus = val;
+                                              });
+                                              fetchDeliveryData();
+                                            },
+                                            color: selectedStatus == val
+                                                ? AppTheme.primaryColor
+                                                : AppTheme.backgroundColor,
+                                            child: Text('$val',
+                                                style: selectedStatus == val
+                                                    ? AppTheme.textStyle
+                                                        .colored(AppTheme
+                                                            .surfaceColor)
+                                                        .w500
+                                                        .size(12)
+                                                    : AppTheme
+                                                        .textStyle.color100.w500
+                                                        .size(12)),
+                                          ),
+                                        ),
+                                      );
+                                    })
+                                  ],
+                                ),
                               ),
-                            )
+                            ),
                           ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Consumer<DeliveryProvider>(
-                          builder: (ctx, deliveryprovider, _) {
-                        final deliveryByDateDetails =
-                            deliveryprovider.deliveryByDateDetails;
-                        if (deliveryprovider == null) {
-                          return SizedBox();
-                        }
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 20, top: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      child: Icon(
+                                        BotigaIcons.building,
+                                        size: 18,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 3,
+                                    ),
+                                    Text(
+                                      '$apartmentName',
+                                      style:
+                                          Theme.of(context).textTheme.subtitle1,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    builder: (context) => Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.65,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: const Radius.circular(16.0),
+                                          topRight: const Radius.circular(16.0),
+                                        ),
+                                      ),
+                                      child: TableCalendar(
+                                        startDay: DateTime.now(),
+                                        availableCalendarFormats: const {
+                                          CalendarFormat.month: 'Month',
+                                        },
+                                        calendarStyle: CalendarStyle(
+                                          selectedColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          outsideDaysVisible: true,
+                                          weekendStyle: TextStyle().copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary),
+                                        ),
+                                        daysOfWeekStyle: DaysOfWeekStyle(
+                                          weekendStyle: TextStyle().copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface),
+                                        ),
+                                        headerStyle: HeaderStyle(
+                                          centerHeaderTitle: false,
+                                          formatButtonVisible: false,
+                                        ),
+                                        onDaySelected: (date, events) {
+                                          final newDate =
+                                              DateFormat("yMd").format(date);
+                                          Navigator.of(context).pop();
+                                          setState(() {
+                                            slectedDate = newDate;
+                                          });
+                                          fetchDeliveryData();
+                                        },
+                                        calendarController: _calendarController,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    Text('$slectedDate',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1),
+                                    SizedBox(
+                                      width: 7,
+                                    ),
+                                    Icon(
+                                      Icons.expand_more_sharp,
+                                      size: 25,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Consumer<DeliveryProvider>(
+                            builder: (ctx, deliveryprovider, _) {
+                          final deliveryByDateDetails =
+                              deliveryprovider.deliveryByDateDetails;
+                          if (deliveryprovider == null) {
+                            return SizedBox();
+                          }
 
-                        return Column(
-                          children: [
-                            ...deliveryByDateDetails.map((deliveryRow) {
-                              return DeliveryRow(deliveryRow);
-                            })
-                          ],
-                        );
-                      }),
-                      SizedBox(
-                        height: 100,
-                      ),
-                    ],
+                          return Column(
+                            children: [
+                              ...deliveryByDateDetails.map((deliveryRow) {
+                                return DeliveryRow(deliveryRow);
+                              })
+                            ],
+                          );
+                        }),
+                        Consumer<DeliveryProvider>(
+                            builder: (ctx, deliveryprovider, _) {
+                          final deliveryByDateDetails =
+                              deliveryprovider.deliveryByDateDetails;
+                          if (deliveryprovider == null) {
+                            return SizedBox();
+                          }
+
+                          return Column(
+                            children: [
+                              ...deliveryByDateDetails.map((deliveryRow) {
+                                return DeliveryRow(deliveryRow);
+                              })
+                            ],
+                          );
+                        }),
+                        Consumer<DeliveryProvider>(
+                            builder: (ctx, deliveryprovider, _) {
+                          final deliveryByDateDetails =
+                              deliveryprovider.deliveryByDateDetails;
+                          if (deliveryprovider == null) {
+                            return SizedBox();
+                          }
+
+                          return Column(
+                            children: [
+                              ...deliveryByDateDetails.map((deliveryRow) {
+                                return DeliveryRow(deliveryRow);
+                              })
+                            ],
+                          );
+                        }),
+                        Consumer<DeliveryProvider>(
+                            builder: (ctx, deliveryprovider, _) {
+                          final deliveryByDateDetails =
+                              deliveryprovider.deliveryByDateDetails;
+                          if (deliveryprovider == null) {
+                            return SizedBox();
+                          }
+
+                          return Column(
+                            children: [
+                              ...deliveryByDateDetails.map((deliveryRow) {
+                                return DeliveryRow(deliveryRow);
+                              })
+                            ],
+                          );
+                        }),
+                        Consumer<DeliveryProvider>(
+                            builder: (ctx, deliveryprovider, _) {
+                          final deliveryByDateDetails =
+                              deliveryprovider.deliveryByDateDetails;
+                          if (deliveryprovider == null) {
+                            return SizedBox();
+                          }
+
+                          return Column(
+                            children: [
+                              ...deliveryByDateDetails.map((deliveryRow) {
+                                return DeliveryRow(deliveryRow);
+                              })
+                            ],
+                          );
+                        }),
+                        Consumer<DeliveryProvider>(
+                            builder: (ctx, deliveryprovider, _) {
+                          final deliveryByDateDetails =
+                              deliveryprovider.deliveryByDateDetails;
+                          if (deliveryprovider == null) {
+                            return SizedBox();
+                          }
+
+                          return Column(
+                            children: [
+                              ...deliveryByDateDetails.map((deliveryRow) {
+                                return DeliveryRow(deliveryRow);
+                              })
+                            ],
+                          );
+                        }),
+                        Consumer<DeliveryProvider>(
+                            builder: (ctx, deliveryprovider, _) {
+                          final deliveryByDateDetails =
+                              deliveryprovider.deliveryByDateDetails;
+                          if (deliveryprovider == null) {
+                            return SizedBox();
+                          }
+
+                          return Column(
+                            children: [
+                              ...deliveryByDateDetails.map((deliveryRow) {
+                                return DeliveryRow(deliveryRow);
+                              })
+                            ],
+                          );
+                        }),
+                        SizedBox(
+                          height: 100,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
     );
@@ -395,26 +503,26 @@ class DeliveryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10),
-      child: Container(
-        width: double.infinity,
-        decoration: new BoxDecoration(
-          color: AppTheme.surfaceColor,
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xff121714).withOpacity(0.01),
-              blurRadius: 10.0, // soften the shadow
-              spreadRadius: 0.0, //extend the shadow
-              offset: Offset(
-                0.0, // Move to right 10  horizontally
-                0.0, // Move to bottom 10 Vertically
-              ),
-            )
-          ],
-        ),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xff121714).withOpacity(0.12),
+            blurRadius: 20.0, // soften the shadow
+            spreadRadius: 0.0, //extend the shadow
+            offset: Offset(
+              0.0, // Move to right 10  horizontally
+              0.0, // Move to bottom 10 Vertically
+            ),
+          )
+        ],
+      ),
+      child: Padding(
+        padding:
+            const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10),
         child: Card(
+            elevation: 0,
             margin: EdgeInsets.all(0),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -432,9 +540,9 @@ class DeliveryRow extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             "No.202, ${delivery.buyer.name}",
-                            style: AppTheme.textStyle.color100.w500
+                            style: AppTheme.textStyle.color100.w600
                                 .size(15)
-                                .letterSpace(1),
+                                .letterSpace(0.5),
                           ),
                           SizedBox(
                             height: 4,

@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'orderRow.dart';
 import 'orderDetails.dart';
 import '../../providers/Orders/OrdersProvider.dart';
-import '../../widget/common/appHeader.dart';
 import '../../theme/index.dart';
 
 class OrderList extends StatefulWidget {
@@ -72,7 +71,7 @@ class _OrderListState extends State<OrderList> {
                   fontSize: 20,
                   fontWeight: FontWeight.w500),
             ),
-            alignment: Alignment(-1.1, 0),
+            alignment: Alignment.centerLeft,
           ),
           actions: [
             IconButton(

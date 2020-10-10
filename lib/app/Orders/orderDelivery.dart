@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../widget/common/appHeader.dart';
 import 'orderSummary.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
@@ -33,7 +32,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                     fontSize: 20,
                     fontWeight: FontWeight.w500),
               ),
-              alignment: Alignment(-1.1, 0),
+              alignment: Alignment.centerLeft,
             ),
             actions: [
               FlatButton(

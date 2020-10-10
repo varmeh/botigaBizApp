@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:intl/intl.dart';
-import '../../widget/common/appHeader.dart';
 import 'orderSummary.dart';
 import '../../theme/index.dart';
 import '../../providers/Orders/OrdersProvider.dart';
@@ -52,7 +51,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   fontSize: 20,
                   fontWeight: FontWeight.w500),
             ),
-            alignment: Alignment(-1.1, 0),
+            alignment: Alignment.centerLeft,
           ),
           actions: [
             FlatButton(

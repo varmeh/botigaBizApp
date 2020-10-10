@@ -172,12 +172,6 @@ class OrderListSummary extends StatelessWidget {
         ...orderDetail.order.products.map((el) {
           return OrderListItem(el.name, el.price, el.quantity, el.unitInfo);
         }),
-        ...orderDetail.order.products.map((el) {
-          return OrderListItem(el.name, el.price, el.quantity, el.unitInfo);
-        }),
-        ...orderDetail.order.products.map((el) {
-          return OrderListItem(el.name, el.price, el.quantity, el.unitInfo);
-        }),
         Padding(
           padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
           child: Divider(
