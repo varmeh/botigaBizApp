@@ -4,6 +4,7 @@ import 'orderSummary.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import 'package:provider/provider.dart';
+import '../../theme/index.dart';
 
 class OrderDelivery extends StatefulWidget {
   static const routeName = '/order-delivery';
@@ -20,6 +21,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
     final OrderByDateDetail orderDetail =
         ordersProvider.getOrderDetails(routeArgs['orderId']);
     return Scaffold(
+        backgroundColor: AppTheme.surfaceColor,
         bottomNavigationBar: Container(
             padding: EdgeInsets.all(10),
             child: Row(
@@ -38,9 +40,10 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                       color: Color(0xff179F57),
                       child: Text(
                         'Mark as delivered',
-                        style: Theme.of(context).textTheme.subtitle1.copyWith(
-                              color: Theme.of(context).colorScheme.surface,
-                            ),
+                        style: AppTheme.textStyle
+                            .colored(AppTheme.surfaceColor)
+                            .w500
+                            .size(15),
                       ),
                     ),
                   ),

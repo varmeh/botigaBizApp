@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../../widget/common/appHeader.dart';
 import '../../providers/Delivery/DeliveryProvider.dart';
 import '../../providers/Apartment/ApartmentProvide.dart';
-import '../../theme/index.dart' show BotigaIcons;
+import '../../theme/index.dart';
 import '../../util/constants.dart';
 import '../../models/Delivery/DeliveryByDateDetails.dart';
 
@@ -22,7 +22,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   String apartmentName = "";
   String selectedStatus = "";
   String slectedDate = "";
-  bool isFloatingButtonClicked = false;
+  bool isFloatingButtonClicked = true;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   CalendarController _calendarController;
 
@@ -79,7 +79,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.backgroundColor,
       key: _scaffoldKey,
       endDrawer: Align(
         child: ClipRRect(
@@ -99,7 +99,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
               return Drawer(
                   child: Container(
                 padding: EdgeInsets.all(20),
-                color: Colors.white,
+                color: AppTheme.surfaceColor,
                 child: ListView(
                   padding: EdgeInsets.all(0),
                   children: <Widget>[
@@ -107,8 +107,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                       return ListTile(
                           title: Text(
                             '${apartment.apartmentName}',
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w500),
+                            style: AppTheme.textStyle.color100.w500.size(15),
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
@@ -136,7 +135,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             },
             label: Padding(
               padding: const EdgeInsets.only(
-                  left: 10, top: 10, bottom: 10, right: 30),
+                  left: 0, top: 10, bottom: 10, right: 30),
               child: InkWell(
                 onTap: () {
                   _scaffoldKey.currentState.openEndDrawer();
@@ -147,10 +146,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 },
                 child: Text(
                   'Select apartment',
-                  style: Theme.of(context).textTheme.overline.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  style: AppTheme.textStyle
+                      .colored(AppTheme.primaryColor)
+                      .w600
+                      .size(12),
                 ),
               ),
             ),
@@ -161,7 +160,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             backgroundColor: Colors.white,
           ),
           alignment: !isFloatingButtonClicked
-              ? Alignment(4, 0.9)
+              ? Alignment(3.6, 0.9)
               : Alignment(1.8, 0.9)),
       body: _isLoading
           ? Center(
@@ -175,7 +174,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                   ),
                 )
               : Container(
-                  color: Colors.white,
+                  color: AppTheme.surfaceColor,
                   child: ListView(
                     children: <Widget>[
                       Column(
@@ -188,7 +187,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                               showBackBtn: false,
                               title: "Delivery",
                               actionWidget: IconButton(
-                                  icon: Icon(BotigaIcons.search),
+                                  icon: Icon(
+                                    BotigaIcons.search,
+                                    size: 25,
+                                  ),
                                   onPressed: () {}),
                             ),
                           ),
@@ -199,12 +201,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                             padding: const EdgeInsets.only(left: 20, right: 20),
                             child: Text(
                               "Order to be sent out today",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  .copyWith(
-                                    color: Color(0xff000000).withOpacity(0.5),
-                                  ),
+                              style: AppTheme.textStyle.color50.w500.size(15),
                             ),
                           ),
                           SizedBox(
@@ -240,26 +237,18 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                             fetchDeliveryData();
                                           },
                                           color: selectedStatus == val
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : Theme.of(context)
-                                                  .colorScheme
-                                                  .background
-                                                  .withOpacity(0.50),
+                                              ? AppTheme.primaryColor
+                                              : AppTheme.backgroundColor,
                                           child: Text('$val',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .caption
-                                                  .copyWith(
-                                                    color: selectedStatus == val
-                                                        ? Theme.of(context)
-                                                            .colorScheme
-                                                            .surface
-                                                        : Theme.of(context)
-                                                            .colorScheme
-                                                            .onPrimary,
-                                                  )),
+                                              style: selectedStatus == val
+                                                  ? AppTheme.textStyle
+                                                      .colored(
+                                                          AppTheme.surfaceColor)
+                                                      .w500
+                                                      .size(12)
+                                                  : AppTheme
+                                                      .textStyle.color100.w500
+                                                      .size(12)),
                                         ),
                                       ),
                                     );
@@ -359,7 +348,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                           .textTheme
                                           .subtitle1),
                                   SizedBox(
-                                    width: 3,
+                                    width: 7,
                                   ),
                                   Icon(
                                     Icons.expand_more_sharp,
@@ -412,7 +401,7 @@ class DeliveryRow extends StatelessWidget {
       child: Container(
         width: double.infinity,
         decoration: new BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.surfaceColor,
           boxShadow: [
             BoxShadow(
               color: Color(0xff121714).withOpacity(0.01),
@@ -443,20 +432,16 @@ class DeliveryRow extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             "No.202, ${delivery.buyer.name}",
-                            style:
-                                Theme.of(context).textTheme.subtitle1.copyWith(
-                                      wordSpacing: 1,
-                                    ),
+                            style: AppTheme.textStyle.color100.w500
+                                .size(15)
+                                .letterSpace(1),
                           ),
                           SizedBox(
                             height: 4,
                           ),
                           Text(
                             "#${delivery.order.number} • ${delivery.order.products.length} ITEMS",
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                .copyWith(color: Colors.grey[500]),
+                            style: AppTheme.textStyle.color50.w500.size(13),
                           ),
                           SizedBox(
                             height: 4,
@@ -465,12 +450,9 @@ class DeliveryRow extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 '${Constants.rupeeSymbol} ${delivery.order.totalAmount}',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .subtitle1
-                                    .copyWith(
-                                      letterSpacing: 1,
-                                    ),
+                                style: AppTheme.textStyle.color100.w500
+                                    .size(15)
+                                    .letterSpace(1),
                               ),
                               SizedBox(
                                 width: 14,
@@ -483,15 +465,11 @@ class DeliveryRow extends StatelessWidget {
                                 padding: EdgeInsets.only(
                                     left: 6, right: 6, top: 4, bottom: 4),
                                 child: Text(
-                                  "${delivery.order.status}",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .overline
-                                      .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .surface,
-                                          letterSpacing: 1),
+                                  "${delivery.order.status.toUpperCase()}",
+                                  style: AppTheme.textStyle
+                                      .colored(AppTheme.surfaceColor)
+                                      .w500
+                                      .size(12),
                                 ),
                               ),
                             ],
@@ -503,8 +481,7 @@ class DeliveryRow extends StatelessWidget {
                         decoration: BoxDecoration(
                           border: Border(
                             left: BorderSide(
-                                width: 1,
-                                color: Colors.black.withOpacity(0.05)),
+                                width: 1.2, color: AppTheme.backgroundColor),
                           ),
                           color: Theme.of(context).colorScheme.surface,
                         ),
@@ -523,10 +500,7 @@ class DeliveryRow extends StatelessWidget {
                               ),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimary
-                                      .withOpacity(0.05)),
+                                  color: AppTheme.backgroundColor),
                             ),
                             SizedBox(
                               height: 4,
@@ -537,14 +511,9 @@ class DeliveryRow extends StatelessWidget {
                               child: Text(
                                 "Out for delivery",
                                 textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .overline
-                                    .copyWith(
-                                        letterSpacing: 0.2,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary),
+                                style: AppTheme.textStyle.color100.w500
+                                    .size(12)
+                                    .letterSpace(0.2),
                               ),
                             )
                           ],

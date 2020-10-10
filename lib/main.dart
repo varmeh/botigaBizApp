@@ -8,7 +8,6 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'util/index.dart' show Flavor;
-import 'theme/appTheme.dart';
 import 'screens/login-screen/login.dart';
 import 'screens/home-screen/home.dart';
 import 'app/Orders/orderList.dart';
@@ -88,7 +87,6 @@ class BotigaBizApp extends StatelessWidget {
       child: MaterialApp(
         themeMode: ThemeMode.light,
         title: 'Botiga Business',
-        theme: AppTheme.light,
         home: Login(),
         routes: {
           Home.routeName: (ctx) => Home(),

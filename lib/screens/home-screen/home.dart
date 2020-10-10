@@ -3,7 +3,7 @@ import 'package:botiga_biz/util/index.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../../theme/index.dart' show BotigaIcons;
+import '../../theme/index.dart';
 import '../../util/index.dart' show FlavorBanner;
 import '../../app/Orders/OrdersHome.dart';
 import "../store-screen/store.dart";
@@ -84,8 +84,7 @@ class _HomeState extends State<Home> {
           preferredSize: Size.fromHeight(0),
           child: AppBar(
             elevation: 0,
-            backgroundColor:
-                Theme.of(context).colorScheme.primary, // status bar color
+            backgroundColor: AppTheme.primaryColor, // status bar color
             brightness: Brightness.light, // status bar brightness
           ),
         ),

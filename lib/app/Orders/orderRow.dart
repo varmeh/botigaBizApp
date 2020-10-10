@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../util/constants.dart';
+import '../../theme/index.dart';
 
 class OrderRow extends StatelessWidget {
   final Function tapHandler;
@@ -13,7 +14,6 @@ class OrderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final contextTextTheme = Theme.of(context).textTheme;
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -38,9 +38,9 @@ class OrderRow extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("#$number .$productsLength ITEMS",
-                        style: contextTextTheme.subtitle1.copyWith(
-                          wordSpacing: 1,
-                        )),
+                        style: AppTheme.textStyle.color100.w500
+                            .size(15)
+                            .letterSpace(1)),
                     Container(
                       decoration: BoxDecoration(
                         color: Color(0xffE9A136),
@@ -52,9 +52,11 @@ class OrderRow extends StatelessWidget {
                           EdgeInsets.only(left: 6, right: 6, top: 4, bottom: 4),
                       child: Text(
                         '${status.toUpperCase()}',
-                        style: contextTextTheme.overline.copyWith(
-                            letterSpacing: 1,
-                            color: Theme.of(context).colorScheme.surface),
+                        style: AppTheme.textStyle
+                            .colored(AppTheme.surfaceColor)
+                            .w600
+                            .size(12)
+                            .letterSpace(1),
                       ),
                     )
                   ],
@@ -66,13 +68,14 @@ class OrderRow extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text('$orderDate',
-                        style: contextTextTheme.overline
-                            .copyWith(color: Colors.grey[500])),
+                        style: AppTheme.textStyle.color50.w500
+                            .size(12)
+                            .letterSpace(1)),
                     Text(
                       '${Constants.rupeeSymbol} $totalAmount',
-                      style: contextTextTheme.subtitle1.copyWith(
-                        wordSpacing: 1,
-                      ),
+                      style: AppTheme.textStyle.color100.w600
+                          .size(15)
+                          .letterSpace(1),
                     ),
                   ],
                 ),
@@ -80,8 +83,8 @@ class OrderRow extends StatelessWidget {
             ),
           ),
           Divider(
-            color: Theme.of(context).backgroundColor,
-            thickness: 1,
+            color: AppTheme.dividerColor,
+            thickness: 1.2,
             indent: 20,
             endIndent: 20,
           ),

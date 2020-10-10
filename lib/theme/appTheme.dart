@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
-import 'lightTheme.dart';
-
-final _textThemeUpdate = TextTheme(
-  headline6: TextStyle(fontWeight: FontWeight.bold),
-  subtitle1: TextStyle(fontWeight: FontWeight.w500),
-);
-
-final _selectedIconTheme = IconThemeData(size: 28);
-final _unselectedIconTheme = IconThemeData(
-  size: 24,
-  color: Color.fromARGB(63, 18, 23, 21),
-);
 
 class AppTheme {
-  static final light = lightTheme.copyWith(
-    disabledColor: Colors.grey[300],
-    textTheme: lightTheme.textTheme.merge(_textThemeUpdate),
-    cardTheme: CardTheme(
-      margin: EdgeInsets.only(top: 10.0, left: 8.0, right: 8.0),
-    ),
-    bottomNavigationBarTheme: lightTheme.bottomNavigationBarTheme.copyWith(
-      backgroundColor: Colors.white,
-      selectedIconTheme: _selectedIconTheme,
-      unselectedIconTheme: _unselectedIconTheme,
-    ),
-  );
+  static final primaryColor = Color.fromRGBO(23, 159, 87, 1);
+  static final primaryColorVariant = Color.fromRGBO(13, 129, 68, 1);
+  static final dividerColor = Color.fromRGBO(18, 23, 21, 0.05);
+  static final backgroundColor = Color.fromRGBO(18, 23, 21, 0.05);
+  static final buttonBorderColor = Color.fromRGBO(18, 23, 21, 0.12);
+  static final surfaceColor = Colors.white;
+
+  static final navigationItemColor = Color.fromRGBO(18, 23, 21, 0.25);
+
+  static final textStyle = TextStyle(fontFamily: 'Montserrat');
+
+  static final color100 = Color.fromRGBO(18, 23, 20, 1.0);
+  static final color50 = Color.fromRGBO(18, 23, 20, 0.5);
+  static final color25 = Color.fromRGBO(18, 23, 20, 0.25);
+  static final color05 = Color.fromRGBO(18, 23, 20, 0.05);
 }

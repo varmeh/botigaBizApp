@@ -6,7 +6,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:intl/intl.dart';
 import '../../widget/common/appHeader.dart';
 import 'orderSummary.dart';
-import '../../theme/index.dart' show BotigaIcons;
+import '../../theme/index.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 
@@ -41,7 +41,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: AppTheme.surfaceColor,
         child: ListView(
           children: <Widget>[
             Padding(
@@ -99,7 +99,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           width: 90,
                           height: 128,
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface,
+                            color: AppTheme.surfaceColor,
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
@@ -166,20 +166,14 @@ class _OrderDetailsState extends State<OrderDetails> {
                                           backgroundColor: Color(0xff2591B2),
                                           messageText: Text(
                                             'Delivery date changed to $newDate',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1
-                                                .copyWith(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .surface,
-                                                ),
+                                            style: AppTheme.textStyle
+                                                .colored(AppTheme.surfaceColor)
+                                                .w500
+                                                .size(15),
                                           ),
                                           icon: Icon(BotigaIcons.truck,
                                               size: 30,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .surface),
+                                              color: AppTheme.surfaceColor),
                                           flushbarPosition:
                                               FlushbarPosition.TOP,
                                           flushbarStyle: FlushbarStyle.FLOATING,
@@ -207,12 +201,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   Text(
                                     'Mark as delay',
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .overline
-                                        .copyWith(
-                                          letterSpacing: 0.2,
-                                        ),
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(12)
+                                        .letterSpace(0.2),
                                   )
                                 ],
                               ),
@@ -226,7 +217,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                           width: 90,
                           height: 128,
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface,
+                            color: AppTheme.surfaceColor,
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
@@ -256,21 +247,17 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 children: <Widget>[
                                   Icon(
                                     BotigaIcons.truck,
-                                    color: Theme.of(context).primaryColor,
+                                    color: AppTheme.primaryColor,
                                     size: 34,
                                   ),
                                   Text(
                                     'Out for delivery',
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .overline
-                                        .copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          letterSpacing: 0.2,
-                                        ),
+                                    style: AppTheme.textStyle
+                                        .colored(AppTheme.primaryColor)
+                                        .w500
+                                        .size(12)
+                                        .letterSpace(0.3),
                                   )
                                 ],
                               ),

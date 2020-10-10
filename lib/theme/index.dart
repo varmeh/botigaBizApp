@@ -1,2 +1,3 @@
-export './botigaIcons.dart';
-export './appTheme.dart';
+export 'appTheme.dart';
+export 'botigaIcons.dart';
+export 'textTheme.dart';

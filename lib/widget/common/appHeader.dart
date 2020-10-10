@@ -38,7 +38,7 @@ class AppHeader extends StatelessWidget {
               style: TextStyle(
                   color: Color(0xff121715),
                   fontSize: 22,
-                  fontWeight: FontWeight.bold),
+                  fontWeight: FontWeight.w500),
             ),
           ],
         ),

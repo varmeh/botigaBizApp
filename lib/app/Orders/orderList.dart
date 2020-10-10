@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 import 'orderRow.dart';
 import 'orderDetails.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 import '../../widget/common/appHeader.dart';
-import '../../theme/index.dart' show BotigaIcons;
+import '../../theme/index.dart';
 
 class OrderList extends StatefulWidget {
   static const routeName = '/all-orders-list';
@@ -17,10 +19,19 @@ class _OrderListState extends State<OrderList> {
   var _isLoading = false;
   var _isError = false;
   var _isInit = false;
+  var slectedDate = 'TODAY';
+  CalendarController _calendarController;
 
   @override
   void initState() {
     super.initState();
+    _calendarController = CalendarController();
+  }
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+    super.dispose();
   }
 
   @override
@@ -61,41 +72,93 @@ class _OrderListState extends State<OrderList> {
                   ),
                 )
               : Container(
-                  color: Theme.of(context).colorScheme.surface,
+                  color: AppTheme.surfaceColor,
                   child: ListView(
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                          top: 25,
-                        ),
+                        padding:
+                            const EdgeInsets.only(left: 20, right: 20, top: 15),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             AppHeader(
                               title: "Orders",
                               actionWidget: IconButton(
-                                icon: Icon(BotigaIcons.search),
+                                icon: Icon(
+                                  BotigaIcons.search,
+                                  size: 25,
+                                ),
                                 onPressed: () {},
                               ),
                             ),
                             SizedBox(
                               height: 15,
                             ),
-                            Row(
-                              children: <Widget>[
-                                Text("TODAY",
-                                    style:
-                                        Theme.of(context).textTheme.subtitle1),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.expand_more_sharp,
+                            GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => Container(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.65,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.surfaceColor,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(16.0),
+                                        topRight: const Radius.circular(16.0),
+                                      ),
+                                    ),
+                                    child: TableCalendar(
+                                      startDay: DateTime.now(),
+                                      availableCalendarFormats: const {
+                                        CalendarFormat.month: 'Month',
+                                      },
+                                      calendarStyle: CalendarStyle(
+                                        selectedColor: AppTheme.primaryColor,
+                                        outsideDaysVisible: true,
+                                        weekendStyle: TextStyle().copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary),
+                                      ),
+                                      daysOfWeekStyle: DaysOfWeekStyle(
+                                        weekendStyle: TextStyle().copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface),
+                                      ),
+                                      headerStyle: HeaderStyle(
+                                        centerHeaderTitle: false,
+                                        formatButtonVisible: false,
+                                      ),
+                                      onDaySelected: (date, events) {
+                                        final newDate =
+                                            DateFormat("yMd").format(date);
+                                        Navigator.of(context).pop();
+                                        setState(() {
+                                          slectedDate = newDate;
+                                        });
+                                      },
+                                      calendarController: _calendarController,
+                                    ),
                                   ),
-                                  onPressed: () {},
-                                ),
-                              ],
-                            ),
+                                );
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  Text('$slectedDate',
+                                      style: AppTheme.textStyle.color100.w500
+                                          .size(15)),
+                                  SizedBox(
+                                    width: 9,
+                                  ),
+                                  Icon(Icons.expand_more_sharp,
+                                      size: 25, color: AppTheme.color100),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
