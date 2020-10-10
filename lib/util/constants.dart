@@ -27,8 +27,7 @@ class Constants {
   //ORDER
   static const String AGGREGATED_ORDERS_INFORMATION =
       '$SELLER_BASE_URL/orders/aggregate';
-  static const String ORDER_BYDATE_APARTMENT =
-      '$SELLER_BASE_URL/orders/5f5a35d281710e963e530a5b/2020-09-30';
+  static const String ORDER_BYDATE_APARTMENT = '$SELLER_BASE_URL/orders';
   static const String DELIVERY_DELAYED =
       '$SELLER_BASE_URL/orders/delivery/delayed';
   static const String ORDER_DELIVERY_STATUS_SET =

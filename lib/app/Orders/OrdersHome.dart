@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
 import 'orderList.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
@@ -60,10 +59,12 @@ class _OrdersHomeState extends State<OrdersHome> {
     super.didChangeDependencies();
   }
 
-  Widget _orderCard(String apartmentName, int revenue, int totalOrder) {
+  Widget _orderCard(
+      String id, String apartmentName, int revenue, int totalOrder) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(OrderList.routeName);
+        Navigator.of(context).pushNamed(OrderList.routeName,
+            arguments: {'id': id, 'apartmentName': apartmentName});
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 30),
@@ -401,7 +402,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                               aggregatedOrders.totalOrders),
                           ...aggregatedOrders.apartmentWiseBreakup.map(
                             (order) {
-                              return _orderCard(order.apartmentName,
+                              return _orderCard(order.id, order.apartmentName,
                                   order.orders, order.revenue);
                             },
                           ),

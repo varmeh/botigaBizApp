@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
 import 'orderRow.dart';
 import 'orderDetails.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 import '../../theme/index.dart';
+import '../../util/index.dart';
 
 class OrderList extends StatefulWidget {
   static const routeName = '/all-orders-list';
@@ -33,24 +33,32 @@ class _OrderListState extends State<OrderList> {
     super.dispose();
   }
 
+  void fetchData(String date) {
+    final routesArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
+    final id = routesArgs['id'];
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    setState(() {
+      _isError = false;
+      _isLoading = true;
+    });
+    ordersProvider.fetchOrderByDateApartment(id, date).then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    }).catchError((err) {
+      setState(() {
+        _isError = true;
+        _isLoading = false;
+      });
+    });
+  }
+
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      final ordersProvider = Provider.of<OrdersProvider>(context);
-      setState(() {
-        _isError = false;
-        _isLoading = true;
-      });
-      ordersProvider.fetchOrderByDateApartment().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      }).catchError((err) {
-        setState(() {
-          _isError = true;
-          _isLoading = false;
-        });
-      });
+      var currentDate = FormatDate.getRequestFormatDate(DateTime.now());
+      fetchData(currentDate);
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -58,6 +66,10 @@ class _OrderListState extends State<OrderList> {
 
   @override
   Widget build(BuildContext context) {
+    final routesArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
+    final id = routesArgs['id'];
+    final aprtmentName = routesArgs['apartmentName'];
     return Scaffold(
       appBar: AppBar(
           backgroundColor: AppTheme.surfaceColor,
@@ -65,7 +77,7 @@ class _OrderListState extends State<OrderList> {
           centerTitle: false,
           title: Align(
             child: Text(
-              "Orders",
+              '$aprtmentName',
               style: TextStyle(
                   color: AppTheme.color100,
                   fontSize: 20,
@@ -135,11 +147,17 @@ class _OrderListState extends State<OrderList> {
                                         ),
                                       ),
                                       child: TableCalendar(
+                                        initialSelectedDay:
+                                            FormatDate.convertStringToDate(
+                                                slectedDate),
                                         startDay: DateTime.now(),
                                         availableCalendarFormats: const {
                                           CalendarFormat.month: 'Month',
                                         },
                                         calendarStyle: CalendarStyle(
+                                            todayColor: AppTheme
+                                                .primaryColorVariant
+                                                .withOpacity(0.5),
                                             selectedColor:
                                                 AppTheme.primaryColor,
                                             outsideDaysVisible: true,
@@ -149,19 +167,21 @@ class _OrderListState extends State<OrderList> {
                                                 AppTheme.textStyle.color50),
                                         daysOfWeekStyle: DaysOfWeekStyle(
                                           weekendStyle: AppTheme.textStyle
-                                              .colored(AppTheme.surfaceColor),
+                                              .colored(AppTheme.color100),
                                         ),
                                         headerStyle: HeaderStyle(
                                           centerHeaderTitle: false,
                                           formatButtonVisible: false,
                                         ),
                                         onDaySelected: (date, events) {
-                                          final newDate =
-                                              DateFormat("yMd").format(date);
                                           Navigator.of(context).pop();
                                           setState(() {
-                                            slectedDate = newDate;
+                                            slectedDate = FormatDate
+                                                .getTodayOrSelectedDate(date);
                                           });
+                                          fetchData(
+                                              FormatDate.getRequestFormatDate(
+                                                  date));
                                         },
                                         calendarController: _calendarController,
                                       ),

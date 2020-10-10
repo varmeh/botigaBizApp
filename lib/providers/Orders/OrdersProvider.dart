@@ -36,10 +36,12 @@ class OrdersProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchOrderByDateApartment() async {
+  Future<void> fetchOrderByDateApartment(
+      String apartmentId, String date) async {
     try {
-      final response =
-          await HttpService().get('${Constants.ORDER_BYDATE_APARTMENT}');
+      //TODO: check date returns 404
+      final response = await HttpService()
+          .get('${Constants.ORDER_BYDATE_APARTMENT}/$apartmentId/2020-09-09');
       List<OrderByDateDetail> items = [];
       for (var order in response) {
         items.add(OrderByDateDetail.fromJson(order));
