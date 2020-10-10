@@ -36,7 +36,7 @@ class _OrderListState extends State<OrderList> {
   void fetchData(String date) {
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, String>;
-    final id = routesArgs['id'];
+    final id = routesArgs['apartmentId'];
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     setState(() {
       _isError = false;
@@ -68,7 +68,6 @@ class _OrderListState extends State<OrderList> {
   Widget build(BuildContext context) {
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, String>;
-    final id = routesArgs['id'];
     final aprtmentName = routesArgs['apartmentName'];
     return Scaffold(
       appBar: AppBar(
@@ -223,6 +222,7 @@ class _OrderListState extends State<OrderList> {
                                     OrderDetails.routeName,
                                     arguments: {
                                       'orderId': orderRow.id,
+                                      'apartmentName': aprtmentName
                                     },
                                   );
                                 },

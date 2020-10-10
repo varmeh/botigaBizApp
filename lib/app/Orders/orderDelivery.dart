@@ -4,6 +4,7 @@ import '../../providers/Orders/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import 'package:provider/provider.dart';
 import '../../theme/index.dart';
+import 'package:flushbar/flushbar.dart';
 
 class OrderDelivery extends StatefulWidget {
   static const routeName = '/order-delivery';
@@ -13,12 +14,70 @@ class OrderDelivery extends StatefulWidget {
 
 class _OrderDeliveryState extends State<OrderDelivery> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void handleCancelOrder(BuildContext context, String orderId) {
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    ordersProvider.cancelOrder(orderId).then((value) {}).catchError((error) {
+      Flushbar(
+        maxWidth: 335,
+        backgroundColor: Theme.of(context).errorColor,
+        messageText: Text(
+          'Failed to cancel order',
+          style:
+              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+        ),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        duration: Duration(seconds: 3),
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
+        borderRadius: 8,
+      ).show(context);
+    });
+  }
+
+  void handleMarkAsDeliverd(BuildContext context, String orderId) {
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    ordersProvider
+        .setDeliveryStatus(orderId)
+        .then((value) {})
+        .catchError((error) {
+      Flushbar(
+        maxWidth: 335,
+        backgroundColor: Theme.of(context).errorColor,
+        messageText: Text(
+          'Failed to mark as deliverd',
+          style:
+              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+        ),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        duration: Duration(seconds: 3),
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
+        borderRadius: 8,
+      ).show(context);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> routeArgs =
         ModalRoute.of(context).settings.arguments;
+    final orderId = routeArgs['orderId'];
+    final apartmentName = routeArgs['apartmentName'];
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     final OrderByDateDetail orderDetail =
-        ordersProvider.getOrderDetails(routeArgs['orderId']);
+        ordersProvider.getOrderDetails(orderId);
+
     return Scaffold(
         appBar: AppBar(
             backgroundColor: AppTheme.surfaceColor,
@@ -39,7 +98,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 onPressed: () {
-                  ordersProvider.cancelOrder(routeArgs['orderId']);
+                  handleCancelOrder(context, orderId);
                 },
                 child: Text('Cancel Order',
                     style: Theme.of(context)
@@ -71,7 +130,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                           borderRadius: BorderRadius.circular(6.0),
                         ),
                         onPressed: () {
-                          ordersProvider.setDeliveryStatus("delivered");
+                          handleMarkAsDeliverd(context, orderId);
                         },
                         textColor: Colors.red,
                         color: Color(0xff179F57),
@@ -100,7 +159,9 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[OrderSummary(orderDetail)],
+                    children: <Widget>[
+                      OrderSummary(orderDetail, apartmentName)
+                    ],
                   ),
                 ),
                 OrderListSummary(orderDetail),

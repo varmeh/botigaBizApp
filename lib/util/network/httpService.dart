@@ -23,6 +23,16 @@ class HttpService {
     return _returnResponse(response);
   }
 
+  Future<dynamic> patch(String url, final body) async {
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final response =
+        await http.patch('$_baseUrl$url', body: body, headers: headers);
+    return _returnResponse(response);
+  }
+
   Future<dynamic> post(String url, final body) async {
     Map<String, String> headers = {
       'Content-type': 'application/json',

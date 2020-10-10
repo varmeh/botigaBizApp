@@ -60,11 +60,13 @@ class _OrdersHomeState extends State<OrdersHome> {
   }
 
   Widget _orderCard(
-      String id, String apartmentName, int revenue, int totalOrder) {
+      String apartmentIdid, String apartmentName, int revenue, int totalOrder) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(OrderList.routeName,
-            arguments: {'id': id, 'apartmentName': apartmentName});
+        Navigator.of(context).pushNamed(OrderList.routeName, arguments: {
+          'apartmentId': apartmentIdid,
+          'apartmentName': apartmentName
+        });
       },
       child: Padding(
         padding: const EdgeInsets.only(top: 30),
@@ -401,9 +403,12 @@ class _OrdersHomeState extends State<OrdersHome> {
                           _orderHeader(aggregatedOrders.totalRevenue,
                               aggregatedOrders.totalOrders),
                           ...aggregatedOrders.apartmentWiseBreakup.map(
-                            (order) {
-                              return _orderCard(order.id, order.apartmentName,
-                                  order.orders, order.revenue);
+                            (apartment) {
+                              return _orderCard(
+                                  apartment.id,
+                                  apartment.apartmentName,
+                                  apartment.orders,
+                                  apartment.revenue);
                             },
                           ),
                           SizedBox(

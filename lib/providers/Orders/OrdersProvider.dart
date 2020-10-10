@@ -53,21 +53,20 @@ class OrdersProvider with ChangeNotifier {
     }
   }
 
-  Future setDeliveryDelayed() async {
+  Future setDeliveryDelayed(String orderId, String newDate) async {
     try {
-      final body = json.encode(
-          {"orderId": "5f744c5f2fff00721617b060", "newDate": "2020-10-04"});
-      return HttpService().put('${Constants.DELIVERY_DELAYED}', body);
+      final body = json.encode({"orderId": orderId, "newDate": newDate});
+      return HttpService().patch('${Constants.DELIVERY_DELAYED}', body);
     } catch (error) {
       throw (error);
     }
   }
 
-  Future setDeliveryStatus(String status) async {
+  Future setDeliveryStatus(String orderId) async {
     try {
-      final body = json.encode(
-          {"orderId": "5f744c5f2fff00721617b060", "status": "delivered"});
-      return HttpService().put('${Constants.ORDER_DELIVERY_STATUS_SET}', body);
+      final body = json.encode({"orderId": orderId, "status": "delivered"});
+      return HttpService()
+          .patch('${Constants.ORDER_DELIVERY_STATUS_SET}', body);
     } catch (error) {
       throw (error);
     }
@@ -75,7 +74,7 @@ class OrdersProvider with ChangeNotifier {
 
   Future cancelOrder(String orderId) async {
     try {
-      final body = json.encode({"orderId": "5f744c5f2fff00721617b060"});
+      final body = json.encode({"orderId": orderId});
       return HttpService().post('${Constants.CANCEL_ORDER}', body);
     } catch (error) {
       throw (error);

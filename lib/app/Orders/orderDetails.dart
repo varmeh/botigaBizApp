@@ -3,11 +3,11 @@ import 'orderDelivery.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flushbar/flushbar.dart';
-import 'package:intl/intl.dart';
 import 'orderSummary.dart';
 import '../../theme/index.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
+import '../../util/index.dart';
 
 class OrderDetails extends StatefulWidget {
   static const routeName = '/order-details';
@@ -30,13 +30,82 @@ class _OrderDetailsState extends State<OrderDetails> {
     super.dispose();
   }
 
+  void handleMarkAsDelayOrders(
+      BuildContext context, String orderId, DateTime date) {
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    final deliveryDelayedDate = FormatDate.getRequestFormatDate(date);
+    ordersProvider
+        .setDeliveryDelayed(orderId, deliveryDelayedDate)
+        .then((value) {
+      final newDateforDelivery = FormatDate.getDate(date);
+      Navigator.of(context).pop();
+      Flushbar(
+        maxWidth: 335,
+        backgroundColor: Color(0xff2591B2),
+        messageText: Text(
+          'Delivery date changed to $newDateforDelivery',
+          style:
+              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+        ),
+        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        duration: Duration(seconds: 3),
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
+        borderRadius: 8,
+      ).show(context);
+    }).catchError((error) {
+      Navigator.of(context).pop();
+      Flushbar(
+        maxWidth: 335,
+        backgroundColor: Theme.of(context).errorColor,
+        messageText: Text(
+          'Failed to change delivery date',
+          style:
+              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+        ),
+        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        duration: Duration(seconds: 3),
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
+        borderRadius: 8,
+      ).show(context);
+    });
+  }
+
+  void handleCancelOrder(BuildContext context, String orderId) {
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    ordersProvider.cancelOrder(orderId).then((value) {}).catchError((error) {
+      Flushbar(
+        maxWidth: 335,
+        backgroundColor: Theme.of(context).errorColor,
+        messageText: Text(
+          'Failed to cancel order',
+          style:
+              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+        ),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        duration: Duration(seconds: 3),
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
+        borderRadius: 8,
+      ).show(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> routeArgs =
         ModalRoute.of(context).settings.arguments;
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    final orderId = routeArgs['orderId'];
+    final apartmentName = routeArgs['apartmentName'];
     final OrderByDateDetail orderDetail =
-        ordersProvider.getOrderDetails(routeArgs['orderId']);
+        ordersProvider.getOrderDetails(orderId);
 
     return Scaffold(
       appBar: AppBar(
@@ -58,7 +127,7 @@ class _OrderDetailsState extends State<OrderDetails> {
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
               onPressed: () {
-                ordersProvider.cancelOrder(routeArgs['orderId']);
+                handleCancelOrder(context, orderId);
               },
               child: Text('Cancel Order',
                   style: Theme.of(context)
@@ -88,7 +157,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[OrderSummary(orderDetail)],
+                  children: <Widget>[OrderSummary(orderDetail, apartmentName)],
                 ),
               ),
               Container(
@@ -145,6 +214,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         CalendarFormat.month: 'Month',
                                       },
                                       calendarStyle: CalendarStyle(
+                                          todayColor: AppTheme
+                                              .primaryColorVariant
+                                              .withOpacity(0.5),
                                           selectedColor: AppTheme.primaryColor,
                                           outsideDaysVisible: true,
                                           weekendStyle:
@@ -160,38 +232,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         formatButtonVisible: false,
                                       ),
                                       onDaySelected: (date, events) {
-                                        ordersProvider
-                                            .setDeliveryDelayed()
-                                            .then((value) {
-                                          final newDate =
-                                              DateFormat("d MMM").format(date);
-                                          Navigator.of(context).pop();
-                                          Flushbar(
-                                            maxWidth: 335,
-                                            backgroundColor: Color(0xff2591B2),
-                                            messageText: Text(
-                                              'Delivery date changed to $newDate',
-                                              style: AppTheme.textStyle
-                                                  .colored(
-                                                      AppTheme.surfaceColor)
-                                                  .w500
-                                                  .size(15),
-                                            ),
-                                            icon: Icon(BotigaIcons.truck,
-                                                size: 30,
-                                                color: AppTheme.surfaceColor),
-                                            flushbarPosition:
-                                                FlushbarPosition.TOP,
-                                            flushbarStyle:
-                                                FlushbarStyle.FLOATING,
-                                            duration: Duration(seconds: 3),
-                                            margin: EdgeInsets.all(20),
-                                            padding: EdgeInsets.all(20),
-                                            borderRadius: 8,
-                                          ).show(context);
-                                        }).catchError((error) {
-                                          print(error);
-                                        });
+                                        handleMarkAsDelayOrders(
+                                            context, orderId, date);
                                       },
                                       calendarController: _calendarController,
                                     ),
@@ -244,6 +286,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     OrderDelivery.routeName,
                                     arguments: {
                                       'orderId': orderDetail.id,
+                                      'apartmentName': apartmentName,
                                     });
                               },
                               child: Padding(

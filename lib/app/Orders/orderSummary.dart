@@ -5,7 +5,8 @@ import '../../models/Orders/OrderByDateDetail.dart';
 
 class OrderSummary extends StatelessWidget {
   final OrderByDateDetail orderDetail;
-  OrderSummary(this.orderDetail);
+  final String apartmentName;
+  OrderSummary(this.orderDetail, this.apartmentName);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class OrderSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '${orderDetail.buyer.house}',
+                  '${orderDetail.buyer.house} $apartmentName',
                   style: AppTheme.textStyle.color100.w500.size(13),
                 ),
               )
