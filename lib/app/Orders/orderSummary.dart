@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../util/constants.dart';
+import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 
@@ -14,10 +14,10 @@ class OrderSummary extends StatelessWidget {
       children: <Widget>[
         Text(
           "${orderDetail.buyer.name}",
-          style: AppTheme.textStyle.color100.w500.size(22),
+          style: AppTheme.textStyle.color100.w600.size(22),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 22.0),
+          padding: const EdgeInsets.only(top: 19.0),
           child: Row(
             children: <Widget>[
               Icon(BotigaIcons.tag),
@@ -32,7 +32,7 @@ class OrderSummary extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 22.0),
+          padding: const EdgeInsets.only(top: 19.0),
           child: Row(
             children: <Widget>[
               Image.asset('assets/images/clock.png'),
@@ -41,7 +41,7 @@ class OrderSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '${orderDetail.order.orderDate}',
+                  '${FormatDate.getLongformatDateWithTime(orderDetail.order.orderDate)}',
                   style: AppTheme.textStyle.color100.w500.size(13),
                 ),
               )
@@ -49,7 +49,7 @@ class OrderSummary extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 22.0),
+          padding: const EdgeInsets.only(top: 19.0),
           child: Row(
             children: <Widget>[
               Icon(BotigaIcons.pin),
@@ -66,7 +66,7 @@ class OrderSummary extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 22.0),
+          padding: const EdgeInsets.only(top: 19.0),
           child: Row(
             children: <Widget>[
               Icon(
@@ -79,7 +79,7 @@ class OrderSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '${orderDetail.order.expectedDeliveryDate}',
+                  'Expected delivery ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
                   style: AppTheme.textStyle.color100.w500.size(13),
                 ),
               )
@@ -87,7 +87,7 @@ class OrderSummary extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 24, bottom: 24),
+          padding: const EdgeInsets.only(top: 27, bottom: 24),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -96,6 +96,9 @@ class OrderSummary extends StatelessWidget {
                   height: 44,
                   // width: 165,
                   child: FlatButton.icon(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
                     icon: Icon(
                       BotigaIcons.call,
                       color: Colors.black,
@@ -119,6 +122,9 @@ class OrderSummary extends StatelessWidget {
                   height: 44,
                   // width: 165,
                   child: FlatButton.icon(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
                     icon: Image.asset('assets/images/watsapp.png'),
                     onPressed: () {},
                     color: Color(0xff121715).withOpacity(0.05),
@@ -153,7 +159,7 @@ class OrderListSummary extends StatelessWidget {
         ),
         Padding(
           padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 8, bottom: 8),
+              const EdgeInsets.only(left: 20, right: 20, top: 4, bottom: 4),
           child: Text(
             '${orderDetail.order.products.length} Items',
             style: AppTheme.textStyle.color100.w500.size(12).letterSpace(.02),
@@ -166,8 +172,14 @@ class OrderListSummary extends StatelessWidget {
         ...orderDetail.order.products.map((el) {
           return OrderListItem(el.name, el.price, el.quantity, el.unitInfo);
         }),
+        ...orderDetail.order.products.map((el) {
+          return OrderListItem(el.name, el.price, el.quantity, el.unitInfo);
+        }),
+        ...orderDetail.order.products.map((el) {
+          return OrderListItem(el.name, el.price, el.quantity, el.unitInfo);
+        }),
         Padding(
-          padding: const EdgeInsets.only(top: 16.0),
+          padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
           child: Divider(
             color: AppTheme.dividerColor,
             thickness: 1.2,
@@ -176,15 +188,14 @@ class OrderListSummary extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(
-              top: 16.0, bottom: 0.0, left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Flexible(
                 child: Text(
                   'Total',
-                  style: AppTheme.textStyle.color100.w500.size(12),
+                  style: AppTheme.textStyle.color100.w600.size(13),
                 ),
               ),
               SizedBox(
@@ -193,7 +204,7 @@ class OrderListSummary extends StatelessWidget {
               Flexible(
                 child: Text(
                   '${Constants.rupeeSymbol}${orderDetail.order.totalAmount}',
-                  style: AppTheme.textStyle.color100.w500.size(12),
+                  style: AppTheme.textStyle.color100.w600.size(13),
                 ),
               )
             ],
@@ -222,7 +233,7 @@ class OrderListItem extends StatelessWidget {
           Flexible(
             child: Text(
               '$quantity X $name',
-              style: AppTheme.textStyle.color100.w500.size(12),
+              style: AppTheme.textStyle.color100.w500.size(13),
             ),
           ),
           SizedBox(
@@ -231,7 +242,7 @@ class OrderListItem extends StatelessWidget {
           Flexible(
             child: Text(
               '${Constants.rupeeSymbol}${quantity * price}',
-              style: AppTheme.textStyle.color100.w500.size(12),
+              style: AppTheme.textStyle.color100.w500.size(13),
             ),
           )
         ],

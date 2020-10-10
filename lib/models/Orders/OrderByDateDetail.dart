@@ -20,9 +20,9 @@ class OrderByDateDetail {
 
 @JsonSerializable()
 class Order {
-  String expectedDeliveryDate;
+  DateTime expectedDeliveryDate;
   String number;
-  String orderDate;
+  DateTime orderDate;
   String status;
   int totalAmount;
   List<Product> products;

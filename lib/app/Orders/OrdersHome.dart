@@ -121,7 +121,6 @@ class _OrdersHomeState extends State<OrdersHome> {
                                     Flexible(
                                       child: Text(
                                         '$apartmentName',
-                                        overflow: TextOverflow.ellipsis,
                                         style: AppTheme.textStyle.color100.w500
                                             .size(15),
                                       ),
@@ -234,7 +233,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                           .size(22),
                     ),
                     SizedBox(
-                      height: 32,
+                      height: 30,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -257,19 +256,14 @@ class _OrdersHomeState extends State<OrdersHome> {
                                 CalendarFormat.month: 'Month',
                               },
                               calendarStyle: CalendarStyle(
-                                selectedColor:
-                                    Theme.of(context).colorScheme.primary,
-                                outsideDaysVisible: true,
-                                weekendStyle: TextStyle().copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimary),
-                              ),
+                                  selectedColor: AppTheme.primaryColor,
+                                  outsideDaysVisible: true,
+                                  weekendStyle: AppTheme.textStyle.color100,
+                                  outsideWeekendStyle:
+                                      AppTheme.textStyle.color50),
                               daysOfWeekStyle: DaysOfWeekStyle(
-                                weekendStyle: TextStyle().copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface),
+                                weekendStyle: AppTheme.textStyle
+                                    .colored(AppTheme.surfaceColor),
                               ),
                               headerStyle: HeaderStyle(
                                 centerHeaderTitle: false,
@@ -329,6 +323,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("REVENUE",
                             style: AppTheme.textStyle.color50.w500.size(12)),
@@ -346,6 +341,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text("ORDERS",
                             style: AppTheme.textStyle.color50.w500.size(12)),
@@ -385,22 +381,24 @@ class _OrdersHomeState extends State<OrdersHome> {
             : Consumer<OrdersProvider>(
                 builder: (ctx, ordersprovider, _) {
                   final aggregatedOrders = ordersprovider.aggregatedOrders;
-                  return Container(
-                    color: AppTheme.backgroundColor,
-                    child: ListView(
-                      children: <Widget>[
-                        _orderHeader(aggregatedOrders.totalRevenue,
-                            aggregatedOrders.totalOrders),
-                        ...aggregatedOrders.apartmentWiseBreakup.map(
-                          (order) {
-                            return _orderCard(order.apartmentName, order.orders,
-                                order.revenue);
-                          },
-                        ),
-                        SizedBox(
-                          height: 32,
-                        )
-                      ],
+                  return SafeArea(
+                    child: Container(
+                      color: AppTheme.backgroundColor,
+                      child: ListView(
+                        children: <Widget>[
+                          _orderHeader(aggregatedOrders.totalRevenue,
+                              aggregatedOrders.totalOrders),
+                          ...aggregatedOrders.apartmentWiseBreakup.map(
+                            (order) {
+                              return _orderCard(order.apartmentName,
+                                  order.orders, order.revenue);
+                            },
+                          ),
+                          SizedBox(
+                            height: 32,
+                          )
+                        ],
+                      ),
                     ),
                   );
                 },

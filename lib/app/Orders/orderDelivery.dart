@@ -21,81 +21,92 @@ class _OrderDeliveryState extends State<OrderDelivery> {
     final OrderByDateDetail orderDetail =
         ordersProvider.getOrderDetails(routeArgs['orderId']);
     return Scaffold(
-        backgroundColor: AppTheme.surfaceColor,
-        bottomNavigationBar: Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: SizedBox(
-                    height: 52,
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                      ),
-                      onPressed: () {
-                        ordersProvider.setDeliveryStatus("delivered");
-                      },
-                      textColor: Colors.red,
-                      color: Color(0xff179F57),
-                      child: Text(
-                        'Mark as delivered',
-                        style: AppTheme.textStyle
-                            .colored(AppTheme.surfaceColor)
-                            .w500
-                            .size(15),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+        appBar: AppBar(
+            backgroundColor: AppTheme.surfaceColor,
+            elevation: 0,
+            centerTitle: false,
+            title: Align(
+              child: Text(
+                "",
+                style: TextStyle(
+                    color: AppTheme.color100,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500),
+              ),
+              alignment: Alignment(-1.1, 0),
+            ),
+            actions: [
+              FlatButton(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onPressed: () {
+                  ordersProvider.cancelOrder(routeArgs['orderId']);
+                },
+                child: Text('Cancel Order',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(color: Theme.of(context).colorScheme.error)),
+              )
+            ],
+            leading: IconButton(
+              icon: Icon(
+                BotigaIcons.arrowBack,
+                color: AppTheme.color100,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             )),
-        body: Container(
-          color: Colors.white,
-          child: ListView(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 20.0,
-                  right: 20,
-                  top: 25,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    AppHeader(
-                      title: "",
-                      actionWidget: InkWell(
-                        onTap: () {
-                          debugPrint('I am Awesome');
+        backgroundColor: AppTheme.surfaceColor,
+        bottomNavigationBar: SafeArea(
+          child: Container(
+              padding: EdgeInsets.all(10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SizedBox(
+                      height: 52,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6.0),
+                        ),
+                        onPressed: () {
+                          ordersProvider.setDeliveryStatus("delivered");
                         },
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            ordersProvider.cancelOrder(routeArgs['orderId']);
-                          },
-                          child: Text(
-                            'Cancel order',
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                .copyWith(
-                                  color: Theme.of(context).colorScheme.error,
-                                ),
-                          ),
+                        textColor: Colors.red,
+                        color: Color(0xff179F57),
+                        child: Text(
+                          'Mark as delivered',
+                          style: AppTheme.textStyle
+                              .colored(AppTheme.surfaceColor)
+                              .w500
+                              .size(15),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    OrderSummary(orderDetail)
-                  ],
+                  ),
+                ],
+              )),
+        ),
+        body: SafeArea(
+          child: Container(
+            color: Colors.white,
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20.0,
+                    right: 20,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[OrderSummary(orderDetail)],
+                  ),
                 ),
-              ),
-              OrderListSummary(orderDetail),
-            ],
+                OrderListSummary(orderDetail),
+              ],
+            ),
           ),
         ));
   }

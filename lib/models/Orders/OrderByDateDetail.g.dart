@@ -26,9 +26,13 @@ Map<String, dynamic> _$OrderByDateDetailToJson(OrderByDateDetail instance) =>
 
 Order _$OrderFromJson(Map<String, dynamic> json) {
   return Order(
-    expectedDeliveryDate: json['expectedDeliveryDate'] as String,
+    expectedDeliveryDate: json['expectedDeliveryDate'] == null
+        ? null
+        : DateTime.parse(json['expectedDeliveryDate'] as String),
     number: json['number'] as String,
-    orderDate: json['orderDate'] as String,
+    orderDate: json['orderDate'] == null
+        ? null
+        : DateTime.parse(json['orderDate'] as String),
     products: (json['products'] as List)
         ?.map((e) =>
             e == null ? null : Product.fromJson(e as Map<String, dynamic>))
@@ -39,9 +43,9 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
-      'expectedDeliveryDate': instance.expectedDeliveryDate,
+      'expectedDeliveryDate': instance.expectedDeliveryDate?.toIso8601String(),
       'number': instance.number,
-      'orderDate': instance.orderDate,
+      'orderDate': instance.orderDate?.toIso8601String(),
       'status': instance.status,
       'totalAmount': instance.totalAmount,
       'products': instance.products,

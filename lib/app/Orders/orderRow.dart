@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../util/constants.dart';
+import 'package:intl/intl.dart';
+import '../../util/index.dart';
 import '../../theme/index.dart';
 
 class OrderRow extends StatelessWidget {
   final Function tapHandler;
   final String number;
-  final String orderDate;
+  final DateTime orderDate;
   final String status;
   final int totalAmount;
   final int productsLength;
@@ -38,7 +39,7 @@ class OrderRow extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text("#$number .$productsLength ITEMS",
-                        style: AppTheme.textStyle.color100.w500
+                        style: AppTheme.textStyle.color100.w600
                             .size(15)
                             .letterSpace(1)),
                     Container(
@@ -67,7 +68,7 @@ class OrderRow extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('$orderDate',
+                    Text('${FormatDate.getLongformatDateWithTime(orderDate)}',
                         style: AppTheme.textStyle.color50.w500
                             .size(12)
                             .letterSpace(1)),
