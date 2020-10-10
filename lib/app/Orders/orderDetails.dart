@@ -153,7 +153,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                               AppTheme.textStyle.color50),
                                       daysOfWeekStyle: DaysOfWeekStyle(
                                         weekendStyle: AppTheme.textStyle
-                                            .colored(AppTheme.surfaceColor),
+                                            .colored(AppTheme.color100),
                                       ),
                                       headerStyle: HeaderStyle(
                                         centerHeaderTitle: false,

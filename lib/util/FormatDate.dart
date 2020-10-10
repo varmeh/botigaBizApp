@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import '../util/index.dart';
 
 class FormatDate {
   static String getLongformatDateWithTime(DateTime date) {
@@ -7,5 +8,26 @@ class FormatDate {
 
   static String getDate(DateTime date) {
     return DateFormat("d MMM").format(date);
+  }
+
+  static String getTodayOrSelectedDate(DateTime date) {
+    final now = new DateTime.now();
+    String currentDate = DateFormat('d MMM, y').format(now);
+    String selectedDate = DateFormat('d MMM, y').format(date);
+    if (currentDate == selectedDate) {
+      return Constants.today;
+    }
+    return selectedDate;
+  }
+
+  static DateTime convertStringToDate(String date) {
+    if (date == Constants.today) {
+      return DateTime.now();
+    }
+    return DateFormat('d MMM, y').parse(date);
+  }
+
+  static String getRequestFormatDate(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
   }
 }

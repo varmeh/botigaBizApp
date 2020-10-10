@@ -24,10 +24,11 @@ class OrdersProvider with ChangeNotifier {
         .first;
   }
 
-  Future<void> fetchAggregatedOrders() async {
+  Future<void> fetchAggregatedOrders(String date) async {
     try {
-      final response =
-          await HttpService().get('${Constants.AGGREGATED_ORDERS_INFORMATION}');
+      //TODO: check date returns 404
+      final response = await HttpService()
+          .get('${Constants.AGGREGATED_ORDERS_INFORMATION}/2020-09-09');
       this._aggregatedOrders = AggregatedOrders.fromJson(response);
       notifyListeners();
     } catch (error) {

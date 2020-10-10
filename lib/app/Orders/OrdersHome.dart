@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'orderList.dart';
-import '../../util/constants.dart';
+import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 
@@ -17,7 +17,7 @@ class _OrdersHomeState extends State<OrdersHome> {
   var _isLoading = false;
   var _isError = false;
   var _isInit = false;
-  var slectedDate = 'TODAY';
+  var slectedDate = Constants.today;
   CalendarController _calendarController;
 
   @override
@@ -32,24 +32,29 @@ class _OrdersHomeState extends State<OrdersHome> {
     super.dispose();
   }
 
+  void fetchData(String date) {
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    setState(() {
+      _isError = false;
+      _isLoading = true;
+    });
+    ordersProvider.fetchAggregatedOrders(date).then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    }).catchError((err) {
+      setState(() {
+        _isError = true;
+        _isLoading = false;
+      });
+    });
+  }
+
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      final ordersProvider = Provider.of<OrdersProvider>(context);
-      setState(() {
-        _isError = false;
-        _isLoading = true;
-      });
-      ordersProvider.fetchAggregatedOrders().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      }).catchError((err) {
-        setState(() {
-          _isError = true;
-          _isLoading = false;
-        });
-      });
+      var currentDate = FormatDate.getRequestFormatDate(DateTime.now());
+      fetchData(currentDate);
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -251,11 +256,15 @@ class _OrdersHomeState extends State<OrdersHome> {
                               ),
                             ),
                             child: TableCalendar(
+                              initialSelectedDay:
+                                  FormatDate.convertStringToDate(slectedDate),
                               startDay: DateTime.now(),
                               availableCalendarFormats: const {
                                 CalendarFormat.month: 'Month',
                               },
                               calendarStyle: CalendarStyle(
+                                  todayColor: AppTheme.primaryColorVariant
+                                      .withOpacity(0.5),
                                   selectedColor: AppTheme.primaryColor,
                                   outsideDaysVisible: true,
                                   weekendStyle: AppTheme.textStyle.color100,
@@ -263,18 +272,20 @@ class _OrdersHomeState extends State<OrdersHome> {
                                       AppTheme.textStyle.color50),
                               daysOfWeekStyle: DaysOfWeekStyle(
                                 weekendStyle: AppTheme.textStyle
-                                    .colored(AppTheme.surfaceColor),
+                                    .colored(AppTheme.color100),
                               ),
                               headerStyle: HeaderStyle(
                                 centerHeaderTitle: false,
                                 formatButtonVisible: false,
                               ),
                               onDaySelected: (date, events) {
-                                final newDate = DateFormat("yMd").format(date);
                                 Navigator.of(context).pop();
                                 setState(() {
-                                  slectedDate = newDate;
+                                  slectedDate =
+                                      FormatDate.getTodayOrSelectedDate(date);
                                 });
+                                fetchData(
+                                    FormatDate.getRequestFormatDate(date));
                               },
                               calendarController: _calendarController,
                             ),

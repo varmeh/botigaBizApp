@@ -84,11 +84,13 @@ class _HomeState extends State<Home> {
           preferredSize: Size.fromHeight(0),
           child: AppBar(
             elevation: 0,
-            backgroundColor: AppTheme.primaryColor, // status bar color
+            backgroundColor: _selectedPageIndex == 0
+                ? AppTheme.primaryColor
+                : AppTheme.surfaceColor, // status bar color
             brightness: Brightness.light, // status bar brightness
           ),
         ),
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: AppTheme.surfaceColor,
         body: _pages[_selectedPageIndex]['page'],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
