@@ -8,6 +8,7 @@ import '../../providers/Apartment/ApartmentProvide.dart';
 import '../../theme/index.dart';
 import '../../util/constants.dart';
 import '../../models/Delivery/DeliveryByDateDetails.dart';
+//import '../Orders/orderDetails.dart';
 
 class DeliveryScreen extends StatefulWidget {
   static const routeName = '/all-delivery-list';
@@ -503,135 +504,143 @@ class DeliveryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xff121714).withOpacity(0.12),
-            blurRadius: 20.0, // soften the shadow
-            spreadRadius: 0.0, //extend the shadow
-            offset: Offset(
-              0.0, // Move to right 10  horizontally
-              0.0, // Move to bottom 10 Vertically
-            ),
-          )
-        ],
-      ),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10),
-        child: Card(
-            elevation: 0,
-            margin: EdgeInsets.all(0),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 20.0, right: 15, top: 16, bottom: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "No.202, ${delivery.buyer.name}",
-                            style: AppTheme.textStyle.color100.w600
-                                .size(15)
-                                .letterSpace(0.5),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Text(
-                            "#${delivery.order.number} • ${delivery.order.products.length} ITEMS",
-                            style: AppTheme.textStyle.color50.w500.size(13),
-                          ),
-                          SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Text(
-                                '${Constants.rupeeSymbol} ${delivery.order.totalAmount}',
-                                style: AppTheme.textStyle.color100.w500
-                                    .size(15)
-                                    .letterSpace(1),
-                              ),
-                              SizedBox(
-                                width: 14,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Color(0xffE9A136),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(2))),
-                                padding: EdgeInsets.only(
-                                    left: 6, right: 6, top: 4, bottom: 4),
-                                child: Text(
-                                  "${delivery.order.status.toUpperCase()}",
-                                  style: AppTheme.textStyle
-                                      .colored(AppTheme.surfaceColor)
-                                      .w500
-                                      .size(12),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(left: 20),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            left: BorderSide(
-                                width: 1.2, color: AppTheme.backgroundColor),
-                          ),
-                          color: Theme.of(context).colorScheme.surface,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+    return GestureDetector(
+      onTap: () {
+        // Navigator.of(context).pushNamed(
+        //   OrderDetails.routeName,
+        //   arguments: {'orderId': delivery.id, 'apartmentName': 'test'},
+        // );
+      },
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xff121714).withOpacity(0.12),
+              blurRadius: 20.0, // soften the shadow
+              spreadRadius: 0.0, //extend the shadow
+              offset: Offset(
+                0.0, // Move to right 10  horizontally
+                0.0, // Move to bottom 10 Vertically
+              ),
+            )
+          ],
+        ),
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10),
+          child: Card(
+              elevation: 0,
+              margin: EdgeInsets.all(0),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8)),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 15, top: 16, bottom: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Container(
-                              width: 50,
-                              height: 50,
-                              child: Center(
-                                child: Icon(
-                                  BotigaIcons.truck,
-                                  size: 30,
-                                ),
-                              ),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppTheme.backgroundColor),
+                            Text(
+                              "No.202, ${delivery.buyer.name}",
+                              style: AppTheme.textStyle.color100.w600
+                                  .size(15)
+                                  .letterSpace(0.5),
                             ),
                             SizedBox(
                               height: 4,
                             ),
-                            Container(
-                              width: 70,
-                              height: 32,
-                              child: Text(
-                                "Out for delivery",
-                                textAlign: TextAlign.center,
-                                style: AppTheme.textStyle.color100.w500
-                                    .size(12)
-                                    .letterSpace(0.2),
-                              ),
+                            Text(
+                              "#${delivery.order.number} • ${delivery.order.products.length} ITEMS",
+                              style: AppTheme.textStyle.color50.w500.size(13),
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  '${Constants.rupeeSymbol} ${delivery.order.totalAmount}',
+                                  style: AppTheme.textStyle.color100.w500
+                                      .size(15)
+                                      .letterSpace(1),
+                                ),
+                                SizedBox(
+                                  width: 14,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: Color(0xffE9A136),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(2))),
+                                  padding: EdgeInsets.only(
+                                      left: 6, right: 6, top: 4, bottom: 4),
+                                  child: Text(
+                                    "${delivery.order.status.toUpperCase()}",
+                                    style: AppTheme.textStyle
+                                        .colored(AppTheme.surfaceColor)
+                                        .w500
+                                        .size(12),
+                                  ),
+                                ),
+                              ],
                             )
                           ],
                         ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            )),
+                        Container(
+                          padding: EdgeInsets.only(left: 20),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                  width: 1.2, color: AppTheme.backgroundColor),
+                            ),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                width: 50,
+                                height: 50,
+                                child: Center(
+                                  child: Icon(
+                                    BotigaIcons.truck,
+                                    size: 30,
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppTheme.backgroundColor),
+                              ),
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Container(
+                                width: 70,
+                                height: 32,
+                                child: Text(
+                                  "Out for delivery",
+                                  textAlign: TextAlign.center,
+                                  style: AppTheme.textStyle.color100.w500
+                                      .size(12)
+                                      .letterSpace(0.2),
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              )),
+        ),
       ),
     );
   }
