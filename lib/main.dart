@@ -14,6 +14,7 @@ import 'app/Orders/orderList.dart';
 import 'app/Orders/OrdersHome.dart';
 import 'app/Orders/orderDetails.dart';
 import 'app/Orders/orderDelivery.dart';
+import 'app/Orders/orderFinalResult.dart';
 import 'screens/store-screen/store.dart';
 import 'screens/add-product-screen/addProduct.dart';
 import 'screens/add-product-success/addProductSuccess.dart';
@@ -94,6 +95,7 @@ class BotigaBizApp extends StatelessWidget {
           OrderList.routeName: (ctx) => OrderList(),
           OrderDetails.routeName: (ctx) => OrderDetails(),
           OrderDelivery.routeName: (ctx) => OrderDelivery(),
+          OrderFinalResult.routeName: (ctx) => OrderFinalResult(),
           Store.routeName: (ctx) => Store(),
           AddProduct.routeName: (ctx) => AddProduct(),
           AddProductSuccess.routeName: (ctx) => AddProductSuccess(),

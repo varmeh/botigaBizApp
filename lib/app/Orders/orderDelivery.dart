@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'orderSummary.dart';
+import 'orderFinalResult.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
-import 'package:provider/provider.dart';
 import '../../theme/index.dart';
 import 'package:flushbar/flushbar.dart';
 
@@ -25,12 +26,29 @@ class _OrderDeliveryState extends State<OrderDelivery> {
 
   void handleCancelOrder(BuildContext context, String orderId) {
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
-    ordersProvider.cancelOrder(orderId).then((value) {}).catchError((error) {
+    ordersProvider.cancelOrder(orderId).then((value) {
+      Flushbar(
+        maxWidth: 335,
+        backgroundColor: Color(0xff2591B2),
+        messageText: Text(
+          '${value['message']}',
+          style:
+              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+        ),
+        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        duration: Duration(seconds: 3),
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
+        borderRadius: 8,
+      ).show(context);
+    }).catchError((error) {
       Flushbar(
         maxWidth: 335,
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
-          'Failed to cancel order',
+          '${error['message']}',
           style:
               AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
         ),
@@ -44,17 +62,20 @@ class _OrderDeliveryState extends State<OrderDelivery> {
     });
   }
 
-  void handleMarkAsDeliverd(BuildContext context, String orderId) {
+  void handleMarkAsDeliverd(
+      BuildContext context, String orderId, String apartmentName) {
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
-    ordersProvider
-        .setDeliveryStatus(orderId)
-        .then((value) {})
-        .catchError((error) {
+    ordersProvider.setDeliveryStatus(orderId).then((value) {
+      Navigator.of(context).pushNamed(OrderFinalResult.routeName, arguments: {
+        'orderId': orderId,
+        'apartmentName': apartmentName,
+      });
+    }).catchError((error) {
       Flushbar(
         maxWidth: 335,
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
-          'Failed to mark as deliverd',
+          '${error['message']}',
           style:
               AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
         ),
@@ -82,17 +103,6 @@ class _OrderDeliveryState extends State<OrderDelivery> {
         appBar: AppBar(
             backgroundColor: AppTheme.surfaceColor,
             elevation: 0,
-            centerTitle: false,
-            title: Align(
-              child: Text(
-                "",
-                style: TextStyle(
-                    color: AppTheme.color100,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500),
-              ),
-              alignment: Alignment.centerLeft,
-            ),
             actions: [
               FlatButton(
                 highlightColor: Colors.transparent,
@@ -130,7 +140,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                           borderRadius: BorderRadius.circular(6.0),
                         ),
                         onPressed: () {
-                          handleMarkAsDeliverd(context, orderId);
+                          handleMarkAsDeliverd(context, orderId, apartmentName);
                         },
                         textColor: Colors.red,
                         color: Color(0xff179F57),

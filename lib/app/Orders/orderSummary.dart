@@ -80,7 +80,7 @@ class OrderSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  'Expected delivery ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
+                  '${Constants.expectedDelivery} ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
                   style: AppTheme.textStyle.color100.w500.size(13),
                 ),
               )

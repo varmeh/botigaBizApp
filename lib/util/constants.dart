@@ -16,12 +16,14 @@ class Constants {
 
   //Order String Constants
   static const rupeeSymbol = '\u20B9';
-  static const viewAllOrders = 'See all orders';
   static const revenue = 'REVENUE';
   static const orders = 'ORDERS';
   static const today = 'TODAY';
+  static const deliveryDateChanged = 'Delivery date changed to';
+  static const expectedDelivery = 'Expected delivery';
+  static const deliverdOn = 'Delivered on';
 
-  //Seller related to api call
+  //SELLER BASE URL
   static const SELLER_BASE_URL = '/api/seller/';
 
   //ORDER
@@ -42,6 +44,6 @@ class Constants {
   static const String DELIVERY_BY_DATE =
       '$SELLER_BASE_URL/orders/delivery/5f5a35d281710e963e530a5b/2020-10-01';
 
-  //Apartment
+  //APARTMENT
   static const String GET_APARTMENT = '$SELLER_BASE_URL/apartments';
 }
