@@ -43,6 +43,15 @@ class HttpService {
     return _returnResponse(response);
   }
 
+  Future<dynamic> delete(String url) async {
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final response = await http.delete('$_baseUrl$url', headers: headers);
+    return _returnResponse(response);
+  }
+
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:

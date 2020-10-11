@@ -48,7 +48,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
         maxWidth: 335,
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
-          '${error['message']}',
+          '$error',
           style:
               AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
         ),
@@ -75,7 +75,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
         maxWidth: 335,
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
-          '${error['message']}',
+          '$error',
           style:
               AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
         ),

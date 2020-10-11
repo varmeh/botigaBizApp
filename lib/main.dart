@@ -15,7 +15,7 @@ import 'app/Orders/OrdersHome.dart';
 import 'app/Orders/orderDetails.dart';
 import 'app/Orders/orderDelivery.dart';
 import 'app/Orders/orderFinalResult.dart';
-import 'screens/store-screen/store.dart';
+import 'app/Store/StoreScreen.dart';
 import 'screens/add-product-screen/addProduct.dart';
 import 'screens/add-product-success/addProductSuccess.dart';
 import 'screens/communities-screen/selectArea.dart';
@@ -35,6 +35,8 @@ import 'package:provider/provider.dart';
 import './providers/Orders/OrdersProvider.dart';
 import './providers/Delivery/DeliveryProvider.dart';
 import './providers/Apartment/ApartmentProvide.dart';
+import './providers/Store/Category/CategoryProvider.dart';
+import './providers/Store/Product/ProductProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -76,6 +78,12 @@ class BotigaBizApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
+          create: (_) => CategoryProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => ApartmentProvider(),
         ),
         ChangeNotifierProvider(
@@ -96,7 +104,7 @@ class BotigaBizApp extends StatelessWidget {
           OrderDetails.routeName: (ctx) => OrderDetails(),
           OrderDelivery.routeName: (ctx) => OrderDelivery(),
           OrderFinalResult.routeName: (ctx) => OrderFinalResult(),
-          Store.routeName: (ctx) => Store(),
+          StoreScreen.routeName: (ctx) => StoreScreen(),
           AddProduct.routeName: (ctx) => AddProduct(),
           AddProductSuccess.routeName: (ctx) => AddProductSuccess(),
           SelectArea.routeName: (ctx) => SelectArea(),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'orderDelivery.dart';
-import 'orderFinalResult.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flushbar/flushbar.dart';
@@ -62,7 +61,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         maxWidth: 335,
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
-          '${error['message']}',
+          '$error',
           style:
               AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
         ),
@@ -102,7 +101,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         maxWidth: 335,
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
-          '${error['message']}',
+          '$error',
           style:
               AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
         ),

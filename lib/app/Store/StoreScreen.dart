@@ -1,46 +1,44 @@
 import 'package:flutter/material.dart';
-import "../category-screen/category.dart";
-import "../product-screen/product.dart";
-import '../add-product-screen/addProduct.dart';
+import '../../theme/index.dart';
+import '../../util/index.dart';
+import './Categories/category.dart';
+import './Product/product.dart';
+import '../../screens/add-product-screen/addProduct.dart';
 
-class Store extends StatefulWidget {
+class StoreScreen extends StatefulWidget {
   static const routeName = '/store-screen';
   @override
-  _StoreState createState() => _StoreState();
+  _StoreScreenState createState() => _StoreScreenState();
 }
 
-class _StoreState extends State<Store> {
+class _StoreScreenState extends State<StoreScreen> {
   int slelectedTab = 0;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surfaceColor,
         floatingActionButton: Container(
           padding: EdgeInsets.only(bottom: 32.0),
           child: FloatingActionButton.extended(
-            backgroundColor: Colors.white,
+            backgroundColor: AppTheme.surfaceColor,
             elevation: 4.0,
             icon: const Icon(Icons.add, color: Color(0xff179F57)),
             label: slelectedTab == 0
-                ? Text(
-                    'ADD PRODUCT',
-                    style: TextStyle(
-                      letterSpacing: 1,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff179F57),
-                    ),
-                  )
+                ? Text('${Constants.ADD_PRODUCT_BTN}',
+                    style: AppTheme.textStyle
+                        .colored(AppTheme.primaryColor)
+                        .w700
+                        .size(12)
+                        .letterSpace(1))
                 : Text(
-                    'ADD CATEGORY',
-                    style: TextStyle(
-                      letterSpacing: 1,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff179F57),
-                    ),
+                    '${Constants.ADD_CATEGORY_BTN}',
+                    style: AppTheme.textStyle
+                        .colored(AppTheme.primaryColor)
+                        .w700
+                        .size(12)
+                        .letterSpace(1),
                   ),
             onPressed: () {
               if (slelectedTab == 1) {
@@ -52,7 +50,7 @@ class _StoreState extends State<Store> {
                     padding: MediaQuery.of(context).viewInsets,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: AppTheme.surfaceColor,
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(16.0),
                           topRight: const Radius.circular(16.0),
@@ -67,32 +65,21 @@ class _StoreState extends State<Store> {
                         children: <Widget>[
                           Text(
                             "Add category",
-                            style: TextStyle(
-                              color: Color(0xff121715),
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: AppTheme.textStyle.color100.w700.size(22),
                           ),
                           SizedBox(
                             height: 24,
                           ),
                           TextField(
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                            ),
+                            style: AppTheme.textStyle.color100.w500.size(15),
                             decoration: InputDecoration(
-                              fillColor: Colors.black.withOpacity(0.05),
+                              fillColor: AppTheme.color50,
                               filled: true,
                               contentPadding:
                                   EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
                               hintText: "Category name",
-                              hintStyle: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black.withOpacity(0.5),
-                              ),
+                              hintStyle:
+                                  AppTheme.textStyle.color50.w500.size(17),
                               enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                               ),
@@ -116,20 +103,15 @@ class _StoreState extends State<Store> {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                highlightColor: Colors.orangeAccent,
+                                highlightColor: AppTheme.primaryColor,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                     top: 12,
                                     bottom: 12,
                                   ),
-                                  child: Text(
-                                    'Cancel',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15,
-                                      color: Colors.black.withOpacity(0.5),
-                                    ),
-                                  ),
+                                  child: Text('Cancel',
+                                      style: AppTheme.textStyle.color50.w600
+                                          .size(15)),
                                 ),
                               ),
                               SizedBox(
@@ -139,24 +121,17 @@ class _StoreState extends State<Store> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                onPressed: () {
-                                  debugPrint('add');
-                                },
-                                color: Color(0xff179F57),
-                                disabledColor: Colors.grey,
-                                disabledTextColor: Colors.white,
-                                highlightColor: Colors.orangeAccent,
+                                onPressed: () {},
+                                color: AppTheme.primaryColor,
+                                highlightColor: AppTheme.primaryColorVariant,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       top: 12, bottom: 12, left: 16, right: 16),
-                                  child: Text(
-                                    'Save category',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 15,
-                                    ),
-                                  ),
+                                  child: Text('Save category',
+                                      style: AppTheme.textStyle
+                                          .colored(AppTheme.surfaceColor)
+                                          .w600
+                                          .size(15)),
                                 ),
                               )
                             ],
@@ -178,9 +153,9 @@ class _StoreState extends State<Store> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
           elevation: 0.0,
-          backgroundColor: Colors.white,
+          backgroundColor: AppTheme.surfaceColor,
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(50),
+            preferredSize: Size.fromHeight(11),
             child: Theme(
               data: ThemeData(
                 highlightColor: Colors.transparent,
@@ -196,16 +171,13 @@ class _StoreState extends State<Store> {
                         slelectedTab = index;
                       });
                     },
-                    labelStyle: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    labelColor: Color(0xff121715),
-                    unselectedLabelColor: Color(0xff000000).withOpacity(0.25),
+                    labelStyle: AppTheme.textStyle.w700.size(22.0),
+                    labelColor: AppTheme.color100,
+                    unselectedLabelColor: AppTheme.color25,
                     isScrollable: true,
                     labelPadding: EdgeInsets.only(left: 0, right: 0),
                     indicatorColor: Colors.transparent,
-                    tabs: ["Products", "Categories"]
+                    tabs: Constants.STORE_TABS
                         .map(
                           (label) => Padding(
                             padding: const EdgeInsets.only(right: 24),

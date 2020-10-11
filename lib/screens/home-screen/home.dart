@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:provider/provider.dart';
 import 'package:botiga_biz/util/index.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -6,9 +7,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart' show FlavorBanner;
 import '../../app/Orders/OrdersHome.dart';
-import "../store-screen/store.dart";
+import '../../app/Store/StoreScreen.dart';
 import "../profile-screen/profile.dart";
 import '../../app/Delivery/deliveryScreen.dart';
+import '../../providers/Store/Category/CategoryProvider.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -19,6 +21,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
+  bool _isInit = false;
+
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      preFetchData();
+      _isInit = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  void preFetchData() {
+    Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
+  }
 
   @override
   void initState() {
@@ -29,7 +45,7 @@ class _HomeState extends State<Home> {
         'title': 'Orders',
       },
       {
-        'page': Store(),
+        'page': StoreScreen(),
         'title': 'Store',
       },
       {

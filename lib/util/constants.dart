@@ -23,6 +23,11 @@ class Constants {
   static const expectedDelivery = 'Expected delivery';
   static const deliverdOn = 'Delivered on';
 
+  //STORE SCREEN CONSTANTS
+  static const ADD_PRODUCT_BTN = 'ADD PRODUCT';
+  static const ADD_CATEGORY_BTN = 'ADD CATEGORY';
+  static const STORE_TABS = ['Products', 'Categories'];
+
   //SELLER BASE URL
   static const SELLER_BASE_URL = '/api/seller/';
 
@@ -46,4 +51,11 @@ class Constants {
 
   //APARTMENT
   static const String GET_APARTMENT = '$SELLER_BASE_URL/apartments';
+
+  //CATEGORY
+  static const String GET_ALL_CATEGORY = '$SELLER_BASE_URL/categories';
+  static const String DELETE_CATEGORY = '$SELLER_BASE_URL/categories';
+
+  //PRODUCTS
+  static const String GET_ALL_PRODUCTS = '$SELLER_BASE_URL/products';
 }
