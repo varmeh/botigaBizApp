@@ -156,10 +156,14 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory) {
                     indent: 0,
                     endIndent: 285,
                   ),
-                  ...productWithCategory.products.map((product) {
+                  ...productWithCategory.products.asMap().entries.map((entry) {
+                    int idx = entry.key;
+                    if (idx == productWithCategory.products.length - 1) {
+                      return ProductItemRow(entry.value);
+                    }
                     return Column(
                       children: [
-                        ProductItemRow(product),
+                        ProductItemRow(entry.value),
                         Divider(
                           color: AppTheme.backgroundColor,
                           thickness: 1.2,
@@ -167,22 +171,6 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory) {
                       ],
                     );
                   })
-                  // ProductItemRow(),
-                  // Divider(
-                  //   color: Theme.of(context).backgroundColor,
-                  //   thickness: 1,
-                  // ),
-                  // ProductItemRow(),
-                  // Divider(
-                  //   color: Theme.of(context).backgroundColor,
-                  //   thickness: 1,
-                  // ),
-                  // ProductItemRow(),
-                  // Divider(
-                  //   color: Theme.of(context).backgroundColor,
-                  //   thickness: 1,
-                  // ),
-                  // ProductItemRow()
                 ],
               )
             ],
@@ -219,7 +207,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
     Product product = widget.product;
 
     return Container(
-      height: 110,
+      height: 100,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,67 +231,68 @@ class _ProductItemRowState extends State<ProductItemRow> {
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.only(left: 12, top: 12),
-                  child: Column(
+                  padding: EdgeInsets.only(left: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(
-                            child: Text(
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
                               '${product.name}',
                               style: AppTheme.textStyle.color100.size(15).w500,
                             ),
-                          ),
-                          _switchValue
-                              ? Text(
-                                  "Available",
-                                  style: AppTheme.textStyle.color100
-                                      .size(12)
-                                      .w500
-                                      .letterSpace(0.2),
-                                )
-                              : Text(
-                                  "Not Available",
-                                  style: AppTheme.textStyle.color100
-                                      .size(12)
-                                      .w500
-                                      .letterSpace(0.2),
-                                )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 6),
-                            child: Text(
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Text(
                               '${product.size} .${Constants.rupeeSymbol}${product.price}',
                               style: AppTheme.textStyle.color50
                                   .size(13)
                                   .w500
                                   .letterSpace(0.5),
                             ),
-                          ),
-                          Transform.scale(
-                            alignment: Alignment.topRight,
-                            scale: 0.75,
-                            child: CupertinoSwitch(
-                              value: _switchValue,
-                              onChanged: (bool value) {
-                                setState(
-                                  () {
-                                    _switchValue = value;
-                                  },
-                                );
-                              },
-                            ),
-                          )
-                        ],
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: <Widget>[
+                            _switchValue
+                                ? Text(
+                                    "Available",
+                                    style: AppTheme.textStyle.color100
+                                        .size(12)
+                                        .w500
+                                        .letterSpace(0.2),
+                                  )
+                                : Text(
+                                    "Not Available",
+                                    style: AppTheme.textStyle.color100
+                                        .size(12)
+                                        .w500
+                                        .letterSpace(0.2),
+                                  ),
+                            Transform.scale(
+                              alignment: Alignment.topRight,
+                              scale: 0.75,
+                              child: CupertinoSwitch(
+                                value: _switchValue,
+                                onChanged: (bool value) {
+                                  setState(
+                                    () {
+                                      _switchValue = value;
+                                    },
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -313,12 +302,15 @@ class _ProductItemRowState extends State<ProductItemRow> {
           ),
           (product.description != null && product.description != '')
               ? Flexible(
-                  child: Text(
-                    '${product.description}',
-                    style: AppTheme.textStyle.color100
-                        .size(12)
-                        .w500
-                        .letterSpace(0.2),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      '${product.description}',
+                      style: AppTheme.textStyle.color100
+                          .size(12)
+                          .w500
+                          .letterSpace(0.2),
+                    ),
                   ),
                 )
               : SizedBox.shrink()
