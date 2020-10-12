@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/rendering.dart';
 import '../../providers/Delivery/DeliveryProvider.dart';
 import '../../providers/Apartment/ApartmentProvide.dart';
+import '../../models/Apartment/Apartments.dart';
 import '../../theme/index.dart';
-import '../../util/constants.dart';
+import '../../util/index.dart';
 import '../../models/Delivery/DeliveryByDateDetails.dart';
-//import '../Orders/orderDetails.dart';
+import '../Orders/orderDetails.dart';
 
 class DeliveryScreen extends StatefulWidget {
   static const routeName = '/all-delivery-list';
@@ -20,10 +20,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   bool _isLoading = false;
   bool _isError = false;
   bool _isInit = false;
-  String apartmentName = "";
   String selectedStatus = "";
   String slectedDate = "";
   bool fabIsVisible = false;
+  Apartment apartment;
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   CalendarController _calendarController;
   ScrollController _scrollcontroller;
@@ -50,23 +50,26 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   }
 
   loadSettings() async {
-    final apartment = Provider.of<ApartmentProvider>(context, listen: false)
-        .defaultAppartment;
+    final deafaultApartment =
+        Provider.of<ApartmentProvider>(context, listen: false)
+            .defaultAppartment;
     setState(() {
       selectedStatus = 'All';
-      apartmentName = apartment != null ? apartment.apartmentName : '- -';
+      apartment = deafaultApartment;
       slectedDate = 'TODAY';
     });
   }
 
-  void fetchDeliveryData() {
+  void fetchDeliveryData(String aprtmentId, String currentDate) {
     final deliveryProvider =
         Provider.of<DeliveryProvider>(context, listen: false);
     setState(() {
       _isError = false;
       _isLoading = true;
     });
-    deliveryProvider.fetchDeliveryByDateDeatils().then((_) {
+    deliveryProvider
+        .fetchDeliveryByDateDeatils(aprtmentId, currentDate)
+        .then((_) {
       setState(() {
         _isLoading = false;
       });
@@ -81,7 +84,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      fetchDeliveryData();
+      final apartment = Provider.of<ApartmentProvider>(context, listen: false)
+          .defaultAppartment;
+      final aprtmentId = apartment != null ? apartment.id : '';
+      final currentDate = FormatDate.getRequestFormatDate(DateTime.now());
+      fetchDeliveryData(aprtmentId, currentDate);
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -148,8 +155,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                           onTap: () {
                             Navigator.of(context).pop();
                             setState(() {
-                              apartmentName = apartment.apartmentName;
+                              apartment = apartment;
+                              slectedDate = FormatDate.getTodayOrSelectedDate(
+                                  DateTime.now());
                             });
+                            final currentDate =
+                                FormatDate.getRequestFormatDate(DateTime.now());
+                            fetchDeliveryData(apartment.id, currentDate);
                           });
                     }),
                   ],
@@ -245,7 +257,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                               setState(() {
                                                 selectedStatus = val;
                                               });
-                                              fetchDeliveryData();
                                             },
                                             color: selectedStatus == val
                                                 ? AppTheme.primaryColor
@@ -256,10 +267,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                                         .colored(AppTheme
                                                             .surfaceColor)
                                                         .w500
-                                                        .size(12)
+                                                        .size(13)
                                                     : AppTheme
                                                         .textStyle.color100.w500
-                                                        .size(12)),
+                                                        .size(13)),
                                           ),
                                         ),
                                       );
@@ -277,27 +288,30 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Container(
-                                child: Flexible(
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        child: Icon(
-                                          BotigaIcons.building,
-                                          size: 18,
-                                        ),
+                                width: 220,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      child: Icon(
+                                        BotigaIcons.building,
+                                        size: 18,
                                       ),
-                                      SizedBox(
-                                        width: 3,
+                                    ),
+                                    SizedBox(
+                                      width: 3,
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        '${apartment.apartmentName}',
+                                        style: AppTheme.textStyle.w500.color100
+                                            .size(15),
                                       ),
-                                      Text(
-                                        '$apartmentName',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle1,
-                                      )
-                                    ],
-                                  ),
+                                    )
+                                  ],
                                 ),
+                              ),
+                              SizedBox(
+                                width: 3,
                               ),
                               GestureDetector(
                                 onTap: () {
@@ -324,33 +338,34 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                           CalendarFormat.month: 'Month',
                                         },
                                         calendarStyle: CalendarStyle(
-                                          selectedColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          outsideDaysVisible: true,
-                                          weekendStyle: TextStyle().copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onPrimary),
-                                        ),
+                                            todayColor: AppTheme
+                                                .primaryColorVariant
+                                                .withOpacity(0.5),
+                                            selectedColor:
+                                                AppTheme.primaryColor,
+                                            outsideDaysVisible: true,
+                                            weekendStyle:
+                                                AppTheme.textStyle.color100,
+                                            outsideWeekendStyle:
+                                                AppTheme.textStyle.color50),
                                         daysOfWeekStyle: DaysOfWeekStyle(
-                                          weekendStyle: TextStyle().copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurface),
+                                          weekendStyle: AppTheme.textStyle
+                                              .colored(AppTheme.color100),
                                         ),
                                         headerStyle: HeaderStyle(
                                           centerHeaderTitle: false,
                                           formatButtonVisible: false,
                                         ),
                                         onDaySelected: (date, events) {
-                                          final newDate =
-                                              DateFormat("yMd").format(date);
                                           Navigator.of(context).pop();
                                           setState(() {
-                                            slectedDate = newDate;
+                                            slectedDate = FormatDate
+                                                .getTodayOrSelectedDate(date);
                                           });
-                                          fetchDeliveryData();
+                                          fetchDeliveryData(
+                                              apartment.id,
+                                              FormatDate.getRequestFormatDate(
+                                                  date));
                                         },
                                         calendarController: _calendarController,
                                       ),
@@ -390,7 +405,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                           return Column(
                             children: [
                               ...deliveryByDateDetails.map((deliveryRow) {
-                                return DeliveryRow(deliveryRow);
+                                return DeliveryRow(
+                                    deliveryRow, apartment.apartmentName);
                               })
                             ],
                           );
@@ -406,87 +422,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                           return Column(
                             children: [
                               ...deliveryByDateDetails.map((deliveryRow) {
-                                return DeliveryRow(deliveryRow);
-                              })
-                            ],
-                          );
-                        }),
-                        Consumer<DeliveryProvider>(
-                            builder: (ctx, deliveryprovider, _) {
-                          final deliveryByDateDetails =
-                              deliveryprovider.deliveryByDateDetails;
-                          if (deliveryprovider == null) {
-                            return SizedBox();
-                          }
-
-                          return Column(
-                            children: [
-                              ...deliveryByDateDetails.map((deliveryRow) {
-                                return DeliveryRow(deliveryRow);
-                              })
-                            ],
-                          );
-                        }),
-                        Consumer<DeliveryProvider>(
-                            builder: (ctx, deliveryprovider, _) {
-                          final deliveryByDateDetails =
-                              deliveryprovider.deliveryByDateDetails;
-                          if (deliveryprovider == null) {
-                            return SizedBox();
-                          }
-
-                          return Column(
-                            children: [
-                              ...deliveryByDateDetails.map((deliveryRow) {
-                                return DeliveryRow(deliveryRow);
-                              })
-                            ],
-                          );
-                        }),
-                        Consumer<DeliveryProvider>(
-                            builder: (ctx, deliveryprovider, _) {
-                          final deliveryByDateDetails =
-                              deliveryprovider.deliveryByDateDetails;
-                          if (deliveryprovider == null) {
-                            return SizedBox();
-                          }
-
-                          return Column(
-                            children: [
-                              ...deliveryByDateDetails.map((deliveryRow) {
-                                return DeliveryRow(deliveryRow);
-                              })
-                            ],
-                          );
-                        }),
-                        Consumer<DeliveryProvider>(
-                            builder: (ctx, deliveryprovider, _) {
-                          final deliveryByDateDetails =
-                              deliveryprovider.deliveryByDateDetails;
-                          if (deliveryprovider == null) {
-                            return SizedBox();
-                          }
-
-                          return Column(
-                            children: [
-                              ...deliveryByDateDetails.map((deliveryRow) {
-                                return DeliveryRow(deliveryRow);
-                              })
-                            ],
-                          );
-                        }),
-                        Consumer<DeliveryProvider>(
-                            builder: (ctx, deliveryprovider, _) {
-                          final deliveryByDateDetails =
-                              deliveryprovider.deliveryByDateDetails;
-                          if (deliveryprovider == null) {
-                            return SizedBox();
-                          }
-
-                          return Column(
-                            children: [
-                              ...deliveryByDateDetails.map((deliveryRow) {
-                                return DeliveryRow(deliveryRow);
+                                return DeliveryRow(
+                                    deliveryRow, apartment.apartmentName);
                               })
                             ],
                           );
@@ -504,16 +441,17 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
 class DeliveryRow extends StatelessWidget {
   final DeliveryByDateDetails delivery;
-  DeliveryRow(this.delivery);
+  final String apartmentName;
+  DeliveryRow(this.delivery, this.apartmentName);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.of(context).pushNamed(
-        //   OrderDetails.routeName,
-        //   arguments: {'orderId': delivery.id, 'apartmentName': 'test'},
-        // );
+        Navigator.of(context).pushNamed(
+          OrderDetails.routeName,
+          arguments: {'orderId': delivery.id, 'apartmentName': apartmentName},
+        );
       },
       child: Container(
         width: double.infinity,

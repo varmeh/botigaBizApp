@@ -17,8 +17,11 @@ class Apartments {
 class Apartment {
   String apartmentName;
   String apartmentArea;
+  @JsonKey(name: '_id')
+  String id;
+  bool live;
 
-  Apartment({this.apartmentName, this.apartmentArea});
+  Apartment({this.apartmentName, this.apartmentArea, this.id, this.live});
 
   factory Apartment.fromJson(Map<String, dynamic> json) =>
       _$ApartmentFromJson(json);

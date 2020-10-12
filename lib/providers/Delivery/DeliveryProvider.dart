@@ -10,9 +10,11 @@ class DeliveryProvider with ChangeNotifier {
     return this._deliveryByDateDetails;
   }
 
-  Future<void> fetchDeliveryByDateDeatils() async {
+  Future<void> fetchDeliveryByDateDeatils(
+      String apartmentId, String date) async {
     try {
-      final response = await HttpService().get('${Constants.DELIVERY_BY_DATE}');
+      final response = await HttpService()
+          .get('${Constants.DELIVERY_BY_DATE}/$apartmentId/$date');
       List<DeliveryByDateDetails> items = [];
       for (var delivery in response) {
         items.add(DeliveryByDateDetails.fromJson(delivery));

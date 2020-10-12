@@ -31,8 +31,7 @@ class Constants {
   static const String CANCEL_ORDER = '$SELLER_BASE_URL/orders/cancel';
 
   //DELIVERY
-  static const String DELIVERY_BY_DATE =
-      '$SELLER_BASE_URL/orders/delivery/5f5a35d281710e963e530a5b/2020-10-01';
+  static const String DELIVERY_BY_DATE = '$SELLER_BASE_URL/orders/delivery';
 
   //APARTMENT
   static const String GET_APARTMENT = '$SELLER_BASE_URL/apartments';
