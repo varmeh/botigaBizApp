@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flushbar/flushbar.dart';
 import '../../../providers/Store/Category/CategoryProvider.dart';
+import '../../../providers/Store/Product/ProductProvider.dart';
 import '../../../models/Store/Category/StoreCategory.dart';
 
 class Category extends StatelessWidget {
@@ -26,13 +27,16 @@ class Category extends StatelessWidget {
 }
 
 Widget getTile(BuildContext context, StoreCategory category) {
+  final productProvider = Provider.of<ProductProvider>(context, listen: false);
+  final productCount = productProvider.productCountForCategory(category.id);
+  final countDispaly = productCount < 10 ? '0$productCount' : productCount;
   return Column(
     children: <Widget>[
       ListTile(
         contentPadding: EdgeInsets.only(left: 0, right: 0),
         title: RichText(
           text: TextSpan(
-            text: '00',
+            text: '$countDispaly',
             style: AppTheme.textStyle.color50.w600.size(12).letterSpace(1),
             children: <TextSpan>[
               TextSpan(
@@ -46,58 +50,63 @@ Widget getTile(BuildContext context, StoreCategory category) {
             ],
           ),
         ),
-        trailing: GestureDetector(
-          child: Icon(
-            Icons.delete_sharp,
-            color: AppTheme.color100,
-          ),
-          onTap: () {
-            final categoryProvide =
-                Provider.of<CategoryProvider>(context, listen: false);
-            categoryProvide.deleteCategory(category.id).then((value) {
-              Flushbar(
-                maxWidth: 335,
-                backgroundColor: Color(0xff2591B2),
-                messageText: Text(
-                  'Deleted',
-                  style: AppTheme.textStyle
-                      .colored(AppTheme.surfaceColor)
-                      .w500
-                      .size(15),
+        trailing: productCount != 0
+            ? Icon(
+                Icons.delete_sharp,
+                color: AppTheme.color50,
+              )
+            : GestureDetector(
+                child: Icon(
+                  Icons.delete_sharp,
+                  color: AppTheme.color100,
                 ),
-                icon: Icon(Icons.check_circle_outline_sharp,
-                    size: 30, color: AppTheme.surfaceColor),
-                flushbarPosition: FlushbarPosition.TOP,
-                flushbarStyle: FlushbarStyle.FLOATING,
-                duration: Duration(seconds: 3),
-                margin: EdgeInsets.all(20),
-                padding: EdgeInsets.all(20),
-                borderRadius: 8,
-              ).show(context);
-              categoryProvide.fetchCategories();
-            }).catchError((error) {
-              Flushbar(
-                maxWidth: 335,
-                backgroundColor: Theme.of(context).errorColor,
-                messageText: Text(
-                  '$error',
-                  style: AppTheme.textStyle
-                      .colored(AppTheme.surfaceColor)
-                      .w500
-                      .size(15),
-                ),
-                icon: Icon(Icons.error_outline_outlined,
-                    size: 30, color: AppTheme.surfaceColor),
-                flushbarPosition: FlushbarPosition.TOP,
-                flushbarStyle: FlushbarStyle.FLOATING,
-                duration: Duration(seconds: 3),
-                margin: EdgeInsets.all(20),
-                padding: EdgeInsets.all(20),
-                borderRadius: 8,
-              ).show(context);
-            });
-          },
-        ),
+                onTap: () {
+                  final categoryProvide =
+                      Provider.of<CategoryProvider>(context, listen: false);
+                  categoryProvide.deleteCategory(category.id).then((value) {
+                    Flushbar(
+                      maxWidth: 335,
+                      backgroundColor: Color(0xff2591B2),
+                      messageText: Text(
+                        'Deleted',
+                        style: AppTheme.textStyle
+                            .colored(AppTheme.surfaceColor)
+                            .w500
+                            .size(15),
+                      ),
+                      icon: Icon(Icons.check_circle_outline_sharp,
+                          size: 30, color: AppTheme.surfaceColor),
+                      flushbarPosition: FlushbarPosition.TOP,
+                      flushbarStyle: FlushbarStyle.FLOATING,
+                      duration: Duration(seconds: 3),
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
+                      borderRadius: 8,
+                    ).show(context);
+                    categoryProvide.fetchCategories();
+                  }).catchError((error) {
+                    Flushbar(
+                      maxWidth: 335,
+                      backgroundColor: Theme.of(context).errorColor,
+                      messageText: Text(
+                        '$error',
+                        style: AppTheme.textStyle
+                            .colored(AppTheme.surfaceColor)
+                            .w500
+                            .size(15),
+                      ),
+                      icon: Icon(Icons.error_outline_outlined,
+                          size: 30, color: AppTheme.surfaceColor),
+                      flushbarPosition: FlushbarPosition.TOP,
+                      flushbarStyle: FlushbarStyle.FLOATING,
+                      duration: Duration(seconds: 3),
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
+                      borderRadius: 8,
+                    ).show(context);
+                  });
+                },
+              ),
       ),
       Divider(
         color: AppTheme.backgroundColor,

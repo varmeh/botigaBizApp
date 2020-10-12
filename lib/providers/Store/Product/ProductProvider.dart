@@ -10,6 +10,16 @@ class ProductProvider with ChangeNotifier {
     return this._products;
   }
 
+  int productCountForCategory(String categoryId) {
+    final ProductByCategory catgoryProdut = _products.firstWhere(
+        (product) => product.categoryId == categoryId,
+        orElse: () => null);
+    if (catgoryProdut != null) {
+      return catgoryProdut.products.length;
+    }
+    return 0;
+  }
+
   Future<void> fetchProducts() async {
     try {
       final response = await HttpService().get('${Constants.GET_ALL_PRODUCTS}');
