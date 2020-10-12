@@ -1,98 +1,12 @@
-import 'package:flutter/material.dart';
-import '../../widget/common/appHeader.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'dart:io';
-import '../add-product-success/addProductSuccess.dart';
-import '../../theme/index.dart' show BotigaIcons;
-
-class MyStatefulWidget extends StatefulWidget {
-  final label;
-  MyStatefulWidget(this.label);
-
-  @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState(this.label);
-}
-
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  bool _isSelected = false;
-  final label;
-  _MyStatefulWidgetState(this.label);
-
-  @override
-  Widget build(BuildContext context) {
-    return LabeledCheckbox(
-      label: this.label,
-      padding: const EdgeInsets.symmetric(horizontal: 0.0),
-      value: _isSelected,
-      onChanged: (bool newValue) {
-        setState(() {
-          _isSelected = newValue;
-        });
-      },
-    );
-  }
-}
-
-class LabeledCheckbox extends StatelessWidget {
-  const LabeledCheckbox({
-    this.label,
-    this.padding,
-    this.value,
-    this.onChanged,
-  });
-
-  final String label;
-  final EdgeInsets padding;
-  final bool value;
-  final Function onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        onChanged(!value);
-      },
-      child: Padding(
-        padding: padding,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ),
-            value
-                ? IconButton(
-                    icon: Icon(
-                      Icons.check_box,
-                      size: 30,
-                      color: Color(0xff179F57),
-                    ),
-                    onPressed: () {
-                      onChanged(false);
-                    })
-                : IconButton(
-                    icon: Icon(
-                      Icons.check_box_outline_blank,
-                      size: 30,
-                      color: Color(0xff121715),
-                    ),
-                    onPressed: () {
-                      onChanged(true);
-                    },
-                  )
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flushbar/flushbar.dart';
+import '../../../providers/Store/Category/CategoryProvider.dart';
+import '../../../providers/Store/Product/ProductProvider.dart';
+import '../../../theme/index.dart';
 
 class AddProduct extends StatefulWidget {
   static const routeName = '/add-product';
@@ -101,15 +15,58 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> {
-  bool _switchValue = false;
-  String selectedQuantity = 'Kg';
   PickedFile _imageFile;
   final ImagePicker _picker = ImagePicker();
   final TextEditingController maxWidthController = TextEditingController();
   final TextEditingController maxHeightController = TextEditingController();
   final TextEditingController qualityController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+  bool _switchValue = false;
+  String selectedQuantity = 'Kg';
+  String seletedCategory = '';
+  String seletedCategoryId = '';
+  String name;
+  double price;
+  int quantity;
+  String description;
+
   void showCategories() {
+    List<Widget> widgets = [];
+    final categories =
+        Provider.of<CategoryProvider>(context, listen: false).allCategories;
+    for (final category in categories) {
+      widgets.add(
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  category.name,
+                  style: AppTheme.textStyle.color100.w500.size(17),
+                ),
+                Radio(
+                  value: category.name,
+                  groupValue: seletedCategory,
+                  onChanged: (_) {
+                    setState(() {
+                      Navigator.of(context).pop();
+                      seletedCategory = category.name;
+                      seletedCategoryId = category.id;
+                    });
+                  },
+                )
+              ],
+            ),
+            Divider(
+              color: AppTheme.dividerColor,
+              thickness: 1.2,
+            )
+          ],
+        ),
+      );
+    }
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -118,7 +75,7 @@ class _AddProductState extends State<AddProduct> {
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppTheme.surfaceColor,
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16.0),
               topRight: const Radius.circular(16.0),
@@ -130,21 +87,12 @@ class _AddProductState extends State<AddProduct> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
-                "Select category",
-                style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700),
-              ),
+              Text("Select category",
+                  style: AppTheme.textStyle.color100.w700.size(22)),
               SizedBox(
-                height: 25,
+                height: 20,
               ),
-              MyStatefulWidget("Deserts"),
-              MyStatefulWidget("Cakes"),
-              MyStatefulWidget("Cookies"),
-              MyStatefulWidget("Snacks"),
-              MyStatefulWidget("Deserts"),
+              ...widgets
             ],
           ),
         ),
@@ -161,7 +109,7 @@ class _AddProductState extends State<AddProduct> {
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppTheme.surfaceColor,
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16.0),
               topRight: const Radius.circular(16.0),
@@ -173,13 +121,8 @@ class _AddProductState extends State<AddProduct> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(
-                "Add image",
-                style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold),
-              ),
+              Text("Add image",
+                  style: AppTheme.textStyle.color100.w700.size(22)),
               SizedBox(
                 height: 24,
               ),
@@ -188,13 +131,10 @@ class _AddProductState extends State<AddProduct> {
                   _onImageButtonPressed(ImageSource.camera, context: context);
                 },
                 contentPadding: EdgeInsets.only(left: 0.0),
-                leading: Icon(Icons.camera_alt, color: Color(0xff121715)),
+                leading: Icon(Icons.camera_alt, color: AppTheme.color100),
                 title: Text(
                   'Take photo',
-                  style: TextStyle(
-                      color: Color(0xff121715),
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500),
+                  style: AppTheme.textStyle.color100.w500.size(17),
                 ),
               ),
               ListTile(
@@ -204,15 +144,11 @@ class _AddProductState extends State<AddProduct> {
                 contentPadding: EdgeInsets.only(left: 0.0),
                 leading: Icon(
                   Icons.image,
-                  color: Color(0xff121715),
+                  color: AppTheme.color100,
                 ),
                 title: Text(
                   'Choose from gallery',
-                  style: TextStyle(
-                    color: Color(0xff121715),
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTheme.textStyle.color100.w500.size(17),
                 ),
               ),
               SizedBox(
@@ -240,73 +176,167 @@ class _AddProductState extends State<AddProduct> {
     Navigator.of(context).pop();
   }
 
+  void _handleProductSave(BuildContext context) {
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    productProvider
+        .saveProduct(seletedCategoryId, name, price, quantity.toString(),
+            selectedQuantity)
+        .then((value) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => Padding(
+          padding: MediaQuery.of(context).viewInsets,
+          child: Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.75,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(16.0),
+                topRight: const Radius.circular(16.0),
+              ),
+            ),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20.0, right: 20, top: 20, bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.clear),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                      )
+                    ],
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    children: <Widget>[
+                      Icon(
+                        Icons.check_circle_outline,
+                        size: 100.0,
+                        color: AppTheme.primaryColor,
+                      ),
+                      SizedBox(
+                        height: 32,
+                      ),
+                      Container(
+                        width: 242,
+                        child: Text(
+                          "Product added successfully!",
+                          textAlign: TextAlign.center,
+                          style: AppTheme.textStyle.w700.size(25).color100,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }).catchError((error) {
+      Flushbar(
+        maxWidth: 335,
+        backgroundColor: Theme.of(context).errorColor,
+        messageText: Text(
+          '$error',
+          style:
+              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+        ),
+        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        flushbarPosition: FlushbarPosition.TOP,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        duration: Duration(seconds: 3),
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
+        borderRadius: 8,
+      ).show(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.all(10),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: SizedBox(
-                  height: 52,
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.0),
-                    ),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              AddProductSuccess(),
-                        ),
-                      );
-                    },
-                    color: Color(0xff179F57),
-                    child: Text(
-                      'Add Product',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
+        backgroundColor: AppTheme.surfaceColor,
+        appBar: AppBar(
+            backgroundColor: AppTheme.surfaceColor,
+            elevation: 0,
+            centerTitle: false,
+            title: Align(
+              child: Text(
+                'Add Product',
+                style: TextStyle(
+                    color: AppTheme.color100,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500),
+              ),
+              alignment: Alignment.centerLeft,
+            ),
+            leading: IconButton(
+              icon: Icon(
+                BotigaIcons.arrowBack,
+                color: AppTheme.color100,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
+        bottomNavigationBar: SafeArea(
+          child: Container(
+            color: AppTheme.surfaceColor,
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: SizedBox(
+                    height: 52,
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          _handleProductSave(context);
+                        }
+                      },
+                      color: Color(0xff179F57),
+                      child: Text(
+                        'Add Product',
+                        style: AppTheme.textStyle
+                            .colored(AppTheme.surfaceColor)
+                            .w600
+                            .size(15),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-        body: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 25),
+        body: SafeArea(
+          child: Form(
+            key: _formKey,
             child: ListView(
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20.0,
-                    right: 20,
-                  ),
+                  padding:
+                      const EdgeInsets.only(left: 20.0, right: 20, top: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      AppHeader(
-                        title: "Add Product",
-                        actionWidget: InkWell(
-                          onTap: () {
-                            debugPrint('I am Awesome');
-                          },
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          child: SizedBox.shrink(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 29,
-                      ),
                       _imageFile != null
                           ? ConstrainedBox(
                               constraints: BoxConstraints.tight(
@@ -371,7 +401,7 @@ class _AddProductState extends State<AddProduct> {
                                 borderRadius: BorderRadius.circular(8.0),
                                 border: Border.all(
                                   style: BorderStyle.solid,
-                                  color: Colors.black.withOpacity(0.25),
+                                  color: AppTheme.color100.withOpacity(0.25),
                                   width: 1.0,
                                 ),
                               ),
@@ -403,14 +433,10 @@ class _AddProductState extends State<AddProduct> {
                                         bottom: 14,
                                         left: 8,
                                       ),
-                                      child: Text(
-                                        'Add image',
-                                        style: TextStyle(
-                                          color: Color(0xff372D21),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
+                                      child: Text('Add image',
+                                          style: AppTheme
+                                              .textStyle.color100.w500
+                                              .size(15)),
                                     ),
                                   ),
                                   Padding(
@@ -419,13 +445,9 @@ class _AddProductState extends State<AddProduct> {
                                     child: Text(
                                       "Adding image will increase people interest in your product",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color:
-                                            Color(0xff121715).withOpacity(0.5),
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        letterSpacing: 0.2,
-                                      ),
+                                      style: AppTheme.textStyle.color50.w400
+                                          .size(12)
+                                          .letterSpace(0.2),
                                     ),
                                   ),
                                 ],
@@ -437,48 +459,78 @@ class _AddProductState extends State<AddProduct> {
                       TextFormField(
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Required';
+                            return 'Product name cannot be empty';
                           }
                           return null;
                         },
-                        onSaved: (val) => '',
+                        onSaved: (val) => name = val,
                         decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelText: "Product name",
-                          hintText: "Product name",
-                          alignLabelWithHint: true,
-                          border: OutlineInputBorder(),
-                        ),
+                            contentPadding: const EdgeInsets.all(17.0),
+                            fillColor: AppTheme.surfaceColor,
+                            labelText: "Product name",
+                            labelStyle:
+                                AppTheme.textStyle.size(15).w500.color25,
+                            border: OutlineInputBorder()),
                       ),
                       SizedBox(
                         height: 26,
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(3.5),
                           border: Border.all(
                             style: BorderStyle.solid,
-                            color: Colors.black.withOpacity(0.25),
+                            color: AppTheme.color25,
                             width: 1.0,
                           ),
                         ),
                         child: ListTile(
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: -1),
                           onTap: () {
                             showCategories();
                           },
                           trailing: Icon(Icons.keyboard_arrow_down,
-                              color: Color(0xff121715)),
-                          title: Text(
-                            'Select Category',
-                            style: TextStyle(
-                              color: Color(0xff121715).withOpacity(0.75),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
+                              color: AppTheme.color100),
+                          title: seletedCategory == ''
+                              ? Text(
+                                  'Select Category',
+                                  style:
+                                      AppTheme.textStyle.color100.w500.size(15),
+                                )
+                              : Text(
+                                  '$seletedCategory',
+                                  style:
+                                      AppTheme.textStyle.color100.w500.size(15),
+                                ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 26,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Price cannot be empty';
+                          }
+                          if (double.tryParse(value) == null) {
+                            return 'Price should be number';
+                          }
+                          return null;
+                        },
+                        onSaved: (val) => price = double.parse(val),
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(
+                              BotigaIcons.rupee,
+                              size: 14,
+                              color: AppTheme.color100,
                             ),
-                          ),
-                        ),
+                            contentPadding: const EdgeInsets.all(17.0),
+                            fillColor: AppTheme.surfaceColor,
+                            labelText: "Price",
+                            labelStyle:
+                                AppTheme.textStyle.size(15).w500.color25,
+                            border: OutlineInputBorder()),
                       ),
                       SizedBox(
                         height: 26,
@@ -486,46 +538,21 @@ class _AddProductState extends State<AddProduct> {
                       TextFormField(
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Required';
+                            return 'Quantity cannot be empty';
+                          }
+                          if (int.tryParse(value) == null) {
+                            return 'Quantity should be number';
                           }
                           return null;
                         },
-                        onSaved: (val) => '',
+                        onSaved: (val) => quantity = int.parse(val),
                         decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          suffixIcon: Icon(
-                            BotigaIcons.rupee,
-                            size: 14,
-                            color: Colors.black,
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelText: "Price",
-                          hintText: "Price",
-                          alignLabelWithHint: true,
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 26,
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Required';
-                          }
-                          return null;
-                        },
-                        onSaved: (val) => '',
-                        decoration: InputDecoration(
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          fillColor: Colors.white,
-                          filled: true,
-                          labelText: "Quantity",
-                          hintText: "Quantity",
-                          alignLabelWithHint: true,
-                          border: OutlineInputBorder(),
-                        ),
+                            contentPadding: const EdgeInsets.all(17.0),
+                            fillColor: AppTheme.surfaceColor,
+                            labelText: "Quantity",
+                            labelStyle:
+                                AppTheme.textStyle.size(15).w500.color25,
+                            border: OutlineInputBorder()),
                       ),
                     ],
                   ),
@@ -538,7 +565,7 @@ class _AddProductState extends State<AddProduct> {
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: <Widget>[
-                        ...["Kg", "gm", "liter", "ml", "pc"].map(
+                        ...["Kg", "gm", "liter", "ml", "pcs"].map(
                           (val) {
                             return Padding(
                               padding: const EdgeInsets.only(right: 12),
@@ -555,17 +582,17 @@ class _AddProductState extends State<AddProduct> {
                                     });
                                   },
                                   color: selectedQuantity == val
-                                      ? Color(0xff179F57)
-                                      : Colors.black.withOpacity(0.25),
-                                  child: Text(
-                                    '$val',
-                                    style: TextStyle(
-                                        color: selectedQuantity == val
-                                            ? Colors.white
-                                            : Color(0xff121715),
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w600),
-                                  ),
+                                      ? AppTheme.primaryColor
+                                      : AppTheme.backgroundColor,
+                                  child: Text('$val',
+                                      style: selectedQuantity == val
+                                          ? AppTheme.textStyle
+                                              .size(13)
+                                              .w600
+                                              .colored(AppTheme.surfaceColor)
+                                          : AppTheme.textStyle.color100
+                                              .size(13)
+                                              .w600),
                                 ),
                               ),
                             );
@@ -576,8 +603,7 @@ class _AddProductState extends State<AddProduct> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, left: 20, right: 0, bottom: 26),
+                  padding: const EdgeInsets.only(left: 20, top: 10),
                   child: Container(
                     width: double.infinity,
                     child: Row(
@@ -585,10 +611,7 @@ class _AddProductState extends State<AddProduct> {
                       children: <Widget>[
                         Text(
                           "Add description",
-                          style: TextStyle(
-                              color: Color(0xff121715),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500),
+                          style: AppTheme.textStyle.size(15).w500.color100,
                         ),
                         Transform.scale(
                           alignment: Alignment.centerLeft,
@@ -609,27 +632,22 @@ class _AddProductState extends State<AddProduct> {
                 _switchValue == true
                     ? Padding(
                         padding: const EdgeInsets.only(
-                            left: 20, right: 20, bottom: 26),
+                            left: 20, right: 15, bottom: 15, top: 25),
                         child: TextFormField(
-                          onSaved: (val) => '',
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return '';
-                            }
-                            return null;
-                          },
+                          autofocus: true,
+                          onSaved: (val) => description = val,
                           maxLines: 3,
                           maxLength: 80,
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            filled: true,
-                            alignLabelWithHint: true,
-                            labelText: "Description",
-                            hintText: "Description",
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                            border: OutlineInputBorder(),
-                          ),
+                              contentPadding: const EdgeInsets.all(17.0),
+                              fillColor: AppTheme.surfaceColor,
+                              hintText: "Description",
+                              labelText: "Description",
+                              alignLabelWithHint: true,
+                              labelStyle:
+                                  AppTheme.textStyle.size(15).w500.color25,
+                              border: OutlineInputBorder()),
                         ),
                       )
                     : SizedBox()

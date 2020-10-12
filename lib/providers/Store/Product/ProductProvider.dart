@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../../../util/constants.dart';
+import 'dart:convert';
 import '../../../util/network/index.dart' show HttpService;
 import '../../../models/Store/Product/ProductByCategory.dart';
 
@@ -29,6 +30,21 @@ class ProductProvider with ChangeNotifier {
       }
       _products = items;
       notifyListeners();
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  Future saveProduct(String categoryId, String name, double price,
+      String quantity, String unit) async {
+    try {
+      final body = json.encode({
+        "categoryId": categoryId,
+        "name": name,
+        "price": price,
+        "size": {"quantity": quantity, "unit": unit}
+      });
+      return HttpService().post('${Constants.ADD_PRODUCT}', body);
     } catch (error) {
       throw (error);
     }

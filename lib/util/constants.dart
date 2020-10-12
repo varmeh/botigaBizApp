@@ -40,7 +40,9 @@ class Constants {
   //CATEGORY
   static const String GET_ALL_CATEGORY = '$SELLER_BASE_URL/categories';
   static const String DELETE_CATEGORY = '$SELLER_BASE_URL/categories';
+  static const String ADD_CATEGORIES = '$SELLER_BASE_URL/categories';
 
   //PRODUCTS
   static const String GET_ALL_PRODUCTS = '$SELLER_BASE_URL/products';
+  static const String ADD_PRODUCT = '$SELLER_BASE_URL/products';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../../../util/constants.dart';
+import 'dart:convert';
 import '../../../util/network/index.dart' show HttpService;
 import '../../../models/Store/Category/StoreCategory.dart';
 
@@ -27,6 +28,17 @@ class CategoryProvider with ChangeNotifier {
   Future deleteCategory(String categoryId) async {
     try {
       return HttpService().delete('${Constants.DELETE_CATEGORY}/$categoryId');
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  Future saveCategory(String name) async {
+    try {
+      final body = json.encode({
+        "name": name,
+      });
+      return HttpService().post('${Constants.ADD_CATEGORIES}', body);
     } catch (error) {
       throw (error);
     }
