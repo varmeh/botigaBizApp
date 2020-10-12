@@ -11,6 +11,7 @@ import '../../app/Store/StoreScreen.dart';
 import "../profile-screen/profile.dart";
 import '../../app/Delivery/deliveryScreen.dart';
 import '../../providers/Store/Category/CategoryProvider.dart';
+import '../../providers/Apartment/ApartmentProvide.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -33,6 +34,7 @@ class _HomeState extends State<Home> {
   }
 
   void preFetchData() {
+    Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
     Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
   }
 

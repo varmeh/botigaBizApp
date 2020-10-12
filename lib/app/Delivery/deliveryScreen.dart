@@ -50,9 +50,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   }
 
   loadSettings() async {
+    final apartment = Provider.of<ApartmentProvider>(context, listen: false)
+        .defaultAppartment;
     setState(() {
       selectedStatus = 'All';
-      apartmentName = 'Select apartment';
+      apartmentName = apartment != null ? apartment.apartmentName : '- -';
       slectedDate = 'TODAY';
     });
   }
@@ -79,7 +81,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
       fetchDeliveryData();
       _isInit = true;
     }
@@ -276,23 +277,26 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Container(
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      child: Icon(
-                                        BotigaIcons.building,
-                                        size: 18,
+                                child: Flexible(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        child: Icon(
+                                          BotigaIcons.building,
+                                          size: 18,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 3,
-                                    ),
-                                    Text(
-                                      '$apartmentName',
-                                      style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                    )
-                                  ],
+                                      SizedBox(
+                                        width: 3,
+                                      ),
+                                      Text(
+                                        '$apartmentName',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle1,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                               GestureDetector(

@@ -7,7 +7,17 @@ class ApartmentProvider with ChangeNotifier {
   Apartments _apartments;
 
   get allAprtment {
-    return this._apartments.apartments;
+    if (this._apartments != null && this._apartments.apartments.length > 0) {
+      return this._apartments.apartments;
+    }
+    return [];
+  }
+
+  get defaultAppartment {
+    if (this._apartments != null && this._apartments.apartments.length > 0) {
+      return this._apartments.apartments.first;
+    }
+    return null;
   }
 
   Future<void> fetchApartments() async {
