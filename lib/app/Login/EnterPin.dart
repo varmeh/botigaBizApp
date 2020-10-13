@@ -1,7 +1,7 @@
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import '../../widget/common/appHeader.dart';
-import "../../screens/home-screen/home.dart";
+import "../Home/HomeScreen.dart";
 import "./ForgotPin.dart";
 import '../../providers/Auth/AuthProvider.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class _EnterPinState extends State<EnterPin> {
     authProvider.signInWithPin(phone, pin).then((value) {
       authProvider.authLoginProfile = value;
       Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => Home()));
+          MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
     }).catchError((error) {
       Flushbar(
         maxWidth: 335,

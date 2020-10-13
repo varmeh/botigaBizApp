@@ -1,6 +1,6 @@
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
-import '../../screens/home-screen/home.dart';
+import '../Home/HomeScreen.dart';
 
 class SetPinSuccess extends StatefulWidget {
   static const routeName = '/signup-setpin-success';
@@ -28,7 +28,8 @@ class _SetPinSuccessState extends State<SetPinSuccess> {
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) => Home()));
+                                  builder: (BuildContext context) =>
+                                      HomeScreen()));
                         },
                         color: AppTheme.primaryColor,
                         child: Text(

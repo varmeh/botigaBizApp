@@ -9,7 +9,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'util/index.dart' show Flavor;
 
-import 'screens/home-screen/home.dart';
+import 'app/Home/HomeScreen.dart';
 import 'app/Orders/orderList.dart';
 import 'app/Orders/OrdersHome.dart';
 import 'app/Orders/orderDetails.dart';
@@ -110,7 +110,7 @@ class BotigaBizApp extends StatelessWidget {
         title: 'Botiga Business',
         home: Login(),
         routes: {
-          Home.routeName: (ctx) => Home(),
+          HomeScreen.routeName: (ctx) => HomeScreen(),
           OrdersHome.routeName: (ctx) => OrdersHome(),
           OrderList.routeName: (ctx) => OrderList(),
           OrderDetails.routeName: (ctx) => OrderDetails(),

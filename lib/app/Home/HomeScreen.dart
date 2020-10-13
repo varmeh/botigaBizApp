@@ -6,22 +6,22 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../theme/index.dart';
 import '../../util/index.dart' show FlavorBanner;
-import '../../app/Orders/OrdersHome.dart';
-import '../../app/Store/StoreScreen.dart';
-import '../../app/Profile/ProfileScreen.dart';
-import '../../app/Delivery/deliveryScreen.dart';
+import '../Orders/OrdersHome.dart';
+import '../Store/StoreScreen.dart';
+import '../Profile/ProfileScreen.dart';
+import '../Delivery/deliveryScreen.dart';
 import '../../providers/Store/Category/CategoryProvider.dart';
 import '../../providers/Apartment/ApartmentProvide.dart';
 import '../../providers/Profile/StoreProvider.dart';
 import '../../providers/Profile/BusinessProvider.dart';
 
-class Home extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
   @override
-  _HomeState createState() => _HomeState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
   bool _isInit = false;
