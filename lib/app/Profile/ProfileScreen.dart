@@ -1,38 +1,36 @@
 import 'package:flutter/material.dart';
-import "./profileScreen.dart";
-import "../communities-screen/communities.dart";
-import "../communities-screen/selectArea.dart";
+import 'Profile/Profile.dart';
+import '../../theme/index.dart';
+import '../../screens/communities-screen/communities.dart';
+import '../../screens/communities-screen/selectArea.dart';
 
-class Profile extends StatefulWidget {
+class ProfileScreen extends StatefulWidget {
   @override
-  _ProfileState createState() => _ProfileState();
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileScreenState extends State<ProfileScreen> {
   int slelectedTab = 0;
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surfaceColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
           padding: EdgeInsets.only(bottom: 32.0),
           child: slelectedTab == 1
               ? FloatingActionButton.extended(
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppTheme.surfaceColor,
                   elevation: 4.0,
                   icon: const Icon(Icons.add, color: Color(0xff179F57)),
-                  label: Text(
-                    "NEW COMMUNITY",
-                    style: TextStyle(
-                      letterSpacing: 1,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff179F57),
-                    ),
-                  ),
+                  label: Text("NEW COMMUNITY",
+                      style: AppTheme.textStyle
+                          .size(12)
+                          .w700
+                          .letterSpace(1)
+                          .colored(AppTheme.primaryColor)),
                   onPressed: () {
                     Navigator.of(context).pushNamed(SelectArea.routeName);
                   },
@@ -43,7 +41,7 @@ class _ProfileState extends State<Profile> {
           elevation: 0.0,
           backgroundColor: Colors.white,
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(50),
+            preferredSize: Size.fromHeight(11),
             child: Theme(
               data: ThemeData(
                 highlightColor: Colors.transparent,
@@ -59,12 +57,9 @@ class _ProfileState extends State<Profile> {
                         slelectedTab = index;
                       });
                     },
-                    labelStyle: TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    labelColor: Color(0xff121715),
-                    unselectedLabelColor: Color(0xff000000).withOpacity(0.25),
+                    labelStyle: AppTheme.textStyle.size(22).w700,
+                    labelColor: AppTheme.color100,
+                    unselectedLabelColor: AppTheme.color25,
                     isScrollable: true,
                     labelPadding: EdgeInsets.only(left: 0, right: 0),
                     indicatorColor: Colors.transparent,
@@ -84,7 +79,7 @@ class _ProfileState extends State<Profile> {
         ),
         body: TabBarView(
           children: [
-            ProfileScreen(),
+            Profile(),
             Communities(),
           ],
         ),

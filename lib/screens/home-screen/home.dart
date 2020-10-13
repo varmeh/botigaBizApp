@@ -8,10 +8,12 @@ import '../../theme/index.dart';
 import '../../util/index.dart' show FlavorBanner;
 import '../../app/Orders/OrdersHome.dart';
 import '../../app/Store/StoreScreen.dart';
-import "../profile-screen/profile.dart";
+import '../../app/Profile/ProfileScreen.dart';
 import '../../app/Delivery/deliveryScreen.dart';
 import '../../providers/Store/Category/CategoryProvider.dart';
 import '../../providers/Apartment/ApartmentProvide.dart';
+import '../../providers/Profile/StoreProvider.dart';
+import '../../providers/Profile/BusinessProvider.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -36,6 +38,9 @@ class _HomeState extends State<Home> {
   void preFetchData() {
     Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
     Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
+    Provider.of<StoreProvider>(context, listen: false).fetchStoreDetails();
+    Provider.of<BusinessProvider>(context, listen: false)
+        .fetchBusinessDetails();
   }
 
   @override
@@ -55,7 +60,7 @@ class _HomeState extends State<Home> {
         'title': 'Categories',
       },
       {
-        'page': Profile(),
+        'page': ProfileScreen(),
         'title': "Profile",
       }
     ];

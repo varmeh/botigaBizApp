@@ -8,7 +8,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'util/index.dart' show Flavor;
-import 'screens/login-screen/login.dart';
+
 import 'screens/home-screen/home.dart';
 import 'app/Orders/orderList.dart';
 import 'app/Orders/OrdersHome.dart';
@@ -19,23 +19,27 @@ import 'app/Store/StoreScreen.dart';
 import 'app/Store/Product/addProduct.dart';
 import 'screens/communities-screen/selectArea.dart';
 import 'screens/communities-screen/selectCommunites.dart';
-import 'screens/bussiness-details-screen/addBussinessDetails.dart';
-import 'screens/store-details-screen/storeDetails.dart';
+import 'app/Profile/Profile/BussinessDetails.dart';
+import 'app/Profile/Profile/StoreDetails.dart';
 import 'app/Delivery/deliveryScreen.dart';
 import 'screens/SignUp/SignUpWelcome.dart';
 import 'screens/SignUp/SignupVerifyOtp.dart';
 import 'screens/SignUp/SignupBussinessDetails.dart';
 import 'screens/SignUp/SignupStoreDetails.dart';
-import 'screens/SignUp/SignUpSetPin.dart';
-import 'screens/SignUp/SignUpPinSucessFull.dart';
-import 'screens/login-screen/EnterPin.dart';
-import 'screens/login-screen/ForgotPin.dart';
+import 'app/Signup/SetPin.dart';
+import 'app/Signup/SetPinSuccess.dart';
+import 'app/Login/Login.dart';
+import './app/Login/ForgotPin.dart';
+import './app/Login/EnterPin.dart';
 import 'package:provider/provider.dart';
 import './providers/Orders/OrdersProvider.dart';
 import './providers/Delivery/DeliveryProvider.dart';
 import './providers/Apartment/ApartmentProvide.dart';
 import './providers/Store/Category/CategoryProvider.dart';
 import './providers/Store/Product/ProductProvider.dart';
+import './providers/Profile/StoreProvider.dart';
+import './providers/Profile/BusinessProvider.dart';
+import './providers/Auth/AuthProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,6 +81,15 @@ class BotigaBizApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => BusinessProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => StoreProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => CategoryProvider(),
         ),
         ChangeNotifierProvider(
@@ -107,15 +120,15 @@ class BotigaBizApp extends StatelessWidget {
           AddProduct.routeName: (ctx) => AddProduct(),
           SelectArea.routeName: (ctx) => SelectArea(),
           SelectCommunites.routeName: (ctx) => SelectCommunites(),
-          AddBussinessDetails.routeName: (ctx) => AddBussinessDetails(),
-          AddStoreDeatils.routeName: (ctx) => AddStoreDeatils(),
+          BussinessDetails.routeName: (ctx) => BussinessDetails(),
+          StoreDeatils.routeName: (ctx) => StoreDeatils(),
           DeliveryScreen.routeName: (ctx) => DeliveryScreen(),
           SignupWelcome.routeName: (ctx) => SignupWelcome(),
           SignUpOtp.routeName: (ctx) => SignUpOtp(),
           SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
           SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
-          SignUpSetPin.routeName: (ctx) => SignUpSetPin(),
-          SignupPinSuccessfull.routeName: (ctx) => SignupPinSuccessfull(),
+          SetPin.routeName: (ctx) => SetPin(),
+          SetPinSuccess.routeName: (ctx) => SetPinSuccess(),
           EnterPin.routeName: (ctx) => EnterPin(),
           LoginForgotPin.routeName: (ctx) => LoginForgotPin()
         },

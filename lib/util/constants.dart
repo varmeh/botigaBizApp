@@ -44,4 +44,19 @@ class Constants {
   //PRODUCTS
   static const String GET_ALL_PRODUCTS = '$SELLER_BASE_URL/products';
   static const String ADD_PRODUCT = '$SELLER_BASE_URL/products';
+
+  //PROFIle
+  static const String GET_STORE_DETAILS = '$SELLER_BASE_URL/profile/contact';
+  static const UPDATE_STORE_DETAILS = '$SELLER_BASE_URL/profile/contact';
+
+  static const String GET_BUSINESS_DETAILS =
+      '$SELLER_BASE_URL/profile/business';
+  static const String UPDATE_BUSINESS_INFROMATION =
+      '$SELLER_BASE_URL/profile/business';
+
+  //AUTH
+  static const String SIGNIN_WITH_PIN = '$SELLER_BASE_URL/auth/signin/pin';
+  static const String GET_OTP = '$SELLER_BASE_URL/auth/otp';
+  static const String VERIFY_OTP = '$SELLER_BASE_URL/auth/otp/verify';
+  static const String UPDATE_PIN = '$SELLER_BASE_URL/auth/pin';
 }

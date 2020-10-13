@@ -96,7 +96,6 @@ class _OrderDetailsState extends State<OrderDetails> {
         borderRadius: 8,
       ).show(context);
     }).catchError((error) {
-      print(error);
       Flushbar(
         maxWidth: 335,
         backgroundColor: Theme.of(context).errorColor,

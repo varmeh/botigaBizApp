@@ -73,7 +73,10 @@ class LoginSignupHeader extends StatelessWidget {
                     child: Container(
                       height: 30,
                       width: 30,
-                      child: Icon(BotigaIcons.arrowBack),
+                      child: Icon(
+                        BotigaIcons.arrowBack,
+                        color: AppTheme.surfaceColor,
+                      ),
                     ),
                   )
                 : SizedBox.shrink(),
@@ -84,10 +87,10 @@ class LoginSignupHeader extends StatelessWidget {
                 : SizedBox.shrink(),
             Text(
               '$title',
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 28,
-                  color: Color(0xffFFFFFF)),
+              style: AppTheme.textStyle
+                  .size(28)
+                  .w600
+                  .colored(AppTheme.surfaceColor),
             ),
           ],
         ),

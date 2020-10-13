@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widget/common/appHeader.dart';
-import './SignUpSetPin.dart';
+import '../../app/Signup/SetPin.dart';
 
 class SignUpStoreDetails extends StatefulWidget {
   static const routeName = '/signup-store-detail';
@@ -24,7 +24,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                     shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(6.0)),
                     onPressed: () {
-                      Navigator.of(context).pushNamed(SignUpSetPin.routeName);
+                      Navigator.of(context).pushNamed(SetPin.routeName);
                     },
                     color: Color(0xff179F57),
                     child: Text(
