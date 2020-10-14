@@ -25,7 +25,7 @@ import 'app/Delivery/deliveryScreen.dart';
 import 'app/Signup/SignUpWelcome.dart';
 import 'app/Signup/SignupVerifyOtp.dart';
 import 'app/Signup/SignupBussinessDetails.dart';
-import 'screens/SignUp/SignupStoreDetails.dart';
+import 'app/Signup/SignupStoreDetails.dart';
 import 'app/Signup/SetPin.dart';
 import 'app/Signup/SetPinSuccess.dart';
 import 'app/Login/Login.dart';
@@ -109,7 +109,7 @@ class BotigaBizApp extends StatelessWidget {
       child: MaterialApp(
         themeMode: ThemeMode.light,
         title: 'Botiga Business',
-        home: SignupWelcome(),
+        home: IntroScreen(),
         routes: {
           Login.routeName: (ctx) => Login(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
