@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import './SignupStoreDetails.dart';
+import '../../screens/SignUp/SignupStoreDetails.dart';
 
 class SignupBuissnessDetails extends StatefulWidget {
   static const routeName = '/signup-bussiness-detail';

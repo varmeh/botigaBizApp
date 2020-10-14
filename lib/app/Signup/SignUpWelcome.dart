@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../screens/SignUp/SignupVerifyOtp.dart';
+import 'SignupVerifyOtp.dart';
 import '../Auth/widgets/phoneScreen.dart';
 
 class SignupWelcome extends StatelessWidget {

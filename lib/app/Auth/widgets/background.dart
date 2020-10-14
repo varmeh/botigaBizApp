@@ -39,7 +39,7 @@ class Background extends StatelessWidget {
                           },
                           child: Container(
                             padding: EdgeInsets.only(right: 10.0),
-                            child: Icon(Icons.arrow_back_ios,
+                            child: Icon(Icons.arrow_back,
                                 color: AppTheme.surfaceColor),
                           ),
                         )
