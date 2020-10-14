@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'EnterPin.dart';
 
 class Login extends StatefulWidget {
+  static const routeName = '/login';
   @override
   _LoginState createState() => _LoginState();
 }
