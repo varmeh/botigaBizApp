@@ -59,4 +59,5 @@ class Constants {
   static const String GET_OTP = '$SELLER_BASE_URL/auth/otp';
   static const String VERIFY_OTP = '$SELLER_BASE_URL/auth/otp/verify';
   static const String UPDATE_PIN = '$SELLER_BASE_URL/auth/pin';
+  static const String SIGNUP = '$SELLER_BASE_URL/auth/signup';
 }
