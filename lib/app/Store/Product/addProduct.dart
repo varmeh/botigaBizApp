@@ -75,7 +75,7 @@ class _AddProductState extends State<AddProduct> {
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
           decoration: BoxDecoration(
-            color: AppTheme.surfaceColor,
+            color: AppTheme.backgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16.0),
               topRight: const Radius.circular(16.0),
@@ -109,7 +109,7 @@ class _AddProductState extends State<AddProduct> {
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
           decoration: BoxDecoration(
-            color: AppTheme.surfaceColor,
+            color: AppTheme.backgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16.0),
               topRight: const Radius.circular(16.0),
@@ -250,10 +250,13 @@ class _AddProductState extends State<AddProduct> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -267,9 +270,9 @@ class _AddProductState extends State<AddProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppTheme.surfaceColor,
+        backgroundColor: AppTheme.backgroundColor,
         appBar: AppBar(
-            backgroundColor: AppTheme.surfaceColor,
+            backgroundColor: AppTheme.backgroundColor,
             elevation: 0,
             centerTitle: false,
             title: Align(
@@ -293,7 +296,7 @@ class _AddProductState extends State<AddProduct> {
             )),
         bottomNavigationBar: SafeArea(
           child: Container(
-            color: AppTheme.surfaceColor,
+            color: AppTheme.backgroundColor,
             padding: EdgeInsets.all(10),
             child: Row(
               children: <Widget>[
@@ -314,7 +317,7 @@ class _AddProductState extends State<AddProduct> {
                       child: Text(
                         'Add Product',
                         style: AppTheme.textStyle
-                            .colored(AppTheme.surfaceColor)
+                            .colored(AppTheme.backgroundColor)
                             .w600
                             .size(15),
                       ),
@@ -466,7 +469,7 @@ class _AddProductState extends State<AddProduct> {
                         onSaved: (val) => name = val,
                         decoration: InputDecoration(
                             contentPadding: const EdgeInsets.all(17.0),
-                            fillColor: AppTheme.surfaceColor,
+                            fillColor: AppTheme.backgroundColor,
                             labelText: "Product name",
                             labelStyle:
                                 AppTheme.textStyle.size(15).w500.color25,
@@ -526,7 +529,7 @@ class _AddProductState extends State<AddProduct> {
                               color: AppTheme.color100,
                             ),
                             contentPadding: const EdgeInsets.all(17.0),
-                            fillColor: AppTheme.surfaceColor,
+                            fillColor: AppTheme.backgroundColor,
                             labelText: "Price",
                             labelStyle:
                                 AppTheme.textStyle.size(15).w500.color25,
@@ -548,7 +551,7 @@ class _AddProductState extends State<AddProduct> {
                         onSaved: (val) => quantity = int.parse(val),
                         decoration: InputDecoration(
                             contentPadding: const EdgeInsets.all(17.0),
-                            fillColor: AppTheme.surfaceColor,
+                            fillColor: AppTheme.backgroundColor,
                             labelText: "Quantity",
                             labelStyle:
                                 AppTheme.textStyle.size(15).w500.color25,
@@ -583,13 +586,13 @@ class _AddProductState extends State<AddProduct> {
                                   },
                                   color: selectedQuantity == val
                                       ? AppTheme.primaryColor
-                                      : AppTheme.backgroundColor,
+                                      : AppTheme.dividerColor,
                                   child: Text('$val',
                                       style: selectedQuantity == val
                                           ? AppTheme.textStyle
                                               .size(13)
                                               .w600
-                                              .colored(AppTheme.surfaceColor)
+                                              .colored(AppTheme.backgroundColor)
                                           : AppTheme.textStyle.color100
                                               .size(13)
                                               .w600),
@@ -641,7 +644,7 @@ class _AddProductState extends State<AddProduct> {
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(17.0),
-                              fillColor: AppTheme.surfaceColor,
+                              fillColor: AppTheme.backgroundColor,
                               hintText: "Description",
                               labelText: "Description",
                               alignLabelWithHint: true,

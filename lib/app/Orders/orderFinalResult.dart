@@ -20,7 +20,7 @@ class OrderFinalResult extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: AppTheme.surfaceColor,
+            backgroundColor: AppTheme.backgroundColor,
             elevation: 0,
             leading: IconButton(
               icon: Icon(
@@ -31,7 +31,7 @@ class OrderFinalResult extends StatelessWidget {
                 Navigator.pop(context);
               },
             )),
-        backgroundColor: AppTheme.surfaceColor,
+        backgroundColor: AppTheme.backgroundColor,
         body: SafeArea(
           child: Container(
             color: Colors.white,

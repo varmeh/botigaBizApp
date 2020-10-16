@@ -41,10 +41,13 @@ class _StoreDeatilsState extends State<StoreDeatils> {
         backgroundColor: Color(0xff2591B2),
         messageText: Text(
           '${value['message']}',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -58,10 +61,13 @@ class _StoreDeatilsState extends State<StoreDeatils> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -78,7 +84,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
     final storeDetails = storeProvider.storeDetails;
 
     return Scaffold(
-      backgroundColor: AppTheme.surfaceColor,
+      backgroundColor: AppTheme.backgroundColor,
       bottomNavigationBar: SafeArea(
         child: Container(
             padding: EdgeInsets.all(10),
@@ -100,7 +106,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                       color: AppTheme.primaryColor,
                       child: Text('Save details',
                           style: AppTheme.textStyle
-                              .colored(AppTheme.surfaceColor)
+                              .colored(AppTheme.backgroundColor)
                               .w600
                               .size(15)),
                     ),
@@ -110,7 +116,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
             )),
       ),
       appBar: AppBar(
-          backgroundColor: AppTheme.surfaceColor,
+          backgroundColor: AppTheme.backgroundColor,
           elevation: 0,
           centerTitle: false,
           title: Align(
@@ -154,7 +160,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                             onSaved: (val) => email = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Email",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -173,7 +179,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                             onSaved: (val) => phoneNumber = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Phone number",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -195,7 +201,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                                     decoration: InputDecoration(
                                         contentPadding:
                                             const EdgeInsets.all(17.0),
-                                        fillColor: AppTheme.surfaceColor,
+                                        fillColor: AppTheme.backgroundColor,
                                         labelText: "Whatsapp number",
                                         labelStyle: AppTheme.textStyle
                                             .size(15)
@@ -251,7 +257,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                             onSaved: (val) => buildingNumber = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Building No. / Flat No.",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -270,7 +276,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                             onSaved: (val) => streetName = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Street Name/Locality",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -289,7 +295,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                             onSaved: (val) => area = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Area",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -311,7 +317,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                             onSaved: (val) => pincode = int.parse(val),
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Pincode",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -330,7 +336,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                             onSaved: (val) => city = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "City",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -349,7 +355,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                             onSaved: (val) => state = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "State",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,

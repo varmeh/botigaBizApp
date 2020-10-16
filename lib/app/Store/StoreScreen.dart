@@ -27,10 +27,13 @@ class _StoreScreenState extends State<StoreScreen> {
         backgroundColor: Color(0xff2591B2),
         messageText: Text(
           '$value',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -45,10 +48,13 @@ class _StoreScreenState extends State<StoreScreen> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -64,11 +70,11 @@ class _StoreScreenState extends State<StoreScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: AppTheme.surfaceColor,
+        backgroundColor: AppTheme.backgroundColor,
         floatingActionButton: Container(
           padding: EdgeInsets.only(bottom: 32.0),
           child: FloatingActionButton.extended(
-            backgroundColor: AppTheme.surfaceColor,
+            backgroundColor: AppTheme.backgroundColor,
             elevation: 4.0,
             icon: const Icon(Icons.add, color: Color(0xff179F57)),
             label: slelectedTab == 0
@@ -100,7 +106,7 @@ class _StoreScreenState extends State<StoreScreen> {
                       key: _formKey,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: AppTheme.surfaceColor,
+                          color: AppTheme.backgroundColor,
                           borderRadius: BorderRadius.only(
                             topLeft: const Radius.circular(16.0),
                             topRight: const Radius.circular(16.0),
@@ -131,7 +137,7 @@ class _StoreScreenState extends State<StoreScreen> {
                               decoration: InputDecoration(
                                   filled: true,
                                   contentPadding: const EdgeInsets.all(17.0),
-                                  fillColor: AppTheme.backgroundColor,
+                                  fillColor: AppTheme.dividerColor,
                                   hintText: "Category name",
                                   hintStyle:
                                       AppTheme.textStyle.size(15).w500.color25,
@@ -185,7 +191,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                         top: 14, bottom: 14),
                                     child: Text('Save category',
                                         style: AppTheme.textStyle
-                                            .colored(AppTheme.surfaceColor)
+                                            .colored(AppTheme.backgroundColor)
                                             .w600
                                             .size(15)),
                                   ),
@@ -210,7 +216,7 @@ class _StoreScreenState extends State<StoreScreen> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         appBar: AppBar(
           elevation: 0.0,
-          backgroundColor: AppTheme.surfaceColor,
+          backgroundColor: AppTheme.backgroundColor,
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(11),
             child: Theme(

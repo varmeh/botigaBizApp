@@ -2,8 +2,7 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flushbar/flushbar.dart';
-import '../../providers/Profile/StoreProvider.dart';
-import '../../widget/common/appHeader.dart';
+import '../../../providers/Profile/StoreProvider.dart';
 import 'SetPin.dart';
 
 class SignUpStoreDetails extends StatefulWidget {
@@ -48,10 +47,13 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -65,9 +67,9 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.surfaceColor,
+      backgroundColor: AppTheme.backgroundColor,
       appBar: AppBar(
-          backgroundColor: AppTheme.surfaceColor,
+          backgroundColor: AppTheme.backgroundColor,
           elevation: 0,
           centerTitle: false,
           title: Align(
@@ -143,7 +145,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.email),
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Email",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -163,7 +165,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             decoration: InputDecoration(
                                 prefixIcon: Icon(Icons.message),
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Whatsapp number",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -176,7 +178,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                   Padding(
                     padding: const EdgeInsets.only(top: 30, bottom: 30),
                     child: Divider(
-                      color: AppTheme.backgroundColor,
+                      color: AppTheme.dividerColor,
                       thickness: 8,
                     ),
                   ),
@@ -216,7 +218,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             onSaved: (val) => buildingNumber = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Building No. / Flat No.",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -235,7 +237,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             onSaved: (val) => streetName = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Street Name/Locality",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -254,7 +256,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             onSaved: (val) => area = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Area",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -276,7 +278,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             onSaved: (val) => pincode = int.parse(val),
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "Pincode",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -295,7 +297,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             onSaved: (val) => city = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "City",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -314,7 +316,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             onSaved: (val) => state = val,
                             decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 labelText: "State",
                                 labelStyle:
                                     AppTheme.textStyle.size(15).w500.color25,

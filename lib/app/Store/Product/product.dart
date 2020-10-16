@@ -165,7 +165,7 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory) {
                       children: [
                         ProductItemRow(entry.value),
                         Divider(
-                          color: AppTheme.backgroundColor,
+                          color: AppTheme.dividerColor,
                           thickness: 1.2,
                         ),
                       ],
@@ -178,7 +178,7 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory) {
         ),
       ),
       Divider(
-        color: AppTheme.backgroundColor,
+        color: AppTheme.dividerColor,
         thickness: 1.2,
       ),
     ],

@@ -98,7 +98,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppTheme.surfaceColor,
+        backgroundColor: AppTheme.backgroundColor,
         elevation: 0,
         centerTitle: false,
         automaticallyImplyLeading: false,
@@ -122,7 +122,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           )
         ],
       ),
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: AppTheme.dividerColor,
       key: _scaffoldKey,
       endDrawer: Align(
         child: ClipRRect(
@@ -142,7 +142,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
               return Drawer(
                   child: Container(
                 padding: EdgeInsets.all(20),
-                color: AppTheme.surfaceColor,
+                color: AppTheme.backgroundColor,
                 child: ListView(
                   padding: EdgeInsets.all(0),
                   children: <Widget>[
@@ -211,7 +211,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 )
               : SafeArea(
                   child: Container(
-                    color: AppTheme.surfaceColor,
+                    color: AppTheme.backgroundColor,
                     child: ListView(
                       controller: _scrollcontroller,
                       children: <Widget>[
@@ -260,12 +260,12 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                             },
                                             color: selectedStatus == val
                                                 ? AppTheme.primaryColor
-                                                : AppTheme.backgroundColor,
+                                                : AppTheme.dividerColor,
                                             child: Text('$val',
                                                 style: selectedStatus == val
                                                     ? AppTheme.textStyle
                                                         .colored(AppTheme
-                                                            .surfaceColor)
+                                                            .backgroundColor)
                                                         .w500
                                                         .size(13)
                                                     : AppTheme
@@ -525,7 +525,7 @@ class DeliveryRow extends StatelessWidget {
                                   child: Text(
                                     "${delivery.order.status.toUpperCase()}",
                                     style: AppTheme.textStyle
-                                        .colored(AppTheme.surfaceColor)
+                                        .colored(AppTheme.backgroundColor)
                                         .w500
                                         .size(12),
                                   ),
@@ -539,7 +539,7 @@ class DeliveryRow extends StatelessWidget {
                           decoration: BoxDecoration(
                             border: Border(
                               left: BorderSide(
-                                  width: 1.2, color: AppTheme.backgroundColor),
+                                  width: 1.2, color: AppTheme.dividerColor),
                             ),
                             color: Theme.of(context).colorScheme.surface,
                           ),
@@ -558,7 +558,7 @@ class DeliveryRow extends StatelessWidget {
                                 ),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: AppTheme.backgroundColor),
+                                    color: AppTheme.dividerColor),
                               ),
                               SizedBox(
                                 height: 4,

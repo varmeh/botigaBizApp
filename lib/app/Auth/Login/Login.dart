@@ -30,7 +30,7 @@ class _LoginState extends State<Login> {
                   "Login",
                   textAlign: TextAlign.center,
                   style: AppTheme.textStyle.w600
-                      .colored(AppTheme.surfaceColor)
+                      .colored(AppTheme.backgroundColor)
                       .size(28),
                 ),
               ),
@@ -39,7 +39,7 @@ class _LoginState extends State<Login> {
                   width: double.infinity,
                   padding: EdgeInsets.only(left: 22, right: 22, top: 32),
                   decoration: new BoxDecoration(
-                    color: AppTheme.surfaceColor,
+                    color: AppTheme.backgroundColor,
                     borderRadius: new BorderRadius.only(
                       topLeft: const Radius.circular(32.0),
                       topRight: const Radius.circular(32.0),
@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
                                   Icons.phone,
                                   color: AppTheme.color50,
                                 ),
-                                fillColor: AppTheme.surfaceColor,
+                                fillColor: AppTheme.backgroundColor,
                                 filled: true,
                                 hintText: "Phone number",
                                 hintStyle:
@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
                                   'Continue',
                                   style: AppTheme.textStyle.w600
                                       .size(15)
-                                      .colored(AppTheme.surfaceColor),
+                                      .colored(AppTheme.backgroundColor),
                                 ),
                               ),
                             ),

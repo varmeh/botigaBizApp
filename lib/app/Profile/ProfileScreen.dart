@@ -16,13 +16,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: AppTheme.surfaceColor,
+        backgroundColor: AppTheme.backgroundColor,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Container(
           padding: EdgeInsets.only(bottom: 32.0),
           child: slelectedTab == 1
               ? FloatingActionButton.extended(
-                  backgroundColor: AppTheme.surfaceColor,
+                  backgroundColor: AppTheme.backgroundColor,
                   elevation: 4.0,
                   icon: const Icon(Icons.add, color: Color(0xff179F57)),
                   label: Text("NEW COMMUNITY",

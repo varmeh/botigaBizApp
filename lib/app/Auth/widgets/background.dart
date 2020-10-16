@@ -40,7 +40,7 @@ class Background extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.only(right: 10.0),
                             child: Icon(Icons.arrow_back,
-                                color: AppTheme.surfaceColor),
+                                color: AppTheme.backgroundColor),
                           ),
                         )
                       : Container(),
@@ -50,7 +50,7 @@ class Background extends StatelessWidget {
                     style: AppTheme.textStyle.w600
                         .size(28.0)
                         .lineHeight(1.5)
-                        .colored(AppTheme.surfaceColor),
+                        .colored(AppTheme.backgroundColor),
                   ),
                 ],
               ),
@@ -60,7 +60,7 @@ class Background extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.only(left: 22, right: 22, top: 32),
                 decoration: new BoxDecoration(
-                  color: AppTheme.surfaceColor,
+                  color: AppTheme.backgroundColor,
                   borderRadius: new BorderRadius.only(
                     topLeft: const Radius.circular(32.0),
                     topRight: const Radius.circular(32.0),

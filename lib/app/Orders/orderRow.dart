@@ -54,7 +54,7 @@ class OrderRow extends StatelessWidget {
                       child: Text(
                         '${status.toUpperCase()}',
                         style: AppTheme.textStyle
-                            .colored(AppTheme.surfaceColor)
+                            .colored(AppTheme.backgroundColor)
                             .w600
                             .size(12)
                             .letterSpace(1),

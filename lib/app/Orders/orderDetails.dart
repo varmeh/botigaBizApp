@@ -44,10 +44,13 @@ class _OrderDetailsState extends State<OrderDetails> {
         backgroundColor: Color(0xff2591B2),
         messageText: Text(
           '${Constants.deliveryDateChanged} $newDateforDelivery',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -62,10 +65,13 @@ class _OrderDetailsState extends State<OrderDetails> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -84,10 +90,13 @@ class _OrderDetailsState extends State<OrderDetails> {
         backgroundColor: Color(0xff2591B2),
         messageText: Text(
           '${value['message']}',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -101,10 +110,13 @@ class _OrderDetailsState extends State<OrderDetails> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -127,7 +139,7 @@ class _OrderDetailsState extends State<OrderDetails> {
 
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: AppTheme.surfaceColor,
+          backgroundColor: AppTheme.backgroundColor,
           elevation: 0,
           actions: [
             FlatButton(
@@ -154,7 +166,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           )),
       body: SafeArea(
         child: Container(
-          color: AppTheme.surfaceColor,
+          color: AppTheme.backgroundColor,
           child: ListView(
             children: <Widget>[
               Padding(
@@ -184,7 +196,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             width: 90,
                             height: 128,
                             decoration: BoxDecoration(
-                              color: AppTheme.surfaceColor,
+                              color: AppTheme.backgroundColor,
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
@@ -273,7 +285,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                             width: 90,
                             height: 128,
                             decoration: BoxDecoration(
-                              color: AppTheme.surfaceColor,
+                              color: AppTheme.backgroundColor,
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(

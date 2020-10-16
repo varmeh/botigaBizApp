@@ -32,10 +32,13 @@ class _OrderDeliveryState extends State<OrderDelivery> {
         backgroundColor: Color(0xff2591B2),
         messageText: Text(
           '${value['message']}',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -49,8 +52,10 @@ class _OrderDeliveryState extends State<OrderDelivery> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
@@ -76,8 +81,10 @@ class _OrderDeliveryState extends State<OrderDelivery> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
@@ -101,7 +108,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
 
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: AppTheme.surfaceColor,
+            backgroundColor: AppTheme.backgroundColor,
             elevation: 0,
             actions: [
               FlatButton(
@@ -126,7 +133,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                 Navigator.pop(context);
               },
             )),
-        backgroundColor: AppTheme.surfaceColor,
+        backgroundColor: AppTheme.backgroundColor,
         bottomNavigationBar: SafeArea(
           child: Container(
               padding: EdgeInsets.all(10),
@@ -147,7 +154,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                         child: Text(
                           'Mark as delivered',
                           style: AppTheme.textStyle
-                              .colored(AppTheme.surfaceColor)
+                              .colored(AppTheme.backgroundColor)
                               .w500
                               .size(15),
                         ),

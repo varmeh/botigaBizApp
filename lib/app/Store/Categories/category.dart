@@ -70,12 +70,12 @@ Widget getTile(BuildContext context, StoreCategory category) {
                       messageText: Text(
                         'Deleted',
                         style: AppTheme.textStyle
-                            .colored(AppTheme.surfaceColor)
+                            .colored(AppTheme.backgroundColor)
                             .w500
                             .size(15),
                       ),
                       icon: Icon(Icons.check_circle_outline_sharp,
-                          size: 30, color: AppTheme.surfaceColor),
+                          size: 30, color: AppTheme.backgroundColor),
                       flushbarPosition: FlushbarPosition.TOP,
                       flushbarStyle: FlushbarStyle.FLOATING,
                       duration: Duration(seconds: 3),
@@ -91,12 +91,12 @@ Widget getTile(BuildContext context, StoreCategory category) {
                       messageText: Text(
                         '$error',
                         style: AppTheme.textStyle
-                            .colored(AppTheme.surfaceColor)
+                            .colored(AppTheme.backgroundColor)
                             .w500
                             .size(15),
                       ),
                       icon: Icon(Icons.error_outline_outlined,
-                          size: 30, color: AppTheme.surfaceColor),
+                          size: 30, color: AppTheme.backgroundColor),
                       flushbarPosition: FlushbarPosition.TOP,
                       flushbarStyle: FlushbarStyle.FLOATING,
                       duration: Duration(seconds: 3),
@@ -109,7 +109,7 @@ Widget getTile(BuildContext context, StoreCategory category) {
               ),
       ),
       Divider(
-        color: AppTheme.backgroundColor,
+        color: AppTheme.dividerColor,
         thickness: 1.2,
       ),
     ],

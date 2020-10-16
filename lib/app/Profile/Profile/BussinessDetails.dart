@@ -60,7 +60,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                     key: _bsformkey,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppTheme.surfaceColor,
+                        color: AppTheme.backgroundColor,
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(16.0),
                           topRight: const Radius.circular(16.0),
@@ -91,7 +91,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                             decoration: InputDecoration(
                                 filled: true,
                                 contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.backgroundColor,
+                                fillColor: AppTheme.dividerColor,
                                 hintText: "Write your business category",
                                 hintStyle:
                                     AppTheme.textStyle.size(15).w500.color25,
@@ -136,7 +136,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                                         style: AppTheme.textStyle
                                             .size(15)
                                             .w600
-                                            .colored(AppTheme.surfaceColor),
+                                            .colored(AppTheme.backgroundColor),
                                       ),
                                     ),
                                   ),
@@ -216,7 +216,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
           decoration: BoxDecoration(
-            color: AppTheme.surfaceColor,
+            color: AppTheme.backgroundColor,
             borderRadius: BorderRadius.only(
               topLeft: const Radius.circular(16.0),
               topRight: const Radius.circular(16.0),
@@ -278,10 +278,13 @@ class _BussinessDetailsState extends State<BussinessDetails> {
         backgroundColor: Color(0xff2591B2),
         messageText: Text(
           '${value['message']}',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -295,10 +298,13 @@ class _BussinessDetailsState extends State<BussinessDetails> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -316,7 +322,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     final businessDetails = businessProvider.businessDetails;
     return Scaffold(
       bottomNavigationBar: Container(
-        color: AppTheme.surfaceColor,
+        color: AppTheme.backgroundColor,
         padding: EdgeInsets.all(10),
         child: SafeArea(
           child: Row(
@@ -340,7 +346,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                       style: AppTheme.textStyle
                           .size(15)
                           .w600
-                          .colored(AppTheme.surfaceColor),
+                          .colored(AppTheme.backgroundColor),
                     ),
                   ),
                 ),
@@ -350,7 +356,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
         ),
       ),
       appBar: AppBar(
-          backgroundColor: AppTheme.surfaceColor,
+          backgroundColor: AppTheme.backgroundColor,
           elevation: 0,
           centerTitle: false,
           title: Align(
@@ -374,7 +380,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
           key: _formKey,
           child: Container(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              color: AppTheme.surfaceColor,
+              color: AppTheme.backgroundColor,
               child: Column(
                 children: <Widget>[
                   _imageFile != null
@@ -465,7 +471,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                     onSaved: (val) => '',
                     decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(17.0),
-                        fillColor: AppTheme.surfaceColor,
+                        fillColor: AppTheme.backgroundColor,
                         labelText: "Brand name",
                         labelStyle: AppTheme.textStyle.size(15).w500.color25,
                         border: OutlineInputBorder()),
@@ -483,7 +489,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                     onSaved: (val) => '',
                     decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(17.0),
-                        fillColor: AppTheme.surfaceColor,
+                        fillColor: AppTheme.backgroundColor,
                         labelText: "Tagline",
                         labelStyle: AppTheme.textStyle.size(15).w500.color25,
                         border: OutlineInputBorder()),

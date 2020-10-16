@@ -94,7 +94,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                   right: 20.0,
                 ),
                 child: Card(
-                  color: AppTheme.surfaceColor,
+                  color: AppTheme.backgroundColor,
                   elevation: 0,
                   margin: EdgeInsets.all(0),
                   shape: RoundedRectangleBorder(
@@ -236,7 +236,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                     Text(
                       "Hi Jashn,",
                       style: AppTheme.textStyle
-                          .colored(AppTheme.surfaceColor)
+                          .colored(AppTheme.backgroundColor)
                           .w700
                           .size(22),
                     ),
@@ -299,14 +299,14 @@ class _OrdersHomeState extends State<OrdersHome> {
                         children: <Widget>[
                           Text('$slectedDate',
                               style: AppTheme.textStyle
-                                  .colored(AppTheme.surfaceColor)
+                                  .colored(AppTheme.backgroundColor)
                                   .w500
                                   .size(15)),
                           SizedBox(
                             width: 9,
                           ),
                           Icon(Icons.expand_more_sharp,
-                              size: 25, color: AppTheme.surfaceColor),
+                              size: 25, color: AppTheme.backgroundColor),
                         ],
                       ),
                     )
@@ -323,7 +323,7 @@ class _OrdersHomeState extends State<OrdersHome> {
             child: Card(
               margin: EdgeInsets.all(0),
               elevation: 0,
-              color: AppTheme.surfaceColor,
+              color: AppTheme.backgroundColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               child: Container(
@@ -397,7 +397,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                   final aggregatedOrders = ordersprovider.aggregatedOrders;
                   return SafeArea(
                     child: Container(
-                      color: AppTheme.backgroundColor,
+                      color: AppTheme.dividerColor,
                       child: ListView(
                         children: <Widget>[
                           _orderHeader(aggregatedOrders.totalRevenue,

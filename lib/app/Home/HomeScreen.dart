@@ -109,11 +109,11 @@ class _HomeScreenState extends State<HomeScreen> {
             elevation: 0,
             backgroundColor: _selectedPageIndex == 0
                 ? AppTheme.primaryColor
-                : AppTheme.surfaceColor, // status bar color
+                : AppTheme.backgroundColor, // status bar color
             brightness: Brightness.light, // status bar brightness
           ),
         ),
-        backgroundColor: AppTheme.surfaceColor,
+        backgroundColor: AppTheme.backgroundColor,
         body: _pages[_selectedPageIndex]['page'],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(

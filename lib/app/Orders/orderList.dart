@@ -71,7 +71,7 @@ class _OrderListState extends State<OrderList> {
     final aprtmentName = routesArgs['apartmentName'];
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: AppTheme.surfaceColor,
+          backgroundColor: AppTheme.backgroundColor,
           elevation: 0,
           centerTitle: false,
           title: Align(
@@ -115,7 +115,7 @@ class _OrderListState extends State<OrderList> {
                 )
               : SafeArea(
                   child: Container(
-                    color: AppTheme.surfaceColor,
+                    color: AppTheme.backgroundColor,
                     child: ListView(
                       children: <Widget>[
                         Padding(

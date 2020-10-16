@@ -75,7 +75,7 @@ class LoginSignupHeader extends StatelessWidget {
                       width: 30,
                       child: Icon(
                         BotigaIcons.arrowBack,
-                        color: AppTheme.surfaceColor,
+                        color: AppTheme.backgroundColor,
                       ),
                     ),
                   )
@@ -90,7 +90,7 @@ class LoginSignupHeader extends StatelessWidget {
               style: AppTheme.textStyle
                   .size(28)
                   .w600
-                  .colored(AppTheme.surfaceColor),
+                  .colored(AppTheme.backgroundColor),
             ),
           ],
         ),

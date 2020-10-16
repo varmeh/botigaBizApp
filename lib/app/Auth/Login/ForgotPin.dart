@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
-import '../../widget/common/appHeader.dart';
+import '../../../widget/common/appHeader.dart';
 import '../Signup/SetPin.dart';
-import '../../providers/Auth/AuthProvider.dart';
+import '../../../providers/Auth/AuthProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:flushbar/flushbar.dart';
 
@@ -54,10 +54,13 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -82,10 +85,13 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
         backgroundColor: Theme.of(context).errorColor,
         messageText: Text(
           '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
+          style: AppTheme.textStyle
+              .colored(AppTheme.backgroundColor)
+              .w500
+              .size(15),
         ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
+        icon:
+            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
         flushbarPosition: FlushbarPosition.TOP,
         flushbarStyle: FlushbarStyle.FLOATING,
         duration: Duration(seconds: 3),
@@ -121,7 +127,7 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
                 width: double.infinity,
                 padding: EdgeInsets.only(left: 22, right: 22, top: 32),
                 decoration: new BoxDecoration(
-                  color: AppTheme.surfaceColor,
+                  color: AppTheme.backgroundColor,
                   borderRadius: new BorderRadius.only(
                     topLeft: const Radius.circular(32.0),
                     topRight: const Radius.circular(32.0),
@@ -204,7 +210,7 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
                                 style: AppTheme.textStyle
                                     .size(15)
                                     .w600
-                                    .colored(AppTheme.surfaceColor),
+                                    .colored(AppTheme.backgroundColor),
                               ),
                             ),
                           )

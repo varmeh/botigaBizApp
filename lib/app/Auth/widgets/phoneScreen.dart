@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'background.dart';
 import '../../../theme/index.dart';
 import '../../../widget/botigaTextFieldForm.dart';
-import 'background.dart';
 
 class PhoneScreen extends StatefulWidget {
   final String title;
@@ -63,6 +63,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 40, bottom: 30),
       child: BotigaTextFieldForm(
+        onSave: (val) => null,
         formKey: _phoneFormKey,
         focusNode: _phoneFocusNode,
         labelText: 'Phone Number',
@@ -106,7 +107,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
             style: AppTheme.textStyle.w600
                 .size(15.0)
                 .lineHeight(1.5)
-                .colored(AppTheme.surfaceColor),
+                .colored(AppTheme.backgroundColor),
           ),
         ),
       ),

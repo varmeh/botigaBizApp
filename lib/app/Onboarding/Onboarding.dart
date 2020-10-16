@@ -2,8 +2,8 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
-import '../Login/Login.dart';
-import '../Signup/SignUpWelcome.dart';
+import '../Auth/Login/Login.dart';
+import '../Auth/Signup/SignUpWelcome.dart';
 
 class IntroScreen extends StatefulWidget {
   IntroScreen({Key key}) : super(key: key);
@@ -106,7 +106,7 @@ class IntroScreenState extends State<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.surfaceColor,
+      backgroundColor: AppTheme.backgroundColor,
       body: SafeArea(
         child: IntroSlider(
             //backgroundColorAllSlides: AppTheme.primaryColor,

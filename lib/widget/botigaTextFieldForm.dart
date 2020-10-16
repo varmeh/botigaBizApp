@@ -9,13 +9,14 @@ import '../theme/index.dart';
  *	- nextFocusNode - Pass the focus node value of the next text field
  */
 
-class BotigaTextFieldForm extends StatelessWidget {
+class BotigaTextFieldForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
+  final FocusNode focusNode;
   final String labelText;
+  final Function(String) onSave;
   final Function(String) validator;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
-  final FocusNode focusNode;
   final int maxLines;
   final int maxLength;
   final FocusNode nextFocusNode;
@@ -28,6 +29,7 @@ class BotigaTextFieldForm extends StatelessWidget {
     @required this.formKey,
     @required this.focusNode,
     @required this.labelText,
+    @required this.onSave,
     this.validator,
     this.maskFormatter,
     this.keyboardType = TextInputType.text,
@@ -41,42 +43,71 @@ class BotigaTextFieldForm extends StatelessWidget {
   });
 
   @override
+  _BotigaTextFieldFormState createState() => _BotigaTextFieldFormState();
+}
+
+class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
+  void _focusListener() {
+    if (!widget.focusNode.hasFocus) {
+      if (widget.formKey.currentState.validate()) {
+        widget.formKey.currentState.save();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.focusNode.addListener(_focusListener);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the focus node when the Form is disposed.
+    widget.focusNode.removeListener(_focusListener);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<TextInputFormatter> inputFormatters = [];
+    if (widget.maskFormatter != null) {
+      inputFormatters.add(widget.maskFormatter);
+    }
+
     return Form(
-      key: formKey,
+      key: widget.formKey,
       child: TextFormField(
         // showCursor: false,
-        inputFormatters: [maskFormatter],
-        validator: validator,
-        keyboardType: maxLines > 1 ? TextInputType.multiline : keyboardType,
-        textInputAction: textInputAction,
-        maxLines: maxLines,
-        onSaved: (val) => '',
+        inputFormatters: inputFormatters,
+        validator: widget.validator,
+        keyboardType:
+            widget.maxLines > 1 ? TextInputType.multiline : widget.keyboardType,
+        style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.3),
+        textInputAction: widget.textInputAction,
+        maxLines: widget.maxLines,
+        onSaved: widget.onSave,
         cursorColor: AppTheme.primaryColor,
-        focusNode: focusNode,
-        maxLength: maxLength,
-        controller: textEditingController,
+        focusNode: widget.focusNode,
+        maxLength: widget.maxLength,
+        controller: widget.textEditingController,
         onFieldSubmitted: (value) {
-          if (onFieldSubmitted != null) {
-            onFieldSubmitted(value);
+          if (widget.onFieldSubmitted != null) {
+            widget.onFieldSubmitted(value);
           }
-          if (nextFocusNode != null) {
-            FocusScope.of(context).requestFocus(nextFocusNode);
+          if (widget.nextFocusNode != null) {
+            FocusScope.of(context).requestFocus(widget.nextFocusNode);
           }
         },
-        onChanged: onChange,
+        onChanged: widget.onChange,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.phone, color: AppTheme.color50),
           fillColor: AppTheme.backgroundColor,
           filled: true,
-          labelText: labelText,
+          labelText: widget.labelText,
           labelStyle:
               AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.3),
           errorStyle: AppTheme.textStyle.w400.colored(AppTheme.errorColor),
-          hintStyle: AppTheme.textStyle.w500
-              // .size(15.0)
-              // .lineHeight(1.3)
-              .colored(Colors.orange),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 1.0,

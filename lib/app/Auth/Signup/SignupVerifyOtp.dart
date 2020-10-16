@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
-import 'SignupBussinessDetails.dart';
-import '../../theme/index.dart';
-import '../Auth/widgets/background.dart';
-import '../../widget/pinTextField.dart';
-import '../../providers/Auth/AuthProvider.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:botiga_biz/theme/index.dart';
+import '../../Auth/widgets/index.dart';
+import 'SignupBussinessDetails.dart';
+import '../../../widget/index.dart';
+import '../../../providers/Auth/AuthProvider.dart';
 
 class SignUpOtp extends StatefulWidget {
   static const routeName = '/signup-otp';
@@ -16,9 +15,9 @@ class SignUpOtp extends StatefulWidget {
 
 class _SignUpOtpState extends State<SignUpOtp> {
   GlobalKey<FormState> _form = GlobalKey();
-  String sessionId = '';
-  String pinValue = '';
-  var _isInit = false;
+  String sessionId;
+  String pinValue;
+  bool _isInit;
 
   Timer _timer;
   int _start;
@@ -26,12 +25,15 @@ class _SignUpOtpState extends State<SignUpOtp> {
   @override
   void initState() {
     super.initState();
+    sessionId = '';
+    pinValue = '';
+    _isInit = false;
   }
 
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      getOtp();
+      this._getOTP();
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -53,61 +55,32 @@ class _SignUpOtpState extends State<SignUpOtp> {
     );
   }
 
-  void verifyOtp() {
+  void _verifyOTP() {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     authProvider.verifyOtp(phone, sessionId, pinValue).then((value) {
       Navigator.pushReplacementNamed(context, SignupBuissnessDetails.routeName,
           arguments: {'phone': phone});
     }).catchError((error) {
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Theme.of(context).errorColor,
-        messageText: Text(
-          '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
-        ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+      print("$error");
+      Toast(iconData: BotigaIcons.truck, message: '$error');
     });
   }
 
-  void getOtp() {
+  void _getOTP() {
     startTimer();
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final phone = routesArgs['phone'];
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final phone = routesArgs['phone'];
     authProvider.getOTP(phone).then((value) {
       setState(() {
         sessionId = value['sessionId'];
       });
     }).catchError((error) {
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Theme.of(context).errorColor,
-        messageText: Text(
-          '$error',
-          style:
-              AppTheme.textStyle.colored(AppTheme.surfaceColor).w500.size(15),
-        ),
-        icon: Icon(BotigaIcons.truck, size: 30, color: AppTheme.surfaceColor),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+      Toast(iconData: BotigaIcons.truck, message: '$error');
     });
   }
 
@@ -129,7 +102,7 @@ class _SignUpOtpState extends State<SignUpOtp> {
           )
         : GestureDetector(
             onTap: () {
-              getOtp();
+              this._getOTP();
             },
             child: Text(
               'Resend OTP',
@@ -162,7 +135,7 @@ class _SignUpOtpState extends State<SignUpOtp> {
             style: AppTheme.textStyle.w600
                 .size(15.0)
                 .lineHeight(1.5)
-                .colored(AppTheme.surfaceColor),
+                .colored(AppTheme.backgroundColor),
           ),
         ),
       ),
@@ -191,7 +164,7 @@ class _SignUpOtpState extends State<SignUpOtp> {
           SizedBox(height: 12),
           resendWidget(),
           SizedBox(height: 16),
-          verifyButton(verifyOtp),
+          verifyButton(this._verifyOTP),
         ],
       ),
     );

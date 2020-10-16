@@ -1,6 +1,6 @@
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
-import '../Home/HomeScreen.dart';
+import '../../Home/HomeScreen.dart';
 
 class SetPinSuccess extends StatefulWidget {
   static const routeName = '/signup-setpin-success';
@@ -12,7 +12,7 @@ class _SetPinSuccessState extends State<SetPinSuccess> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppTheme.surfaceColor,
+        backgroundColor: AppTheme.backgroundColor,
         bottomNavigationBar: SafeArea(
           child: Container(
               padding: EdgeInsets.all(10),
@@ -35,7 +35,7 @@ class _SetPinSuccessState extends State<SetPinSuccess> {
                         child: Text(
                           'Go to Store',
                           style: AppTheme.textStyle
-                              .colored(AppTheme.surfaceColor)
+                              .colored(AppTheme.backgroundColor)
                               .size(15)
                               .w600,
                         ),
@@ -48,7 +48,7 @@ class _SetPinSuccessState extends State<SetPinSuccess> {
         body: SafeArea(
           child: Container(
             width: double.infinity,
-            color: AppTheme.surfaceColor,
+            color: AppTheme.backgroundColor,
             child: Padding(
               padding: const EdgeInsets.only(top: 148, left: 20, right: 20),
               child: Column(
