@@ -40,8 +40,11 @@ class OrdersProvider with ChangeNotifier {
       String apartmentId, String date) async {
     try {
       //TODO: check date returns 404
+      //TODO: replace with actual apartmentId
+      //TODO: Remove this apid and use apartmentId
+      const apid = '5f5a35d281710e963e530a5b';
       final response = await HttpService()
-          .get('${Constants.ORDER_BYDATE_APARTMENT}/$apartmentId/2020-09-09');
+          .get('${Constants.ORDER_BYDATE_APARTMENT}/$apid/2020-09-09');
       List<OrderByDateDetail> items = [];
       for (var order in response) {
         items.add(OrderByDateDetail.fromJson(order));

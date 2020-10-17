@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/rendering.dart';
-import '../../providers/Delivery/DeliveryProvider.dart';
-import '../../providers/Apartment/ApartmentProvide.dart';
+import '../Orders/orderDetails.dart';
 import '../../models/Apartment/Apartments.dart';
+import '../../models/Orders/OrderByDateDetail.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart';
-import '../../models/Delivery/DeliveryByDateDetails.dart';
-import '../Orders/orderDetails.dart';
+import '../../widget/index.dart';
+import '../../providers/Orders/OrdersProvider.dart';
+import '../../providers/Apartment/ApartmentProvide.dart';
 
 class DeliveryScreen extends StatefulWidget {
   static const routeName = '/all-delivery-list';
@@ -17,14 +18,14 @@ class DeliveryScreen extends StatefulWidget {
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
-  bool _isLoading = false;
-  bool _isError = false;
-  bool _isInit = false;
-  String selectedStatus = "";
-  String slectedDate = "";
-  bool fabIsVisible = false;
+  bool _isLoading;
+  bool _isError;
+  bool _isInit;
+  String selectedStatus;
+  String slectedDate;
+  bool fabIsVisible;
   Apartment apartment;
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> _scaffoldKey;
   CalendarController _calendarController;
   ScrollController _scrollcontroller;
 
@@ -53,23 +54,23 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     final deafaultApartment =
         Provider.of<ApartmentProvider>(context, listen: false)
             .defaultAppartment;
-    setState(() {
-      selectedStatus = 'All';
-      apartment = deafaultApartment;
-      slectedDate = 'TODAY';
-    });
+    _scaffoldKey = GlobalKey<ScaffoldState>();
+    _isLoading = false;
+    _isError = false;
+    _isInit = false;
+    fabIsVisible = false;
+    selectedStatus = 'All';
+    apartment = deafaultApartment;
+    slectedDate = 'TODAY';
   }
 
   void fetchDeliveryData(String aprtmentId, String currentDate) {
-    final deliveryProvider =
-        Provider.of<DeliveryProvider>(context, listen: false);
+    final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
     setState(() {
       _isError = false;
       _isLoading = true;
     });
-    deliveryProvider
-        .fetchDeliveryByDateDeatils(aprtmentId, currentDate)
-        .then((_) {
+    orderProvider.fetchOrderByDateApartment(aprtmentId, currentDate).then((_) {
       setState(() {
         _isLoading = false;
       });
@@ -394,11 +395,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        Consumer<DeliveryProvider>(
-                            builder: (ctx, deliveryprovider, _) {
+                        Consumer<OrdersProvider>(
+                            builder: (ctx, orderProvider, _) {
                           final deliveryByDateDetails =
-                              deliveryprovider.deliveryByDateDetails;
-                          if (deliveryprovider == null) {
+                              orderProvider.orderByDateApartment;
+                          if (orderProvider == null) {
                             return SizedBox();
                           }
 
@@ -411,11 +412,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                             ],
                           );
                         }),
-                        Consumer<DeliveryProvider>(
-                            builder: (ctx, deliveryprovider, _) {
+                        Consumer<OrdersProvider>(
+                            builder: (ctx, orderProvider, _) {
                           final deliveryByDateDetails =
-                              deliveryprovider.deliveryByDateDetails;
-                          if (deliveryprovider == null) {
+                              orderProvider.orderByDateApartment;
+                          if (orderProvider == null) {
                             return SizedBox();
                           }
 
@@ -440,9 +441,18 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 }
 
 class DeliveryRow extends StatelessWidget {
-  final DeliveryByDateDetails delivery;
+  final OrderByDateDetail delivery;
   final String apartmentName;
   DeliveryRow(this.delivery, this.apartmentName);
+
+  _handleOutForDelivery(BuildContext context, String orderId) {
+    final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
+    orderProvider.setDeliveryStatus(orderId).then((value) {
+      Toast(message: '$value', iconData: BotigaIcons.truck);
+    }).catchError((error) {
+      Toast(message: '$error', iconData: BotigaIcons.truck);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -543,38 +553,43 @@ class DeliveryRow extends StatelessWidget {
                             ),
                             color: Theme.of(context).colorScheme.surface,
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                width: 50,
-                                height: 50,
-                                child: Center(
-                                  child: Icon(
-                                    BotigaIcons.truck,
-                                    size: 30,
+                          child: InkWell(
+                            onTap: () {
+                              this._handleOutForDelivery(context, delivery.id);
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: Center(
+                                    child: Icon(
+                                      BotigaIcons.truck,
+                                      size: 30,
+                                    ),
                                   ),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppTheme.dividerColor),
                                 ),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppTheme.dividerColor),
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Container(
-                                width: 70,
-                                height: 32,
-                                child: Text(
-                                  "Out for delivery",
-                                  textAlign: TextAlign.center,
-                                  style: AppTheme.textStyle.color100.w500
-                                      .size(12)
-                                      .letterSpace(0.2),
+                                SizedBox(
+                                  height: 4,
                                 ),
-                              )
-                            ],
+                                Container(
+                                  width: 70,
+                                  height: 32,
+                                  child: Text(
+                                    "Out for delivery",
+                                    textAlign: TextAlign.center,
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(12)
+                                        .letterSpace(0.2),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],
