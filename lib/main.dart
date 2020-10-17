@@ -34,7 +34,6 @@ import 'app/Auth/Login/EnterPin.dart';
 import 'app/Onboarding/Onboarding.dart';
 import 'package:provider/provider.dart';
 import './providers/Orders/OrdersProvider.dart';
-import './providers/Delivery/DeliveryProvider.dart';
 import './providers/Apartment/ApartmentProvide.dart';
 import './providers/Store/Category/CategoryProvider.dart';
 import './providers/Store/Product/ProductProvider.dart';
@@ -101,9 +100,6 @@ class BotigaBizApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => OrdersProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => DeliveryProvider(),
         ),
       ],
       child: MaterialApp(
