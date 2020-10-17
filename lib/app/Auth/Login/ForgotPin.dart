@@ -1,12 +1,11 @@
 import 'dart:async';
-
-import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
-import '../../../widget/common/appHeader.dart';
-import '../Signup/SetPin.dart';
-import '../../../providers/Auth/AuthProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:botiga_biz/theme/index.dart';
+import '../Signup/SetPin.dart';
+import '../../Auth/widgets/index.dart';
+import '../../../widget/index.dart';
+import '../../../providers/Auth/AuthProvider.dart';
 
 class LoginForgotPin extends StatefulWidget {
   static const routeName = '/forgot-pin';
@@ -15,214 +14,158 @@ class LoginForgotPin extends StatefulWidget {
 }
 
 class _LoginForgotPinState extends State<LoginForgotPin> {
+  GlobalKey<FormState> _form = GlobalKey();
   String sessionId;
-  var _isInit = false;
-  int timeRemaining = 30;
+  String pinValue;
+  bool _isInit;
+
+  Timer _timer;
+  int _start;
+
+  @override
+  void initState() {
+    super.initState();
+    sessionId = '';
+    pinValue = '';
+    _isInit = false;
+  }
 
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      getOtp();
+      this._getOTP();
       _isInit = true;
     }
     super.didChangeDependencies();
   }
 
-  Future countDownTimer() async {
-    for (int x = 29; x >= 0; x--) {
-      await Future.delayed(Duration(seconds: 1)).then((_) {
-        setState(() {
-          timeRemaining = x;
-        });
-      });
-    }
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
-  void getOtp() {
-    countDownTimer();
-    final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    final phone = routesArgs['phone'];
+  void startTimer() {
+    _start = 30;
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) =>
+          setState(() => _start < 1 ? _timer.cancel() : _start = _start - 1),
+    );
+  }
+
+  void _verifyOTP() {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final routesArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final phone = routesArgs['phone'];
+    authProvider.verifyOtp(phone, sessionId, pinValue).then((value) {
+      Navigator.pushNamed(context, SetPin.routeName,
+          arguments: {'phone': phone});
+    }).catchError((error) {
+      print("$error");
+      Toast(iconData: BotigaIcons.truck, message: '$error');
+    });
+  }
+
+  void _getOTP() {
+    startTimer();
+    final routesArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final phone = routesArgs['phone'];
     authProvider.getOTP(phone).then((value) {
       setState(() {
         sessionId = value['sessionId'];
       });
     }).catchError((error) {
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Theme.of(context).errorColor,
-        messageText: Text(
-          '$error',
-          style: AppTheme.textStyle
-              .colored(AppTheme.backgroundColor)
-              .w500
-              .size(15),
-        ),
-        icon:
-            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+      Toast(iconData: BotigaIcons.truck, message: '$error');
     });
   }
 
-  void verifyOtp() {
-    final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    final phone = routesArgs['phone'];
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    authProvider.verifyOtp(phone, sessionId, '').then((value) {
-      Navigator.of(context)
-          .pushNamed(SetPin.routeName, arguments: {'phone': phone});
-    }).catchError((error) {
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Theme.of(context).errorColor,
-        messageText: Text(
-          '$error',
-          style: AppTheme.textStyle
-              .colored(AppTheme.backgroundColor)
-              .w500
-              .size(15),
-        ),
-        icon:
-            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
-    });
+  Form otpForm() {
+    return Form(
+      key: _form,
+      child: PinTextField(
+        pins: 6,
+        onSaved: (val) => pinValue = val,
+      ),
+    );
   }
 
-  Widget build(BuildContext context) {
-    final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    final phone = routesArgs['phone'];
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        color: Color(0xff179F57),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.only(
-                  top: 70, bottom: 60, left: 20, right: 20),
-              child: LoginSignupHeader(
-                title: "Forgot PIN",
-                actionWidget: SizedBox.shrink(),
-                showBackBtn: true,
-              ),
+  StatelessWidget resendWidget() {
+    return _start > 0
+        ? Text(
+            'Resend OTP in ${_start}s',
+            style: AppTheme.textStyle.w500.color50.size(13).lineHeight(1.5),
+          )
+        : GestureDetector(
+            onTap: () {
+              this._getOTP();
+            },
+            child: Text(
+              'Resend OTP',
+              style: AppTheme.textStyle.w500
+                  .colored(AppTheme.primaryColor)
+                  .size(13)
+                  .lineHeight(1.5),
             ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.only(left: 22, right: 22, top: 32),
-                decoration: new BoxDecoration(
-                  color: AppTheme.backgroundColor,
-                  borderRadius: new BorderRadius.only(
-                    topLeft: const Radius.circular(32.0),
-                    topRight: const Radius.circular(32.0),
-                  ),
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: Text(
-                        "Please enter OTP sent to your phone number $phone",
-                        style: AppTheme.textStyle.size(15).w600,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          ...[1, 2, 3, 4, 5, 6].map((_r) {
-                            return Padding(
-                              padding: const EdgeInsets.only(left: 6, right: 6),
-                              child: Container(
-                                alignment: Alignment.center,
-                                height: 50,
-                                width: 40,
-                                child: TextField(
-                                  style:
-                                      AppTheme.textStyle.size(20).w500.color25,
-                                  keyboardType: TextInputType.number,
-                                  maxLength: 1,
-                                  decoration: InputDecoration(
-                                      hintText: "0",
-                                      border: InputBorder.none,
-                                      counterText: ''),
-                                  textAlign: TextAlign.center,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.color05,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-                            );
-                          })
-                        ],
-                      ),
-                    ),
-                    timeRemaining > 0
-                        ? Text(
-                            "Resend OTP in $timeRemaining s",
-                            style: AppTheme.textStyle.size(13).w500.color50,
-                          )
-                        : GestureDetector(
-                            onTap: () {
-                              getOtp();
-                            },
-                            child: Text('Resend OTP',
-                                style: AppTheme.textStyle
-                                    .size(15)
-                                    .w600
-                                    .colored(AppTheme.primaryColor)),
-                          ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 24, bottom: 24),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          FlatButton(
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(6.0)),
-                            onPressed: () {
-                              verifyOtp();
-                            },
-                            color: AppTheme.primaryColor,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 18, bottom: 18, left: 50, right: 50),
-                              child: Text(
-                                'Verify',
-                                style: AppTheme.textStyle
-                                    .size(15)
-                                    .w600
-                                    .colored(AppTheme.backgroundColor),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
+          );
+  }
+
+  Container verifyButton(Function onVerification) {
+    return Container(
+      width: double.infinity,
+      child: FlatButton(
+        shape: new RoundedRectangleBorder(
+          borderRadius: new BorderRadius.circular(8.0),
         ),
+        onPressed: () {
+          if (_form.currentState.validate()) {
+            _form.currentState.save(); //value saved in pinValue
+            onVerification();
+          }
+        },
+        color: AppTheme.primaryColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 18.0),
+          child: Text(
+            'Verify',
+            style: AppTheme.textStyle.w600
+                .size(15.0)
+                .lineHeight(1.5)
+                .colored(AppTheme.backgroundColor),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const sizedBox = SizedBox(height: 32);
+    final routesArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final phone = routesArgs['phone'];
+
+    return Background(
+      title: 'Verify OTP',
+      backNavigation: true,
+      child: Column(
+        children: [
+          sizedBox,
+          Text(
+            'Please enter OTP sent to your phone number $phone',
+            style: AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
+          ),
+          sizedBox,
+          otpForm(),
+          SizedBox(height: 12),
+          resendWidget(),
+          SizedBox(height: 16),
+          verifyButton(this._verifyOTP),
+        ],
       ),
     );
   }

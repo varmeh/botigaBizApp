@@ -25,7 +25,7 @@ class _SetPinState extends State<SetPin> {
   void _handleSetPin() {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
     authProvider.updatePin(phone, pinValue).then((value) {
       Navigator.pushReplacement(
