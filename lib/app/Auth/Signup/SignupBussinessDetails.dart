@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:botiga_biz/theme/index.dart';
 import 'SignupStoreDetails.dart';
+import '../../../util/index.dart';
 import '../../../widget/index.dart';
 import '../../../providers/Auth/AuthProvider.dart';
 
@@ -15,18 +16,46 @@ class SignupBuissnessDetails extends StatefulWidget {
 }
 
 class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
-  final _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey;
   PickedFile _imageFile;
-  final ImagePicker _picker = ImagePicker();
-  final TextEditingController maxWidthController = TextEditingController();
-  final TextEditingController maxHeightController = TextEditingController();
-  final TextEditingController qualityController = TextEditingController();
-  String businessName;
-  String firstName;
-  String lastName;
-  String brandName;
-  String tagline;
-  String seletedCategory = 'Beverages';
+  ImagePicker _picker;
+  TextEditingController maxWidthController,
+      maxHeightController,
+      qualityController;
+  String _businessName,
+      _firstName,
+      _lastName,
+      _brandName,
+      _tagline, //TODO: tagline Missing in request call for signup
+      _seletedCategory;
+  FocusNode _businessNameFocusNode,
+      _firstNameFocusNode,
+      _lastFocusNode,
+      _brandNameFocusNode,
+      _taglineFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _formKey = GlobalKey<FormState>();
+    _picker = ImagePicker();
+    maxWidthController = TextEditingController();
+    maxHeightController = TextEditingController();
+    qualityController = TextEditingController();
+
+    _businessName = '';
+    _firstName = '';
+    _lastName = '';
+    _brandName = '';
+    _tagline = '';
+    _seletedCategory = 'Beverages';
+
+    _businessNameFocusNode = FocusNode();
+    _firstNameFocusNode = FocusNode();
+    _lastFocusNode = FocusNode();
+    _brandNameFocusNode = FocusNode();
+    _taglineFocusNode = FocusNode();
+  }
 
   void _onImageButtonPressed(ImageSource source, BuildContext context) async {
     try {
@@ -50,8 +79,9 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
           onTap: () {
             Navigator.of(context).pop();
             if (isOther) {
-              String bsCategoryName = '';
+              String _bsCategoryName = '';
               final _bsformkey = GlobalKey<FormState>();
+              FocusNode _bsCategoryNameFocusNode = FocusNode();
 
               showModalBottomSheet(
                 context: context,
@@ -83,30 +113,11 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                           SizedBox(
                             height: 24,
                           ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Business Category name cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => bsCategoryName = val,
-                            decoration: InputDecoration(
-                                filled: true,
-                                contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.dividerColor,
-                                hintText: "Write your business category",
-                                hintStyle:
-                                    AppTheme.textStyle.size(15).w500.color25,
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    width: 0,
-                                    style: BorderStyle.none,
-                                  ),
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(8.0),
-                                  ),
-                                )),
+                          BotigaTextFieldForm(
+                            focusNode: _bsCategoryNameFocusNode,
+                            labelText: "Write your business category",
+                            onSave: (value) => _bsCategoryName = value,
+                            validator: nameValidator,
                           ),
                           SizedBox(
                             height: 20,
@@ -128,7 +139,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                                             .validate()) {
                                           _bsformkey.currentState.save();
                                           setState(() {
-                                            seletedCategory = bsCategoryName;
+                                            _seletedCategory = _bsCategoryName;
                                           });
                                           Navigator.of(context).pop();
                                         }
@@ -155,7 +166,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
               );
             } else {
               setState(() {
-                seletedCategory = s;
+                _seletedCategory = s;
               });
             }
           },
@@ -276,8 +287,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     final phone = routesArgs['phone'];
 
     authProvider
-        .signup(businessName, seletedCategory, firstName, lastName, brandName,
-            phone)
+        .signup(_businessName, _seletedCategory, _firstName, _lastName,
+            _brandName, phone)
         .then((value) {
       Navigator.of(context).pushNamed(SignUpStoreDetails.routeName);
     }).catchError((error) {
@@ -446,92 +457,51 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                     SizedBox(
                       height: 24,
                     ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Business name cannot be empty';
-                        }
-                        return null;
-                      },
-                      onSaved: (val) => businessName = val,
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(17.0),
-                          fillColor: AppTheme.backgroundColor,
-                          labelText: "Business Name",
-                          labelStyle: AppTheme.textStyle.size(15).w500.color25,
-                          border: OutlineInputBorder()),
+                    BotigaTextFieldForm(
+                      focusNode: _businessNameFocusNode,
+                      labelText: 'Business Name',
+                      onSave: (value) => _businessName = value,
+                      nextFocusNode: _firstNameFocusNode,
+                      validator: nameValidator,
                     ),
                     SizedBox(
                       height: 24,
                     ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Business owner first name cannot be empty';
-                        }
-                        return null;
-                      },
-                      onSaved: (val) => firstName = val,
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(17.0),
-                          fillColor: AppTheme.backgroundColor,
-                          labelText: "Business Owner First Name",
-                          labelStyle: AppTheme.textStyle.size(15).w500.color25,
-                          border: OutlineInputBorder()),
+                    BotigaTextFieldForm(
+                      focusNode: _firstNameFocusNode,
+                      labelText: 'Business Owner First Name',
+                      onSave: (value) => _firstName = value,
+                      nextFocusNode: _lastFocusNode,
+                      validator: nameValidator,
                     ),
                     SizedBox(
                       height: 24,
                     ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Business owner last name cannot be empty';
-                        }
-                        return null;
-                      },
-                      onSaved: (val) => lastName = val,
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(17.0),
-                          fillColor: AppTheme.backgroundColor,
-                          labelText: "Business Owner Last Name",
-                          labelStyle: AppTheme.textStyle.size(15).w500.color25,
-                          border: OutlineInputBorder()),
+                    BotigaTextFieldForm(
+                      focusNode: _lastFocusNode,
+                      labelText: 'Business Owner Last Name',
+                      onSave: (value) => _lastName = value,
+                      nextFocusNode: _brandNameFocusNode,
+                      validator: nameValidator,
                     ),
                     SizedBox(
                       height: 24,
                     ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Brand name cannot be empty';
-                        }
-                        return null;
-                      },
-                      onSaved: (val) => brandName = val,
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(17.0),
-                          fillColor: AppTheme.backgroundColor,
-                          labelText: "Brand name",
-                          labelStyle: AppTheme.textStyle.size(15).w500.color25,
-                          border: OutlineInputBorder()),
+                    BotigaTextFieldForm(
+                      focusNode: _brandNameFocusNode,
+                      labelText: 'Brand Name',
+                      onSave: (value) => _brandName = value,
+                      nextFocusNode: _taglineFocusNode,
+                      validator: nameValidator,
                     ),
                     SizedBox(
                       height: 24,
                     ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Tagline cannot be empty';
-                        }
-                        return null;
-                      },
-                      onSaved: (val) => tagline = val,
-                      decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.all(17.0),
-                          fillColor: AppTheme.backgroundColor,
-                          labelText: "Tagline",
-                          labelStyle: AppTheme.textStyle.size(15).w500.color25,
-                          border: OutlineInputBorder()),
+                    BotigaTextFieldForm(
+                      focusNode: _taglineFocusNode,
+                      labelText: 'Tagline',
+                      onSave: (value) => _tagline = value,
+                      validator: nameValidator,
                     ),
                     SizedBox(
                       height: 24,
@@ -553,14 +523,14 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         },
                         trailing: Icon(Icons.keyboard_arrow_down,
                             color: AppTheme.color100),
-                        title: seletedCategory == ''
+                        title: _seletedCategory == ''
                             ? Text(
                                 'Business Category',
                                 style:
                                     AppTheme.textStyle.color100.w500.size(15),
                               )
                             : Text(
-                                '$seletedCategory',
+                                '$_seletedCategory',
                                 style:
                                     AppTheme.textStyle.color100.w500.size(15),
                               ),
