@@ -59,30 +59,32 @@ class _PhoneScreenState extends State<PhoneScreen> {
     );
   }
 
-  Padding textField() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 40, bottom: 30),
-      child: BotigaTextFieldForm(
-        onSave: (val) => null,
-        formKey: _phoneFormKey,
-        focusNode: _phoneFocusNode,
-        labelText: 'Phone Number',
-        keyboardType: TextInputType.number,
-        onChange: (val) {
-          if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
-            // hide keyboard as there is no done button on number keyboard
-            FocusScope.of(context).unfocus();
-          }
-        },
-        validator: (val) {
-          if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
-            return 'Required';
-          } else if (_phoneMaskFormatter.getUnmaskedText().length != 10) {
-            return 'Please provide a valid 10 digit Mobile Number';
-          }
-          return null;
-        },
-        maskFormatter: _phoneMaskFormatter,
+  Form textField() {
+    return Form(
+      key: _phoneFormKey,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 40, bottom: 30),
+        child: BotigaTextFieldForm(
+          onSave: (val) => null,
+          focusNode: _phoneFocusNode,
+          labelText: 'Phone Number',
+          keyboardType: TextInputType.number,
+          onChange: (val) {
+            if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
+              // hide keyboard as there is no done button on number keyboard
+              FocusScope.of(context).unfocus();
+            }
+          },
+          validator: (val) {
+            if (_phoneMaskFormatter.getUnmaskedText().isEmpty) {
+              return 'Required';
+            } else if (_phoneMaskFormatter.getUnmaskedText().length != 10) {
+              return 'Please provide a valid 10 digit Mobile Number';
+            }
+            return null;
+          },
+          maskFormatter: _phoneMaskFormatter,
+        ),
       ),
     );
   }

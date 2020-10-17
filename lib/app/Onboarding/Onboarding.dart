@@ -46,8 +46,8 @@ class IntroScreenState extends State<IntroScreen> {
   }
 
   void onDonePress() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (BuildContext context) => Login()));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) => SignupWelcome()));
   }
 
   List<Widget> renderListCustomTabs() {
