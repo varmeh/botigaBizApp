@@ -1,32 +1,51 @@
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flushbar/flushbar.dart';
+import '../../../widget/index.dart';
 import '../../../providers/Store/Category/CategoryProvider.dart';
 import '../../../providers/Store/Product/ProductProvider.dart';
 import '../../../models/Store/Category/StoreCategory.dart';
 
-class Category extends StatelessWidget {
+class Category extends StatefulWidget {
+  @override
+  _CategoryState createState() => _CategoryState();
+}
+
+class _CategoryState extends State<Category> {
+  bool _isProcessing = false;
+
+  void setStatus(bool status) {
+    setState(() {
+      _isProcessing = status;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     List<StoreCategory> categories =
         Provider.of<CategoryProvider>(context, listen: false).allCategories;
     return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: ListView(
-          children: <Widget>[
-            ...categories.map((category) {
-              return getTile(context, category);
-            })
-          ],
-        ),
+      child: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: ListView(
+              children: <Widget>[
+                ...categories.map((category) {
+                  return getTile(context, category, this.setStatus);
+                })
+              ],
+            ),
+          ),
+          _isProcessing ? Loader() : SizedBox.shrink()
+        ],
       ),
     );
   }
 }
 
-Widget getTile(BuildContext context, StoreCategory category) {
+Widget getTile(
+    BuildContext context, StoreCategory category, Function setStatus) {
   final productProvider = Provider.of<ProductProvider>(context, listen: false);
   final productCount = productProvider.productCountForCategory(category.id);
   final countDispaly = productCount < 10 ? '0$productCount' : productCount;
@@ -61,49 +80,20 @@ Widget getTile(BuildContext context, StoreCategory category) {
                   color: AppTheme.color100,
                 ),
                 onTap: () {
+                  setStatus(true);
                   final categoryProvide =
                       Provider.of<CategoryProvider>(context, listen: false);
                   categoryProvide.deleteCategory(category.id).then((value) {
-                    Flushbar(
-                      maxWidth: 335,
-                      backgroundColor: Color(0xff2591B2),
-                      messageText: Text(
-                        'Deleted',
-                        style: AppTheme.textStyle
-                            .colored(AppTheme.backgroundColor)
-                            .w500
-                            .size(15),
-                      ),
-                      icon: Icon(Icons.check_circle_outline_sharp,
-                          size: 30, color: AppTheme.backgroundColor),
-                      flushbarPosition: FlushbarPosition.TOP,
-                      flushbarStyle: FlushbarStyle.FLOATING,
-                      duration: Duration(seconds: 3),
-                      margin: EdgeInsets.all(20),
-                      padding: EdgeInsets.all(20),
-                      borderRadius: 8,
-                    ).show(context);
+                    setStatus(false);
+                    Toast(message: '$value', iconData: BotigaIcons.truck)
+                        .show(context);
                     categoryProvide.fetchCategories();
                   }).catchError((error) {
-                    Flushbar(
-                      maxWidth: 335,
-                      backgroundColor: Theme.of(context).errorColor,
-                      messageText: Text(
-                        '$error',
-                        style: AppTheme.textStyle
-                            .colored(AppTheme.backgroundColor)
-                            .w500
-                            .size(15),
-                      ),
-                      icon: Icon(Icons.error_outline_outlined,
-                          size: 30, color: AppTheme.backgroundColor),
-                      flushbarPosition: FlushbarPosition.TOP,
-                      flushbarStyle: FlushbarStyle.FLOATING,
-                      duration: Duration(seconds: 3),
-                      margin: EdgeInsets.all(20),
-                      padding: EdgeInsets.all(20),
-                      borderRadius: 8,
-                    ).show(context);
+                    setStatus(false);
+                    Toast(
+                            message: '$error',
+                            iconData: Icons.error_outline_sharp)
+                        .show(context);
                   });
                 },
               ),
