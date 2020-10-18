@@ -16,6 +16,7 @@ class _ProductsState extends State<Products> {
   bool _isLoading = false;
   bool _isError = false;
   bool _isInit = false;
+  bool _isApiInProgress = false;
   List<ProductByCategory> _products;
 
   @override
@@ -52,12 +53,16 @@ class _ProductsState extends State<Products> {
     super.didChangeDependencies();
   }
 
+  _setApiInProgressStatus(bool status) {
+    setState(() {
+      _isApiInProgress = status;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
+        ? Loader()
         : _isError
             ? Center(
                 child: Icon(
@@ -66,55 +71,81 @@ class _ProductsState extends State<Products> {
                 ),
               )
             : SafeArea(
-                child: Container(
-                  padding: const EdgeInsets.only(
-                    left: 20,
-                    right: 20,
-                  ),
-                  child: ListView(
-                    children: <Widget>[
-                      // TextField(
-                      //   style: TextStyle(
-                      //     fontSize: 15.0,
-                      //     color: Colors.black,
-                      //     fontWeight: FontWeight.normal,
-                      //   ),
-                      //   decoration: InputDecoration(
-                      //     fillColor: Theme.of(context).backgroundColor,
-                      //     filled: true,
-                      //     contentPadding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
-                      //     suffixIcon: Icon(
-                      //       Icons.search,
-                      //       color: Color(0xff121715),
-                      //     ),
-                      //     hintText: "Search...",
-                      //     enabledBorder: const OutlineInputBorder(
-                      //       borderSide: BorderSide(color: Colors.white),
-                      //     ),
-                      //     border: OutlineInputBorder(
-                      //       borderSide: BorderSide(color: Colors.white),
-                      //       borderRadius: BorderRadius.circular(8.0),
-                      //     ),
-                      //     focusedBorder: OutlineInputBorder(
-                      //       borderSide: BorderSide(color: Colors.white),
-                      //       borderRadius: BorderRadius.circular(8.0),
-                      //     ),
-                      //   ),
-                      // ),
-                      // SizedBox(
-                      //   height: 10,
-                      // ),
-                      ..._products.map((productWithCategory) {
-                        return getTile(context, productWithCategory);
-                      })
-                    ],
-                  ),
+                child: Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                      ),
+                      child: ListView(
+                        children: <Widget>[
+                          // TextField(
+                          //   style: TextStyle(
+                          //     fontSize: 15.0,
+                          //     color: Colors.black,
+                          //     fontWeight: FontWeight.normal,
+                          //   ),
+                          //   decoration: InputDecoration(
+                          //     fillColor: Theme.of(context).backgroundColor,
+                          //     filled: true,
+                          //     contentPadding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
+                          //     suffixIcon: Icon(
+                          //       Icons.search,
+                          //       color: Color(0xff121715),
+                          //     ),
+                          //     hintText: "Search...",
+                          //     enabledBorder: const OutlineInputBorder(
+                          //       borderSide: BorderSide(color: Colors.white),
+                          //     ),
+                          //     border: OutlineInputBorder(
+                          //       borderSide: BorderSide(color: Colors.white),
+                          //       borderRadius: BorderRadius.circular(8.0),
+                          //     ),
+                          //     focusedBorder: OutlineInputBorder(
+                          //       borderSide: BorderSide(color: Colors.white),
+                          //       borderRadius: BorderRadius.circular(8.0),
+                          //     ),
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: 10,
+                          // ),
+                          ..._products.map((productWithCategory) {
+                            return getTile(context, productWithCategory,
+                                this._setApiInProgressStatus);
+                          })
+                        ],
+                      ),
+                    ),
+                    _isApiInProgress ? Loader() : SizedBox.shrink()
+                  ],
                 ),
               );
   }
 }
 
-Widget getTile(BuildContext context, ProductByCategory productWithCategory) {
+Widget getTile(BuildContext context, ProductByCategory productWithCategory,
+    Function setApiStatus) {
+  //Function to check product availiblity.
+  void setProductAvilablity(String productId, bool availabelStatus) {
+    setApiStatus(true);
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    productProvider
+        .updateProductStatus(
+            productWithCategory.categoryId, productId, availabelStatus)
+        .then((value) {
+      setApiStatus(false);
+      Toast(message: '${value['message']}', iconData: BotigaIcons.truck)
+          .show(context);
+    }).catchError((error) {
+      setApiStatus(false);
+      Toast(message: '$error', iconData: Icons.error_outline_sharp)
+          .show(context);
+    });
+  }
+
   final theme = Theme.of(context).copyWith(
       dividerColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -160,11 +191,11 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory) {
                   ...productWithCategory.products.asMap().entries.map((entry) {
                     int idx = entry.key;
                     if (idx == productWithCategory.products.length - 1) {
-                      return ProductItemRow(entry.value);
+                      return ProductItemRow(entry.value, setProductAvilablity);
                     }
                     return Column(
                       children: [
-                        ProductItemRow(entry.value),
+                        ProductItemRow(entry.value, setProductAvilablity),
                         Divider(
                           color: AppTheme.dividerColor,
                           thickness: 1.2,
@@ -188,7 +219,8 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory) {
 
 class ProductItemRow extends StatefulWidget {
   final Product product;
-  ProductItemRow(this.product);
+  final Function setProductAvilablity;
+  ProductItemRow(this.product, this.setProductAvilablity);
   @override
   _ProductItemRowState createState() => _ProductItemRowState();
 }
@@ -279,6 +311,8 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                       _switchValue = value;
                                     },
                                   );
+                                  widget.setProductAvilablity(
+                                      widget.product.id, value);
                                 },
                               ),
                             )
