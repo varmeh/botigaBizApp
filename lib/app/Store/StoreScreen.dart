@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flushbar/flushbar.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart';
 import './Categories/category.dart';
 import './Product/product.dart';
 import 'Product/addProduct.dart';
+import '../../widget/index.dart';
+import '../../util/FormValidators.dart';
 import '../../providers/Store/Category/CategoryProvider.dart';
 
 class StoreScreen extends StatefulWidget {
@@ -16,52 +17,32 @@ class StoreScreen extends StatefulWidget {
 
 class _StoreScreenState extends State<StoreScreen> {
   int slelectedTab = 0;
+  bool isSavingCategory = false;
 
-  void _handleCategorySave(BuildContext context, String name) {
+  void _handleCategorySave(String name) {
+    Navigator.of(context).pop();
+    setState(() {
+      isSavingCategory = true;
+    });
+
     final categoryProvider =
         Provider.of<CategoryProvider>(context, listen: false);
     categoryProvider.saveCategory(name).then((value) {
-      Navigator.of(context).pop();
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Color(0xff2591B2),
-        messageText: Text(
-          '$value',
-          style: AppTheme.textStyle
-              .colored(AppTheme.backgroundColor)
-              .w500
-              .size(15),
-        ),
-        icon:
-            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+      categoryProvider.fetchCategories().then((value) {
+        setState(() {
+          isSavingCategory = false;
+        });
+      }).catchError((error) {
+        setState(() {
+          isSavingCategory = false;
+        });
+      });
+      Toast(message: '$value', iconData: BotigaIcons.truck).show(context);
     }).catchError((error) {
-      Navigator.of(context).pop();
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Theme.of(context).errorColor,
-        messageText: Text(
-          '$error',
-          style: AppTheme.textStyle
-              .colored(AppTheme.backgroundColor)
-              .w500
-              .size(15),
-        ),
-        icon:
-            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+      setState(() {
+        isSavingCategory = false;
+      });
+      Toast(message: '$error', iconData: BotigaIcons.truck).show(context);
     });
   }
 
@@ -95,7 +76,7 @@ class _StoreScreenState extends State<StoreScreen> {
             onPressed: () {
               if (slelectedTab == 1) {
                 final _formKey = GlobalKey<FormState>();
-                String name;
+                String _categoryName;
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
@@ -127,13 +108,8 @@ class _StoreScreenState extends State<StoreScreen> {
                               height: 24,
                             ),
                             TextFormField(
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Category name cannot be empty';
-                                }
-                                return null;
-                              },
-                              onSaved: (val) => name = val,
+                              validator: nameValidator,
+                              onSaved: (val) => _categoryName = val,
                               decoration: InputDecoration(
                                   filled: true,
                                   contentPadding: const EdgeInsets.all(17.0),
@@ -181,7 +157,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                   onPressed: () {
                                     if (_formKey.currentState.validate()) {
                                       _formKey.currentState.save();
-                                      _handleCategorySave(context, name);
+                                      _handleCategorySave(_categoryName);
                                     }
                                   },
                                   color: AppTheme.primaryColor,
@@ -254,12 +230,14 @@ class _StoreScreenState extends State<StoreScreen> {
             ),
           ),
         ),
-        body: TabBarView(
-          children: [
-            Products(),
-            Category(),
-          ],
-        ),
+        body: isSavingCategory
+            ? Loader()
+            : TabBarView(
+                children: [
+                  Products(),
+                  Category(),
+                ],
+              ),
       ),
     );
   }

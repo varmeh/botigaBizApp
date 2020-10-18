@@ -84,10 +84,13 @@ Widget getTile(
                   final categoryProvide =
                       Provider.of<CategoryProvider>(context, listen: false);
                   categoryProvide.deleteCategory(category.id).then((value) {
-                    setStatus(false);
+                    categoryProvide.fetchCategories().then((value) {
+                      setStatus(false);
+                    }).catchError((error) {
+                      setStatus(false);
+                    });
                     Toast(message: '$value', iconData: BotigaIcons.truck)
                         .show(context);
-                    categoryProvide.fetchCategories();
                   }).catchError((error) {
                     setStatus(false);
                     Toast(
