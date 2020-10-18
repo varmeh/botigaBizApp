@@ -18,3 +18,12 @@ final Function(String) nameValidator = (value) {
   }
   return null;
 };
+
+final Function(String) emailValidator = (value) {
+  if (value.isEmpty) {
+    return 'Required';
+  } else if (!value.isValidEmail()) {
+    return 'Please enter email in correct format';
+  }
+  return null;
+};
