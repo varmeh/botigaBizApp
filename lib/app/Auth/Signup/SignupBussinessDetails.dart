@@ -23,11 +23,11 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   TextEditingController maxWidthController,
       maxHeightController,
       qualityController;
-  String _businessName,
-      _firstName,
-      _lastName,
-      _brandName,
-      _tagline,
+  String _businessName = '',
+      _firstName = '',
+      _lastName = '',
+      _brandName = '',
+      _tagline = '',
       _seletedCategory;
   FocusNode _businessNameFocusNode,
       _firstNameFocusNode,
@@ -46,16 +46,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
-
     _isInit = false;
-
-    _businessName = '';
-    _firstName = '';
-    _lastName = '';
-    _brandName = '';
-    _tagline = '';
     _seletedCategory = 'Beverages';
-
     _businessNameFocusNode = FocusNode();
     _firstNameFocusNode = FocusNode();
     _lastFocusNode = FocusNode();

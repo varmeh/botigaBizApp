@@ -15,13 +15,13 @@ class SignUpStoreDetails extends StatefulWidget {
 
 class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
   final _formKey = GlobalKey<FormState>();
-  String _email,
-      _watsappNumber,
-      _buildingNumber,
-      _streetName,
-      _area,
-      _city,
-      _state;
+  String _email = '',
+      _watsappNumber = '',
+      _buildingNumber = '',
+      _streetName = '',
+      _area = '',
+      _city = '',
+      _state = '';
   int _pincode;
   FocusNode _emailFocusNode,
       _whatsappFocusNode,
