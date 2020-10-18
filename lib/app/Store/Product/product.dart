@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../util/constants.dart';
+import '../../../widget/index.dart';
 import '../../../providers/Store/Product/ProductProvider.dart';
 import '../../../models/Store/Product/ProductByCategory.dart';
 
@@ -216,19 +217,9 @@ class _ProductItemRowState extends State<ProductItemRow> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Container(
-                width: 48.0,
-                height: 48.0,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: NetworkImage(
-                          'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg')),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(4.0),
-                  ),
-                ),
-              ),
+              ProductNetworkAvatar(
+                  imageUrl:
+                      'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg'),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.only(left: 12),
