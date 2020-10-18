@@ -125,9 +125,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           child: BottomNavigationBar(
+            backgroundColor: AppTheme.backgroundColor,
+            selectedIconTheme: IconThemeData(size: 28),
+            selectedItemColor: AppTheme.primaryColor,
+            selectedLabelStyle: AppTheme.textStyle.w500.size(12),
+            unselectedLabelStyle: AppTheme.textStyle.w500.size(13),
+            unselectedItemColor: AppTheme.navigationItemColor,
+            type: BottomNavigationBarType.fixed,
             onTap: _selectPage,
             currentIndex: _selectedPageIndex,
-            type: BottomNavigationBarType.fixed,
             items: [
               BottomNavigationBarItem(
                 icon: const Icon(BotigaIcons.orders),

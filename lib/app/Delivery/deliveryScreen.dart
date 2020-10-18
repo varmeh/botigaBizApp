@@ -448,9 +448,9 @@ class DeliveryRow extends StatelessWidget {
   _handleOutForDelivery(BuildContext context, String orderId) {
     final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
     orderProvider.setDeliveryStatus(orderId).then((value) {
-      Toast(message: '$value', iconData: BotigaIcons.truck);
+      Toast(message: '$value', iconData: BotigaIcons.truck).show(context);
     }).catchError((error) {
-      Toast(message: '$error', iconData: BotigaIcons.truck);
+      Toast(message: '$error', iconData: BotigaIcons.truck).show(context);
     });
   }
 

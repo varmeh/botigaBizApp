@@ -60,4 +60,7 @@ class Constants {
   static const String VERIFY_OTP = '$SELLER_BASE_URL/auth/otp/verify';
   static const String UPDATE_PIN = '$SELLER_BASE_URL/auth/pin';
   static const String SIGNUP = '$SELLER_BASE_URL/auth/signup';
+
+  //ImageService Url
+  static const String IMAGE_PRESIGNED_URL = '/api/services/imageurls/png';
 }

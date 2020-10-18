@@ -47,8 +47,15 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future signup(String businessName, String businessCategory, String firstName,
-      String lastName, String brandName, String phone) {
+  Future signup(
+      String businessName,
+      String businessCategory,
+      String firstName,
+      String lastName,
+      String brandName,
+      String phone,
+      String tagline,
+      String url) {
     try {
       final body = json.encode({
         "businessName": businessName,
@@ -56,7 +63,9 @@ class AuthProvider with ChangeNotifier {
         "firstName": firstName,
         "lastName": lastName,
         "brandName": brandName,
-        "phone": phone
+        "phone": phone,
+        "tagline": tagline,
+        "brandUrl": url
       });
       return HttpService().patch('${Constants.SIGNUP}', body);
     } catch (error) {

@@ -8,6 +8,7 @@ import 'SignupStoreDetails.dart';
 import '../../../util/index.dart';
 import '../../../widget/index.dart';
 import '../../../providers/Auth/AuthProvider.dart';
+import '../../../providers/Services/ImageService.dart';
 
 class SignupBuissnessDetails extends StatefulWidget {
   static const routeName = '/signup-bussiness-detail';
@@ -26,13 +27,16 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       _firstName,
       _lastName,
       _brandName,
-      _tagline, //TODO: tagline Missing in request call for signup
+      _tagline,
       _seletedCategory;
   FocusNode _businessNameFocusNode,
       _firstNameFocusNode,
       _lastFocusNode,
       _brandNameFocusNode,
       _taglineFocusNode;
+
+  String uploadurl, downloadUrl;
+  bool _isInit;
 
   @override
   void initState() {
@@ -42,6 +46,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
+
+    _isInit = false;
 
     _businessName = '';
     _firstName = '';
@@ -57,6 +63,40 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     _taglineFocusNode = FocusNode();
   }
 
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      this._getPreSignedUrl();
+      _isInit = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  void _getPreSignedUrl() {
+    ImageService.getPresignedImageUrl().then((value) {
+      print(value);
+      setState(() {
+        uploadurl = value['uploadUrl'];
+        downloadUrl = value['downloadUrl'];
+      });
+    }).catchError((error) {
+      Toast(message: '$error', iconData: Icons.error_outline);
+    });
+  }
+
+  void _handleImageUpload(PickedFile file) {
+    ImageService.uploadImageToS3(uploadurl, file).then((value) {
+      print(value);
+    }).catchError((error) {
+      print(error);
+      Toast(message: '$error', iconData: Icons.error_outline_sharp)
+          .show(context);
+      setState(() {
+        _imageFile = null;
+      });
+    });
+  }
+
   void _onImageButtonPressed(ImageSource source, BuildContext context) async {
     try {
       final pickedFile = await _picker.getImage(
@@ -68,7 +108,10 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       setState(() {
         _imageFile = pickedFile;
       });
-    } catch (e) {}
+      _handleImageUpload(pickedFile);
+    } catch (e) {
+      Toast(message: '$e', iconData: Icons.error_outline_sharp).show(context);
+    }
     Navigator.of(context).pop();
   }
 
@@ -288,7 +331,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
 
     authProvider
         .signup(_businessName, _seletedCategory, _firstName, _lastName,
-            _brandName, phone)
+            _brandName, phone, _tagline, downloadUrl)
         .then((value) {
       Navigator.of(context).pushNamed(SignUpStoreDetails.routeName);
     }).catchError((error) {
