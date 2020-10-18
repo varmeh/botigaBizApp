@@ -203,7 +203,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             },
             label: Padding(
               padding: const EdgeInsets.only(
-                  left: 0, top: 10, bottom: 10, right: 30),
+                  left: 0, top: 10, bottom: 10, right: 35),
               child: Text(
                 'Select apartment',
                 style: AppTheme.textStyle
@@ -214,11 +214,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             ),
             icon: Icon(
               Icons.chevron_left,
-              color: Color(0xff179F57),
+              color: AppTheme.primaryColor,
             ),
             backgroundColor: Colors.white,
           ),
-          alignment: fabIsVisible ? Alignment(3.6, 0.9) : Alignment(1.8, 0.9)),
+          alignment: fabIsVisible ? Alignment(3.8, 0.9) : Alignment(1.8, 0.9)),
       body: _isLoading
           ? Loader()
           : _isError
