@@ -30,24 +30,25 @@ class BotigaTextFieldForm extends StatefulWidget {
   final TextInputFormatter maskFormatter;
   final TextCapitalization textCapitalization;
   final IconData icon;
+  final String initialValue;
 
-  BotigaTextFieldForm({
-    @required this.focusNode,
-    @required this.labelText,
-    @required this.onSave,
-    this.validator,
-    this.maskFormatter,
-    this.keyboardType = TextInputType.text,
-    this.textInputAction = TextInputAction.done,
-    this.maxLines = 1,
-    this.maxLength,
-    this.nextFocusNode,
-    this.onFieldSubmitted,
-    this.textEditingController,
-    this.onChange,
-    this.textCapitalization = TextCapitalization.words,
-    this.icon,
-  });
+  BotigaTextFieldForm(
+      {@required this.focusNode,
+      @required this.labelText,
+      @required this.onSave,
+      this.validator,
+      this.maskFormatter,
+      this.keyboardType = TextInputType.text,
+      this.textInputAction = TextInputAction.done,
+      this.maxLines = 1,
+      this.maxLength,
+      this.nextFocusNode,
+      this.onFieldSubmitted,
+      this.textEditingController,
+      this.onChange,
+      this.textCapitalization = TextCapitalization.words,
+      this.icon,
+      this.initialValue});
 
   @override
   _BotigaTextFieldFormState createState() => _BotigaTextFieldFormState();
@@ -146,6 +147,7 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
           ),
         ),
       ),
+      initialValue: widget.initialValue,
     );
   }
 }

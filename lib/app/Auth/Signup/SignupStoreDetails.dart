@@ -5,6 +5,7 @@ import 'SetPin.dart';
 import '../../../widget/index.dart';
 import '../../../util/FormValidators.dart';
 import '../../../providers/Profile/StoreProvider.dart';
+import '../../../providers/Services/index.dart';
 
 class SignUpStoreDetails extends StatefulWidget {
   static const routeName = '/signup-store-detail';
@@ -42,6 +43,20 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
     _areaFocusNode = FocusNode();
     _cityFocusNode = FocusNode();
     _statefocusNode = FocusNode();
+  }
+
+  void _handlePinCodeChange(pin) {
+    PinService.getAreaFromPincode(pin).then((value) {
+      List postOffices = value['PostOffice'];
+      final firstArea = postOffices.first;
+      if (firstArea != null) {
+        setState(() {
+          _area = firstArea['Name'];
+        });
+      }
+    }).catchError((error) {
+      print(error);
+    });
   }
 
   void _handleStoreDetailSave(BuildContext context) {
@@ -201,21 +216,14 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             height: 16,
                           ),
                           BotigaTextFieldForm(
-                            focusNode: _areaFocusNode,
-                            labelText: 'Area',
-                            onSave: (value) => _area = value,
-                            nextFocusNode: _pincodeFocusNode,
-                            validator: nameValidator,
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          BotigaTextFieldForm(
                               focusNode: _pincodeFocusNode,
                               labelText: 'Pincode',
                               onSave: (value) => _pincode = int.parse(value),
-                              nextFocusNode: _cityFocusNode,
+                              nextFocusNode: _areaFocusNode,
                               keyboardType: TextInputType.number,
+                              onFieldSubmitted: (value) {
+                                _handlePinCodeChange(value);
+                              },
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Required';
@@ -224,6 +232,17 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                                 }
                                 return null;
                               }),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          BotigaTextFieldForm(
+                            initialValue: _area,
+                            focusNode: _areaFocusNode,
+                            labelText: 'Area',
+                            onSave: (value) => _area = value,
+                            nextFocusNode: _cityFocusNode,
+                            validator: nameValidator,
+                          ),
                           SizedBox(
                             height: 16,
                           ),

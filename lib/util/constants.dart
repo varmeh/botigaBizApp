@@ -63,4 +63,7 @@ class Constants {
 
   //ImageService Url
   static const String IMAGE_PRESIGNED_URL = '/api/services/imageurls/png';
+
+  //OtherServiceUrl
+  static const String PINCODE_URL = 'http://www.postalpincode.in/api/pincode';
 }
