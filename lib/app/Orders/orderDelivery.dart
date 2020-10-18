@@ -5,7 +5,7 @@ import 'orderFinalResult.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import '../../theme/index.dart';
-import 'package:flushbar/flushbar.dart';
+import '../../widget/index.dart';
 
 class OrderDelivery extends StatefulWidget {
   static const routeName = '/order-delivery';
@@ -14,9 +14,11 @@ class OrderDelivery extends StatefulWidget {
 }
 
 class _OrderDeliveryState extends State<OrderDelivery> {
+  bool _isLoading;
   @override
   void initState() {
     super.initState();
+    _isLoading = false;
   }
 
   @override
@@ -24,75 +26,45 @@ class _OrderDeliveryState extends State<OrderDelivery> {
     super.dispose();
   }
 
-  void handleCancelOrder(BuildContext context, String orderId) {
+  void handleCancelOrder(String orderId) {
+    setState(() {
+      _isLoading = true;
+    });
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     ordersProvider.cancelOrder(orderId).then((value) {
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Color(0xff2591B2),
-        messageText: Text(
-          '${value['message']}',
-          style: AppTheme.textStyle
-              .colored(AppTheme.backgroundColor)
-              .w500
-              .size(15),
-        ),
-        icon:
-            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+      setState(() {
+        _isLoading = false;
+      });
+      Toast(message: '${value['message']}', iconData: BotigaIcons.truck)
+          .show(context);
     }).catchError((error) {
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Theme.of(context).errorColor,
-        messageText: Text(
-          '$error',
-          style: AppTheme.textStyle
-              .colored(AppTheme.backgroundColor)
-              .w500
-              .size(15),
-        ),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+      setState(() {
+        _isLoading = false;
+      });
+      Toast(message: '$error', iconData: Icons.error_outline_sharp)
+          .show(context);
     });
   }
 
-  void handleMarkAsDeliverd(
-      BuildContext context, String orderId, String apartmentName) {
+  void handleMarkAsDeliverd(String orderId, String apartmentName) {
+    setState(() {
+      _isLoading = true;
+    });
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     ordersProvider.setDeliveryStatus(orderId).then((value) {
+      setState(() {
+        _isLoading = false;
+      });
       Navigator.of(context).pushNamed(OrderFinalResult.routeName, arguments: {
         'orderId': orderId,
         'apartmentName': apartmentName,
       });
     }).catchError((error) {
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Theme.of(context).errorColor,
-        messageText: Text(
-          '$error',
-          style: AppTheme.textStyle
-              .colored(AppTheme.backgroundColor)
-              .w500
-              .size(15),
-        ),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+      setState(() {
+        _isLoading = false;
+      });
+      Toast(message: '$error', iconData: Icons.error_outline_sharp)
+          .show(context);
     });
   }
 
@@ -115,7 +87,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 onPressed: () {
-                  handleCancelOrder(context, orderId);
+                  handleCancelOrder(orderId);
                 },
                 child: Text('Cancel Order',
                     style: Theme.of(context)
@@ -147,7 +119,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                           borderRadius: BorderRadius.circular(6.0),
                         ),
                         onPressed: () {
-                          handleMarkAsDeliverd(context, orderId, apartmentName);
+                          handleMarkAsDeliverd(orderId, apartmentName);
                         },
                         textColor: Colors.red,
                         color: Color(0xff179F57),
@@ -165,25 +137,30 @@ class _OrderDeliveryState extends State<OrderDelivery> {
               )),
         ),
         body: SafeArea(
-          child: Container(
-            color: Colors.white,
-            child: ListView(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 20.0,
-                    right: 20,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      OrderSummary(orderDetail, apartmentName)
-                    ],
-                  ),
+          child: Stack(
+            children: [
+              Container(
+                color: Colors.white,
+                child: ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20.0,
+                        right: 20,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          OrderSummary(orderDetail, apartmentName)
+                        ],
+                      ),
+                    ),
+                    OrderListSummary(orderDetail),
+                  ],
                 ),
-                OrderListSummary(orderDetail),
-              ],
-            ),
+              ),
+              _isLoading ? Loader() : SizedBox.shrink(),
+            ],
           ),
         ));
   }

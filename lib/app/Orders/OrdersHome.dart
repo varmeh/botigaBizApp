@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'orderList.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
+import '../../widget/index.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 
 class OrdersHome extends StatefulWidget {
@@ -382,9 +383,7 @@ class _OrdersHomeState extends State<OrdersHome> {
   Widget build(BuildContext context) {
     final colorContext = Theme.of(context).colorScheme;
     return _isLoading
-        ? Center(
-            child: CircularProgressIndicator(),
-          )
+        ? Loader()
         : _isError
             ? Center(
                 child: Icon(

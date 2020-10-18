@@ -6,6 +6,7 @@ import 'orderDetails.dart';
 import '../../providers/Orders/OrdersProvider.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart';
+import '../../widget/index.dart';
 
 class OrderList extends StatefulWidget {
   static const routeName = '/all-orders-list';
@@ -103,9 +104,7 @@ class _OrderListState extends State<OrderList> {
             },
           )),
       body: _isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? Loader()
           : _isError
               ? Center(
                   child: Icon(
