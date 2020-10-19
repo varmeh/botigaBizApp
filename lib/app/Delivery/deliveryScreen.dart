@@ -454,6 +454,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                           statusMap[selectedStatus];
                                     });
 
+                              if (filterdStatusDetails.length == 0) {
+                                return NoOrders();
+                              }
+
                               return Column(
                                 children: [
                                   ...filterdStatusDetails.map((deliveryRow) {
