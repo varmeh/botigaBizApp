@@ -1,9 +1,10 @@
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
-import './SetPinSuccess.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../../../widget/index.dart';
 import '../../../providers/Auth/AuthProvider.dart';
+import '../../Home/HomeScreen.dart';
 
 class SetPin extends StatefulWidget {
   static const routeName = '/signup-setpin';
@@ -11,29 +12,72 @@ class SetPin extends StatefulWidget {
   _SetPinState createState() => _SetPinState();
 }
 
-class _SetPinState extends State<SetPin> {
+class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
   GlobalKey<FormState> _form;
   String pinValue;
+  AnimationController _controller;
+  bool _isLoading;
 
   @override
   void initState() {
     super.initState();
     pinValue = '';
+    _isLoading = false;
     _form = GlobalKey();
+    _controller = AnimationController(vsync: this);
+    _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
+  }
+
+  void loadTabbarAfterAnimationCompletion(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+    }
+  }
+
+  Widget setPinSuccessful() {
+    return Column(
+      children: [
+        Lottie.asset(
+          'assets/lotties/checkSuccess.json',
+          width: 160.0,
+          height: 160.0,
+          fit: BoxFit.fill,
+          controller: _controller,
+          onLoaded: (composition) {
+            _controller.duration = composition.duration * 2;
+            _controller.reset();
+            _controller.forward();
+          },
+        ),
+        SizedBox(height: 42.0),
+        Text(
+          'PIN Set successfully',
+          style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
+        ),
+        SizedBox(height: 64.0),
+      ],
+    );
   }
 
   void _handleSetPin() {
+    setState(() {
+      _isLoading = true;
+    });
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
     authProvider.updatePin(phone, pinValue).then((value) {
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => SetPinSuccess()));
+      setState(() {
+        _isLoading = false;
+      });
+      BotigaBottomModal(child: setPinSuccessful()).show(context);
     }).catchError((error) {
-      Toast(message: '$error', iconData: BotigaIcons.truck);
+      setState(() {
+        _isLoading = false;
+      });
+      Toast(message: '$error', iconData: BotigaIcons.truck).show(context);
     });
   }
 
@@ -44,12 +88,15 @@ class _SetPinState extends State<SetPin> {
           borderRadius: new BorderRadius.circular(8.0),
         ),
         onPressed: () {
+          if (_isLoading) {
+            return null;
+          }
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
             onVerification();
           }
         },
-        color: AppTheme.primaryColor,
+        color: _isLoading ? AppTheme.dividerColor : AppTheme.primaryColor,
         child: Padding(
           padding: const EdgeInsets.only(
               top: 14, bottom: 14, left: 51.5, right: 51.5),
@@ -118,6 +165,8 @@ class _SetPinState extends State<SetPin> {
             Center(child: Container(width: 200, child: pinForm())),
             sizedBox,
             setPinButton(this._handleSetPin),
+            sizedBox,
+            _isLoading ? Loader() : SizedBox.shrink()
           ],
         ),
       ),

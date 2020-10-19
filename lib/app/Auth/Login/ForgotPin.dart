@@ -18,6 +18,7 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
   String sessionId;
   String pinValue;
   bool _isInit;
+  bool _isLoading;
 
   Timer _timer;
   int _start;
@@ -28,6 +29,7 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
     sessionId = '';
     pinValue = '';
     _isInit = false;
+    _isLoading = false;
   }
 
   @override
@@ -56,15 +58,23 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
   }
 
   void _verifyOTP() {
+    setState(() {
+      _isLoading = true;
+    });
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
     authProvider.verifyOtp(phone, sessionId, pinValue).then((value) {
+      setState(() {
+        _isLoading = false;
+      });
       Navigator.pushNamed(context, SetPin.routeName,
           arguments: {'phone': phone});
     }).catchError((error) {
-      print("$error");
+      setState(() {
+        _isLoading = false;
+      });
       Toast(iconData: BotigaIcons.truck, message: '$error');
     });
   }
@@ -80,7 +90,7 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
         sessionId = value['sessionId'];
       });
     }).catchError((error) {
-      Toast(iconData: BotigaIcons.truck, message: '$error');
+      Toast(iconData: BotigaIcons.truck, message: '$error').show(context);
     });
   }
 
@@ -122,12 +132,15 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
           borderRadius: new BorderRadius.circular(8.0),
         ),
         onPressed: () {
+          if (_isLoading) {
+            return null;
+          }
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
             onVerification();
           }
         },
-        color: AppTheme.primaryColor,
+        color: _isLoading ? AppTheme.dividerColor : AppTheme.primaryColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 18.0),
           child: Text(
@@ -162,9 +175,11 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
           sizedBox,
           otpForm(),
           SizedBox(height: 12),
-          resendWidget(),
+          !_isLoading ? resendWidget() : SizedBox.shrink(),
           SizedBox(height: 16),
           verifyButton(this._verifyOTP),
+          SizedBox(height: 32),
+          _isLoading ? Loader() : SizedBox.shrink()
         ],
       ),
     );

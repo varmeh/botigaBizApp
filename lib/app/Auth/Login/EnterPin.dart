@@ -16,12 +16,14 @@ class EnterPin extends StatefulWidget {
 class _EnterPinState extends State<EnterPin> {
   GlobalKey<FormState> _form;
   String pinValue;
+  bool _isLoading;
 
   @override
   void initState() {
     super.initState();
     _form = GlobalKey();
     pinValue = '';
+    _isLoading = false;
   }
 
   @override
@@ -30,16 +32,25 @@ class _EnterPinState extends State<EnterPin> {
   }
 
   void _handleLogin() {
+    setState(() {
+      _isLoading = true;
+    });
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     authProvider.signInWithPin(phone, pinValue).then((value) {
+      setState(() {
+        _isLoading = false;
+      });
       authProvider.authLoginProfile = value;
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
     }).catchError((error) {
-      Toast(message: '$error', iconData: BotigaIcons.truck);
+      setState(() {
+        _isLoading = false;
+      });
+      Toast(message: '$error', iconData: BotigaIcons.truck).show(context);
     });
   }
 
@@ -61,12 +72,15 @@ class _EnterPinState extends State<EnterPin> {
           borderRadius: new BorderRadius.circular(8.0),
         ),
         onPressed: () {
+          if (_isLoading) {
+            return null;
+          }
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
             onContinue();
           }
         },
-        color: AppTheme.primaryColor,
+        color: _isLoading ? AppTheme.dividerColor : AppTheme.primaryColor,
         child: Padding(
           padding: const EdgeInsets.only(top: 14, bottom: 14),
           child: Text(
@@ -102,17 +116,19 @@ class _EnterPinState extends State<EnterPin> {
           sizedBox,
           continueBtn(this._handleLogin),
           sizedBox,
-          FlatButton(
-            child: Text('Forgot PIN?',
-                style: AppTheme.textStyle
-                    .size(15)
-                    .w600
-                    .colored(AppTheme.primaryColor)),
-            onPressed: () {
-              Navigator.of(context).pushNamed(LoginForgotPin.routeName,
-                  arguments: {'phone': phone});
-            },
-          ),
+          _isLoading
+              ? Loader()
+              : FlatButton(
+                  child: Text('Forgot PIN?',
+                      style: AppTheme.textStyle
+                          .size(15)
+                          .w600
+                          .colored(AppTheme.primaryColor)),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(LoginForgotPin.routeName,
+                        arguments: {'phone': phone});
+                  },
+                ),
         ],
       ),
     );
