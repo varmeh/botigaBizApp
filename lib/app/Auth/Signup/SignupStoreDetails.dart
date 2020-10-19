@@ -226,8 +226,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                               ),
                               BotigaTextFieldForm(
                                 focusNode: _streetNameFocusNode,
-                                labelText:
-                                    'Street Name/Locality cannot be empty',
+                                labelText: 'Street Name/Locality',
                                 onSave: (value) => _buildingNumber = value,
                                 nextFocusNode: _areaFocusNode,
                                 validator: nameValidator,

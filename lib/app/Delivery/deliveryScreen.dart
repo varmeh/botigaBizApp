@@ -175,16 +175,21 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 child: ListView(
                   padding: EdgeInsets.all(0),
                   children: <Widget>[
-                    ...apartments.map((apartment) {
+                    ...apartments.map((_apartment) {
                       return ListTile(
                           title: Text(
                             '${apartment.apartmentName}',
-                            style: AppTheme.textStyle.color100.w500.size(15),
+                            style: apartment.id == _apartment.id
+                                ? AppTheme.textStyle
+                                    .colored(AppTheme.primaryColor)
+                                    .w500
+                                    .size(15)
+                                : AppTheme.textStyle.color100.w500.size(15),
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
                             setState(() {
-                              apartment = apartment;
+                              apartment = _apartment;
                               slectedDate = FormatDate.getTodayOrSelectedDate(
                                   DateTime.now());
                             });
