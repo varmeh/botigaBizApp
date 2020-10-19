@@ -18,6 +18,14 @@ class DeliveryScreen extends StatefulWidget {
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
+  Map<String, String> statusMap = {
+    "All": 'All',
+    "Open": "open",
+    "Out for delivery": "out",
+    "Deliverd": "deliverd",
+    "Delayed": "delayed",
+    "Cancelled": "cancelled"
+  };
   bool _isLoading;
   bool _isError;
   bool _isInit;
@@ -258,13 +266,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                     child: ListView(
                                       scrollDirection: Axis.horizontal,
                                       children: <Widget>[
-                                        ...[
-                                          "All",
-                                          "Open",
-                                          "Out for delivery",
-                                          "Deliverd",
-                                          "Delayed"
-                                        ].map((val) {
+                                        ...statusMap.keys.map((val) {
                                           return Padding(
                                             padding: const EdgeInsets.only(
                                                 right: 12),
@@ -443,9 +445,18 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                 return SizedBox();
                               }
 
+                              final filterdStatusDetails = selectedStatus ==
+                                      'All'
+                                  ? deliveryByDateDetails
+                                  : deliveryByDateDetails.where((deliveryRow) {
+                                      print(deliveryRow.order.status);
+                                      return deliveryRow.order.status ==
+                                          statusMap[selectedStatus];
+                                    });
+
                               return Column(
                                 children: [
-                                  ...deliveryByDateDetails.map((deliveryRow) {
+                                  ...filterdStatusDetails.map((deliveryRow) {
                                     return DeliveryRow(
                                         deliveryRow,
                                         apartment.apartmentName,
