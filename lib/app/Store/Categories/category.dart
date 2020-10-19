@@ -24,23 +24,25 @@ class _CategoryState extends State<Category> {
   Widget build(BuildContext context) {
     List<StoreCategory> categories =
         Provider.of<CategoryProvider>(context, listen: false).allCategories;
-    return SafeArea(
-      child: Stack(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: ListView(
-              children: <Widget>[
-                ...categories.map((category) {
-                  return getTile(context, category, this.setStatus);
-                })
+    return (categories == null || categories.length == 0)
+        ? NoOrders()
+        : SafeArea(
+            child: Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: ListView(
+                    children: <Widget>[
+                      ...categories.map((category) {
+                        return getTile(context, category, this.setStatus);
+                      })
+                    ],
+                  ),
+                ),
+                _isProcessing ? Loader() : SizedBox.shrink()
               ],
             ),
-          ),
-          _isProcessing ? Loader() : SizedBox.shrink()
-        ],
-      ),
-    );
+          );
   }
 }
 
