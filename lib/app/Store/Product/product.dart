@@ -15,6 +15,7 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   bool _isLoading = false;
   bool _isError = false;
+  var _error;
   bool _isInit = false;
   bool _isApiInProgress = false;
   List<ProductByCategory> _products;
@@ -28,6 +29,7 @@ class _ProductsState extends State<Products> {
     final productProvider =
         Provider.of<ProductProvider>(context, listen: false);
     setState(() {
+      _error = null;
       _isError = false;
       _isLoading = true;
     });
@@ -38,6 +40,7 @@ class _ProductsState extends State<Products> {
       });
     }).catchError((err) {
       setState(() {
+        _error = err;
         _isError = true;
         _isLoading = false;
       });
@@ -64,64 +67,67 @@ class _ProductsState extends State<Products> {
     return _isLoading
         ? Loader()
         : _isError
-            ? Center(
-                child: Icon(
-                  Icons.error_outline,
-                  color: Theme.of(context).colorScheme.error,
-                ),
+            ? HttpServiceExceptionWidget(
+                exception: _error,
+                onTap: () {
+                  fetchProducts();
+                },
               )
-            : SafeArea(
-                child: Stack(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                      ),
-                      child: ListView(
-                        children: <Widget>[
-                          // TextField(
-                          //   style: TextStyle(
-                          //     fontSize: 15.0,
-                          //     color: Colors.black,
-                          //     fontWeight: FontWeight.normal,
-                          //   ),
-                          //   decoration: InputDecoration(
-                          //     fillColor: Theme.of(context).backgroundColor,
-                          //     filled: true,
-                          //     contentPadding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
-                          //     suffixIcon: Icon(
-                          //       Icons.search,
-                          //       color: Color(0xff121715),
-                          //     ),
-                          //     hintText: "Search...",
-                          //     enabledBorder: const OutlineInputBorder(
-                          //       borderSide: BorderSide(color: Colors.white),
-                          //     ),
-                          //     border: OutlineInputBorder(
-                          //       borderSide: BorderSide(color: Colors.white),
-                          //       borderRadius: BorderRadius.circular(8.0),
-                          //     ),
-                          //     focusedBorder: OutlineInputBorder(
-                          //       borderSide: BorderSide(color: Colors.white),
-                          //       borderRadius: BorderRadius.circular(8.0),
-                          //     ),
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 10,
-                          // ),
-                          ..._products.map((productWithCategory) {
-                            return getTile(context, productWithCategory,
-                                this._setApiInProgressStatus);
-                          })
-                        ],
-                      ),
+            : (_products == null || _products.length == 0)
+                ? NoOrders()
+                : SafeArea(
+                    child: Stack(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                          ),
+                          child: ListView(
+                            children: <Widget>[
+                              // TextField(
+                              //   style: TextStyle(
+                              //     fontSize: 15.0,
+                              //     color: Colors.black,
+                              //     fontWeight: FontWeight.normal,
+                              //   ),
+                              //   decoration: InputDecoration(
+                              //     fillColor: Theme.of(context).backgroundColor,
+                              //     filled: true,
+                              //     contentPadding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
+                              //     suffixIcon: Icon(
+                              //       Icons.search,
+                              //       color: Color(0xff121715),
+                              //     ),
+                              //     hintText: "Search...",
+                              //     enabledBorder: const OutlineInputBorder(
+                              //       borderSide: BorderSide(color: Colors.white),
+                              //     ),
+                              //     border: OutlineInputBorder(
+                              //       borderSide: BorderSide(color: Colors.white),
+                              //       borderRadius: BorderRadius.circular(8.0),
+                              //     ),
+                              //     focusedBorder: OutlineInputBorder(
+                              //       borderSide: BorderSide(color: Colors.white),
+                              //       borderRadius: BorderRadius.circular(8.0),
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(
+                              //   height: 10,
+                              // ),
+
+                              ..._products.map((productWithCategory) {
+                                return getTile(context, productWithCategory,
+                                    this._setApiInProgressStatus);
+                              })
+                            ],
+                          ),
+                        ),
+                        _isApiInProgress ? Loader() : SizedBox.shrink()
+                      ],
                     ),
-                    _isApiInProgress ? Loader() : SizedBox.shrink()
-                  ],
-                ),
-              );
+                  );
   }
 }
 
