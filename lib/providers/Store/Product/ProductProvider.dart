@@ -35,15 +35,17 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
-  //TODO: modify as per new requestbody
-  Future saveProduct(String categoryId, String name, double price,
-      String quantity, String unit) async {
+  Future saveProduct(String categoryId, String name, double price, int quantity,
+      String unit, String imageUrl, String description) async {
     try {
       final body = json.encode({
         "categoryId": categoryId,
         "name": name,
         "price": price,
-        "size": {"quantity": quantity, "unit": unit}
+        "size": {"quantity": '$quantity', "unit": unit},
+        "imageUrl": imageUrl,
+        "description": description,
+        "available": true
       });
       return HttpService().post('${Constants.ADD_PRODUCT}', body);
     } catch (error) {

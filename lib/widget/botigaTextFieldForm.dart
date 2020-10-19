@@ -31,6 +31,7 @@ class BotigaTextFieldForm extends StatefulWidget {
   final TextCapitalization textCapitalization;
   final IconData icon;
   final String initialValue;
+  final double iconSize;
 
   BotigaTextFieldForm(
       {@required this.focusNode,
@@ -48,7 +49,8 @@ class BotigaTextFieldForm extends StatefulWidget {
       this.onChange,
       this.textCapitalization = TextCapitalization.words,
       this.icon,
-      this.initialValue});
+      this.initialValue,
+      this.iconSize = 25});
 
   @override
   _BotigaTextFieldFormState createState() => _BotigaTextFieldFormState();
@@ -115,7 +117,7 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
       onChanged: widget.onChange,
       decoration: InputDecoration(
         prefixIcon: widget.icon != null
-            ? Icon(widget.icon, color: AppTheme.color50)
+            ? Icon(widget.icon, color: AppTheme.color50, size: widget.iconSize)
             : null,
         fillColor: AppTheme.backgroundColor,
         filled: true,
