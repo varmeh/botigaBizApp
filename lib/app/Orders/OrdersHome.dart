@@ -254,7 +254,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                           isScrollControlled: true,
                           backgroundColor: Colors.transparent,
                           builder: (context) => Container(
-                            height: MediaQuery.of(context).size.height * 0.65,
+                            padding: EdgeInsets.only(bottom: 24),
                             decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.surface,
                               borderRadius: BorderRadius.only(

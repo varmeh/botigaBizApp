@@ -22,25 +22,16 @@ class _PhoneScreenState extends State<PhoneScreen> {
     filter: {"#": RegExp(r'[0-9]')},
   );
 
-  void _phoneListener() {
-    if (!_phoneFocusNode.hasFocus) {
-      _phoneFormKey.currentState.validate();
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     _phoneFormKey = GlobalKey<FormState>();
     _phoneFocusNode = FocusNode();
-
-    _phoneFocusNode.addListener(_phoneListener);
   }
 
   @override
   void dispose() {
     // Clean up the focus node when the Form is disposed.
-    _phoneFocusNode.removeListener(_phoneListener);
     _phoneFocusNode.dispose();
 
     super.dispose();
