@@ -210,8 +210,9 @@ class _OrderListState extends State<OrderList> {
                             builder: (ctx, ordersprovider, _) {
                           final orderByDateApartment =
                               ordersprovider.orderByDateApartment;
-                          if (orderByDateApartment == null) {
-                            return SizedBox();
+                          if (orderByDateApartment == null ||
+                              orderByDateApartment.length == 0) {
+                            return NoOrders();
                           }
 
                           return Column(
