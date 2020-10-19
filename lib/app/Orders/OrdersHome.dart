@@ -16,6 +16,7 @@ class OrdersHome extends StatefulWidget {
 class _OrdersHomeState extends State<OrdersHome> {
   var _isLoading = false;
   var _isError = false;
+  var _error;
   var _isInit = false;
   var slectedDate = Constants.today;
   CalendarController _calendarController;
@@ -35,6 +36,7 @@ class _OrdersHomeState extends State<OrdersHome> {
   void fetchData(String date) {
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     setState(() {
+      _error = null;
       _isError = false;
       _isLoading = true;
     });
@@ -44,6 +46,7 @@ class _OrdersHomeState extends State<OrdersHome> {
       });
     }).catchError((err) {
       setState(() {
+        _error = err;
         _isError = true;
         _isLoading = false;
       });
@@ -382,19 +385,22 @@ class _OrdersHomeState extends State<OrdersHome> {
 
   @override
   Widget build(BuildContext context) {
-    final colorContext = Theme.of(context).colorScheme;
     return _isLoading
         ? Loader()
         : _isError
-            ? Center(
-                child: Icon(
-                  Icons.error_outline,
-                  color: colorContext.error,
-                ),
+            ? HttpServiceExceptionWidget(
+                exception: _error,
+                onTap: () {
+                  fetchData(FormatDate.getRequestFormatDate(DateTime.now()));
+                },
               )
             : Consumer<OrdersProvider>(
                 builder: (ctx, ordersprovider, _) {
                   final aggregatedOrders = ordersprovider.aggregatedOrders;
+                  if (aggregatedOrders == null ||
+                      aggregatedOrders.apartmentWiseBreakup.length == 0) {
+                    return NoOrders();
+                  }
                   return SafeArea(
                     child: Container(
                       color: AppTheme.dividerColor,
