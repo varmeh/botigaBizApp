@@ -39,14 +39,13 @@ class OrdersProvider with ChangeNotifier {
   Future<void> fetchOrderByDateApartment(
       String apartmentId, String date) async {
     try {
-      //TODO: check date returns 404
-      //TODO: replace with actual apartmentId
-      //TODO: Remove this apid and use apartmentId
-      const apid = '5f5a35d281710e963e530a5b';
-      final response = await HttpService()
-          .get('${Constants.ORDER_BYDATE_APARTMENT}/$apid/2020-09-09');
+      //TODO: Check date returns 404
+      //TODO: Replace with actual apartmentId
+      //TODO: Actual date
+      final response = await HttpService().get(
+          '${Constants.ORDER_BYDATE_APARTMENT}/5f75dce36495931a756da594/2020-10-17?limit=100&page=1');
       List<OrderByDateDetail> items = [];
-      for (var order in response) {
+      for (var order in response['orders']) {
         items.add(OrderByDateDetail.fromJson(order));
       }
       _orderByDateApartment = items;

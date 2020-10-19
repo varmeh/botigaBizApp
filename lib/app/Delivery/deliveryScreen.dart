@@ -307,7 +307,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 20.0, right: 20, top: 20),
+                                  left: 20.0, right: 10, top: 20),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -323,7 +323,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: 3,
+                                          width: 5,
                                         ),
                                         Flexible(
                                           child: Text(
@@ -339,85 +339,94 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   SizedBox(
                                     width: 3,
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        builder: (context) => Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.65,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .surface,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft:
-                                                  const Radius.circular(16.0),
-                                              topRight:
-                                                  const Radius.circular(16.0),
+                                  Container(
+                                    width: 100,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (context) => Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.65,
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surface,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft:
+                                                    const Radius.circular(16.0),
+                                                topRight:
+                                                    const Radius.circular(16.0),
+                                              ),
+                                            ),
+                                            child: TableCalendar(
+                                              initialSelectedDay: FormatDate
+                                                  .convertStringToDate(
+                                                      slectedDate),
+                                              startDay: DateTime.now(),
+                                              availableCalendarFormats: const {
+                                                CalendarFormat.month: 'Month',
+                                              },
+                                              calendarStyle: CalendarStyle(
+                                                  todayColor: AppTheme
+                                                      .primaryColorVariant
+                                                      .withOpacity(0.5),
+                                                  selectedColor:
+                                                      AppTheme.primaryColor,
+                                                  outsideDaysVisible: true,
+                                                  weekendStyle: AppTheme
+                                                      .textStyle.color100,
+                                                  outsideWeekendStyle: AppTheme
+                                                      .textStyle.color50),
+                                              daysOfWeekStyle: DaysOfWeekStyle(
+                                                weekendStyle: AppTheme.textStyle
+                                                    .colored(AppTheme.color100),
+                                              ),
+                                              headerStyle: HeaderStyle(
+                                                centerHeaderTitle: false,
+                                                formatButtonVisible: false,
+                                              ),
+                                              onDaySelected: (date, events) {
+                                                Navigator.of(context).pop();
+                                                setState(() {
+                                                  slectedDate = FormatDate
+                                                      .getTodayOrSelectedDate(
+                                                          date);
+                                                });
+                                                fetchDeliveryData(
+                                                    apartment.id,
+                                                    FormatDate
+                                                        .getRequestFormatDate(
+                                                            date));
+                                              },
+                                              calendarController:
+                                                  _calendarController,
                                             ),
                                           ),
-                                          child: TableCalendar(
-                                            startDay: DateTime.now(),
-                                            availableCalendarFormats: const {
-                                              CalendarFormat.month: 'Month',
-                                            },
-                                            calendarStyle: CalendarStyle(
-                                                todayColor: AppTheme
-                                                    .primaryColorVariant
-                                                    .withOpacity(0.5),
-                                                selectedColor:
-                                                    AppTheme.primaryColor,
-                                                outsideDaysVisible: true,
-                                                weekendStyle:
-                                                    AppTheme.textStyle.color100,
-                                                outsideWeekendStyle:
-                                                    AppTheme.textStyle.color50),
-                                            daysOfWeekStyle: DaysOfWeekStyle(
-                                              weekendStyle: AppTheme.textStyle
-                                                  .colored(AppTheme.color100),
-                                            ),
-                                            headerStyle: HeaderStyle(
-                                              centerHeaderTitle: false,
-                                              formatButtonVisible: false,
-                                            ),
-                                            onDaySelected: (date, events) {
-                                              Navigator.of(context).pop();
-                                              setState(() {
-                                                slectedDate = FormatDate
-                                                    .getTodayOrSelectedDate(
-                                                        date);
-                                              });
-                                              fetchDeliveryData(
-                                                  apartment.id,
-                                                  FormatDate
-                                                      .getRequestFormatDate(
-                                                          date));
-                                            },
-                                            calendarController:
-                                                _calendarController,
+                                        );
+                                      },
+                                      child: Row(
+                                        children: <Widget>[
+                                          Flexible(
+                                            child: Text(
+                                                '${FormatDate.getShortDateFromDate(slectedDate)}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                    child: Row(
-                                      children: <Widget>[
-                                        Text('$slectedDate',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle1),
-                                        SizedBox(
-                                          width: 7,
-                                        ),
-                                        Icon(
-                                          Icons.expand_more_sharp,
-                                          size: 25,
-                                        ),
-                                      ],
+                                          SizedBox(
+                                            width: 7,
+                                          ),
+                                          Icon(
+                                            Icons.expand_more_sharp,
+                                            size: 25,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   )
                                 ],
@@ -514,7 +523,7 @@ class DeliveryRow extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "No.202, ${delivery.buyer.name}",
+                              "${delivery.buyer.house}, ${delivery.buyer.name}",
                               style: AppTheme.textStyle.color100.w600
                                   .size(15)
                                   .letterSpace(0.5),

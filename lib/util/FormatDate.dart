@@ -30,4 +30,12 @@ class FormatDate {
   static String getRequestFormatDate(DateTime date) {
     return DateFormat('yyyy-MM-dd').format(date);
   }
+
+  static String getShortDateFromDate(String slectedDate) {
+    List<String> dateArr = slectedDate.split(",");
+    if (dateArr.length > 0) {
+      return dateArr.first;
+    }
+    return '';
+  }
 }

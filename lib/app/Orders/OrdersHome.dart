@@ -298,7 +298,8 @@ class _OrdersHomeState extends State<OrdersHome> {
                       },
                       child: Row(
                         children: <Widget>[
-                          Text('$slectedDate',
+                          Text(
+                              '${FormatDate.getShortDateFromDate(slectedDate)}',
                               style: AppTheme.textStyle
                                   .colored(AppTheme.backgroundColor)
                                   .w500

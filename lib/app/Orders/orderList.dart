@@ -188,7 +188,8 @@ class _OrderListState extends State<OrderList> {
                                 },
                                 child: Row(
                                   children: <Widget>[
-                                    Text('$slectedDate',
+                                    Text(
+                                        '${FormatDate.getShortDateFromDate(slectedDate)}',
                                         style: AppTheme.textStyle.color100.w500
                                             .size(15)),
                                     SizedBox(
