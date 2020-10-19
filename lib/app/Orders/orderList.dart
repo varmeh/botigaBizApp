@@ -18,6 +18,7 @@ class OrderList extends StatefulWidget {
 class _OrderListState extends State<OrderList> {
   var _isLoading = false;
   var _isError = false;
+  var _error;
   var _isInit = false;
   var slectedDate = 'TODAY';
   CalendarController _calendarController;
@@ -40,6 +41,7 @@ class _OrderListState extends State<OrderList> {
     final id = routesArgs['apartmentId'];
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     setState(() {
+      _error = null;
       _isError = false;
       _isLoading = true;
     });
@@ -49,6 +51,7 @@ class _OrderListState extends State<OrderList> {
       });
     }).catchError((err) {
       setState(() {
+        _error = err;
         _isError = true;
         _isLoading = false;
       });
@@ -106,11 +109,11 @@ class _OrderListState extends State<OrderList> {
       body: _isLoading
           ? Loader()
           : _isError
-              ? Center(
-                  child: Icon(
-                    Icons.error_outline,
-                    color: Theme.of(context).colorScheme.error,
-                  ),
+              ? HttpServiceExceptionWidget(
+                  exception: _error,
+                  onTap: () {
+                    fetchData(FormatDate.getRequestFormatDate(DateTime.now()));
+                  },
                 )
               : SafeArea(
                   child: Container(
