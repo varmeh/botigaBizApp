@@ -103,16 +103,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(0),
-          child: AppBar(
-            elevation: 0,
-            backgroundColor: _selectedPageIndex == 0
-                ? AppTheme.primaryColor
-                : AppTheme.backgroundColor, // status bar color
-            brightness: Brightness.light, // status bar brightness
-          ),
-        ),
         backgroundColor: AppTheme.backgroundColor,
         body: _pages[_selectedPageIndex]['page'],
         bottomNavigationBar: Container(

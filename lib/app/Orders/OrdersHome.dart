@@ -33,6 +33,61 @@ class _OrdersHomeState extends State<OrdersHome> {
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      var currentDate = FormatDate.getRequestFormatDate(DateTime.now());
+      fetchData(currentDate);
+      _isInit = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _isLoading
+        ? Loader()
+        : _isError
+            ? HttpServiceExceptionWidget(
+                exception: _error,
+                onTap: () {
+                  fetchData(FormatDate.getRequestFormatDate(DateTime.now()));
+                },
+              )
+            : Consumer<OrdersProvider>(
+                builder: (ctx, ordersprovider, _) {
+                  final aggregatedOrders = ordersprovider.aggregatedOrders;
+                  if (aggregatedOrders == null ||
+                      aggregatedOrders.apartmentWiseBreakup.length == 0) {
+                    return NoOrders();
+                  }
+                  return Container(
+                    color: AppTheme.dividerColor,
+                    child: ListView(
+                      padding: EdgeInsets.zero,
+                      children: <Widget>[
+                        _orderHeader(
+                          aggregatedOrders.totalRevenue,
+                          aggregatedOrders.totalOrders,
+                        ),
+                        ...aggregatedOrders.apartmentWiseBreakup.map(
+                          (apartment) => _orderCard(
+                            apartment.id,
+                            apartment.apartmentName,
+                            apartment.orders,
+                            apartment.revenue,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 32,
+                        )
+                      ],
+                    ),
+                  );
+                },
+              );
+  }
+
   void fetchData(String date) {
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     setState(() {
@@ -53,14 +108,126 @@ class _OrdersHomeState extends State<OrdersHome> {
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    if (!_isInit) {
-      var currentDate = FormatDate.getRequestFormatDate(DateTime.now());
-      fetchData(currentDate);
-      _isInit = true;
-    }
-    super.didChangeDependencies();
+  Widget _orderHeader(int revenue, int totalOrder) {
+    return ConstrainedBox(
+      constraints: BoxConstraints.tight(Size(double.infinity, 285)),
+      child: new Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Positioned(
+            top: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 240,
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor,
+                borderRadius: new BorderRadius.only(
+                  bottomLeft: const Radius.circular(5.0),
+                  bottomRight: const Radius.circular(5.0),
+                ),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/background.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 65, left: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Hi Jashn,",
+                      style: AppTheme.textStyle
+                          .colored(AppTheme.backgroundColor)
+                          .w700
+                          .size(22),
+                    ),
+                    SizedBox(height: 30),
+                    GestureDetector(
+                      onTap: () {
+                        _showCalendar();
+                      },
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                              '${FormatDate.getShortDateFromDate(slectedDate)}',
+                              style: AppTheme.textStyle
+                                  .colored(AppTheme.backgroundColor)
+                                  .w500
+                                  .size(15)),
+                          SizedBox(
+                            width: 9,
+                          ),
+                          Icon(Icons.expand_more_sharp,
+                              size: 25, color: AppTheme.backgroundColor),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 170,
+            left: 20,
+            right: 20,
+            bottom: 0,
+            child: Card(
+              margin: EdgeInsets.all(0),
+              elevation: 0,
+              color: AppTheme.backgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Container(
+                width: double.infinity,
+                height: 100,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(width: 40),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("REVENUE",
+                            style: AppTheme.textStyle.color50.w500.size(12)),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          '${Constants.rupeeSymbol} $revenue',
+                          style: AppTheme.textStyle.color100.w500.size(22),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 106,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("ORDERS",
+                            style: AppTheme.textStyle.color50.w500.size(12)),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          '$totalOrder',
+                          style: AppTheme.textStyle.color100.w500.size(22),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _orderCard(
@@ -215,216 +382,49 @@ class _OrdersHomeState extends State<OrdersHome> {
     );
   }
 
-  Widget _orderHeader(int revenue, int totalOrder) {
-    return ConstrainedBox(
-      constraints: BoxConstraints.tight(Size(double.infinity, 245)),
-      child: new Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Positioned(
-            top: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 200,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
-                borderRadius: new BorderRadius.only(
-                    bottomLeft: const Radius.circular(5.0),
-                    bottomRight: const Radius.circular(5.0)),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 25, left: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Hi Jashn,",
-                      style: AppTheme.textStyle
-                          .colored(AppTheme.backgroundColor)
-                          .w700
-                          .size(22),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          builder: (context) => Container(
-                            padding: EdgeInsets.only(bottom: 24),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              borderRadius: BorderRadius.only(
-                                topLeft: const Radius.circular(16.0),
-                                topRight: const Radius.circular(16.0),
-                              ),
-                            ),
-                            child: TableCalendar(
-                              initialSelectedDay:
-                                  FormatDate.convertStringToDate(slectedDate),
-                              startDay: DateTime.now(),
-                              availableCalendarFormats: const {
-                                CalendarFormat.month: 'Month',
-                              },
-                              calendarStyle: CalendarStyle(
-                                  todayColor: AppTheme.primaryColorVariant
-                                      .withOpacity(0.5),
-                                  selectedColor: AppTheme.primaryColor,
-                                  outsideDaysVisible: true,
-                                  weekendStyle: AppTheme.textStyle.color100,
-                                  outsideWeekendStyle:
-                                      AppTheme.textStyle.color50),
-                              daysOfWeekStyle: DaysOfWeekStyle(
-                                weekendStyle: AppTheme.textStyle
-                                    .colored(AppTheme.color100),
-                              ),
-                              headerStyle: HeaderStyle(
-                                centerHeaderTitle: false,
-                                formatButtonVisible: false,
-                              ),
-                              onDaySelected: (date, events) {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  slectedDate =
-                                      FormatDate.getTodayOrSelectedDate(date);
-                                });
-                                fetchData(
-                                    FormatDate.getRequestFormatDate(date));
-                              },
-                              calendarController: _calendarController,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                              '${FormatDate.getShortDateFromDate(slectedDate)}',
-                              style: AppTheme.textStyle
-                                  .colored(AppTheme.backgroundColor)
-                                  .w500
-                                  .size(15)),
-                          SizedBox(
-                            width: 9,
-                          ),
-                          Icon(Icons.expand_more_sharp,
-                              size: 25, color: AppTheme.backgroundColor),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
+  Future _showCalendar() {
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: EdgeInsets.only(bottom: 24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(16.0),
+            topRight: const Radius.circular(16.0),
           ),
-          Positioned(
-            top: 130,
-            left: 20,
-            right: 20,
-            bottom: 0,
-            child: Card(
-              margin: EdgeInsets.all(0),
-              elevation: 0,
-              color: AppTheme.backgroundColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              child: Container(
-                width: double.infinity,
-                height: 100,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      width: 40,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("REVENUE",
-                            style: AppTheme.textStyle.color50.w500.size(12)),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${Constants.rupeeSymbol} $revenue',
-                          style: AppTheme.textStyle.color100.w500.size(22),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 106,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("ORDERS",
-                            style: AppTheme.textStyle.color50.w500.size(12)),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '$totalOrder',
-                          style: AppTheme.textStyle.color100.w500.size(22),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
+        ),
+        child: TableCalendar(
+          initialSelectedDay: FormatDate.convertStringToDate(slectedDate),
+          startDay: DateTime.now(),
+          availableCalendarFormats: const {
+            CalendarFormat.month: 'Month',
+          },
+          calendarStyle: CalendarStyle(
+              todayColor: AppTheme.primaryColorVariant.withOpacity(0.5),
+              selectedColor: AppTheme.primaryColor,
+              outsideDaysVisible: true,
+              weekendStyle: AppTheme.textStyle.color100,
+              outsideWeekendStyle: AppTheme.textStyle.color50),
+          daysOfWeekStyle: DaysOfWeekStyle(
+            weekendStyle: AppTheme.textStyle.colored(AppTheme.color100),
           ),
-        ],
+          headerStyle: HeaderStyle(
+            centerHeaderTitle: false,
+            formatButtonVisible: false,
+          ),
+          onDaySelected: (date, events) {
+            Navigator.of(context).pop();
+            setState(() {
+              slectedDate = FormatDate.getTodayOrSelectedDate(date);
+            });
+            fetchData(FormatDate.getRequestFormatDate(date));
+          },
+          calendarController: _calendarController,
+        ),
       ),
     );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _isLoading
-        ? Loader()
-        : _isError
-            ? HttpServiceExceptionWidget(
-                exception: _error,
-                onTap: () {
-                  fetchData(FormatDate.getRequestFormatDate(DateTime.now()));
-                },
-              )
-            : Consumer<OrdersProvider>(
-                builder: (ctx, ordersprovider, _) {
-                  final aggregatedOrders = ordersprovider.aggregatedOrders;
-                  if (aggregatedOrders == null ||
-                      aggregatedOrders.apartmentWiseBreakup.length == 0) {
-                    return NoOrders();
-                  }
-                  return SafeArea(
-                    child: Container(
-                      color: AppTheme.dividerColor,
-                      child: ListView(
-                        children: <Widget>[
-                          _orderHeader(aggregatedOrders.totalRevenue,
-                              aggregatedOrders.totalOrders),
-                          ...aggregatedOrders.apartmentWiseBreakup.map(
-                            (apartment) {
-                              return _orderCard(
-                                  apartment.id,
-                                  apartment.apartmentName,
-                                  apartment.orders,
-                                  apartment.revenue);
-                            },
-                          ),
-                          SizedBox(
-                            height: 32,
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
   }
 }
