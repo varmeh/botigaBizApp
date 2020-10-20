@@ -134,10 +134,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         title: Align(
           child: Text(
             "Delivery",
-            style: TextStyle(
-                color: AppTheme.color100,
-                fontSize: 22,
-                fontWeight: FontWeight.w700),
+            style: AppTheme.textStyle.w700.color100.size(22).lineHeight(1.0),
           ),
           alignment: Alignment.centerLeft,
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../theme/index.dart';
+
 class Communities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -35,11 +37,10 @@ class _CommunityTileState extends State<CommunityTile> {
           contentPadding: EdgeInsets.all(0),
           title: Text(
             widget.title,
-            style: TextStyle(
-              color: Color(0xff121715),
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
+            style: AppTheme.textStyle.w500
+                .size(15)
+                .lineHeight(1.0)
+                .colored(Color(0xff121715)),
           ),
           trailing: Transform.scale(
             alignment: Alignment.centerRight,

@@ -345,10 +345,8 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
             title: Align(
               child: Text(
                 'Add Product',
-                style: TextStyle(
-                    color: AppTheme.color100,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500),
+                style:
+                    AppTheme.textStyle.w500.color100.size(20).lineHeight(1.0),
               ),
               alignment: Alignment.centerLeft,
             ),

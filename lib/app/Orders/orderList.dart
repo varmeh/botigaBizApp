@@ -81,10 +81,7 @@ class _OrderListState extends State<OrderList> {
           title: Align(
             child: Text(
               '$aprtmentName',
-              style: TextStyle(
-                  color: AppTheme.color100,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500),
+              style: AppTheme.textStyle.w500.color100.size(20).lineHeight(1.0),
             ),
             alignment: Alignment.centerLeft,
           ),

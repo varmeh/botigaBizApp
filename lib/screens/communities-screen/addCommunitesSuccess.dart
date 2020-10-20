@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/index.dart';
+
 class AddCommunitesSuccess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -50,10 +52,9 @@ class AddCommunitesSuccess extends StatelessWidget {
                     child: Text(
                       "You are Servicing Nature Nest",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                      ),
+                      style: AppTheme.textStyle.w700.color100
+                          .size(25)
+                          .lineHeight(1.0),
                     ),
                   ),
                   SizedBox(
