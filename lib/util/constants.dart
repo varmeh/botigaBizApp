@@ -61,8 +61,9 @@ class Constants {
   static const String UPDATE_PIN = '$SELLER_BASE_URL/auth/pin';
   static const String SIGNUP = '$SELLER_BASE_URL/auth/signup';
 
-  //ImageService Url
+  //Service Url
   static const String IMAGE_PRESIGNED_URL = '/api/services/imageurls/png';
+  static const String VALIDATE_TOKEN = '/api/services/token/validate';
 
   //OtherServiceUrl
   static const String PINCODE_URL = 'http://www.postalpincode.in/api/pincode';

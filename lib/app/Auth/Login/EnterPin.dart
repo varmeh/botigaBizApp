@@ -43,7 +43,6 @@ class _EnterPinState extends State<EnterPin> {
       setState(() {
         _isLoading = false;
       });
-      authProvider.authLoginProfile = value;
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
     }).catchError((error) {

@@ -27,11 +27,11 @@ import 'app/Auth/Signup/SignupVerifyOtp.dart';
 import 'app/Auth/Signup/SignupBussinessDetails.dart';
 import 'app/Auth/Signup/SignupStoreDetails.dart';
 import 'app/Auth/Signup/SetPin.dart';
-import 'app/Auth/Signup/SetPinSuccess.dart';
 import 'app/Auth/Login/Login.dart';
 import 'app/Auth/Login/ForgotPin.dart';
 import 'app/Auth/Login/EnterPin.dart';
 import 'app/Onboarding/Onboarding.dart';
+import 'app/Onboarding/Splash.dart';
 import 'package:provider/provider.dart';
 import './providers/Orders/OrdersProvider.dart';
 import './providers/Apartment/ApartmentProvide.dart';
@@ -105,8 +105,9 @@ class BotigaBizApp extends StatelessWidget {
       child: MaterialApp(
         themeMode: ThemeMode.light,
         title: 'Botiga Business',
-        home: IntroScreen(),
+        home: Splash(),
         routes: {
+          IntroScreen.routeName: (ctx) => IntroScreen(),
           Login.routeName: (ctx) => Login(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
           OrdersHome.routeName: (ctx) => OrdersHome(),
@@ -126,7 +127,6 @@ class BotigaBizApp extends StatelessWidget {
           SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
           SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
           SetPin.routeName: (ctx) => SetPin(),
-          SetPinSuccess.routeName: (ctx) => SetPinSuccess(),
           EnterPin.routeName: (ctx) => EnterPin(),
           LoginForgotPin.routeName: (ctx) => LoginForgotPin()
         },
