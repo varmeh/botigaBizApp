@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:botiga_biz/app/Onboarding/Onboarding.dart';
 import '../Auth/Login/Login.dart';
+import '../Auth/Signup/SignUpWelcome.dart';
 import '../Home/HomeScreen.dart';
 import '../../util/index.dart';
 import '../../providers/Auth/AuthProvider.dart';
@@ -22,6 +23,8 @@ class _SplashState extends State<Splash> {
     super.initState();
     _isInit = false;
     _isLoading = false;
+    //TODO: Remove below line just for clearing cache form secure storage
+    //SecureStorage().clearStorage();
   }
 
   @override
@@ -40,7 +43,7 @@ class _SplashState extends State<Splash> {
             if (value == 'done') {
               Navigator.pushReplacementNamed(
                 context,
-                Login.routeName,
+                SignupWelcome.routeName,
               );
             } else {
               Navigator.pushReplacementNamed(

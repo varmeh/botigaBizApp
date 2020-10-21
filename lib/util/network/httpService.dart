@@ -10,7 +10,7 @@ class HttpService {
   Future<dynamic> get(String url) async {
     // Propogate errors to parent for effective UI management
     final response = await http.get(_baseUrl + url);
-    return _returnResponse(response);
+    return returnResponse(response);
   }
 
   Future<dynamic> put(String url, final body) async {
@@ -20,7 +20,7 @@ class HttpService {
     };
     final response =
         await http.put('$_baseUrl$url', body: body, headers: headers);
-    return _returnResponse(response);
+    return returnResponse(response);
   }
 
   Future<dynamic> patch(String url, final body) async {
@@ -30,7 +30,7 @@ class HttpService {
     };
     final response =
         await http.patch('$_baseUrl$url', body: body, headers: headers);
-    return _returnResponse(response);
+    return returnResponse(response);
   }
 
   Future<dynamic> post(String url, final body) async {
@@ -40,7 +40,7 @@ class HttpService {
     };
     final response =
         await http.post('$_baseUrl$url', body: body, headers: headers);
-    return _returnResponse(response);
+    return returnResponse(response);
   }
 
   Future<dynamic> delete(String url) async {
@@ -49,10 +49,10 @@ class HttpService {
       'Accept': 'application/json',
     };
     final response = await http.delete('$_baseUrl$url', headers: headers);
-    return _returnResponse(response);
+    return returnResponse(response);
   }
 
-  dynamic _returnResponse(http.Response response) {
+  dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
       case 201:

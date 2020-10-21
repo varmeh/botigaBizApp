@@ -17,11 +17,7 @@ class AuthProvider with ChangeNotifier {
           headers: <String, String>{
             'Authorization': authToken,
           });
-      if (response.statusCode == 200) {
-        return "Valid Token";
-      } else {
-        throw Exception('Invalid Token');
-      }
+      return HttpService().returnResponse(response);
     } catch (err) {
       throw (err);
     }
@@ -35,11 +31,10 @@ class AuthProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         final authToken = response.headers['authorization'];
         await secureStorage.setAuthToken(authToken);
-        this.authProfile = Auth.fromJson(jsonDecode(response.body));
-        return notifyListeners();
-      } else {
-        throw Exception('Unable to login');
       }
+      final authData = HttpService().returnResponse(response);
+      this.authProfile = Auth.fromJson(authData);
+      return notifyListeners();
     } catch (error) {
       throw (error);
     }
@@ -80,7 +75,7 @@ class AuthProvider with ChangeNotifier {
       String brandName,
       String phone,
       String tagline,
-      String url) {
+      String url) async {
     try {
       final body = json.encode({
         "businessName": businessName,
@@ -92,7 +87,13 @@ class AuthProvider with ChangeNotifier {
         "tagline": tagline,
         "brandUrl": url
       });
-      return HttpService().patch('${Constants.SIGNUP}', body);
+      final response =
+          await http.post('$baseUrl${Constants.SIGNUP}', body: body);
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final authToken = response.headers['authorization'];
+        await secureStorage.setAuthToken(authToken);
+      }
+      return HttpService().returnResponse(response);
     } catch (error) {
       throw (error);
     }
