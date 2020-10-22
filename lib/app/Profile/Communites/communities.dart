@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-
-import '../../theme/index.dart';
+import '../../../theme/index.dart';
 
 class Communities extends StatelessWidget {
   @override
@@ -11,7 +10,6 @@ class Communities extends StatelessWidget {
       child: ListView(
         children: <Widget>[
           CommunityTile("Prestige seaside"),
-          CommunityTile("Nature nest"),
           CommunityTile("Nature nest"),
           CommunityTile("Tata Santoni"),
         ],
@@ -28,36 +26,36 @@ class CommunityTile extends StatefulWidget {
 }
 
 class _CommunityTileState extends State<CommunityTile> {
-  bool _switchValue = false;
+  bool _switchValue = true;
+
+  void _handleSwitchChage(bool value) {
+    setState(() {
+      _switchValue = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         ListTile(
           contentPadding: EdgeInsets.all(0),
-          title: Text(
-            widget.title,
-            style: AppTheme.textStyle.w500
-                .size(15)
-                .lineHeight(1.0)
-                .colored(Color(0xff121715)),
-          ),
+          title: Text(widget.title,
+              style: AppTheme.textStyle.w500.size(17).lineHeight(1.3).color100),
           trailing: Transform.scale(
             alignment: Alignment.centerRight,
             scale: 0.75,
             child: CupertinoSwitch(
               value: _switchValue,
               onChanged: (bool value) {
-                setState(() {
-                  _switchValue = value;
-                });
+                this._handleSwitchChage(value);
               },
             ),
           ),
         ),
         Divider(
-          color: Theme.of(context).backgroundColor,
-          thickness: 1,
+          color: AppTheme.dividerColor,
+          thickness: 1.2,
         )
       ],
     );

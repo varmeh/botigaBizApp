@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../theme/index.dart';
+import 'package:lottie/lottie.dart';
+import '../../../theme/index.dart';
 
 class AddCommunitesSuccess extends StatelessWidget {
   @override
@@ -9,7 +9,7 @@ class AddCommunitesSuccess extends StatelessWidget {
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.90,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.backgroundColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(16.0),
             topRight: const Radius.circular(16.0),
@@ -39,10 +39,11 @@ class AddCommunitesSuccess extends StatelessWidget {
             Center(
               child: Column(
                 children: <Widget>[
-                  Icon(
-                    Icons.check_circle_outline,
-                    size: 100.0,
-                    color: Color(0xff179F57),
+                  Lottie.asset(
+                    'assets/lotties/checkSuccess.json',
+                    width: 160.0,
+                    height: 160.0,
+                    fit: BoxFit.fill,
                   ),
                   SizedBox(
                     height: 32,
@@ -60,15 +61,11 @@ class AddCommunitesSuccess extends StatelessWidget {
                   SizedBox(
                     height: 16,
                   ),
-                  Text(
-                    "Delivering orders in 3 days",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      color: Color(0xff121715).withOpacity(0.5),
-                    ),
-                  ),
+                  Text("Delivering orders in 3 days",
+                      textAlign: TextAlign.center,
+                      style: AppTheme.textStyle.w500.color50
+                          .size(13)
+                          .lineHeight(1.0)),
                 ],
               ),
             ),
@@ -80,7 +77,7 @@ class AddCommunitesSuccess extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.only(left: 22, right: 22, top: 32),
                 decoration: BoxDecoration(
-                  color: Color(0xff121715).withOpacity(0.05),
+                  color: AppTheme.color05,
                   borderRadius: BorderRadius.only(
                     topLeft: const Radius.circular(32.0),
                     topRight: const Radius.circular(32.0),
@@ -92,22 +89,19 @@ class AddCommunitesSuccess extends StatelessWidget {
                       width: double.infinity,
                       height: 48,
                       decoration: BoxDecoration(
-                        color: Color(0xff179F57),
+                        color: AppTheme.primaryColor,
                         borderRadius: BorderRadius.only(
                           topLeft: const Radius.circular(16.0),
                           topRight: const Radius.circular(16.0),
                         ),
                       ),
                       child: Center(
-                        child: Text(
-                          "SHARE WITH YOUR CUSTOMERS",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                        child: Text("SHARE WITH YOUR CUSTOMERS",
+                            style: AppTheme.textStyle.w700
+                                .colored(AppTheme.backgroundColor)
+                                .size(12)
+                                .lineHeight(1.0)
+                                .letterSpace(1)),
                       ),
                     ),
                     Container(
@@ -122,13 +116,8 @@ class AddCommunitesSuccess extends StatelessWidget {
                         padding: const EdgeInsets.only(
                             top: 32.0, right: 20, left: 20, bottom: 20),
                         child: Text(
-                          "Hi, Now you can see our entire catalog of healthynuts online. Place orders anytime and track conveniently. Download Botiga app now. https://botiga.app/xcGha",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xff3D2A0D),
-                          ),
-                        ),
+                            "Hi, Now you can see our entire catalog of healthynuts online. Place orders anytime and track conveniently. Download Botiga app now. https://botiga.app/xcGha",
+                            style: AppTheme.textStyle.w500.color100.size(13)),
                       ),
                     ),
                     Padding(
@@ -144,14 +133,10 @@ class AddCommunitesSuccess extends StatelessWidget {
                             color: Colors.black,
                             child: Padding(
                               padding: const EdgeInsets.all(13.0),
-                              child: Text(
-                                'Copy message',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
+                              child: Text('Copy message',
+                                  style: AppTheme.textStyle.w600
+                                      .colored(AppTheme.backgroundColor)
+                                      .size(15)),
                             ),
                           ),
                           FlatButton.icon(
@@ -172,11 +157,9 @@ class AddCommunitesSuccess extends StatelessWidget {
                               ),
                               child: Text(
                                 'Share',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                                style: AppTheme.textStyle.w600
+                                    .colored(AppTheme.backgroundColor)
+                                    .size(15),
                               ),
                             ),
                           )
