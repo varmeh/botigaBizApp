@@ -1,8 +1,10 @@
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flushbar/flushbar.dart';
+import "../../../widget/index.dart";
 import '../../../providers/Profile/StoreProvider.dart';
+import '../../../providers/Services/index.dart';
+import '../../../util/FormValidators.dart';
 
 class StoreDeatils extends StatefulWidget {
   static const routeName = '/add-store-details';
@@ -12,109 +14,83 @@ class StoreDeatils extends StatefulWidget {
 
 class _StoreDeatilsState extends State<StoreDeatils> {
   final _formKey = GlobalKey<FormState>();
-  bool checkedValue = true;
-  String email = '';
-  String phoneNumber = '';
-  String watsappNumber = '';
-  String buildingNumber = '';
-  String streetName = '';
-  int pincode = 0;
-  String city = '';
-  String state = '';
-  String area = '';
+  String _email = '',
+      _phoneNumber = '',
+      _watsappNumber = '',
+      _buildingNumber = '',
+      _streetName = '',
+      _area = '',
+      _city = '',
+      _state = '';
+  int _pincode;
+  FocusNode _emailFocusNode,
+      _whatsappFocusNode,
+      _pincodeFocusNode,
+      _buildingNumberFocusNode,
+      _streetNameFocusNode,
+      _areaFocusNode,
+      _cityFocusNode,
+      _statefocusNode,
+      _phoneNumberFocusNode;
+  bool _isLoading;
+  bool checkboxValue;
 
-  void handleStoreDetailSave(BuildContext context) {
-    String watsappNumberUpdated;
-    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
-    //For watsappnumber same as phone number
-    if (checkedValue) {
-      watsappNumberUpdated = phoneNumber;
-    } else {
-      watsappNumberUpdated = watsappNumber;
-    }
-    storeProvider
-        .updateStoreDetails(phoneNumber, watsappNumberUpdated, email,
-            buildingNumber, streetName, area, city, state, pincode)
-        .then((value) {
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Color(0xff2591B2),
-        messageText: Text(
-          '${value['message']}',
-          style: AppTheme.textStyle
-              .colored(AppTheme.backgroundColor)
-              .w500
-              .size(15),
-        ),
-        icon:
-            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+  @override
+  void initState() {
+    super.initState();
+    _phoneNumberFocusNode = FocusNode();
+    _emailFocusNode = FocusNode();
+    _whatsappFocusNode = FocusNode();
+    _pincodeFocusNode = FocusNode();
+    _buildingNumberFocusNode = FocusNode();
+    _streetNameFocusNode = FocusNode();
+    _areaFocusNode = FocusNode();
+    _cityFocusNode = FocusNode();
+    _statefocusNode = FocusNode();
+    _isLoading = false;
+    checkboxValue = false;
+  }
+
+  void _handlePinCodeChange(pin) {
+    PinService.getAreaFromPincode(pin).then((value) {
+      List postOffices = value['PostOffice'];
+      final firstArea = postOffices.first;
+      if (firstArea != null) {
+        setState(() {
+          _area = firstArea['Name'];
+        });
+      }
     }).catchError((error) {
-      Flushbar(
-        maxWidth: 335,
-        backgroundColor: Theme.of(context).errorColor,
-        messageText: Text(
-          '$error',
-          style: AppTheme.textStyle
-              .colored(AppTheme.backgroundColor)
-              .w500
-              .size(15),
-        ),
-        icon:
-            Icon(BotigaIcons.truck, size: 30, color: AppTheme.backgroundColor),
-        flushbarPosition: FlushbarPosition.TOP,
-        flushbarStyle: FlushbarStyle.FLOATING,
-        duration: Duration(seconds: 3),
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
-        borderRadius: 8,
-      ).show(context);
+      print(error);
+    });
+  }
+
+  void _handleStoreDetailSave(BuildContext context) {
+    setState(() {
+      _isLoading = true;
+    });
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    storeProvider
+        .updateStoreDetails(_phoneNumber, _watsappNumber, _email,
+            _buildingNumber, _streetName, _area, _city, _state, _pincode)
+        .then((value) {
+      setState(() {
+        _isLoading = false;
+      });
+      Toast(message: '$value', iconData: BotigaIcons.truck).show(context);
+    }).catchError((error) {
+      setState(() {
+        _isLoading = false;
+      });
+      //TODO: Remove the navigation
+      Toast(message: '$error', iconData: BotigaIcons.truck).show(context);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
-    final storeDetails = storeProvider.storeDetails;
-
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      bottomNavigationBar: SafeArea(
-        child: Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: SizedBox(
-                    height: 52,
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
-                          handleStoreDetailSave(context);
-                        }
-                      },
-                      color: AppTheme.primaryColor,
-                      child: Text('Save details',
-                          style: AppTheme.textStyle
-                              .colored(AppTheme.backgroundColor)
-                              .w600
-                              .size(15)),
-                    ),
-                  ),
-                ),
-              ],
-            )),
-      ),
       appBar: AppBar(
           backgroundColor: AppTheme.backgroundColor,
           elevation: 0,
@@ -135,240 +111,227 @@ class _StoreDeatilsState extends State<StoreDeatils> {
               Navigator.pop(context);
             },
           )),
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Form(
-              key: _formKey,
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Email cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => email = val,
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.backgroundColor,
-                                labelText: "Email",
-                                labelStyle:
-                                    AppTheme.textStyle.size(15).w500.color25,
-                                border: OutlineInputBorder()),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Phone number cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => phoneNumber = val,
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.backgroundColor,
-                                labelText: "Phone number",
-                                labelStyle:
-                                    AppTheme.textStyle.size(15).w500.color25,
-                                border: OutlineInputBorder()),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          !checkedValue
-                              ? Column(children: [
-                                  TextFormField(
-                                    validator: (value) {
-                                      if (value.isEmpty) {
-                                        return 'Whatsapp number cannot be empty';
-                                      }
-                                      return null;
-                                    },
-                                    onSaved: (val) => watsappNumber = val,
-                                    decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.all(17.0),
-                                        fillColor: AppTheme.backgroundColor,
-                                        labelText: "Whatsapp number",
-                                        labelStyle: AppTheme.textStyle
-                                            .size(15)
-                                            .w500
-                                            .color25,
-                                        border: OutlineInputBorder()),
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                ])
-                              : SizedBox.shrink(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    checkedValue = !checkedValue;
-                                  });
-                                },
-                                child: checkedValue
-                                    ? Icon(
-                                        Icons.check_box,
-                                        color: AppTheme.primaryColor,
-                                        size: 30,
-                                      )
-                                    : Icon(
-                                        Icons.check_box_outline_blank,
-                                        color: AppTheme.color100,
-                                        size: 30,
-                                      ),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: SizedBox(
+                    height: 52,
+                    child: FlatButton(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(6.0)),
+                        onPressed: () {
+                          if (_isLoading) {
+                            return null;
+                          }
+                          if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+                            this._handleStoreDetailSave(context);
+                          }
+                        },
+                        color: _isLoading
+                            ? AppTheme.dividerColor
+                            : AppTheme.primaryColor,
+                        child: Text('Save and continue',
+                            style: AppTheme.textStyle
+                                .size(15)
+                                .w600
+                                .colored(AppTheme.backgroundColor))),
+                  ),
+                ),
+              ],
+            )),
+      ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              child: Form(
+                key: _formKey,
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              BotigaTextFieldForm(
+                                focusNode: _emailFocusNode,
+                                labelText: 'Email',
+                                onSave: (value) => _email = value,
+                                nextFocusNode: _phoneNumberFocusNode,
+                                validator: emailValidator,
                               ),
-                              SizedBox(width: 10),
-                              Flexible(
-                                child: Text(
-                                    "Whatsapp number same as phone number above",
-                                    style: AppTheme.textStyle.color100.w500
-                                        .size(15)),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              BotigaTextFieldForm(
+                                focusNode: _phoneNumberFocusNode,
+                                labelText: 'Phone number',
+                                onSave: (value) => _phoneNumber = value,
+                                nextFocusNode: _whatsappFocusNode,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              BotigaTextFieldForm(
+                                focusNode: _whatsappFocusNode,
+                                labelText: 'Whatsapp number',
+                                onSave: (value) => _watsappNumber = value,
+                                nextFocusNode: _buildingNumberFocusNode,
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Building No. / Flat No. cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => buildingNumber = val,
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.backgroundColor,
-                                labelText: "Building No. / Flat No.",
-                                labelStyle:
-                                    AppTheme.textStyle.size(15).w500.color25,
-                                border: OutlineInputBorder()),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Street Name/Locality cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => streetName = val,
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.backgroundColor,
-                                labelText: "Street Name/Locality",
-                                labelStyle:
-                                    AppTheme.textStyle.size(15).w500.color25,
-                                border: OutlineInputBorder()),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Area cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => area = val,
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.backgroundColor,
-                                labelText: "Area",
-                                labelStyle:
-                                    AppTheme.textStyle.size(15).w500.color25,
-                                border: OutlineInputBorder()),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Pincode cannot be empty';
-                              }
-                              if (int.tryParse(value) == null) {
-                                return 'Pincode should be number';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => pincode = int.parse(val),
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.backgroundColor,
-                                labelText: "Pincode",
-                                labelStyle:
-                                    AppTheme.textStyle.size(15).w500.color25,
-                                border: OutlineInputBorder()),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'City cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => city = val,
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.backgroundColor,
-                                labelText: "City",
-                                labelStyle:
-                                    AppTheme.textStyle.size(15).w500.color25,
-                                border: OutlineInputBorder()),
-                          ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          TextFormField(
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'State cannot be empty';
-                              }
-                              return null;
-                            },
-                            onSaved: (val) => state = val,
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(17.0),
-                                fillColor: AppTheme.backgroundColor,
-                                labelText: "State",
-                                labelStyle:
-                                    AppTheme.textStyle.size(15).w500.color25,
-                                border: OutlineInputBorder()),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, top: 16, bottom: 32),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  checkboxValue = !checkboxValue;
+                                });
+                              },
+                              child: checkboxValue
+                                  ? Icon(
+                                      Icons.check_box,
+                                      color: AppTheme.primaryColor,
+                                      size: 30,
+                                    )
+                                  : Icon(
+                                      Icons.check_box_outline_blank,
+                                      color: AppTheme.color100,
+                                      size: 30,
+                                    ),
+                            ),
+                            SizedBox(width: 10),
+                            Flexible(
+                              child: Text(
+                                  "Whatsapp number same as phone number above",
+                                  style: AppTheme.textStyle.color100
+                                      .size(14)
+                                      .w500
+                                      .lineHeight(1.5)),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, bottom: 20.0),
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Flexible(
+                                    child: Text(
+                                      "Store Address",
+                                      style: AppTheme.textStyle.color100
+                                          .size(15)
+                                          .w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              BotigaTextFieldForm(
+                                focusNode: _buildingNumberFocusNode,
+                                labelText: 'Building No.',
+                                onSave: (value) => _buildingNumber = value,
+                                nextFocusNode: _streetNameFocusNode,
+                                validator: nameValidator,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              BotigaTextFieldForm(
+                                focusNode: _streetNameFocusNode,
+                                labelText: 'Street Name/Locality',
+                                onSave: (value) => _buildingNumber = value,
+                                nextFocusNode: _areaFocusNode,
+                                validator: nameValidator,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              BotigaTextFieldForm(
+                                  focusNode: _pincodeFocusNode,
+                                  labelText: 'Pincode',
+                                  onSave: (value) =>
+                                      _pincode = int.parse(value),
+                                  nextFocusNode: _areaFocusNode,
+                                  keyboardType: TextInputType.number,
+                                  onFieldSubmitted: (value) {
+                                    _handlePinCodeChange(value);
+                                  },
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Required';
+                                    } else if (int.tryParse(value) == null) {
+                                      return 'Please enter numbers only';
+                                    }
+                                    return null;
+                                  }),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              BotigaTextFieldForm(
+                                initialValue: _area,
+                                focusNode: _areaFocusNode,
+                                labelText: 'Area',
+                                onSave: (value) => _area = value,
+                                nextFocusNode: _cityFocusNode,
+                                validator: nameValidator,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              BotigaTextFieldForm(
+                                focusNode: _cityFocusNode,
+                                labelText: 'City',
+                                onSave: (value) => _city = value,
+                                nextFocusNode: _statefocusNode,
+                                validator: nameValidator,
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              BotigaTextFieldForm(
+                                focusNode: _statefocusNode,
+                                labelText: 'State',
+                                onSave: (value) => _state = value,
+                                validator: nameValidator,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          )
+          ),
+          _isLoading ? Loader() : SizedBox.shrink()
         ],
       ),
     );
