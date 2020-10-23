@@ -1,11 +1,11 @@
 import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../widget/index.dart';
 import '../../../util/index.dart';
-import 'package:image_picker/image_picker.dart';
 import '../../../providers/Profile/BusinessProvider.dart';
 import '../../../providers/Services/ImageService.dart';
 
@@ -216,30 +216,32 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       builder: (context) => Container(
         height: MediaQuery.of(context).size.height * 0.60,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.backgroundColor,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(16.0),
             topRight: const Radius.circular(16.0),
           ),
         ),
         padding: EdgeInsets.only(left: 20, right: 20, top: 32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              "Select category",
-              style: AppTheme.textStyle.color100.size(22).w700,
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            categoryItem("Beverages", false),
-            categoryItem("Clothings", false),
-            categoryItem("Speciality foods", false),
-            categoryItem("Other", true),
-          ],
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                "Select category",
+                style: AppTheme.textStyle.color100.size(22).w700,
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              categoryItem("Beverages", false),
+              categoryItem("Clothings", false),
+              categoryItem("Speciality foods", false),
+              categoryItem("Other", true),
+            ],
+          ),
         ),
       ),
     );
@@ -332,216 +334,208 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     final businessProvider =
         Provider.of<BusinessProvider>(context, listen: false);
     final businessDetails = businessProvider.businessDetails;
-    return Scaffold(
-      bottomNavigationBar: Container(
-        color: AppTheme.backgroundColor,
-        padding: EdgeInsets.all(10),
-        child: SafeArea(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: SizedBox(
-                  height: 52,
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.0),
-                    ),
-                    onPressed: () {
-                      if (_isLoading) {
-                        return null;
-                      }
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        handleBusinessInformationSave();
-                      }
-                    },
-                    color: _isLoading
-                        ? AppTheme.dividerColor
-                        : AppTheme.primaryColor,
-                    child: Text(
-                      'Save Details',
-                      style: AppTheme.textStyle
-                          .size(15)
-                          .w600
-                          .colored(AppTheme.backgroundColor),
+    return LoaderOverlay(
+      isLoading: _isLoading,
+      child: Scaffold(
+        bottomNavigationBar: Container(
+          color: AppTheme.backgroundColor,
+          padding: EdgeInsets.all(10),
+          child: SafeArea(
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: SizedBox(
+                    height: 52,
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6.0),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          handleBusinessInformationSave();
+                        }
+                      },
+                      color: AppTheme.primaryColor,
+                      child: Text(
+                        'Save Details',
+                        style: AppTheme.textStyle
+                            .size(15)
+                            .w600
+                            .colored(AppTheme.backgroundColor),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-      appBar: AppBar(
-          backgroundColor: AppTheme.backgroundColor,
-          elevation: 0,
-          centerTitle: false,
-          title: Align(
-            child: Text(
-              'Business details',
-              style: AppTheme.textStyle.color100.size(20).w500,
+        appBar: AppBar(
+            backgroundColor: AppTheme.backgroundColor,
+            elevation: 0,
+            centerTitle: false,
+            title: Align(
+              child: Text(
+                'Business details',
+                style: AppTheme.textStyle.color100.size(20).w500,
+              ),
+              alignment: Alignment.centerLeft,
             ),
-            alignment: Alignment.centerLeft,
-          ),
-          leading: IconButton(
-            icon: Icon(
-              BotigaIcons.arrowBack,
-              color: AppTheme.color100,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )),
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Form(
-              key: _formKey,
-              child: Container(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  color: AppTheme.backgroundColor,
-                  child: Column(
-                    children: <Widget>[
-                      _imageFile != null
-                          ? Container(
-                              height: 96,
-                              width: 96,
-                              margin: EdgeInsets.only(top: 20.0, bottom: 20),
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              child: ClipRRect(
-                                child: Image.file(
-                                  File(_imageFile.path),
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(50),
+            leading: IconButton(
+              icon: Icon(
+                BotigaIcons.arrowBack,
+                color: AppTheme.color100,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
+        body: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: Container(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                color: AppTheme.backgroundColor,
+                child: Column(
+                  children: <Widget>[
+                    _imageFile != null
+                        ? Container(
+                            height: 96,
+                            width: 96,
+                            margin: EdgeInsets.only(top: 20.0, bottom: 20),
+                            decoration: BoxDecoration(shape: BoxShape.circle),
+                            child: ClipRRect(
+                              child: Image.file(
+                                File(_imageFile.path),
+                                fit: BoxFit.cover,
                               ),
-                            )
-                          : Container(
-                              height: 96,
-                              width: 96,
-                              margin: EdgeInsets.only(top: 20.0, bottom: 20),
-                              decoration: BoxDecoration(
-                                color: AppTheme.color05,
-                                shape: BoxShape.circle,
-                              ),
+                              borderRadius: BorderRadius.circular(50),
                             ),
-                      Container(
-                        child: Text(
-                          "Health & hunger",
-                          textAlign: TextAlign.center,
-                          style: AppTheme.textStyle.w700.size(17),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text("Prateek mishra singh",
-                          textAlign: TextAlign.center,
-                          style: AppTheme.textStyle.w500.size(13).color50),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(6.0)),
-                            onPressed: () {
-                              if (_isLoading) {
-                                return null;
-                              }
-                              showImageSelectOption();
-                            },
-                            color: AppTheme.color05,
-                            child: Padding(
-                              padding: const EdgeInsets.all(13.0),
-                              child: Text('Change logo',
-                                  style: AppTheme.textStyle.w600.color100
-                                      .size(15)),
+                          )
+                        : Container(
+                            height: 96,
+                            width: 96,
+                            margin: EdgeInsets.only(top: 20.0, bottom: 20),
+                            decoration: BoxDecoration(
+                              color: AppTheme.color05,
+                              shape: BoxShape.circle,
                             ),
                           ),
-                          FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.0),
-                            ),
-                            onPressed: () {
-                              if (_isLoading) {
-                                return null;
-                              }
-                              setState(() {
-                                _imageFile = null;
-                              });
-                            },
-                            color: AppTheme.color05,
-                            child: Padding(
-                              padding: const EdgeInsets.all(13),
-                              child: Text(
-                                'Remove logo',
-                                style:
-                                    AppTheme.textStyle.w600.color100.size(15),
-                              ),
-                            ),
-                          ),
-                        ],
+                    Container(
+                      child: Text(
+                        "Health & hunger",
+                        textAlign: TextAlign.center,
+                        style: AppTheme.textStyle.w700.size(17),
                       ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      BotigaTextFieldForm(
-                        focusNode: _brandNameFocusNode,
-                        labelText: "Brand name",
-                        onSave: (value) => _brandName = value,
-                        validator: nameValidator,
-                        nextFocusNode: _taglineFocusNode,
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      BotigaTextFieldForm(
-                        focusNode: _taglineFocusNode,
-                        labelText: "Tagline",
-                        onSave: (value) => _tagline = value,
-                        validator: nameValidator,
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3.5),
-                          border: Border.all(
-                            style: BorderStyle.solid,
-                            color: AppTheme.color25,
-                            width: 1.0,
-                          ),
-                        ),
-                        child: ListTile(
-                          visualDensity:
-                              VisualDensity(horizontal: 0, vertical: -1),
-                          onTap: () {
-                            showCategories();
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text("Prateek mishra singh",
+                        textAlign: TextAlign.center,
+                        style: AppTheme.textStyle.w500.size(13).color50),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0)),
+                          onPressed: () {
+                            if (_isLoading) {
+                              return null;
+                            }
+                            showImageSelectOption();
                           },
-                          trailing: Icon(Icons.keyboard_arrow_down,
-                              color: AppTheme.color100),
-                          title: _seletedCategory == ''
-                              ? Text(
-                                  'Business Category',
-                                  style:
-                                      AppTheme.textStyle.color100.w500.size(15),
-                                )
-                              : Text(
-                                  '$_seletedCategory',
-                                  style:
-                                      AppTheme.textStyle.color100.w500.size(15),
-                                ),
+                          color: AppTheme.color05,
+                          child: Padding(
+                            padding: const EdgeInsets.all(13.0),
+                            child: Text('Change logo',
+                                style:
+                                    AppTheme.textStyle.w600.color100.size(15)),
+                          ),
+                        ),
+                        FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          onPressed: () {
+                            if (_isLoading) {
+                              return null;
+                            }
+                            setState(() {
+                              _imageFile = null;
+                            });
+                          },
+                          color: AppTheme.color05,
+                          child: Padding(
+                            padding: const EdgeInsets.all(13),
+                            child: Text(
+                              'Remove logo',
+                              style: AppTheme.textStyle.w600.color100.size(15),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    BotigaTextFieldForm(
+                      focusNode: _brandNameFocusNode,
+                      labelText: "Brand name",
+                      onSave: (value) => _brandName = value,
+                      validator: nameValidator,
+                      nextFocusNode: _taglineFocusNode,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    BotigaTextFieldForm(
+                      focusNode: _taglineFocusNode,
+                      labelText: "Tagline",
+                      onSave: (value) => _tagline = value,
+                      validator: nameValidator,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3.5),
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          color: AppTheme.color25,
+                          width: 1.0,
                         ),
                       ),
-                    ],
-                  )),
-            ),
-            _isLoading ? Loader() : SizedBox.shrink()
-          ],
+                      child: ListTile(
+                        visualDensity:
+                            VisualDensity(horizontal: 0, vertical: -1),
+                        onTap: () {
+                          showCategories();
+                        },
+                        trailing: Icon(Icons.keyboard_arrow_down,
+                            color: AppTheme.color100),
+                        title: _seletedCategory == ''
+                            ? Text(
+                                'Business Category',
+                                style:
+                                    AppTheme.textStyle.color100.w500.size(15),
+                              )
+                            : Text(
+                                '$_seletedCategory',
+                                style:
+                                    AppTheme.textStyle.color100.w500.size(15),
+                              ),
+                      ),
+                    ),
+                  ],
+                )),
+          ),
         ),
       ),
     );
