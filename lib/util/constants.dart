@@ -35,6 +35,7 @@ class Constants {
 
   //APARTMENT
   static const String GET_APARTMENT = '$SELLER_BASE_URL/apartments';
+  static const String CHANGE_APT_STATUS = '$SELLER_BASE_URL/apartments/live';
 
   //CATEGORY
   static const String GET_ALL_CATEGORY = '$SELLER_BASE_URL/categories';
@@ -64,6 +65,8 @@ class Constants {
   //Service Url
   static const String IMAGE_PRESIGNED_URL = '/api/services/imageurls/png';
   static const String VALIDATE_TOKEN = '/api/services/token/validate';
+  static const String CITY_AREAS = '/api/services/areas/Bengaluru';
+  static const String CITY = '/api/services/cities';
 
   //OtherServiceUrl
   static const String PINCODE_URL = 'http://www.postalpincode.in/api/pincode';
