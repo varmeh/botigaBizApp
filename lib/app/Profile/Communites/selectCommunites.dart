@@ -228,11 +228,11 @@ class _CommunityTileState extends State<CommunityTile> {
                                                                             context)
                                                                         .size
                                                                         .height *
-                                                                    0.90,
+                                                                    0.85,
                                                                 decoration:
                                                                     BoxDecoration(
-                                                                  color: Colors
-                                                                      .white,
+                                                                  color: AppTheme
+                                                                      .backgroundColor,
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .only(
@@ -254,9 +254,10 @@ class _CommunityTileState extends State<CommunityTile> {
                                                             },
                                                           );
                                                         },
-                                                        textColor: Colors.red,
-                                                        color:
-                                                            Color(0xff179F57),
+                                                        textColor: AppTheme
+                                                            .backgroundColor,
+                                                        color: AppTheme
+                                                            .primaryColor,
                                                         child: Text('Next',
                                                             style: AppTheme
                                                                 .textStyle
@@ -419,7 +420,7 @@ class _CommunityTileState extends State<CommunityTile> {
                                                                             context)
                                                                         .size
                                                                         .height *
-                                                                    0.90,
+                                                                    0.85,
                                                                 decoration:
                                                                     BoxDecoration(
                                                                   color: AppTheme
