@@ -105,7 +105,7 @@ class BotigaBizApp extends StatelessWidget {
       child: MaterialApp(
         themeMode: ThemeMode.light,
         title: 'Botiga Business',
-        initialRoute: HomeScreen.routeName,
+        home: Splash(),
         routes: {
           IntroScreen.routeName: (ctx) => IntroScreen(),
           Login.routeName: (ctx) => Login(),
