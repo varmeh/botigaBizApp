@@ -33,7 +33,6 @@ class _SplashState extends State<Splash> {
       });
       final secureStorage = SecureStorage();
       secureStorage.getAuthToken().then((value) {
-        print("---->>>>$value");
         if (value == null) {
           secureStorage.getIntroStatusCompleted().then((value) {
             setState(() {
@@ -71,7 +70,6 @@ class _SplashState extends State<Splash> {
               HomeScreen.routeName,
             );
           }).catchError((err) {
-            print("---->>>>$err");
             setState(() {
               _isLoading = false;
             });
