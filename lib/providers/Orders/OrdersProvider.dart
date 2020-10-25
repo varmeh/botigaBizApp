@@ -28,10 +28,11 @@ class OrdersProvider with ChangeNotifier {
     try {
       //TODO: check date returns 404
       final response = await HttpService()
-          .get('${Constants.AGGREGATED_ORDERS_INFORMATION}/2020-09-09');
+          .get('${Constants.AGGREGATED_ORDERS_INFORMATION}/$date');
       this._aggregatedOrders = AggregatedOrders.fromJson(response);
       notifyListeners();
     } catch (error) {
+      print('+++>>>>>>>$error');
       throw (error);
     }
   }

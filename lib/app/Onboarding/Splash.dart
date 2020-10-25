@@ -72,6 +72,7 @@ class _SplashState extends State<Splash> {
               HomeScreen.routeName,
             );
           }).catchError((err) {
+            print("---->>>>$err");
             setState(() {
               _isLoading = false;
             });

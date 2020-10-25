@@ -79,9 +79,6 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
       setState(() {
         _isLoading = false;
       });
-      //TODO: Remove the navigation
-      Navigator.of(context)
-          .pushNamed(SetPin.routeName, arguments: {'phone': _watsappNumber});
       Toast(message: '$error', iconData: BotigaIcons.truck);
     });
   }

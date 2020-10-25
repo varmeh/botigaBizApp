@@ -1,22 +1,30 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import '../flavor.dart';
 import 'httpExceptions.dart';
+import '../SecureStorage.dart';
 
 class HttpService {
   final _baseUrl = Flavor.shared.baseUrl;
 
   Future<dynamic> get(String url) async {
-    // Propogate errors to parent for effective UI management
-    final response = await http.get(_baseUrl + url);
+    final token = await SecureStorage().getAuthToken();
+    Map<String, String> headers = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': token,
+    };
+    print("-->${_baseUrl + url}");
+    final response = await http.get(_baseUrl + url, headers: headers);
     return returnResponse(response);
   }
 
   Future<dynamic> put(String url, final body) async {
+    final token = await SecureStorage().getAuthToken();
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
+      'Authorization': token,
     };
     final response =
         await http.put('$_baseUrl$url', body: body, headers: headers);
@@ -24,9 +32,11 @@ class HttpService {
   }
 
   Future<dynamic> patch(String url, final body) async {
+    final token = await SecureStorage().getAuthToken();
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
+      'Authorization': token,
     };
     final response =
         await http.patch('$_baseUrl$url', body: body, headers: headers);
@@ -34,9 +44,11 @@ class HttpService {
   }
 
   Future<dynamic> post(String url, final body) async {
+    final token = await SecureStorage().getAuthToken();
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
+      'Authorization': token,
     };
     final response =
         await http.post('$_baseUrl$url', body: body, headers: headers);
@@ -44,9 +56,11 @@ class HttpService {
   }
 
   Future<dynamic> delete(String url) async {
+    final token = await SecureStorage().getAuthToken();
     Map<String, String> headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
+      'Authorization': token,
     };
     final response = await http.delete('$_baseUrl$url', headers: headers);
     return returnResponse(response);
@@ -54,9 +68,11 @@ class HttpService {
 
   dynamic returnResponse(http.Response response) {
     switch (response.statusCode) {
+      case 204:
+        return;
       case 200:
       case 201:
-      case 204:
+        print(json.decode(response.body));
         return json.decode(response.body);
 
       case 400:

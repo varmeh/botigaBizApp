@@ -14,7 +14,7 @@ class Constants {
   static const STORE_TABS = ['Products', 'Categories'];
 
   //SELLER BASE URL
-  static const SELLER_BASE_URL = '/api/seller/';
+  static const SELLER_BASE_URL = '/api/seller';
 
   //ORDER
   static const String AGGREGATED_ORDERS_INFORMATION =

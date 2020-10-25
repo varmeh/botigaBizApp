@@ -55,6 +55,9 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     _brandNameFocusNode = FocusNode();
     _taglineFocusNode = FocusNode();
     _isLoading = false;
+    uploadurl = '';
+    downloadUrl =
+        'https://products.image.dev.s3.ap-south-1.amazonaws.com/5f7730a57a8a7aafb139f511_hLOmFS.png';
   }
 
   @override
@@ -67,13 +70,15 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   }
 
   void _getPreSignedUrl() {
+    print("--------------------->>");
     ImageService.getPresignedImageUrl().then((value) {
-      print(value);
+      print("++$value");
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
       });
     }).catchError((error) {
+      print("7*****$error");
       Toast(message: '$error', iconData: Icons.error_outline);
     });
   }
@@ -337,8 +342,6 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       setState(() {
         _isLoading = false;
       });
-      //TODO: remove this navigation
-      Navigator.of(context).pushNamed(SignUpStoreDetails.routeName);
       Toast(iconData: BotigaIcons.truck, message: '$error');
     });
   }

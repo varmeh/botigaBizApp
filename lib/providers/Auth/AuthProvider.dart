@@ -12,13 +12,9 @@ class AuthProvider with ChangeNotifier {
 
   Future validateToken() async {
     try {
-      final authToken = await secureStorage.getAuthToken();
-      final response = await http.get('$baseUrl${Constants.SIGNIN_WITH_PIN}',
-          headers: <String, String>{
-            'Authorization': authToken,
-          });
-      return HttpService().returnResponse(response);
+      return HttpService().get('${Constants.VALIDATE_TOKEN}');
     } catch (err) {
+      print('*********$err');
       throw (err);
     }
   }
@@ -26,8 +22,12 @@ class AuthProvider with ChangeNotifier {
   Future signInWithPin(String phone, String pin) async {
     try {
       final body = json.encode({"phone": phone, "pin": pin});
-      final response =
-          await http.post('$baseUrl${Constants.SIGNIN_WITH_PIN}', body: body);
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+      final response = await http.post('$baseUrl${Constants.SIGNIN_WITH_PIN}',
+          headers: headers, body: body);
       if (response.statusCode == 200) {
         final authToken = response.headers['authorization'];
         await secureStorage.setAuthToken(authToken);
@@ -42,7 +42,7 @@ class AuthProvider with ChangeNotifier {
 
   Future getOTP(String phone) {
     try {
-      return HttpService().get('${Constants.SIGNIN_WITH_PIN}/phone');
+      return HttpService().get('${Constants.GET_OTP}/$phone');
     } catch (error) {
       throw (error);
     }
@@ -87,14 +87,20 @@ class AuthProvider with ChangeNotifier {
         "tagline": tagline,
         "brandUrl": url
       });
-      final response =
-          await http.post('$baseUrl${Constants.SIGNUP}', body: body);
+      print("++$baseUrl${Constants.SIGNUP} $body");
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+      final response = await http.post('$baseUrl${Constants.SIGNUP}',
+          headers: headers, body: body);
       if (response.statusCode == 201 || response.statusCode == 200) {
         final authToken = response.headers['authorization'];
         await secureStorage.setAuthToken(authToken);
       }
       return HttpService().returnResponse(response);
     } catch (error) {
+      print('-->$error');
       throw (error);
     }
   }

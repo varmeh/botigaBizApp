@@ -75,7 +75,7 @@ class _SignUpOtpState extends State<SignUpOtp> {
       setState(() {
         _isLoading = false;
       });
-      Toast(iconData: BotigaIcons.truck, message: '$error').show(context);
+      Toast(iconData: Icons.error_outline, message: '$error').show(context);
     });
   }
 
@@ -90,7 +90,7 @@ class _SignUpOtpState extends State<SignUpOtp> {
         sessionId = value['sessionId'];
       });
     }).catchError((error) {
-      Toast(iconData: BotigaIcons.truck, message: '$error').show(context);
+      Toast(iconData: Icons.error_outline, message: '$error').show(context);
     });
   }
 
@@ -132,15 +132,12 @@ class _SignUpOtpState extends State<SignUpOtp> {
           borderRadius: new BorderRadius.circular(8.0),
         ),
         onPressed: () {
-          if (_isLoading) {
-            return null;
-          }
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
             onVerification();
           }
         },
-        color: _isLoading ? AppTheme.dividerColor : AppTheme.primaryColor,
+        color: AppTheme.primaryColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 18.0),
           child: Text(
@@ -165,22 +162,24 @@ class _SignUpOtpState extends State<SignUpOtp> {
     return Background(
       title: 'Verify OTP',
       backNavigation: true,
-      child: Column(
-        children: [
-          sizedBox,
-          Text(
-            'Please enter OTP sent to your phone number $phone',
-            style: AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
-          ),
-          sizedBox,
-          otpForm(),
-          SizedBox(height: 12),
-          !_isLoading ? resendWidget() : SizedBox.shrink(),
-          SizedBox(height: 16),
-          verifyButton(this._verifyOTP),
-          SizedBox(height: 16),
-          _isLoading ? Loader() : SizedBox.shrink()
-        ],
+      child: LoaderOverlay(
+        isLoading: _isLoading,
+        child: Column(
+          children: [
+            sizedBox,
+            Text(
+              'Please enter OTP sent to your phone number $phone',
+              style: AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
+            ),
+            sizedBox,
+            otpForm(),
+            SizedBox(height: 12),
+            resendWidget(),
+            SizedBox(height: 16),
+            verifyButton(this._verifyOTP),
+            SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }
