@@ -40,6 +40,7 @@ import './providers/Store/Product/ProductProvider.dart';
 import './providers/Profile/StoreProvider.dart';
 import './providers/Profile/BusinessProvider.dart';
 import './providers/Auth/AuthProvider.dart';
+import './providers/Profile/ProfileProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -80,6 +81,9 @@ class BotigaBizApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(),
+        ),
         ChangeNotifierProvider(
           create: (_) => AuthProvider(),
         ),

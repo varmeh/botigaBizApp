@@ -14,6 +14,7 @@ import '../../providers/Store/Category/CategoryProvider.dart';
 import '../../providers/Apartment/ApartmentProvide.dart';
 import '../../providers/Profile/StoreProvider.dart';
 import '../../providers/Profile/BusinessProvider.dart';
+import '../../providers/Profile/ProfileProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -36,8 +37,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void preFetchData() {
-    Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
+    Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
     Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
+    //Remove below calls
+    Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
     Provider.of<StoreProvider>(context, listen: false).fetchStoreDetails();
     Provider.of<BusinessProvider>(context, listen: false)
         .fetchBusinessDetails();
