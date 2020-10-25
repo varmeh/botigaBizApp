@@ -177,7 +177,6 @@ class _SignUpOtpState extends State<SignUpOtp> {
             resendWidget(),
             SizedBox(height: 16),
             verifyButton(this._verifyOTP),
-            SizedBox(height: 16),
           ],
         ),
       ),

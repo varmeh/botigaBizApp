@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../../../widget/index.dart';
-import '../../../providers/Auth/AuthProvider.dart';
 import '../../Home/HomeScreen.dart';
+import '../../../providers/Auth/AuthProvider.dart';
 
 class SetPin extends StatefulWidget {
   static const routeName = '/signup-setpin';
@@ -72,12 +72,13 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
       setState(() {
         _isLoading = false;
       });
-      BotigaBottomModal(child: setPinSuccessful()).show(context);
+      BotigaBottomModal(isDismissible: false, child: setPinSuccessful())
+          .show(context);
     }).catchError((error) {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: BotigaIcons.truck).show(context);
+      Toast(message: '$error', iconData: Icons.error_outline).show(context);
     });
   }
 
@@ -88,15 +89,12 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
           borderRadius: new BorderRadius.circular(8.0),
         ),
         onPressed: () {
-          if (_isLoading) {
-            return null;
-          }
           if (_form.currentState.validate()) {
             _form.currentState.save(); //value saved in pinValue
             onVerification();
           }
         },
-        color: _isLoading ? AppTheme.dividerColor : AppTheme.primaryColor,
+        color: AppTheme.primaryColor,
         child: Padding(
           padding: const EdgeInsets.only(
               top: 14, bottom: 14, left: 51.5, right: 51.5),
@@ -148,23 +146,24 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
             },
           )),
       backgroundColor: AppTheme.backgroundColor,
-      body: Container(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              'Last step! You are almost done. Going forward this 4-digit pin will be used to login.',
-              style: AppTheme.textStyle.w500.color50.size(13).lineHeight(1.3),
-            ),
-            sizedBox,
-            Center(child: Container(width: 200, child: pinForm())),
-            sizedBox,
-            setPinButton(this._handleSetPin),
-            sizedBox,
-            _isLoading ? Loader() : SizedBox.shrink()
-          ],
+      body: LoaderOverlay(
+        isLoading: _isLoading,
+        child: Container(
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Last step! You are almost done. Going forward this 4-digit pin will be used to login.',
+                style: AppTheme.textStyle.w500.color50.size(13).lineHeight(1.3),
+              ),
+              sizedBox,
+              Center(child: Container(width: 200, child: pinForm())),
+              sizedBox,
+              setPinButton(this._handleSetPin),
+            ],
+          ),
         ),
       ),
     );

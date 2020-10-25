@@ -79,7 +79,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: BotigaIcons.truck);
+      Toast(message: '$error', iconData: Icons.error_outline);
     });
   }
 
@@ -119,17 +119,12 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(6.0)),
                         onPressed: () {
-                          if (_isLoading) {
-                            return null;
-                          }
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
                             this._handleStoreDetailSave(context);
                           }
                         },
-                        color: _isLoading
-                            ? AppTheme.dividerColor
-                            : AppTheme.primaryColor,
+                        color: AppTheme.primaryColor,
                         child: Text('Save and continue',
                             style: AppTheme.textStyle
                                 .size(15)
@@ -140,157 +135,154 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
               ],
             )),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Container(
-              child: Form(
-                key: _formKey,
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              BotigaTextFieldForm(
-                                focusNode: _emailFocusNode,
-                                labelText: 'Email',
-                                onSave: (value) => _email = value,
-                                nextFocusNode: _whatsappFocusNode,
-                                validator: emailValidator,
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              BotigaTextFieldForm(
-                                focusNode: _whatsappFocusNode,
-                                labelText: 'Whatsapp number',
-                                onSave: (value) => _watsappNumber = value,
-                                nextFocusNode: _buildingNumberFocusNode,
-                              ),
-                            ],
-                          ),
+      body: LoaderOverlay(
+        isLoading: _isLoading,
+        child: SingleChildScrollView(
+          child: Container(
+            child: Form(
+              key: _formKey,
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            BotigaTextFieldForm(
+                              focusNode: _emailFocusNode,
+                              labelText: 'Email',
+                              onSave: (value) => _email = value,
+                              nextFocusNode: _whatsappFocusNode,
+                              validator: emailValidator,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            BotigaTextFieldForm(
+                              focusNode: _whatsappFocusNode,
+                              labelText: 'Whatsapp number',
+                              onSave: (value) => _watsappNumber = value,
+                              nextFocusNode: _buildingNumberFocusNode,
+                            ),
+                          ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 30, bottom: 30),
-                        child: Divider(
-                          color: AppTheme.dividerColor,
-                          thickness: 8,
-                        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30, bottom: 30),
+                      child: Divider(
+                        color: AppTheme.dividerColor,
+                        thickness: 8,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20, right: 20, bottom: 20.0),
-                        child: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: Colors.black,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20, right: 20, bottom: 20.0),
+                      child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(width: 10),
+                                Flexible(
+                                  child: Text(
+                                    "Store Address",
+                                    style: AppTheme.textStyle.color100
+                                        .size(15)
+                                        .w500,
                                   ),
-                                  SizedBox(width: 10),
-                                  Flexible(
-                                    child: Text(
-                                      "Store Address",
-                                      style: AppTheme.textStyle.color100
-                                          .size(15)
-                                          .w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              BotigaTextFieldForm(
-                                focusNode: _buildingNumberFocusNode,
-                                labelText: 'Building No.',
-                                onSave: (value) => _buildingNumber = value,
-                                nextFocusNode: _streetNameFocusNode,
-                                validator: nameValidator,
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              BotigaTextFieldForm(
-                                focusNode: _streetNameFocusNode,
-                                labelText: 'Street Name/Locality',
-                                onSave: (value) => _buildingNumber = value,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            BotigaTextFieldForm(
+                              focusNode: _buildingNumberFocusNode,
+                              labelText: 'Building No.',
+                              onSave: (value) => _buildingNumber = value,
+                              nextFocusNode: _streetNameFocusNode,
+                              validator: nameValidator,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            BotigaTextFieldForm(
+                              focusNode: _streetNameFocusNode,
+                              labelText: 'Street Name/Locality',
+                              onSave: (value) => _buildingNumber = value,
+                              nextFocusNode: _areaFocusNode,
+                              validator: nameValidator,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            BotigaTextFieldForm(
+                                focusNode: _pincodeFocusNode,
+                                labelText: 'Pincode',
+                                onSave: (value) => _pincode = int.parse(value),
                                 nextFocusNode: _areaFocusNode,
-                                validator: nameValidator,
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              BotigaTextFieldForm(
-                                  focusNode: _pincodeFocusNode,
-                                  labelText: 'Pincode',
-                                  onSave: (value) =>
-                                      _pincode = int.parse(value),
-                                  nextFocusNode: _areaFocusNode,
-                                  keyboardType: TextInputType.number,
-                                  onFieldSubmitted: (value) {
-                                    _handlePinCodeChange(value);
-                                  },
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return 'Required';
-                                    } else if (int.tryParse(value) == null) {
-                                      return 'Please enter numbers only';
-                                    }
-                                    return null;
-                                  }),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              BotigaTextFieldForm(
-                                initialValue: _area,
-                                focusNode: _areaFocusNode,
-                                labelText: 'Area',
-                                onSave: (value) => _area = value,
-                                nextFocusNode: _cityFocusNode,
-                                validator: nameValidator,
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              BotigaTextFieldForm(
-                                focusNode: _cityFocusNode,
-                                labelText: 'City',
-                                onSave: (value) => _city = value,
-                                nextFocusNode: _statefocusNode,
-                                validator: nameValidator,
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              BotigaTextFieldForm(
-                                focusNode: _statefocusNode,
-                                labelText: 'State',
-                                onSave: (value) => _state = value,
-                                validator: nameValidator,
-                              ),
-                            ],
-                          ),
+                                keyboardType: TextInputType.number,
+                                onFieldSubmitted: (value) {
+                                  _handlePinCodeChange(value);
+                                },
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Required';
+                                  } else if (int.tryParse(value) == null) {
+                                    return 'Please enter numbers only';
+                                  }
+                                  return null;
+                                }),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            BotigaTextFieldForm(
+                              initialValue: _area,
+                              focusNode: _areaFocusNode,
+                              labelText: 'Area',
+                              onSave: (value) => _area = value,
+                              nextFocusNode: _cityFocusNode,
+                              validator: nameValidator,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            BotigaTextFieldForm(
+                              focusNode: _cityFocusNode,
+                              labelText: 'City',
+                              onSave: (value) => _city = value,
+                              nextFocusNode: _statefocusNode,
+                              validator: nameValidator,
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            BotigaTextFieldForm(
+                              focusNode: _statefocusNode,
+                              labelText: 'State',
+                              onSave: (value) => _state = value,
+                              validator: nameValidator,
+                            ),
+                          ],
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
           ),
-          _isLoading ? Loader() : SizedBox.shrink()
-        ],
+        ),
       ),
     );
   }
