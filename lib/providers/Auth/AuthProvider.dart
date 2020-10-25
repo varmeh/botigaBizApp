@@ -40,7 +40,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future getOTP(String phone) {
+  Future getOTP(String phone) async {
     try {
       return HttpService().get('${Constants.GET_OTP}/$phone');
     } catch (error) {
@@ -48,17 +48,27 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future verifyOtp(String phone, String sessionId, String otpVal) {
+  Future verifyOtp(String phone, String sessionId, String otpVal) async {
     try {
       final body = json
           .encode({"phone": phone, "sessionId": sessionId, "otpVal": otpVal});
-      return HttpService().post('${Constants.VERIFY_OTP}', body);
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+      final response = await http.post('$baseUrl${Constants.VERIFY_OTP}',
+          headers: headers, body: body);
+      final authToken = response.headers['authorization'];
+      if (authToken != null) {
+        await secureStorage.setAuthToken(authToken);
+      }
+      return HttpService().returnResponse(response);
     } catch (error) {
       throw (error);
     }
   }
 
-  Future updatePin(String phone, String pin) {
+  Future updatePin(String phone, String pin) async {
     try {
       final body = json.encode({"pin": pin});
       return HttpService().patch('${Constants.UPDATE_PIN}', body);

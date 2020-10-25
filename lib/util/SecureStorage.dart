@@ -37,7 +37,7 @@ class SecureStorage {
     }
   }
 
-  Future clearStorage() async {
-    return await storage.deleteAll();
+  Future expireToken() async {
+    await storage.write(key: _authToken, value: "123");
   }
 }

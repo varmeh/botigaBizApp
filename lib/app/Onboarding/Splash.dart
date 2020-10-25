@@ -23,8 +23,6 @@ class _SplashState extends State<Splash> {
     super.initState();
     _isInit = false;
     _isLoading = false;
-    //TODO: Remove below line just for clearing cache form secure storage
-    //SecureStorage().clearStorage();
   }
 
   @override
@@ -35,6 +33,7 @@ class _SplashState extends State<Splash> {
       });
       final secureStorage = SecureStorage();
       secureStorage.getAuthToken().then((value) {
+        print("---->>>>$value");
         if (value == null) {
           secureStorage.getIntroStatusCompleted().then((value) {
             setState(() {
