@@ -21,7 +21,7 @@ class _SelectAreaState extends State<SelectArea> {
   void initState() {
     super.initState();
     _deliveryType = '';
-    _day = 0;
+    _day = 1;
     _apartmentId = '';
   }
 
@@ -668,11 +668,11 @@ class _ListWheelScrollViewFixedDayState
       physics: FixedExtentScrollPhysics(),
       diameterRatio: 2,
       squeeze: 0.8,
-      onSelectedItemChanged: (index) => {
+      onSelectedItemChanged: (index) {
         setState(() {
           _selectedItemIndex = index;
-          widget.setDeliveryDays(index + 1);
-        })
+        });
+        widget.setDeliveryDays(index + 1);
       },
     );
   }
@@ -776,11 +776,11 @@ class _ListWheelScrollViewFixedDurationState
       physics: FixedExtentScrollPhysics(),
       diameterRatio: 2,
       squeeze: 0.8,
-      onSelectedItemChanged: (index) => {
+      onSelectedItemChanged: (index) {
         setState(() {
           _selectedItemIndex = index;
-          widget.setDeliveryDays(index + 1);
-        })
+        });
+        widget.setDeliveryDays(index + 1);
       },
     );
   }
