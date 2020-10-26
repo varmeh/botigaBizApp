@@ -67,7 +67,6 @@ class HttpService {
   }
 
   dynamic returnResponse(http.Response response) {
-    print(json.decode(response.body));
     switch (response.statusCode) {
       case 204:
         return;

@@ -234,61 +234,58 @@ class _SelectAreaState extends State<SelectArea> {
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
                       builder: (builder) {
-                        return SafeArea(
-                          child: Container(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.80,
+                        return Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.80,
 
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: const Radius.circular(16.0),
-                                topRight: const Radius.circular(16.0),
-                              ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(16.0),
+                              topRight: const Radius.circular(16.0),
                             ),
-                            //could change this to Color(0xFF737373),
-                            //so you don't have to change MaterialApp canvasColor
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0, bottom: 48.0),
-                                        child: BottomSheetHeader(
-                                          title: "Fixed duration",
-                                        ),
+                          ),
+                          //could change this to Color(0xFF737373),
+                          //so you don't have to change MaterialApp canvasColor
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 25.0, bottom: 48.0),
+                                      child: BottomSheetHeader(
+                                        title: "Fixed duration",
                                       ),
-                                      Text(
-                                        "Deliver order in",
-                                        style: AppTheme.textStyle.color100
-                                            .size(17)
-                                            .w700,
+                                    ),
+                                    Text(
+                                      "Deliver order in",
+                                      style: AppTheme.textStyle.color100
+                                          .size(17)
+                                          .w700,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 20.0,
+                                        bottom: 20,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 20.0,
-                                          bottom: 20,
-                                        ),
-                                        child: SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.45,
-                                          child:
-                                              ListWheelScrollViewFixedDuration(
-                                                  setDeliveryDays:
-                                                      setDeliveryDays),
-                                        ),
+                                      child: SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.45,
+                                        child: ListWheelScrollViewFixedDuration(
+                                            setDeliveryDays: setDeliveryDays),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                Container(
+                              ),
+                              SafeArea(
+                                child: Container(
                                   padding: EdgeInsets.all(10),
                                   child: Row(
                                     children: <Widget>[
@@ -354,9 +351,9 @@ class _SelectAreaState extends State<SelectArea> {
                                       ),
                                     ],
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
                         );
                       },
@@ -409,56 +406,55 @@ class _SelectAreaState extends State<SelectArea> {
                       isScrollControlled: true,
                       backgroundColor: Colors.transparent,
                       builder: (builder) {
-                        return SafeArea(
-                          child: Container(
-                            width: double.infinity,
-                            height: MediaQuery.of(context).size.height * 0.80,
-                            decoration: BoxDecoration(
-                              color: AppTheme.backgroundColor,
-                              borderRadius: BorderRadius.only(
-                                topLeft: const Radius.circular(16.0),
-                                topRight: const Radius.circular(16.0),
-                              ),
+                        return Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.80,
+                          decoration: BoxDecoration(
+                            color: AppTheme.backgroundColor,
+                            borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(16.0),
+                              topRight: const Radius.circular(16.0),
                             ),
-                            //could change this to Color(0xFF737373),
-                            //so you don't have to change MaterialApp canvasColor
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 25.0, bottom: 48.0),
-                                        child: BottomSheetHeader(
-                                          title: "Fixed day",
-                                        ),
+                          ),
+                          //could change this to Color(0xFF737373),
+                          //so you don't have to change MaterialApp canvasColor
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 25.0, bottom: 48.0),
+                                      child: BottomSheetHeader(
+                                        title: "Fixed day",
                                       ),
-                                      Text("Deliver order in",
-                                          style: AppTheme.textStyle.color100
-                                              .size(17)
-                                              .w700),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 20.0,
-                                          bottom: 20,
-                                        ),
-                                        child: SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.45,
-                                          child: ListWheelScrollViewFixedDay(
-                                              setDeliveryDays: setDeliveryDays),
-                                        ),
+                                    ),
+                                    Text("Deliver order in",
+                                        style: AppTheme.textStyle.color100
+                                            .size(17)
+                                            .w700),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 20.0,
+                                        bottom: 20,
                                       ),
-                                    ],
-                                  ),
+                                      child: SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.45,
+                                        child: ListWheelScrollViewFixedDay(
+                                            setDeliveryDays: setDeliveryDays),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Container(
+                              ),
+                              SafeArea(
+                                child: Container(
                                   padding: EdgeInsets.all(10),
                                   child: Row(
                                     children: <Widget>[
@@ -525,9 +521,9 @@ class _SelectAreaState extends State<SelectArea> {
                                       ),
                                     ],
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
                         );
                       },

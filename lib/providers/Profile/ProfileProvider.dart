@@ -95,7 +95,6 @@ class ProfileProvider with ChangeNotifier {
         "deliveryType": deliveryType,
         "day": day
       });
-      print(body);
       return HttpService().post('/api/seller/apartments', body);
     } catch (error) {
       throw (error);
