@@ -44,8 +44,9 @@ class Contact {
   String email;
   String whatsapp;
   String phone;
+  Address address;
 
-  Contact({this.email, this.whatsapp, this.phone});
+  Contact({this.email, this.whatsapp, this.phone, this.address});
 
   factory Contact.fromJson(Map<String, dynamic> json) =>
       _$ContactFromJson(json);

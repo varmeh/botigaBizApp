@@ -50,4 +50,34 @@ class ProfileProvider with ChangeNotifier {
       throw (error);
     }
   }
+
+  Future updateStoreDetails(
+      String phone,
+      String whatsapp,
+      String email,
+      String building,
+      String street,
+      String area,
+      String city,
+      String state,
+      String pincode) async {
+    try {
+      final body = json.encode({
+        "phone": phone,
+        "email": email,
+        "whatsapp": whatsapp,
+        "address": {
+          "building": building,
+          "street": street,
+          "area": area,
+          "pincode": int.parse(pincode),
+          "city": city,
+          "state": state
+        }
+      });
+      return HttpService().patch('${Constants.UPDATE_STORE_DETAILS}', body);
+    } catch (error) {
+      throw (error);
+    }
+  }
 }

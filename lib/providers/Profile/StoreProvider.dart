@@ -34,9 +34,17 @@ class StoreProvider with ChangeNotifier {
       int pincode) async {
     try {
       final body = json.encode({
+        "phone": phone,
         "email": email,
         "whatsapp": whatsapp,
-        "address": {"area": area, "pincode": pincode, "city": city}
+        "address": {
+          "building": building,
+          "street": street,
+          "area": area,
+          "pincode": pincode,
+          "city": city,
+          "state": state
+        }
       });
       return HttpService().patch('${Constants.UPDATE_STORE_DETAILS}', body);
     } catch (error) {

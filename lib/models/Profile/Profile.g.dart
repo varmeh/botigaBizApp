@@ -54,6 +54,9 @@ Contact _$ContactFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     whatsapp: json['whatsapp'] as String,
     phone: json['phone'] as String,
+    address: json['address'] == null
+        ? null
+        : Address.fromJson(json['address'] as Map<String, dynamic>),
   );
 }
 
@@ -61,6 +64,7 @@ Map<String, dynamic> _$ContactToJson(Contact instance) => <String, dynamic>{
       'email': instance.email,
       'whatsapp': instance.whatsapp,
       'phone': instance.phone,
+      'address': instance.address,
     };
 
 Address _$AddressFromJson(Map<String, dynamic> json) {
