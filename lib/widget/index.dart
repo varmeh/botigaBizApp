@@ -9,3 +9,5 @@ export 'Error.dart';
 export 'loaderOverlay.dart';
 export 'inviteTile.dart';
 export 'brandingTile.dart';
+export 'searchBar.dart';
+export 'BottomSheetHeader.dart';

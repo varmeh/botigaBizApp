@@ -1,4 +1,15 @@
 class Constants {
+  //days map
+  static const daysMap = {
+    1: 'Sunday',
+    2: 'Monday',
+    3: 'Tuesday',
+    4: 'Wednesday',
+    5: 'Thrusday',
+    6: 'Friday',
+    7: 'Saturday'
+  };
+
   //Order String Constants
   static const rupeeSymbol = '\u20B9';
   static const revenue = 'REVENUE';
@@ -65,7 +76,7 @@ class Constants {
   //Service Url
   static const String IMAGE_PRESIGNED_URL = '/api/services/imageurls/png';
   static const String VALIDATE_TOKEN = '/api/services/token/validate';
-  static const String CITY_AREAS = '/api/services/areas/Bengaluru';
+  static const String CITY_AREAS = '/api/services/areas';
   static const String CITY = '/api/services/cities';
 
   //OtherServiceUrl

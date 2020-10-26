@@ -6,25 +6,26 @@ import 'addCommunitesSuccess.dart';
 import '../../../util/index.dart';
 import '../../../widget/index.dart';
 import '../../../providers/Profile/StoreProvider.dart';
+import '../../../providers/Profile/ProfileProvider.dart';
 
 class AddContactDetails extends StatefulWidget {
+  final String apartmentId;
+  final String deliveryType;
+  final int day;
+  AddContactDetails(
+      {@required this.apartmentId,
+      @required this.deliveryType,
+      @required this.day});
   @override
   _AddContactDetailsState createState() => _AddContactDetailsState();
 }
 
 class _AddContactDetailsState extends State<AddContactDetails> {
   final _formKey = GlobalKey<FormState>();
-  final _phoneMaskFormatter = MaskTextInputFormatter(
-    mask: '+91 #####-#####',
-    filter: {"#": RegExp(r'[0-9]')},
-  );
+  MaskTextInputFormatter _phoneMaskFormatter;
+  MaskTextInputFormatter _whatsappMaskFormatter;
 
-  final _whatsappMaskFormatter = MaskTextInputFormatter(
-    mask: '+91 #####-#####',
-    filter: {"#": RegExp(r'[0-9]')},
-  );
-
-  String _email = '', _phoneNumber = '', _watsappNumber = '';
+  String _email, _phoneNumber, _watsappNumber, _businessName;
   FocusNode _emailFocusNode, _whatsappFocusNode, _phoneNumberFocusNode;
   bool _isLoading;
   bool checkboxValue;
@@ -35,40 +36,66 @@ class _AddContactDetailsState extends State<AddContactDetails> {
     _phoneNumberFocusNode = FocusNode();
     _emailFocusNode = FocusNode();
     _whatsappFocusNode = FocusNode();
-
     _isLoading = false;
     checkboxValue = false;
+    loadInitialFormValues();
+  }
+
+  void loadInitialFormValues() {
+    final profileInfo =
+        Provider.of<ProfileProvider>(context, listen: false).profileInfo;
+    setState(() {
+      _email = profileInfo.contact.email;
+      _phoneNumber = profileInfo.contact.phone;
+      _watsappNumber = profileInfo.contact.whatsapp;
+      _businessName = profileInfo.businessName;
+    });
+    _phoneMaskFormatter = MaskTextInputFormatter(
+        mask: '+91 #####-#####',
+        filter: {"#": RegExp(r'[0-9]')},
+        initialText: profileInfo.contact.phone);
+
+    _whatsappMaskFormatter = MaskTextInputFormatter(
+        mask: '+91 #####-#####',
+        filter: {"#": RegExp(r'[0-9]')},
+        initialText: profileInfo.contact.whatsapp);
   }
 
   void _handleStoreDetailSave(BuildContext context) {
     setState(() {
       _isLoading = true;
     });
-    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
-    storeProvider
-        .updateStoreDetails(
-            _phoneNumber, _watsappNumber, _email, "", "", "", "", "", 0)
-        .then((value) {
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.pop(context);
-      Navigator.pop(context);
-      Navigator.pop(context);
 
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (builder) {
-          return AddCommunitesSuccess();
-        },
-      );
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+    profileProvider
+        .addApartment(widget.apartmentId, _phoneNumber, _watsappNumber, _email,
+            widget.deliveryType, widget.day)
+        .then((value) {
+      profileProvider.fetchProfile().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (builder) {
+            return AddCommunitesSuccess(
+                _businessName, widget.deliveryType, widget.day);
+          },
+        );
+      }).catchError((error) {
+        setState(() {
+          _isLoading = false;
+        });
+        Toast(message: '$error', iconData: Icons.error_outline).show(context);
+      });
     }).catchError((error) {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: BotigaIcons.truck).show(context);
+      Toast(message: '$error', iconData: Icons.error_outline).show(context);
     });
   }
 
@@ -133,48 +160,38 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                             SizedBox(
                               height: 4,
                             ),
-                            Text('Nature nest',
+                            Text('$_businessName',
                                 style:
                                     AppTheme.textStyle.color50.size(15).w500),
                             SizedBox(
                               height: 25,
                             ),
                             BotigaTextFieldForm(
+                              initialValue: _email,
                               focusNode: _emailFocusNode,
                               labelText: 'Email',
                               onSave: (value) => _email = value,
-                              nextFocusNode: _phoneNumberFocusNode,
+                              nextFocusNode: _whatsappFocusNode,
                               validator: emailValidator,
                             ),
                             SizedBox(
                               height: 16,
                             ),
                             BotigaTextFieldForm(
+                              initialValue: _phoneMaskFormatter.getMaskedText(),
+                              readOnly: true,
                               focusNode: _phoneNumberFocusNode,
-                              nextFocusNode: _whatsappFocusNode,
                               labelText: 'Phone number',
                               keyboardType: TextInputType.number,
-                              onSave: (_) => _phoneNumber =
-                                  _phoneMaskFormatter.getUnmaskedText(),
+                              onSave: (_) => null,
                               maskFormatter: _phoneMaskFormatter,
-                              validator: (_) {
-                                if (_phoneMaskFormatter
-                                    .getUnmaskedText()
-                                    .isEmpty) {
-                                  return 'Required';
-                                } else if (_phoneMaskFormatter
-                                        .getUnmaskedText()
-                                        .length !=
-                                    10) {
-                                  return 'Please provide a valid 10 digit Mobile Number';
-                                }
-                                return null;
-                              },
                             ),
                             SizedBox(
                               height: 16,
                             ),
                             BotigaTextFieldForm(
+                              initialValue:
+                                  _whatsappMaskFormatter.getMaskedText(),
                               focusNode: _whatsappFocusNode,
                               labelText: 'Whatsapp number',
                               keyboardType: TextInputType.number,

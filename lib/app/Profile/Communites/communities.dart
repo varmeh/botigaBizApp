@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import '../../../models/Apartment/Apartments.dart';
+import '../../../models/Profile/Profile.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
-import '../../../providers/Apartment/ApartmentProvide.dart';
+import '../../../providers/Profile/ProfileProvider.dart';
 
 class Communities extends StatefulWidget {
   @override
@@ -14,30 +14,39 @@ class Communities extends StatefulWidget {
 class _CommunitiesState extends State<Communities> {
   bool isLoading = false;
 
-  setApartmentStatus(String aptId, bool value) {
+  void setApartmentStatus(String aptId, bool value) {
     setState(() {
       isLoading = true;
     });
-    Provider.of<ApartmentProvider>(context, listen: false)
-        .setApartmentStatus(aptId, value)
-        .then((value) {
-      setState(() {
-        isLoading = false;
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+    profileProvider.setApartmentStatus(aptId, value).then((value) {
+      profileProvider.fetchProfile().then((_) {
+        setState(() {
+          isLoading = false;
+        });
+        Toast(message: '$value', iconData: Icons.check_circle).show(context);
+      }).catchError((err) {
+        Toast(message: '$err', iconData: Icons.error_outline).show(context);
       });
-      Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
-      Toast(message: '$value', iconData: BotigaIcons.truck).show(context);
     }).catchError((err) {
       setState(() {
         isLoading = false;
       });
-      Toast(message: '$err', iconData: BotigaIcons.truck).show(context);
+      Toast(message: '$err', iconData: Icons.error_outline).show(context);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     List<Apartment> apartments =
-        Provider.of<ApartmentProvider>(context, listen: false).allAprtment;
+        Provider.of<ProfileProvider>(context, listen: false).allApartment;
+    if (apartments.length == 0) {
+      return BrandingTile(
+        'Thriving communities, empowering people',
+        'Made by awesome team of Botiga',
+      );
+    }
     return LoaderOverlay(
       isLoading: isLoading,
       child: Container(

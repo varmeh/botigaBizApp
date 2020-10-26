@@ -7,22 +7,25 @@ import '../../models/Profile/Profile.dart';
 class ProfileProvider with ChangeNotifier {
   Profile _profile;
 
-  // get allAprtment {
-  //   if (this._apartments != null && this._apartments.apartments.length > 0) {
-  //     return this._apartments.apartments;
-  //   }
-  //   return [];
-  // }
+  get allApartment {
+    return this._profile.apartments;
+  }
 
-  // get defaultAppartment {
-  //   if (this._apartments != null && this._apartments.apartments.length > 0) {
-  //     return this._apartments.apartments.first;
-  //   }
-  //   return null;
-  // }
+  get defaultApartment {
+    this._profile.apartments.first;
+  }
 
   get profileInfo {
     return this._profile;
+  }
+
+  Future setApartmentStatus(String apartmentid, bool status) async {
+    try {
+      final body = json.encode({"apartmentId": apartmentid, "live": status});
+      return HttpService().patch('${Constants.CHANGE_APT_STATUS}', body);
+    } catch (error) {
+      throw (error);
+    }
   }
 
   Future fetchProfile() async {
@@ -76,6 +79,24 @@ class ProfileProvider with ChangeNotifier {
         }
       });
       return HttpService().patch('${Constants.UPDATE_STORE_DETAILS}', body);
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  Future addApartment(String apartmentId, String phone, String whatsapp,
+      String email, String deliveryType, int day) async {
+    try {
+      final body = json.encode({
+        "apartmentId": apartmentId,
+        "phone": phone,
+        "whatsapp": whatsapp,
+        "email": email,
+        "deliveryType": deliveryType,
+        "day": day
+      });
+      print(body);
+      return HttpService().post('/api/seller/apartments', body);
     } catch (error) {
       throw (error);
     }
