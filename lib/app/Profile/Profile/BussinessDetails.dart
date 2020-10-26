@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../widget/index.dart';
 import '../../../util/index.dart';
-import '../../../providers/Profile/BusinessProvider.dart';
+import '../../../providers/Profile/ProfileProvider.dart';
 import '../../../providers/Services/ImageService.dart';
 
 class BussinessDetails extends StatefulWidget {
@@ -22,7 +22,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
   TextEditingController maxWidthController,
       maxHeightController,
       qualityController;
-  String _seletedCategory, _brandName, _tagline;
+  String _seletedCategory, _brandName, _tagline, _businessName, _fullName;
   bool _isInit, _isLoading;
   FocusNode _brandNameFocusNode, _taglineFocusNode;
   String uploadurl, downloadUrl;
@@ -35,14 +35,11 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
-
-    _brandName = '';
-    _tagline = '';
-    _seletedCategory = 'Beverages';
     _brandNameFocusNode = FocusNode();
     _taglineFocusNode = FocusNode();
     _isLoading = false;
     _isInit = false;
+    loadInitialValueForForm();
   }
 
   @override
@@ -52,6 +49,18 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       _isInit = true;
     }
     super.didChangeDependencies();
+  }
+
+  void loadInitialValueForForm() {
+    final profile =
+        Provider.of<ProfileProvider>(context, listen: false).profileInfo;
+    setState(() {
+      _brandName = profile.brand.name;
+      _tagline = profile.brand.tagline;
+      _seletedCategory = profile.businessCategory;
+      _businessName = profile.businessName;
+      _fullName = '${profile.firstName} ${profile.lastName}';
+    });
   }
 
   void _getPreSignedUrl() {
@@ -94,157 +103,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       Toast(message: '$e', iconData: Icons.error_outline_sharp).show(context);
     }
     Navigator.of(context).pop();
-  }
-
-  Widget categoryItem(String s, bool isOther) {
-    return Column(
-      children: <Widget>[
-        ListTile(
-          onTap: () {
-            Navigator.of(context).pop();
-            if (isOther) {
-              String bsCategoryName = '';
-              FocusNode bsCategoryNode = FocusNode();
-              final _bsformkey = GlobalKey<FormState>();
-
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => Padding(
-                  padding: MediaQuery.of(context).viewInsets,
-                  child: Form(
-                    key: _bsformkey,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.backgroundColor,
-                        borderRadius: BorderRadius.only(
-                          topLeft: const Radius.circular(16.0),
-                          topRight: const Radius.circular(16.0),
-                        ),
-                      ),
-                      padding: EdgeInsets.only(
-                          left: 20, right: 20, bottom: 20, top: 32),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            "Business category",
-                            style: AppTheme.textStyle.color100.size(22).w700,
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          BotigaTextFieldForm(
-                            focusNode: bsCategoryNode,
-                            labelText: "Write your business category",
-                            onSave: (value) => bsCategoryName = value,
-                            validator: nameValidator,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 30),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: SizedBox(
-                                    height: 52,
-                                    child: FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                      ),
-                                      onPressed: () {
-                                        if (_bsformkey.currentState
-                                            .validate()) {
-                                          _bsformkey.currentState.save();
-                                          setState(() {
-                                            _seletedCategory = bsCategoryName;
-                                          });
-                                          Navigator.of(context).pop();
-                                        }
-                                      },
-                                      color: AppTheme.primaryColor,
-                                      child: Text(
-                                        'Save category',
-                                        style: AppTheme.textStyle
-                                            .size(15)
-                                            .w600
-                                            .colored(AppTheme.backgroundColor),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            } else {
-              setState(() {
-                _seletedCategory = s;
-              });
-            }
-          },
-          contentPadding: EdgeInsets.all(0),
-          title: Text(
-            s,
-            style: AppTheme.textStyle.color100.w500.size(17),
-          ),
-        ),
-        Divider(
-          color: AppTheme.dividerColor,
-          thickness: 1.2,
-        ),
-      ],
-    );
-  }
-
-  void showCategories() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.60,
-        decoration: BoxDecoration(
-          color: AppTheme.backgroundColor,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(16.0),
-            topRight: const Radius.circular(16.0),
-          ),
-        ),
-        padding: EdgeInsets.only(left: 20, right: 20, top: 32),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                "Select category",
-                style: AppTheme.textStyle.color100.size(22).w700,
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              categoryItem("Beverages", false),
-              categoryItem("Clothings", false),
-              categoryItem("Speciality foods", false),
-              categoryItem("Other", true),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   void showImageSelectOption() {
@@ -310,17 +168,24 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     setState(() {
       _isLoading = true;
     });
-    final businessProvider =
-        Provider.of<BusinessProvider>(context, listen: false);
-    businessProvider
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+    profileProvider
         .updateBusinessInfromation(
-            _brandName, _tagline, 'https://s3.com/durl', _seletedCategory)
+            _brandName, _tagline, downloadUrl, _seletedCategory)
         .then((value) {
-      setState(() {
-        _isLoading = false;
+      profileProvider.fetchProfile().then((value) {
+        setState(() {
+          _isLoading = false;
+        });
+        Toast(message: 'Business details updated', iconData: Icons.check_circle)
+            .show(context);
+      }).catchError((error) {
+        setState(() {
+          _isLoading = false;
+        });
+        Toast(message: '$error', iconData: Icons.error_outline).show(context);
       });
-      Toast(message: '${value['message']}', iconData: Icons.error_outline)
-          .show(context);
     }).catchError((error) {
       setState(() {
         _isLoading = false;
@@ -331,9 +196,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final businessProvider =
-        Provider.of<BusinessProvider>(context, listen: false);
-    final businessDetails = businessProvider.businessDetails;
     return LoaderOverlay(
       isLoading: _isLoading,
       child: Scaffold(
@@ -424,7 +286,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                           ),
                     Container(
                       child: Text(
-                        "Health & hunger",
+                        '$_businessName',
                         textAlign: TextAlign.center,
                         style: AppTheme.textStyle.w700.size(17),
                       ),
@@ -432,7 +294,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                     SizedBox(
                       height: 4,
                     ),
-                    Text("Prateek mishra singh",
+                    Text('$_fullName',
                         textAlign: TextAlign.center,
                         style: AppTheme.textStyle.w500.size(13).color50),
                     SizedBox(
@@ -445,9 +307,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6.0)),
                           onPressed: () {
-                            if (_isLoading) {
-                              return null;
-                            }
                             showImageSelectOption();
                           },
                           color: AppTheme.color05,
@@ -463,9 +322,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                             borderRadius: BorderRadius.circular(6.0),
                           ),
                           onPressed: () {
-                            if (_isLoading) {
-                              return null;
-                            }
                             setState(() {
                               _imageFile = null;
                             });
@@ -485,6 +341,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                       height: 24,
                     ),
                     BotigaTextFieldForm(
+                      initialValue: _brandName,
                       focusNode: _brandNameFocusNode,
                       labelText: "Brand name",
                       onSave: (value) => _brandName = value,
@@ -495,6 +352,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                       height: 24,
                     ),
                     BotigaTextFieldForm(
+                      initialValue: _tagline,
                       focusNode: _taglineFocusNode,
                       labelText: "Tagline",
                       onSave: (value) => _tagline = value,
@@ -513,24 +371,15 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                         ),
                       ),
                       child: ListTile(
+                        tileColor: AppTheme.dividerColor,
                         visualDensity:
                             VisualDensity(horizontal: 0, vertical: -1),
-                        onTap: () {
-                          showCategories();
-                        },
                         trailing: Icon(Icons.keyboard_arrow_down,
-                            color: AppTheme.color100),
-                        title: _seletedCategory == ''
-                            ? Text(
-                                'Business Category',
-                                style:
-                                    AppTheme.textStyle.color100.w500.size(15),
-                              )
-                            : Text(
-                                '$_seletedCategory',
-                                style:
-                                    AppTheme.textStyle.color100.w500.size(15),
-                              ),
+                            color: AppTheme.color50),
+                        title: Text(
+                          '$_seletedCategory',
+                          style: AppTheme.textStyle.color100.w500.size(15),
+                        ),
                       ),
                     ),
                   ],
