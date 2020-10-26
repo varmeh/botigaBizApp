@@ -39,6 +39,8 @@ dependencies:
   cached_network_image: ^2.3.2+1
   lottie: ^0.6.0
   flutter_secure_storage: ^3.3.5
+  share: ^0.6.5+2
+  clipboard: ^0.1.2+5
 
   # Firebase integration
   firebase_core: ^0.5.0
