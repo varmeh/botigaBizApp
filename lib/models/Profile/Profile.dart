@@ -83,11 +83,33 @@ class Apartment {
   @JsonKey(name: '_id')
   String id;
   bool live;
+  String deliveryMessage;
+  AprtmentContact contact;
 
-  Apartment({this.apartmentName, this.apartmentArea, this.id, this.live});
+  Apartment(
+      {this.apartmentName,
+      this.apartmentArea,
+      this.id,
+      this.live,
+      this.deliveryMessage,
+      this.contact});
 
   factory Apartment.fromJson(Map<String, dynamic> json) =>
       _$ApartmentFromJson(json);
 
   Map<String, dynamic> toJson() => _$ApartmentToJson(this);
+}
+
+@JsonSerializable()
+class AprtmentContact {
+  String email;
+  String whatsapp;
+  String phone;
+
+  AprtmentContact({this.email, this.whatsapp, this.phone});
+
+  factory AprtmentContact.fromJson(Map<String, dynamic> json) =>
+      _$AprtmentContactFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AprtmentContactToJson(this);
 }

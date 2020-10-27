@@ -21,7 +21,7 @@ class EmptyDelivery extends StatelessWidget {
               fit: BoxFit.fill,
             ),
             Text(
-              'No delivery yet!',
+              'No deliveries today',
               style: AppTheme.textStyle.w700.color100.size(16).lineHeight(1.4),
             ),
             SizedBox(height: 8.0),

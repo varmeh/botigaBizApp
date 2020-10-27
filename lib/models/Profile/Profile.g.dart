@@ -93,6 +93,10 @@ Apartment _$ApartmentFromJson(Map<String, dynamic> json) {
     apartmentArea: json['apartmentArea'] as String,
     id: json['_id'] as String,
     live: json['live'] as bool,
+    deliveryMessage: json['deliveryMessage'] as String,
+    contact: json['contact'] == null
+        ? null
+        : AprtmentContact.fromJson(json['contact'] as Map<String, dynamic>),
   );
 }
 
@@ -101,4 +105,21 @@ Map<String, dynamic> _$ApartmentToJson(Apartment instance) => <String, dynamic>{
       'apartmentArea': instance.apartmentArea,
       '_id': instance.id,
       'live': instance.live,
+      'deliveryMessage': instance.deliveryMessage,
+      'contact': instance.contact,
+    };
+
+AprtmentContact _$AprtmentContactFromJson(Map<String, dynamic> json) {
+  return AprtmentContact(
+    email: json['email'] as String,
+    whatsapp: json['whatsapp'] as String,
+    phone: json['phone'] as String,
+  );
+}
+
+Map<String, dynamic> _$AprtmentContactToJson(AprtmentContact instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'whatsapp': instance.whatsapp,
+      'phone': instance.phone,
     };

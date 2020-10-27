@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/rendering.dart';
 import '../Orders/orderDetails.dart';
-import '../../models/Apartment/Apartments.dart';
+import '../../models/Profile/Profile.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart';
@@ -247,7 +247,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                   backgroundColor: AppTheme.backgroundColor,
                 ),
                 alignment:
-                    fabIsVisible ? Alignment(3.8, 0.9) : Alignment(1.8, 0.9))
+                    fabIsVisible ? Alignment(3.01, 0.9) : Alignment(1.6, 0.9))
             : SizedBox.shrink(),
         body: _isLoading
             ? Loader()
