@@ -212,7 +212,7 @@ class _OrderListState extends State<OrderList> {
                               ordersprovider.orderByDateApartment;
                           if (orderByDateApartment == null ||
                               orderByDateApartment.length == 0) {
-                            return NoOrders();
+                            return EmptyOrders();
                           }
 
                           return Column(

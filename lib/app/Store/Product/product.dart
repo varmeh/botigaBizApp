@@ -74,7 +74,7 @@ class _ProductsState extends State<Products> {
                 },
               )
             : (_products == null || _products.length == 0)
-                ? NoOrders()
+                ? EmptyOrders()
                 : SafeArea(
                     child: Stack(
                       children: [

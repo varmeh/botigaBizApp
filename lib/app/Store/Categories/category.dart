@@ -25,7 +25,7 @@ class _CategoryState extends State<Category> {
     List<StoreCategory> categories =
         Provider.of<CategoryProvider>(context, listen: false).allCategories;
     return (categories == null || categories.length == 0)
-        ? NoOrders()
+        ? EmptyOrders()
         : SafeArea(
             child: Stack(
               children: [

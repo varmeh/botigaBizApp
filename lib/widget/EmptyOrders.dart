@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../theme/index.dart';
+import 'inviteShare.dart';
+import 'botigaBottomModal.dart';
 
-class NoOrders extends StatelessWidget {
+class EmptyOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 24);
@@ -13,12 +15,11 @@ class NoOrders extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Lottie.asset(
-              'assets/lotties/fish.json',
-              width: 200,
-              height: 200,
+              'assets/lotties/openBox.json',
+              width: 330,
+              height: 300,
               fit: BoxFit.fill,
             ),
-            sizedBox,
             Text(
               'No orders yet!',
               style: AppTheme.textStyle.w700.color100.size(16).lineHeight(1.4),
@@ -34,7 +35,11 @@ class NoOrders extends StatelessWidget {
             ),
             sizedBox,
             FlatButton(
-              onPressed: () {},
+              onPressed: () {
+                BotigaBottomModal(
+                        child: inviteShare(context), color: Color(0xffF3F3F3))
+                    .show(context);
+              },
               child: Text(
                 'Invite Customers',
                 style:

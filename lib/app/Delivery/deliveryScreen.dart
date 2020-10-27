@@ -457,7 +457,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                     });
 
                               if (filterdStatusDetails.length == 0) {
-                                return NoOrders();
+                                return EmptyOrders();
                               }
 
                               return Column(

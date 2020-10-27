@@ -56,10 +56,12 @@ class _OrdersHomeState extends State<OrdersHome> {
               )
             : Consumer<OrdersProvider>(
                 builder: (ctx, ordersprovider, _) {
+                  bool isEmpty = false;
                   final aggregatedOrders = ordersprovider.aggregatedOrders;
                   if (aggregatedOrders == null ||
                       aggregatedOrders.apartmentWiseBreakup.length == 0) {
-                    return NoOrders();
+                    //return NoOrders();
+                    isEmpty = true;
                   }
                   return Container(
                     color: AppTheme.dividerColor,
@@ -70,14 +72,16 @@ class _OrdersHomeState extends State<OrdersHome> {
                           aggregatedOrders.totalRevenue,
                           aggregatedOrders.totalOrders,
                         ),
-                        ...aggregatedOrders.apartmentWiseBreakup.map(
-                          (apartment) => _orderCard(
-                            apartment.id,
-                            apartment.apartmentName,
-                            apartment.orders,
-                            apartment.revenue,
-                          ),
-                        ),
+                        ...isEmpty
+                            ? [EmptyOrders()]
+                            : aggregatedOrders.apartmentWiseBreakup.map(
+                                (apartment) => _orderCard(
+                                  apartment.id,
+                                  apartment.apartmentName,
+                                  apartment.orders,
+                                  apartment.revenue,
+                                ),
+                              ),
                         SizedBox(
                           height: 32,
                         )
