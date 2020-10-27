@@ -37,6 +37,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey;
   CalendarController _calendarController;
   ScrollController _scrollcontroller;
+  var _error;
 
   @override
   void initState() {
@@ -71,6 +72,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     selectedStatus = 'All';
     apartment = deafaultApartment;
     slectedDate = 'TODAY';
+    _error = null;
   }
 
   void fetchDeliveryData(String aprtmentId, String currentDate) {
@@ -78,6 +80,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     setState(() {
       _isError = false;
       _isLoading = true;
+      _error = null;
     });
     orderProvider.fetchOrderByDateApartment(aprtmentId, currentDate).then((_) {
       setState(() {
@@ -87,6 +90,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       setState(() {
         _isError = true;
         _isLoading = false;
+        _error = err;
       });
     });
   }
@@ -109,14 +113,18 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     });
   }
 
+  void fetchDefaultDeliveryDetails() {
+    final apartment =
+        Provider.of<ProfileProvider>(context, listen: false).defaultApartment;
+    final aprtmentId = apartment != null ? apartment.id : '';
+    final currentDate = FormatDate.getRequestFormatDate(DateTime.now());
+    fetchDeliveryData(aprtmentId, currentDate);
+  }
+
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      final apartment =
-          Provider.of<ProfileProvider>(context, listen: false).defaultApartment;
-      final aprtmentId = apartment != null ? apartment.id : '';
-      final currentDate = FormatDate.getRequestFormatDate(DateTime.now());
-      fetchDeliveryData(aprtmentId, currentDate);
+      fetchDefaultDeliveryDetails();
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -244,11 +252,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         body: _isLoading
             ? Loader()
             : _isError
-                ? Center(
-                    child: Icon(
-                      Icons.error_outline,
-                      color: Theme.of(context).colorScheme.error,
-                    ),
+                ? HttpServiceExceptionWidget(
+                    exception: _error,
+                    onTap: () {
+                      fetchDefaultDeliveryDetails();
+                    },
                   )
                 : hasApt
                     ? SafeArea(
