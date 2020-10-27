@@ -187,7 +187,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                             ...apartments.map((_apartment) {
                               return ListTile(
                                   title: Text(
-                                    '${apartment.apartmentName}',
+                                    '${_apartment.apartmentName}',
                                     style: apartment.id == _apartment.id
                                         ? AppTheme.textStyle
                                             .colored(AppTheme.primaryColor)

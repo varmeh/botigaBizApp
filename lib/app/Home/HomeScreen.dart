@@ -36,14 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
   }
 
-  void preFetchData() {
-    Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
-    Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
-    // //Remove below calls
-    // Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
-    // Provider.of<StoreProvider>(context, listen: false).fetchStoreDetails();
-    // Provider.of<BusinessProvider>(context, listen: false)
-    //     .fetchBusinessDetails();
+  Future preFetchData() async {
+    await Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
+    await Provider.of<CategoryProvider>(context, listen: false)
+        .fetchCategories();
   }
 
   @override

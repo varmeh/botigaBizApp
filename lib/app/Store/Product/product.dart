@@ -76,56 +76,54 @@ class _ProductsState extends State<Products> {
             : (_products == null || _products.length == 0)
                 ? EmptyOrders()
                 : SafeArea(
-                    child: Stack(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(
-                            left: 20,
-                            right: 20,
-                          ),
-                          child: ListView(
-                            children: <Widget>[
-                              // TextField(
-                              //   style: TextStyle(
-                              //     fontSize: 15.0,
-                              //     color: Colors.black,
-                              //     fontWeight: FontWeight.normal,
-                              //   ),
-                              //   decoration: InputDecoration(
-                              //     fillColor: Theme.of(context).backgroundColor,
-                              //     filled: true,
-                              //     contentPadding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
-                              //     suffixIcon: Icon(
-                              //       Icons.search,
-                              //       color: Color(0xff121715),
-                              //     ),
-                              //     hintText: "Search...",
-                              //     enabledBorder: const OutlineInputBorder(
-                              //       borderSide: BorderSide(color: Colors.white),
-                              //     ),
-                              //     border: OutlineInputBorder(
-                              //       borderSide: BorderSide(color: Colors.white),
-                              //       borderRadius: BorderRadius.circular(8.0),
-                              //     ),
-                              //     focusedBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(color: Colors.white),
-                              //       borderRadius: BorderRadius.circular(8.0),
-                              //     ),
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   height: 10,
-                              // ),
-
-                              ..._products.map((productWithCategory) {
-                                return getTile(context, productWithCategory,
-                                    this._setApiInProgressStatus);
-                              })
-                            ],
-                          ),
+                    child: LoaderOverlay(
+                      isLoading: _isApiInProgress,
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
                         ),
-                        _isApiInProgress ? Loader() : SizedBox.shrink()
-                      ],
+                        child: ListView(
+                          children: <Widget>[
+                            // TextField(
+                            //   style: TextStyle(
+                            //     fontSize: 15.0,
+                            //     color: Colors.black,
+                            //     fontWeight: FontWeight.normal,
+                            //   ),
+                            //   decoration: InputDecoration(
+                            //     fillColor: Theme.of(context).backgroundColor,
+                            //     filled: true,
+                            //     contentPadding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
+                            //     suffixIcon: Icon(
+                            //       Icons.search,
+                            //       color: Color(0xff121715),
+                            //     ),
+                            //     hintText: "Search...",
+                            //     enabledBorder: const OutlineInputBorder(
+                            //       borderSide: BorderSide(color: Colors.white),
+                            //     ),
+                            //     border: OutlineInputBorder(
+                            //       borderSide: BorderSide(color: Colors.white),
+                            //       borderRadius: BorderRadius.circular(8.0),
+                            //     ),
+                            //     focusedBorder: OutlineInputBorder(
+                            //       borderSide: BorderSide(color: Colors.white),
+                            //       borderRadius: BorderRadius.circular(8.0),
+                            //     ),
+                            //   ),
+                            // ),
+                            // SizedBox(
+                            //   height: 10,
+                            // ),
+
+                            ..._products.map((productWithCategory) {
+                              return getTile(context, productWithCategory,
+                                  this._setApiInProgressStatus);
+                            })
+                          ],
+                        ),
+                      ),
                     ),
                   );
   }

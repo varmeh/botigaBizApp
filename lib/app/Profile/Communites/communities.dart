@@ -14,7 +14,7 @@ class Communities extends StatefulWidget {
 class _CommunitiesState extends State<Communities> {
   bool isLoading = false;
 
-  void setApartmentStatus(String aptId, bool value) {
+  void setApartmentStatus(String aptId, bool value, Function onFail) {
     setState(() {
       isLoading = true;
     });
@@ -27,12 +27,17 @@ class _CommunitiesState extends State<Communities> {
         });
         Toast(message: '$value', iconData: Icons.check_circle).show(context);
       }).catchError((err) {
+        setState(() {
+          isLoading = false;
+        });
+        onFail();
         Toast(message: '$err', iconData: Icons.error_outline).show(context);
       });
     }).catchError((err) {
       setState(() {
         isLoading = false;
       });
+      onFail();
       Toast(message: '$err', iconData: Icons.error_outline).show(context);
     });
   }
@@ -85,7 +90,11 @@ class _CommunityTileState extends State<CommunityTile> {
     setState(() {
       _switchValue = value;
     });
-    widget.setApartmentStatus(widget.apt.id, value);
+    widget.setApartmentStatus(widget.apt.id, value, () {
+      setState(() {
+        _switchValue = !value;
+      });
+    });
   }
 
   @override
@@ -95,13 +104,14 @@ class _CommunityTileState extends State<CommunityTile> {
         ListTile(
           contentPadding: EdgeInsets.all(0),
           title: Text(widget.apt.apartmentName,
-              style: AppTheme.textStyle.w600.size(16).lineHeight(1.3).color100),
+              style:
+                  AppTheme.textStyle.w500.size(15).lineHeight(1.33).color100),
           subtitle: Text(
             widget.apt.apartmentArea,
-            style: AppTheme.textStyle.lineHeight(1.5),
+            style: AppTheme.textStyle.size(15).w500.color50.lineHeight(1.33),
           ),
           trailing: Transform.scale(
-            alignment: Alignment.centerRight,
+            alignment: Alignment.topRight,
             scale: 0.75,
             child: CupertinoSwitch(
               value: _switchValue,
@@ -110,6 +120,28 @@ class _CommunityTileState extends State<CommunityTile> {
               },
             ),
           ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.apt.deliveryMessage,
+              style: AppTheme.textStyle.size(15).w500.color50.lineHeight(1.33),
+            ),
+            _switchValue
+                ? Text(
+                    "EDIT",
+                    style: AppTheme.textStyle
+                        .size(15)
+                        .w600
+                        .colored(AppTheme.primaryColor)
+                        .lineHeight(1.33),
+                  )
+                : SizedBox.shrink()
+          ],
+        ),
+        SizedBox(
+          height: 16,
         ),
         Divider(
           color: AppTheme.dividerColor,
