@@ -143,7 +143,7 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
             productWithCategory.categoryId, productId, availabelStatus)
         .then((value) {
       setApiStatus(false);
-      Toast(message: '${value['message']}', iconData: BotigaIcons.truck)
+      Toast(message: '${value['message']}', iconData: Icons.check_circle)
           .show(context);
     }).catchError((error) {
       setApiStatus(false);

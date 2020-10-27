@@ -57,7 +57,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
 
     _isInit = false;
     _switchValue = false;
-    _selectedQuantity = 'Kg';
+    _selectedQuantity = 'kg';
     _seletedCategory = '';
     _seletedCategoryId = '';
     _name = '';
@@ -135,7 +135,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
 
   void _getPreSignedUrl() {
     ImageService.getPresignedImageUrl().then((value) {
-      print(value);
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
@@ -146,10 +145,9 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   }
 
   void _handleImageUpload(PickedFile file) {
-    ImageService.uploadImageToS3(uploadurl, file).then((value) {
-      print(value);
-    }).catchError((error) {
-      print(error);
+    ImageService.uploadImageToS3(uploadurl, file)
+        .then((value) {})
+        .catchError((error) {
       Toast(message: '$error', iconData: Icons.error_outline_sharp)
           .show(context);
       setState(() {
@@ -627,13 +625,13 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
-                              ...["Kg", "gm", "liter", "ml", "pcs"].map(
+                              ...["kg", "gms", "lt", "ml", "piece", "pieces"]
+                                  .map(
                                 (val) {
                                   return Padding(
                                     padding: const EdgeInsets.only(right: 12),
                                     child: Container(
                                       height: 44,
-                                      width: 67,
                                       child: FlatButton(
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
