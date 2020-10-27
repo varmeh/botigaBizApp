@@ -6,6 +6,7 @@ import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../widget/index.dart';
 import '../../providers/Orders/OrdersProvider.dart';
+import '../../providers/Profile/ProfileProvider.dart';
 
 class OrdersHome extends StatefulWidget {
   static const routeName = '/orders-home';
@@ -45,6 +46,8 @@ class _OrdersHomeState extends State<OrdersHome> {
 
   @override
   Widget build(BuildContext context) {
+    final profileInfo =
+        Provider.of<ProfileProvider>(context, listen: false).profileInfo;
     return _isLoading
         ? Loader()
         : _isError
@@ -60,7 +63,6 @@ class _OrdersHomeState extends State<OrdersHome> {
                   final aggregatedOrders = ordersprovider.aggregatedOrders;
                   if (aggregatedOrders == null ||
                       aggregatedOrders.apartmentWiseBreakup.length == 0) {
-                    //return NoOrders();
                     isEmpty = true;
                   }
                   return Container(
@@ -71,6 +73,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                         _orderHeader(
                           aggregatedOrders.totalRevenue,
                           aggregatedOrders.totalOrders,
+                          profileInfo.firstName,
                         ),
                         ...isEmpty
                             ? [EmptyOrders()]
@@ -112,7 +115,7 @@ class _OrdersHomeState extends State<OrdersHome> {
     });
   }
 
-  Widget _orderHeader(int revenue, int totalOrder) {
+  Widget _orderHeader(int revenue, int totalOrder, String name) {
     return ConstrainedBox(
       constraints: BoxConstraints.tight(Size(double.infinity, 285)),
       child: new Stack(
@@ -140,7 +143,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Hi Jashn,",
+                      "Hi, $name",
                       style: AppTheme.textStyle
                           .colored(AppTheme.backgroundColor)
                           .w700

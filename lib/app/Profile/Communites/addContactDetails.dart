@@ -5,7 +5,6 @@ import 'package:botiga_biz/theme/index.dart';
 import 'addCommunitesSuccess.dart';
 import '../../../util/index.dart';
 import '../../../widget/index.dart';
-import '../../../providers/Profile/StoreProvider.dart';
 import '../../../providers/Profile/ProfileProvider.dart';
 
 class AddContactDetails extends StatefulWidget {
