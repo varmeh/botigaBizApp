@@ -9,7 +9,7 @@ import '../../theme/index.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';
 import '../../providers/Orders/OrdersProvider.dart';
-import '../../providers/Apartment/ApartmentProvide.dart';
+import '../../providers/Profile/ProfileProvider.dart';
 
 class DeliveryScreen extends StatefulWidget {
   static const routeName = '/all-delivery-list';
@@ -61,8 +61,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   loadSettings() async {
     final deafaultApartment =
-        Provider.of<ApartmentProvider>(context, listen: false)
-            .defaultAppartment;
+        Provider.of<ProfileProvider>(context, listen: false).defaultApartment;
     _scaffoldKey = GlobalKey<ScaffoldState>();
     _isLoading = false;
     _isError = false;
@@ -113,8 +112,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      final apartment = Provider.of<ApartmentProvider>(context, listen: false)
-          .defaultAppartment;
+      final apartment =
+          Provider.of<ProfileProvider>(context, listen: false).defaultApartment;
       final aprtmentId = apartment != null ? apartment.id : '';
       final currentDate = FormatDate.getRequestFormatDate(DateTime.now());
       fetchDeliveryData(aprtmentId, currentDate);
@@ -125,363 +124,404 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final hasApt = Provider.of<ProfileProvider>(context, listen: false)
+            .allApartment
+            .length >
+        0;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppTheme.backgroundColor,
-        elevation: 0,
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        title: Align(
-          child: Text(
-            "Delivery",
-            style: AppTheme.textStyle.w700.color100.size(22).lineHeight(1.0),
-          ),
-          alignment: Alignment.centerLeft,
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(
-              BotigaIcons.search,
-              color: AppTheme.color100,
+        appBar: AppBar(
+          backgroundColor: AppTheme.backgroundColor,
+          elevation: 0,
+          centerTitle: false,
+          automaticallyImplyLeading: false,
+          title: Align(
+            child: Text(
+              "Delivery",
+              style: AppTheme.textStyle.w700.color100.size(22).lineHeight(1.0),
             ),
-            onPressed: () {},
-          )
-        ],
-      ),
-      backgroundColor: AppTheme.dividerColor,
-      key: _scaffoldKey,
-      endDrawer: Align(
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(16),
-            topLeft: Radius.circular(16),
+            alignment: Alignment.centerLeft,
           ),
-          child: SizedBox(
-            width: 291,
-            height: 360,
-            child: Consumer<ApartmentProvider>(
-                builder: (ctx, apartmentprovider, _) {
-              final apartments = apartmentprovider.allAprtment;
-              if (apartments.length == 0) {
-                return SizedBox();
-              }
-              return Drawer(
-                  child: Container(
-                padding: EdgeInsets.all(20),
-                color: AppTheme.backgroundColor,
-                child: ListView(
-                  padding: EdgeInsets.all(0),
-                  children: <Widget>[
-                    ...apartments.map((_apartment) {
-                      return ListTile(
-                          title: Text(
-                            '${apartment.apartmentName}',
-                            style: apartment.id == _apartment.id
-                                ? AppTheme.textStyle
-                                    .colored(AppTheme.primaryColor)
-                                    .w500
-                                    .size(15)
-                                : AppTheme.textStyle.color100.w500.size(15),
-                          ),
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            setState(() {
-                              apartment = _apartment;
-                              slectedDate = FormatDate.getTodayOrSelectedDate(
-                                  DateTime.now());
-                            });
-                            final currentDate =
-                                FormatDate.getRequestFormatDate(DateTime.now());
-                            fetchDeliveryData(apartment.id, currentDate);
-                          });
-                    }),
-                  ],
-                ),
-              ));
-            }),
-          ),
-        ),
-        alignment: Alignment(1, 0.8),
-      ),
-      floatingActionButton: Align(
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              // Add your onPressed code here!
-              setState(() {
-                _scaffoldKey.currentState.openEndDrawer();
-              });
-            },
-            label: Padding(
-              padding: const EdgeInsets.only(
-                  left: 0, top: 10, bottom: 10, right: 35),
-              child: Text(
-                'Select apartment',
-                style: AppTheme.textStyle
-                    .colored(AppTheme.primaryColor)
-                    .w600
-                    .size(12),
+          actions: [
+            IconButton(
+              icon: Icon(
+                BotigaIcons.search,
+                color: AppTheme.color100,
               ),
-            ),
-            icon: Icon(
-              Icons.chevron_left,
-              color: AppTheme.primaryColor,
-            ),
-            backgroundColor: Colors.white,
-          ),
-          alignment: fabIsVisible ? Alignment(3.8, 0.9) : Alignment(1.8, 0.9)),
-      body: _isLoading
-          ? Loader()
-          : _isError
-              ? Center(
-                  child: Icon(
-                    Icons.error_outline,
-                    color: Theme.of(context).colorScheme.error,
+              onPressed: () {},
+            )
+          ],
+        ),
+        backgroundColor: AppTheme.dividerColor,
+        key: _scaffoldKey,
+        endDrawer: hasApt
+            ? Align(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(16),
+                    topLeft: Radius.circular(16),
                   ),
-                )
-              : SafeArea(
-                  child: Stack(
-                    children: [
-                      Container(
+                  child: SizedBox(
+                    width: 291,
+                    height: 360,
+                    child: Consumer<ProfileProvider>(
+                        builder: (ctx, profileProvider, _) {
+                      final apartments = profileProvider.allApartment;
+                      if (apartments.length == 0) {
+                        return SizedBox();
+                      }
+                      return Drawer(
+                          child: Container(
+                        padding: EdgeInsets.all(20),
                         color: AppTheme.backgroundColor,
                         child: ListView(
-                          controller: _scrollcontroller,
+                          padding: EdgeInsets.all(0),
                           children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20),
-                                  child: Text(
-                                    "Order to be sent out today",
-                                    style: AppTheme.textStyle.color50.w500
-                                        .size(15),
+                            ...apartments.map((_apartment) {
+                              return ListTile(
+                                  title: Text(
+                                    '${apartment.apartmentName}',
+                                    style: apartment.id == _apartment.id
+                                        ? AppTheme.textStyle
+                                            .colored(AppTheme.primaryColor)
+                                            .w500
+                                            .size(15)
+                                        : AppTheme.textStyle.color100.w500
+                                            .size(15),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 25,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: Container(
-                                    height: 44,
-                                    child: ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      children: <Widget>[
-                                        ...statusMap.keys.map((val) {
-                                          return Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 12),
-                                            child: Container(
-                                              height: 44,
-                                              child: FlatButton(
-                                                shape:
-                                                    new RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            new BorderRadius
-                                                                    .circular(
-                                                                12.0)),
-                                                onPressed: () {
-                                                  setState(() {
-                                                    selectedStatus = val;
-                                                  });
-                                                },
-                                                color: selectedStatus == val
-                                                    ? AppTheme.primaryColor
-                                                    : AppTheme.dividerColor,
-                                                child: Text('$val',
-                                                    style: selectedStatus == val
-                                                        ? AppTheme.textStyle
-                                                            .colored(AppTheme
-                                                                .backgroundColor)
-                                                            .w500
-                                                            .size(13)
-                                                        : AppTheme.textStyle
-                                                            .color100.w500
-                                                            .size(13)),
-                                              ),
-                                            ),
-                                          );
-                                        })
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20.0, right: 10, top: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                    setState(() {
+                                      apartment = _apartment;
+                                      slectedDate =
+                                          FormatDate.getTodayOrSelectedDate(
+                                              DateTime.now());
+                                    });
+                                    final currentDate =
+                                        FormatDate.getRequestFormatDate(
+                                            DateTime.now());
+                                    fetchDeliveryData(
+                                        apartment.id, currentDate);
+                                  });
+                            }),
+                          ],
+                        ),
+                      ));
+                    }),
+                  ),
+                ),
+                alignment: Alignment(1, 0.8),
+              )
+            : SizedBox.shrink(),
+        floatingActionButton: hasApt
+            ? Align(
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    // Add your onPressed code here!
+                    setState(() {
+                      _scaffoldKey.currentState.openEndDrawer();
+                    });
+                  },
+                  label: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 0, top: 10, bottom: 10, right: 35),
+                    child: Text(
+                      'Select apartment',
+                      style: AppTheme.textStyle
+                          .colored(AppTheme.primaryColor)
+                          .w600
+                          .size(12),
+                    ),
+                  ),
+                  icon: Icon(
+                    Icons.chevron_left,
+                    color: AppTheme.primaryColor,
+                  ),
+                  backgroundColor: AppTheme.backgroundColor,
+                ),
+                alignment:
+                    fabIsVisible ? Alignment(3.8, 0.9) : Alignment(1.8, 0.9))
+            : SizedBox.shrink(),
+        body: _isLoading
+            ? Loader()
+            : _isError
+                ? Center(
+                    child: Icon(
+                      Icons.error_outline,
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  )
+                : hasApt
+                    ? SafeArea(
+                        child: Stack(
+                          children: [
+                            Container(
+                              color: AppTheme.backgroundColor,
+                              child: ListView(
+                                controller: _scrollcontroller,
                                 children: <Widget>[
-                                  Container(
-                                    width: 220,
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        child: Text(
+                                          "Order to be sent out today",
+                                          style: AppTheme.textStyle.color50.w500
+                                              .size(15),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 25,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 20),
+                                        child: Container(
+                                          height: 44,
+                                          child: ListView(
+                                            scrollDirection: Axis.horizontal,
+                                            children: <Widget>[
+                                              ...statusMap.keys.map((val) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 12),
+                                                  child: Container(
+                                                    height: 44,
+                                                    child: FlatButton(
+                                                      shape: new RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              new BorderRadius
+                                                                      .circular(
+                                                                  12.0)),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          selectedStatus = val;
+                                                        });
+                                                      },
+                                                      color:
+                                                          selectedStatus == val
+                                                              ? AppTheme
+                                                                  .primaryColor
+                                                              : AppTheme
+                                                                  .dividerColor,
+                                                      child: Text('$val',
+                                                          style: selectedStatus ==
+                                                                  val
+                                                              ? AppTheme
+                                                                  .textStyle
+                                                                  .colored(AppTheme
+                                                                      .backgroundColor)
+                                                                  .w500
+                                                                  .size(13)
+                                                              : AppTheme
+                                                                  .textStyle
+                                                                  .color100
+                                                                  .w500
+                                                                  .size(13)),
+                                                    ),
+                                                  ),
+                                                );
+                                              })
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20.0, right: 10, top: 20),
                                     child: Row(
-                                      children: [
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
                                         Container(
-                                          child: Icon(
-                                            BotigaIcons.building,
-                                            size: 18,
+                                          width: 220,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                child: Icon(
+                                                  BotigaIcons.building,
+                                                  size: 18,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Flexible(
+                                                child: Text(
+                                                  '${apartment.apartmentName}',
+                                                  style: AppTheme
+                                                      .textStyle.w500.color100
+                                                      .size(15),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
                                         SizedBox(
-                                          width: 5,
+                                          width: 3,
                                         ),
-                                        Flexible(
-                                          child: Text(
-                                            '${apartment.apartmentName}',
-                                            style: AppTheme
-                                                .textStyle.w500.color100
-                                                .size(15),
+                                        Container(
+                                          width: 100,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                isScrollControlled: true,
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                builder: (context) => Container(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.65,
+                                                  decoration: BoxDecoration(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .surface,
+                                                    borderRadius:
+                                                        BorderRadius.only(
+                                                      topLeft:
+                                                          const Radius.circular(
+                                                              16.0),
+                                                      topRight:
+                                                          const Radius.circular(
+                                                              16.0),
+                                                    ),
+                                                  ),
+                                                  child: TableCalendar(
+                                                    initialSelectedDay:
+                                                        FormatDate
+                                                            .convertStringToDate(
+                                                                slectedDate),
+                                                    startDay: DateTime.now(),
+                                                    availableCalendarFormats: const {
+                                                      CalendarFormat.month:
+                                                          'Month',
+                                                    },
+                                                    calendarStyle: CalendarStyle(
+                                                        todayColor: AppTheme
+                                                            .primaryColorVariant
+                                                            .withOpacity(0.5),
+                                                        selectedColor: AppTheme
+                                                            .primaryColor,
+                                                        outsideDaysVisible:
+                                                            true,
+                                                        weekendStyle: AppTheme
+                                                            .textStyle.color100,
+                                                        outsideWeekendStyle:
+                                                            AppTheme.textStyle
+                                                                .color50),
+                                                    daysOfWeekStyle:
+                                                        DaysOfWeekStyle(
+                                                      weekendStyle: AppTheme
+                                                          .textStyle
+                                                          .colored(AppTheme
+                                                              .color100),
+                                                    ),
+                                                    headerStyle: HeaderStyle(
+                                                      centerHeaderTitle: false,
+                                                      formatButtonVisible:
+                                                          false,
+                                                    ),
+                                                    onDaySelected:
+                                                        (date, events) {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      setState(() {
+                                                        slectedDate = FormatDate
+                                                            .getTodayOrSelectedDate(
+                                                                date);
+                                                      });
+                                                      fetchDeliveryData(
+                                                          apartment.id,
+                                                          FormatDate
+                                                              .getRequestFormatDate(
+                                                                  date));
+                                                    },
+                                                    calendarController:
+                                                        _calendarController,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            child: Row(
+                                              children: <Widget>[
+                                                Flexible(
+                                                  child: Text(
+                                                      '${FormatDate.getShortDateFromDate(slectedDate)}',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle1),
+                                                ),
+                                                SizedBox(
+                                                  width: 7,
+                                                ),
+                                                Icon(
+                                                  Icons.expand_more_sharp,
+                                                  size: 25,
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         )
                                       ],
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 3,
+                                    height: 10,
                                   ),
-                                  Container(
-                                    width: 100,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          builder: (context) => Container(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.65,
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .surface,
-                                              borderRadius: BorderRadius.only(
-                                                topLeft:
-                                                    const Radius.circular(16.0),
-                                                topRight:
-                                                    const Radius.circular(16.0),
-                                              ),
-                                            ),
-                                            child: TableCalendar(
-                                              initialSelectedDay: FormatDate
-                                                  .convertStringToDate(
-                                                      slectedDate),
-                                              startDay: DateTime.now(),
-                                              availableCalendarFormats: const {
-                                                CalendarFormat.month: 'Month',
-                                              },
-                                              calendarStyle: CalendarStyle(
-                                                  todayColor: AppTheme
-                                                      .primaryColorVariant
-                                                      .withOpacity(0.5),
-                                                  selectedColor:
-                                                      AppTheme.primaryColor,
-                                                  outsideDaysVisible: true,
-                                                  weekendStyle: AppTheme
-                                                      .textStyle.color100,
-                                                  outsideWeekendStyle: AppTheme
-                                                      .textStyle.color50),
-                                              daysOfWeekStyle: DaysOfWeekStyle(
-                                                weekendStyle: AppTheme.textStyle
-                                                    .colored(AppTheme.color100),
-                                              ),
-                                              headerStyle: HeaderStyle(
-                                                centerHeaderTitle: false,
-                                                formatButtonVisible: false,
-                                              ),
-                                              onDaySelected: (date, events) {
-                                                Navigator.of(context).pop();
-                                                setState(() {
-                                                  slectedDate = FormatDate
-                                                      .getTodayOrSelectedDate(
-                                                          date);
-                                                });
-                                                fetchDeliveryData(
-                                                    apartment.id,
-                                                    FormatDate
-                                                        .getRequestFormatDate(
-                                                            date));
-                                              },
-                                              calendarController:
-                                                  _calendarController,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Row(
-                                        children: <Widget>[
-                                          Flexible(
-                                            child: Text(
-                                                '${FormatDate.getShortDateFromDate(slectedDate)}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle1),
-                                          ),
-                                          SizedBox(
-                                            width: 7,
-                                          ),
-                                          Icon(
-                                            Icons.expand_more_sharp,
-                                            size: 25,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
+                                  Consumer<OrdersProvider>(
+                                      builder: (ctx, orderProvider, _) {
+                                    final deliveryByDateDetails =
+                                        orderProvider.orderByDateApartment;
+                                    if (orderProvider == null) {
+                                      return SizedBox();
+                                    }
+
+                                    final filterdStatusDetails =
+                                        selectedStatus == 'All'
+                                            ? deliveryByDateDetails
+                                            : deliveryByDateDetails
+                                                .where((deliveryRow) {
+                                                print(deliveryRow.order.status);
+                                                return deliveryRow
+                                                        .order.status ==
+                                                    statusMap[selectedStatus];
+                                              });
+
+                                    if (filterdStatusDetails.length == 0) {
+                                      return EmptyDelivery();
+                                    }
+
+                                    return Column(
+                                      children: [
+                                        ...filterdStatusDetails
+                                            .map((deliveryRow) {
+                                          return DeliveryRow(
+                                              deliveryRow,
+                                              apartment.apartmentName,
+                                              this._handleOutForDelivery);
+                                        })
+                                      ],
+                                    );
+                                  }),
+                                  SizedBox(
+                                    height: 100,
+                                  ),
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Consumer<OrdersProvider>(
-                                builder: (ctx, orderProvider, _) {
-                              final deliveryByDateDetails =
-                                  orderProvider.orderByDateApartment;
-                              if (orderProvider == null) {
-                                return SizedBox();
-                              }
-
-                              final filterdStatusDetails = selectedStatus ==
-                                      'All'
-                                  ? deliveryByDateDetails
-                                  : deliveryByDateDetails.where((deliveryRow) {
-                                      print(deliveryRow.order.status);
-                                      return deliveryRow.order.status ==
-                                          statusMap[selectedStatus];
-                                    });
-
-                              if (filterdStatusDetails.length == 0) {
-                                return EmptyOrders();
-                              }
-
-                              return Column(
-                                children: [
-                                  ...filterdStatusDetails.map((deliveryRow) {
-                                    return DeliveryRow(
-                                        deliveryRow,
-                                        apartment.apartmentName,
-                                        this._handleOutForDelivery);
-                                  })
-                                ],
-                              );
-                            }),
-                            SizedBox(
-                              height: 100,
-                            ),
+                            _isProcessing ? Loader() : SizedBox.shrink()
                           ],
                         ),
-                      ),
-                      _isProcessing ? Loader() : SizedBox.shrink()
-                    ],
-                  ),
-                ),
-    );
+                      )
+                    : BrandingTile(
+                        "No Communties added", "Please add communites"));
   }
 }
 

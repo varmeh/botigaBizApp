@@ -39,11 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void preFetchData() {
     Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
     Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
-    //Remove below calls
-    Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
-    Provider.of<StoreProvider>(context, listen: false).fetchStoreDetails();
-    Provider.of<BusinessProvider>(context, listen: false)
-        .fetchBusinessDetails();
+    // //Remove below calls
+    // Provider.of<ApartmentProvider>(context, listen: false).fetchApartments();
+    // Provider.of<StoreProvider>(context, listen: false).fetchStoreDetails();
+    // Provider.of<BusinessProvider>(context, listen: false)
+    //     .fetchBusinessDetails();
   }
 
   @override

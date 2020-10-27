@@ -8,11 +8,15 @@ class ProfileProvider with ChangeNotifier {
   Profile _profile;
 
   get allApartment {
-    return this._profile.apartments;
+    if (this._profile != null) {
+      return this._profile.apartments;
+    }
   }
 
   get defaultApartment {
-    this._profile.apartments.first;
+    if (this._profile != null && this._profile.apartments.length > 0) {
+      return this._profile.apartments.first;
+    }
   }
 
   get profileInfo {
