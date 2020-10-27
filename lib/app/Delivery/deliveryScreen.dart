@@ -136,129 +136,131 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             .allApartment
             .length >
         0;
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppTheme.backgroundColor,
-          elevation: 0,
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          title: Align(
-            child: Text(
-              "Delivery",
-              style: AppTheme.textStyle.w700.color100.size(22).lineHeight(1.0),
-            ),
-            alignment: Alignment.centerLeft,
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                BotigaIcons.search,
-                color: AppTheme.color100,
-              ),
-              onPressed: () {},
-            )
-          ],
-        ),
-        backgroundColor: AppTheme.dividerColor,
-        key: _scaffoldKey,
-        endDrawer: hasApt
-            ? Align(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(16),
-                    topLeft: Radius.circular(16),
-                  ),
-                  child: SizedBox(
-                    width: 291,
-                    height: 360,
-                    child: Consumer<ProfileProvider>(
-                        builder: (ctx, profileProvider, _) {
-                      final apartments = profileProvider.allApartment;
-                      if (apartments.length == 0) {
-                        return SizedBox();
-                      }
-                      return Drawer(
-                          child: Container(
-                        padding: EdgeInsets.all(20),
-                        color: AppTheme.backgroundColor,
-                        child: ListView(
-                          padding: EdgeInsets.all(0),
-                          children: <Widget>[
-                            ...apartments.map((_apartment) {
-                              return ListTile(
-                                  title: Text(
-                                    '${_apartment.apartmentName}',
-                                    style: apartment.id == _apartment.id
-                                        ? AppTheme.textStyle
-                                            .colored(AppTheme.primaryColor)
-                                            .w500
-                                            .size(15)
-                                        : AppTheme.textStyle.color100.w500
-                                            .size(15),
-                                  ),
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                    setState(() {
-                                      apartment = _apartment;
-                                      slectedDate =
-                                          FormatDate.getTodayOrSelectedDate(
-                                              DateTime.now());
-                                    });
-                                    final currentDate =
-                                        FormatDate.getRequestFormatDate(
-                                            DateTime.now());
-                                    fetchDeliveryData(
-                                        apartment.id, currentDate);
-                                  });
-                            }),
-                          ],
-                        ),
-                      ));
-                    }),
-                  ),
-                ),
-                alignment: Alignment(1, 0.8),
+    return _isLoading
+        ? Loader()
+        : _isError
+            ? HttpServiceExceptionWidget(
+                exception: _error,
+                onTap: () {
+                  fetchDefaultDeliveryDetails();
+                },
               )
-            : SizedBox.shrink(),
-        floatingActionButton: hasApt
-            ? Align(
-                child: FloatingActionButton.extended(
-                  onPressed: () {
-                    // Add your onPressed code here!
-                    setState(() {
-                      _scaffoldKey.currentState.openEndDrawer();
-                    });
-                  },
-                  label: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 0, top: 10, bottom: 10, right: 35),
-                    child: Text(
-                      'Select apartment',
-                      style: AppTheme.textStyle
-                          .colored(AppTheme.primaryColor)
-                          .w600
-                          .size(12),
-                    ),
-                  ),
-                  icon: Icon(
-                    Icons.chevron_left,
-                    color: AppTheme.primaryColor,
-                  ),
+            : Scaffold(
+                appBar: AppBar(
                   backgroundColor: AppTheme.backgroundColor,
+                  elevation: 0,
+                  centerTitle: false,
+                  automaticallyImplyLeading: false,
+                  title: Align(
+                    child: Text(
+                      "Delivery",
+                      style: AppTheme.textStyle.w700.color100
+                          .size(22)
+                          .lineHeight(1.0),
+                    ),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: Icon(
+                        BotigaIcons.search,
+                        color: AppTheme.color100,
+                      ),
+                      onPressed: () {},
+                    )
+                  ],
                 ),
-                alignment:
-                    fabIsVisible ? Alignment(3.01, 0.9) : Alignment(1.6, 0.9))
-            : SizedBox.shrink(),
-        body: _isLoading
-            ? Loader()
-            : _isError
-                ? HttpServiceExceptionWidget(
-                    exception: _error,
-                    onTap: () {
-                      fetchDefaultDeliveryDetails();
-                    },
-                  )
-                : hasApt
+                backgroundColor: AppTheme.dividerColor,
+                key: _scaffoldKey,
+                endDrawer: hasApt
+                    ? Align(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(16),
+                            topLeft: Radius.circular(16),
+                          ),
+                          child: SizedBox(
+                            width: 291,
+                            height: 360,
+                            child: Consumer<ProfileProvider>(
+                                builder: (ctx, profileProvider, _) {
+                              final apartments = profileProvider.allApartment;
+                              return Drawer(
+                                  child: Container(
+                                padding: EdgeInsets.all(20),
+                                color: AppTheme.backgroundColor,
+                                child: ListView(
+                                  padding: EdgeInsets.all(0),
+                                  children: <Widget>[
+                                    ...apartments.map((_apartment) {
+                                      return ListTile(
+                                          title: Text(
+                                            '${_apartment.apartmentName}',
+                                            style: apartment.id == _apartment.id
+                                                ? AppTheme.textStyle
+                                                    .colored(
+                                                        AppTheme.primaryColor)
+                                                    .w500
+                                                    .size(15)
+                                                : AppTheme
+                                                    .textStyle.color100.w500
+                                                    .size(15),
+                                          ),
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                            setState(() {
+                                              apartment = _apartment;
+                                              slectedDate = FormatDate
+                                                  .getTodayOrSelectedDate(
+                                                      DateTime.now());
+                                            });
+                                            final currentDate =
+                                                FormatDate.getRequestFormatDate(
+                                                    DateTime.now());
+                                            fetchDeliveryData(
+                                                apartment.id, currentDate);
+                                          });
+                                    }),
+                                  ],
+                                ),
+                              ));
+                            }),
+                          ),
+                        ),
+                        alignment: Alignment(1, 0.8),
+                      )
+                    : SizedBox.shrink(),
+                floatingActionButton: hasApt
+                    ? Align(
+                        child: FloatingActionButton.extended(
+                          onPressed: () {
+                            // Add your onPressed code here!
+                            setState(() {
+                              _scaffoldKey.currentState.openEndDrawer();
+                            });
+                          },
+                          label: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 0, top: 10, bottom: 10, right: 35),
+                            child: Text(
+                              'Select apartment',
+                              style: AppTheme.textStyle
+                                  .colored(AppTheme.primaryColor)
+                                  .w600
+                                  .size(12),
+                            ),
+                          ),
+                          icon: Icon(
+                            Icons.chevron_left,
+                            color: AppTheme.primaryColor,
+                          ),
+                          backgroundColor: AppTheme.backgroundColor,
+                        ),
+                        alignment: fabIsVisible
+                            ? Alignment(3.01, 0.9)
+                            : Alignment(1.6, 0.9))
+                    : SizedBox.shrink(),
+                body: hasApt
                     ? SafeArea(
                         child: LoaderOverlay(
                           isLoading: _isProcessing,

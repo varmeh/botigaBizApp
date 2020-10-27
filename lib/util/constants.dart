@@ -78,7 +78,4 @@ class Constants {
   static const String VALIDATE_TOKEN = '/api/services/token/validate';
   static const String CITY_AREAS = '/api/services/areas';
   static const String CITY = '/api/services/cities';
-
-  //OtherServiceUrl
-  static const String PINCODE_URL = 'http://www.postalpincode.in/api/pincode';
 }
