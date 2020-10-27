@@ -18,7 +18,6 @@ import 'app/Orders/orderFinalResult.dart';
 import 'app/Store/StoreScreen.dart';
 import 'app/Store/Product/addProduct.dart';
 import 'app/Profile/Communites/selectArea.dart';
-import 'app/Profile/Communites/selectCommunites.dart';
 import 'app/Profile/Profile/BussinessDetails.dart';
 import 'app/Profile/Profile/StoreDetails.dart';
 import 'app/Delivery/deliveryScreen.dart';
@@ -122,7 +121,6 @@ class BotigaBizApp extends StatelessWidget {
           StoreScreen.routeName: (ctx) => StoreScreen(),
           AddProduct.routeName: (ctx) => AddProduct(),
           SelectArea.routeName: (ctx) => SelectArea(),
-          SelectCommunites.routeName: (ctx) => SelectCommunites(),
           BussinessDetails.routeName: (ctx) => BussinessDetails(),
           StoreDeatils.routeName: (ctx) => StoreDeatils(),
           DeliveryScreen.routeName: (ctx) => DeliveryScreen(),
