@@ -40,7 +40,7 @@ class _CommunitiesState extends State<Communities> {
   @override
   Widget build(BuildContext context) {
     List<Apartment> apartments =
-        Provider.of<ProfileProvider>(context, listen: false).allApartment;
+        Provider.of<ProfileProvider>(context, listen: true).allApartment;
     if (apartments.length == 0) {
       return BrandingTile(
         'Thriving communities, empowering people',
