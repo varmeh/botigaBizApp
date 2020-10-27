@@ -11,10 +11,21 @@ class AddContactDetails extends StatefulWidget {
   final String apartmentId;
   final String deliveryType;
   final int day;
+  final String email;
+  final String phoneNumber;
+  final String whatsappNumber;
+  final String deliveryMsg;
+  final bool isSave;
+
   AddContactDetails(
       {@required this.apartmentId,
-      @required this.deliveryType,
-      @required this.day});
+      this.deliveryType,
+      this.day,
+      this.deliveryMsg = '',
+      @required this.email,
+      @required this.phoneNumber,
+      @required this.whatsappNumber,
+      @required this.isSave});
   @override
   _AddContactDetailsState createState() => _AddContactDetailsState();
 }
@@ -44,23 +55,23 @@ class _AddContactDetailsState extends State<AddContactDetails> {
     final profileInfo =
         Provider.of<ProfileProvider>(context, listen: false).profileInfo;
     setState(() {
-      _email = profileInfo.contact.email;
-      _phoneNumber = profileInfo.contact.phone;
-      _watsappNumber = profileInfo.contact.whatsapp;
+      _email = widget.email;
+      _phoneNumber = widget.phoneNumber;
+      _watsappNumber = widget.whatsappNumber;
       _businessName = profileInfo.businessName;
     });
     _phoneMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
         filter: {"#": RegExp(r'[0-9]')},
-        initialText: profileInfo.contact.phone);
+        initialText: widget.phoneNumber);
 
     _whatsappMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
         filter: {"#": RegExp(r'[0-9]')},
-        initialText: profileInfo.contact.whatsapp);
+        initialText: widget.whatsappNumber);
   }
 
-  void _handleStoreDetailSave(BuildContext context) {
+  void _handleStoreDetailSave() {
     setState(() {
       _isLoading = true;
     });
@@ -81,8 +92,47 @@ class _AddContactDetailsState extends State<AddContactDetails> {
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
           builder: (builder) {
-            return AddCommunitesSuccess(
-                _businessName, widget.deliveryType, widget.day);
+            return AddCommunitesSuccess(_businessName, widget.deliveryType,
+                widget.day, widget.isSave, widget.deliveryMsg);
+          },
+        );
+      }).catchError((error) {
+        setState(() {
+          _isLoading = false;
+        });
+        Toast(message: '$error', iconData: Icons.error_outline).show(context);
+      });
+    }).catchError((error) {
+      setState(() {
+        _isLoading = false;
+      });
+      Toast(message: '$error', iconData: Icons.error_outline).show(context);
+    });
+  }
+
+  void _handleStoreDetailUpdate() {
+    setState(() {
+      _isLoading = true;
+    });
+    final whatsappNumber = checkboxValue ? _phoneNumber : _watsappNumber;
+
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+    profileProvider
+        .updateApartmentContactInformation(
+            widget.apartmentId, _email, whatsappNumber, _phoneNumber)
+        .then((value) {
+      profileProvider.fetchProfile().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (builder) {
+            return AddCommunitesSuccess(_businessName, widget.deliveryType,
+                widget.day, widget.isSave, widget.deliveryMsg);
           },
         );
       }).catchError((error) {
@@ -120,7 +170,11 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
-                            this._handleStoreDetailSave(context);
+                            if (widget.isSave) {
+                              this._handleStoreDetailSave();
+                            } else {
+                              this._handleStoreDetailUpdate();
+                            }
                           }
                         },
                         color: AppTheme.primaryColor,

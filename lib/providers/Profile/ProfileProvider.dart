@@ -104,4 +104,33 @@ class ProfileProvider with ChangeNotifier {
       throw (error);
     }
   }
+
+  Future updateApartmentDeliveryScheduled(
+      String apartmentId, String deliveryType, int day) async {
+    try {
+      final body = json.encode({
+        "apartmentId": apartmentId,
+        "deliveryType": deliveryType,
+        "day": day
+      });
+      return HttpService().patch('/api/seller/apartments/delivery', body);
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  Future updateApartmentContactInformation(
+      String apartmentId, String email, String whatsapp, String phone) async {
+    try {
+      final body = json.encode({
+        "apartmentId": apartmentId,
+        "phone": phone,
+        "whatsapp": whatsapp,
+        "email": email
+      });
+      return HttpService().patch('/api/seller/apartments/contact', body);
+    } catch (error) {
+      throw (error);
+    }
+  }
 }

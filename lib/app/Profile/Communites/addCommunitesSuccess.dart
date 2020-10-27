@@ -8,8 +8,11 @@ import '../../../widget/inviteShare.dart';
 class AddCommunitesSuccess extends StatelessWidget {
   final String _businessName, _deliveryType;
   final int _day;
+  final bool isSave;
+  final String _deliveryMsg;
   final daymap = Constants.daysMap;
-  AddCommunitesSuccess(this._businessName, this._deliveryType, this._day);
+  AddCommunitesSuccess(this._businessName, this._deliveryType, this._day,
+      this.isSave, this._deliveryMsg);
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +39,6 @@ class AddCommunitesSuccess extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.clear),
                     onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                      Navigator.pop(context);
                       Navigator.of(context)
                           .popUntil(ModalRoute.withName(HomeScreen.routeName));
                     },
@@ -71,17 +71,23 @@ class AddCommunitesSuccess extends StatelessWidget {
                   SizedBox(
                     height: 16,
                   ),
-                  _deliveryType == "duration"
-                      ? Text("Delivering orders in $_day days",
+                  !isSave
+                      ? Text("$_deliveryMsg",
                           textAlign: TextAlign.center,
                           style: AppTheme.textStyle.w500.color50
                               .size(13)
                               .lineHeight(1.0))
-                      : Text("Delivering orders on ${daymap[_day]}",
-                          textAlign: TextAlign.center,
-                          style: AppTheme.textStyle.w500.color50
-                              .size(13)
-                              .lineHeight(1.0))
+                      : _deliveryType == "duration"
+                          ? Text("Delivering orders in $_day days",
+                              textAlign: TextAlign.center,
+                              style: AppTheme.textStyle.w500.color50
+                                  .size(13)
+                                  .lineHeight(1.0))
+                          : Text("Delivering orders on ${daymap[_day]}",
+                              textAlign: TextAlign.center,
+                              style: AppTheme.textStyle.w500.color50
+                                  .size(13)
+                                  .lineHeight(1.0))
                 ],
               ),
             ),

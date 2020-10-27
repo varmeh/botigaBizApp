@@ -12,3 +12,4 @@ export 'brandingTile.dart';
 export 'searchBar.dart';
 export 'BottomSheetHeader.dart';
 export 'EmptyDelivery.dart';
+export 'SelectDuration.dart';
