@@ -64,11 +64,12 @@ class _AddContactDetailsState extends State<AddContactDetails> {
     setState(() {
       _isLoading = true;
     });
+    final whatsappNumber = checkboxValue ? _phoneNumber : _watsappNumber;
 
     final profileProvider =
         Provider.of<ProfileProvider>(context, listen: false);
     profileProvider
-        .addApartment(widget.apartmentId, _phoneNumber, _watsappNumber, _email,
+        .addApartment(widget.apartmentId, _phoneNumber, whatsappNumber, _email,
             widget.deliveryType, widget.day)
         .then((value) {
       profileProvider.fetchProfile().then((_) {
@@ -168,20 +169,10 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                             BotigaTextFieldForm(
                               initialValue: _email,
                               focusNode: _emailFocusNode,
+                              nextFocusNode: _phoneNumberFocusNode,
                               labelText: 'Email',
                               onSave: (value) => _email = value,
-                              nextFocusNode: _whatsappFocusNode,
                               validator: emailValidator,
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            BotigaTextFieldForm(
-                              initialValue: _phoneMaskFormatter.getMaskedText(),
-                              readOnly: true,
-                              focusNode: _phoneNumberFocusNode,
-                              labelText: 'Phone number',
-                              onSave: (_) => null,
                             ),
                             SizedBox(
                               height: 16,
@@ -190,9 +181,50 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                                 ? BotigaTextFieldForm(
                                     initialValue:
                                         _phoneMaskFormatter.getMaskedText(),
-                                    readOnly: true,
                                     focusNode: _phoneNumberFocusNode,
+                                    readOnly: true,
+                                    labelText: 'Phone number',
+                                    keyboardType: TextInputType.number,
+                                    onSave: (_) => null,
+                                  )
+                                : SizedBox.shrink(),
+                            !checkboxValue
+                                ? BotigaTextFieldForm(
+                                    initialValue:
+                                        _phoneMaskFormatter.getMaskedText(),
+                                    focusNode: _phoneNumberFocusNode,
+                                    nextFocusNode: _whatsappFocusNode,
+                                    labelText: 'Phone number',
+                                    keyboardType: TextInputType.number,
+                                    onSave: (_) => _phoneNumber =
+                                        _phoneMaskFormatter.getUnmaskedText(),
+                                    maskFormatter: _phoneMaskFormatter,
+                                    validator: (_) {
+                                      if (_phoneMaskFormatter
+                                          .getUnmaskedText()
+                                          .isEmpty) {
+                                        return 'Required';
+                                      } else if (_phoneMaskFormatter
+                                              .getUnmaskedText()
+                                              .length !=
+                                          10) {
+                                        return 'Please provide a valid 10 digit phone Number';
+                                      }
+                                      return null;
+                                    },
+                                  )
+                                : SizedBox.shrink(),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            checkboxValue
+                                ? BotigaTextFieldForm(
+                                    initialValue:
+                                        _phoneMaskFormatter.getMaskedText(),
+                                    focusNode: _phoneNumberFocusNode,
+                                    readOnly: true,
                                     labelText: 'Whatsapp number',
+                                    keyboardType: TextInputType.number,
                                     onSave: (_) => null,
                                   )
                                 : SizedBox.shrink(),
@@ -221,7 +253,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                                       return null;
                                     },
                                   )
-                                : SizedBox.shrink()
+                                : SizedBox.shrink(),
                           ],
                         ),
                       ),
@@ -234,22 +266,9 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              final contact = Provider.of<ProfileProvider>(
-                                      context,
-                                      listen: false)
-                                  .profileInfo
-                                  .contact;
-                              if (!checkboxValue) {
-                                setState(() {
-                                  checkboxValue = !checkboxValue;
-                                  _watsappNumber = contact.phone;
-                                });
-                              } else {
-                                setState(() {
-                                  checkboxValue = !checkboxValue;
-                                  _watsappNumber = contact.whatsapp;
-                                });
-                              }
+                              setState(() {
+                                checkboxValue = !checkboxValue;
+                              });
                             },
                             child: checkboxValue
                                 ? Icon(
