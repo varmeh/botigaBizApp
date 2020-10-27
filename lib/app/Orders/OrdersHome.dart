@@ -59,11 +59,15 @@ class _OrdersHomeState extends State<OrdersHome> {
               )
             : Consumer<OrdersProvider>(
                 builder: (ctx, ordersprovider, _) {
-                  bool isEmpty = false;
+                  bool isEmptyOrders = false;
+                  bool isEmptyCommunties = false;
                   final aggregatedOrders = ordersprovider.aggregatedOrders;
+                  if (profileInfo.apartments.length == 0) {
+                    isEmptyCommunties = true;
+                  }
                   if (aggregatedOrders == null ||
                       aggregatedOrders.apartmentWiseBreakup.length == 0) {
-                    isEmpty = true;
+                    isEmptyOrders = true;
                   }
                   return Container(
                     color: AppTheme.dividerColor,
@@ -75,16 +79,21 @@ class _OrdersHomeState extends State<OrdersHome> {
                           aggregatedOrders.totalOrders,
                           profileInfo.firstName,
                         ),
-                        ...isEmpty
-                            ? [EmptyOrders()]
-                            : aggregatedOrders.apartmentWiseBreakup.map(
-                                (apartment) => _orderCard(
-                                  apartment.id,
-                                  apartment.apartmentName,
-                                  apartment.orders,
-                                  apartment.revenue,
-                                ),
-                              ),
+                        ...isEmptyCommunties
+                            ? [
+                                BrandingTile("No communites added",
+                                    "Please add communites to let your customer know that you are accepting orders")
+                              ]
+                            : isEmptyOrders
+                                ? [EmptyOrders()]
+                                : aggregatedOrders.apartmentWiseBreakup.map(
+                                    (apartment) => _orderCard(
+                                      apartment.id,
+                                      apartment.apartmentName,
+                                      apartment.orders,
+                                      apartment.revenue,
+                                    ),
+                                  ),
                         SizedBox(
                           height: 32,
                         )
