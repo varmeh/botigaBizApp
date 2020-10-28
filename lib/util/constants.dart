@@ -75,6 +75,7 @@ class Constants {
 
   //Service Url
   static const String IMAGE_PRESIGNED_URL = '/api/services/imageurls/png';
+  static const String IMAGE_BRAND_URL = '/api/services/brandimageurls/png';
   static const String VALIDATE_TOKEN = '/api/services/token/validate';
   static const String CITY_AREAS = '/api/services/areas';
   static const String CITY = '/api/services/cities';

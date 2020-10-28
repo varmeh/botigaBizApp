@@ -56,8 +56,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     _taglineFocusNode = FocusNode();
     _isLoading = false;
     uploadurl = '';
-    downloadUrl =
-        'https://products.image.dev.s3.ap-south-1.amazonaws.com/5f7730a57a8a7aafb139f511_hLOmFS.png';
+    downloadUrl = '';
   }
 
   @override
@@ -70,7 +69,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   }
 
   void _getPreSignedUrl() {
-    ImageService.getPresignedImageUrl().then((value) {
+    ImageService.getPresignedBrandImageUrl().then((value) {
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
@@ -339,7 +338,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       setState(() {
         _isLoading = false;
       });
-      Toast(iconData: Icons.error_outline, message: '$error');
+      Toast(iconData: Icons.error_outline, message: '$error').show(context);
     });
   }
 

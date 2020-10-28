@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:botiga_biz/theme/index.dart';
 import '../../Auth/widgets/index.dart';
 import 'SignupBussinessDetails.dart';
+import '../../Home/HomeScreen.dart';
 import '../../../widget/index.dart';
 import '../../../providers/Auth/AuthProvider.dart';
 
@@ -69,8 +70,15 @@ class _SignUpOtpState extends State<SignUpOtp> {
       setState(() {
         _isLoading = false;
       });
-      Navigator.pushReplacementNamed(context, SignupBuissnessDetails.routeName,
-          arguments: {'phone': phone});
+      String message = value['message'];
+      if (message == "createSeller") {
+        Navigator.pushReplacementNamed(
+            context, SignupBuissnessDetails.routeName,
+            arguments: {'phone': phone});
+      } else {
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName,
+            arguments: {'phone': phone});
+      }
     }).catchError((error) {
       setState(() {
         _isLoading = false;
