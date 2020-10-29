@@ -89,8 +89,8 @@ class AuthProvider with ChangeNotifier {
         "lastName": lastName,
         "brandName": brandName,
         "phone": phone,
-        "tagline": tagline,
-        "brandUrl": url
+        ...(tagline != null && tagline != '') ? {"tagline": tagline} : {},
+        ...(url != null && url != '') ? {"brandUrl": url} : {}
       });
       Map<String, String> headers = {
         'Content-type': 'application/json',
@@ -98,7 +98,7 @@ class AuthProvider with ChangeNotifier {
       };
       final response = await http.post('$baseUrl${Constants.SIGNUP}',
           headers: headers, body: body);
-      if (response.statusCode == 201 || response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final authToken = response.headers['authorization'];
         await secureStorage.setAuthToken(authToken);
       }

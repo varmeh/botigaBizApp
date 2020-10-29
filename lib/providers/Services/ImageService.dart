@@ -13,6 +13,14 @@ class ImageService {
     }
   }
 
+  static Future getPresignedBrandImageUrl() async {
+    try {
+      return await HttpService().get('${Constants.IMAGE_BRAND_URL}');
+    } catch (error) {
+      throw (error);
+    }
+  }
+
   static Future uploadImageToS3(String url, PickedFile image) async {
     try {
       Uint8List bytes = await image.readAsBytes();

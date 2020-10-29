@@ -34,7 +34,7 @@ class StoreProvider with ChangeNotifier {
       int pincode) async {
     try {
       final body = json.encode({
-        "phone": phone,
+        ...(phone != '' && phone != null) ? {"phone": phone} : {},
         "email": email,
         "whatsapp": whatsapp,
         "address": {

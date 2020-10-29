@@ -1,3 +1,4 @@
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
       _cityFocusNode,
       _statefocusNode;
   bool _isLoading;
+  MaskTextInputFormatter _whatsappMaskFormatter;
 
   @override
   void initState() {
@@ -45,19 +47,33 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
     _cityFocusNode = FocusNode();
     _statefocusNode = FocusNode();
     _isLoading = false;
+    _whatsappMaskFormatter = MaskTextInputFormatter(
+      mask: '+91 #####-#####',
+      filter: {"#": RegExp(r'[0-9]')},
+    );
   }
 
   void _handlePinCodeChange(pin) {
+    setState(() {
+      _isLoading = true;
+    });
     PinService.getAreaFromPincode(pin).then((value) {
+      setState(() {
+        _isLoading = false;
+      });
       List postOffices = value['PostOffice'];
-      final firstArea = postOffices.first;
-      if (firstArea != null) {
-        setState(() {
-          _area = firstArea['Name'];
-        });
+      if (postOffices != null) {
+        final firstArea = postOffices.first;
+        if (firstArea != null) {
+          setState(() {
+            _area = firstArea['Name'];
+          });
+        }
       }
     }).catchError((error) {
-      print(error);
+      setState(() {
+        _isLoading = false;
+      });
     });
   }
 
@@ -67,8 +83,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
     });
     final storeProvider = Provider.of<StoreProvider>(context, listen: false);
     storeProvider
-        .updateStoreDetails(_watsappNumber, _watsappNumber, _email,
-            _buildingNumber, _streetName, _area, _city, _state, _pincode)
+        .updateStoreDetails(null, _watsappNumber, _email, _buildingNumber,
+            _streetName, _area, _city, _state, _pincode)
         .then((value) {
       setState(() {
         _isLoading = false;
@@ -79,7 +95,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline);
+      Toast(message: '$error', iconData: Icons.error_outline).show(context);
     });
   }
 
@@ -164,9 +180,25 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             ),
                             BotigaTextFieldForm(
                               focusNode: _whatsappFocusNode,
-                              labelText: 'Whatsapp number',
-                              onSave: (value) => _watsappNumber = value,
                               nextFocusNode: _buildingNumberFocusNode,
+                              labelText: 'Whatsapp number',
+                              keyboardType: TextInputType.number,
+                              onSave: (_) => _watsappNumber =
+                                  _whatsappMaskFormatter.getUnmaskedText(),
+                              maskFormatter: _whatsappMaskFormatter,
+                              validator: (_) {
+                                if (_whatsappMaskFormatter
+                                    .getUnmaskedText()
+                                    .isEmpty) {
+                                  return 'Required';
+                                } else if (_whatsappMaskFormatter
+                                        .getUnmaskedText()
+                                        .length !=
+                                    10) {
+                                  return 'Please provide a valid 10 digit Watsapp Number';
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -211,7 +243,14 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                               labelText: 'Building No.',
                               onSave: (value) => _buildingNumber = value,
                               nextFocusNode: _streetNameFocusNode,
-                              validator: nameValidator,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Required';
+                                } else if (int.tryParse(value) == null) {
+                                  return 'Please enter numbers only';
+                                }
+                                return null;
+                              },
                             ),
                             SizedBox(
                               height: 16,
@@ -219,8 +258,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             BotigaTextFieldForm(
                               focusNode: _streetNameFocusNode,
                               labelText: 'Street Name/Locality',
-                              onSave: (value) => _buildingNumber = value,
-                              nextFocusNode: _areaFocusNode,
+                              onSave: (value) => _streetName = value,
+                              nextFocusNode: _pincodeFocusNode,
                               validator: nameValidator,
                             ),
                             SizedBox(
@@ -232,7 +271,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                                 onSave: (value) => _pincode = int.parse(value),
                                 nextFocusNode: _areaFocusNode,
                                 keyboardType: TextInputType.number,
-                                onFieldSubmitted: (value) {
+                                onChange: (value) {
                                   _handlePinCodeChange(value);
                                 },
                                 validator: (value) {
@@ -246,14 +285,25 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             SizedBox(
                               height: 16,
                             ),
-                            BotigaTextFieldForm(
-                              initialValue: _area,
-                              focusNode: _areaFocusNode,
-                              labelText: 'Area',
-                              onSave: (value) => _area = value,
-                              nextFocusNode: _cityFocusNode,
-                              validator: nameValidator,
-                            ),
+                            _isLoading
+                                ? BotigaTextFieldForm(
+                                    readOnly: true,
+                                    initialValue: _area,
+                                    focusNode: _areaFocusNode,
+                                    labelText: 'Area',
+                                    onSave: (value) => null,
+                                  )
+                                : SizedBox.shrink(),
+                            !_isLoading
+                                ? BotigaTextFieldForm(
+                                    initialValue: _area,
+                                    focusNode: _areaFocusNode,
+                                    labelText: 'Area',
+                                    onSave: (value) => _area = value,
+                                    nextFocusNode: _cityFocusNode,
+                                    validator: nameValidator,
+                                  )
+                                : SizedBox.shrink(),
                             SizedBox(
                               height: 16,
                             ),
