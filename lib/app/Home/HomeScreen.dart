@@ -38,8 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future preFetchData() async {
     await Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
-    await Provider.of<CategoryProvider>(context, listen: false)
-        .fetchCategories();
   }
 
   @override

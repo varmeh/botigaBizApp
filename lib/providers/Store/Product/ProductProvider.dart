@@ -5,7 +5,7 @@ import '../../../util/network/index.dart' show HttpService;
 import '../../../models/Store/Product/ProductByCategory.dart';
 
 class ProductProvider with ChangeNotifier {
-  List<ProductByCategory> _products;
+  List<ProductByCategory> _products = [];
 
   get allProducts {
     return this._products;

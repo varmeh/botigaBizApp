@@ -119,7 +119,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     if (!_isInit) {
       this._getPreSignedUrl();
       final firstCategories =
-          Provider.of<CategoryProvider>(context, listen: false)
+          Provider.of<CategoryProvider>(context, listen: true)
               .allCategories
               .first;
       if (firstCategories != null) {
@@ -309,412 +309,398 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     Navigator.of(context).pop();
   }
 
-  void _handleProductSave() {
-    setState(() {
-      isSaving = true;
-    });
-    final productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
-    productProvider
-        .saveProduct(_seletedCategoryId, _name, _price, _quantity,
-            _selectedQuantity, downloadUrl, _description)
-        .then((value) {
+  void _handleProductSave() async {
+    try {
       setState(() {
-        isSaving = false;
+        isSaving = true;
       });
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.saveProduct(_seletedCategoryId, _name, _price,
+          _quantity, _selectedQuantity, downloadUrl, _description);
+      await productProvider.fetchProducts();
       BotigaBottomModal(child: addProductSuccessful()).show(context);
-    }).catchError((error) {
-      setState(() {
-        isSaving = false;
-      });
+    } catch (error) {
       Toast(message: '$error', iconData: Icons.error_outline_sharp)
           .show(context);
-    });
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: AppTheme.backgroundColor,
-        appBar: AppBar(
-            backgroundColor: AppTheme.backgroundColor,
-            elevation: 0,
-            centerTitle: false,
-            title: Align(
-              child: Text(
-                'Add Product',
-                style:
-                    AppTheme.textStyle.w500.color100.size(20).lineHeight(1.0),
+    return LoaderOverlay(
+      isLoading: isSaving,
+      child: Scaffold(
+          backgroundColor: AppTheme.backgroundColor,
+          appBar: AppBar(
+              backgroundColor: AppTheme.backgroundColor,
+              elevation: 0,
+              centerTitle: false,
+              title: Align(
+                child: Text(
+                  'Add Product',
+                  style:
+                      AppTheme.textStyle.w500.color100.size(20).lineHeight(1.0),
+                ),
+                alignment: Alignment.centerLeft,
               ),
-              alignment: Alignment.centerLeft,
-            ),
-            leading: IconButton(
-              icon: Icon(
-                BotigaIcons.arrowBack,
-                color: AppTheme.color100,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )),
-        bottomNavigationBar: SafeArea(
-          child: Container(
-            color: AppTheme.backgroundColor,
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: SizedBox(
-                    height: 52,
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                      ),
-                      onPressed: () {
-                        if (isSaving) {
-                          return null;
-                        }
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
-                          _handleProductSave();
-                        }
-                      },
-                      color: isSaving
-                          ? AppTheme.dividerColor
-                          : AppTheme.primaryColor,
-                      child: Text(
-                        'Add Product',
-                        style: AppTheme.textStyle
-                            .colored(AppTheme.backgroundColor)
-                            .w600
-                            .size(15),
+              leading: IconButton(
+                icon: Icon(
+                  BotigaIcons.arrowBack,
+                  color: AppTheme.color100,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )),
+          bottomNavigationBar: SafeArea(
+            child: Container(
+              color: AppTheme.backgroundColor,
+              padding: EdgeInsets.all(10),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: SizedBox(
+                      height: 52,
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6.0),
+                        ),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+                            _handleProductSave();
+                          }
+                        },
+                        color: AppTheme.primaryColor,
+                        child: Text(
+                          'Add Product',
+                          style: AppTheme.textStyle
+                              .colored(AppTheme.backgroundColor)
+                              .w600
+                              .size(15),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, right: 20, top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            _imageFile != null
-                                ? ConstrainedBox(
-                                    constraints: BoxConstraints.tight(
-                                      Size(double.infinity, 176),
-                                    ),
-                                    child: Stack(
-                                      alignment: AlignmentDirectional.center,
-                                      children: <Widget>[
-                                        Container(
-                                          width: double.infinity,
-                                          height: 176,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: ClipRRect(
-                                            child: Image.file(
-                                              File(_imageFile.path),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(left: 20.0, right: 20, top: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          _imageFile != null
+                              ? ConstrainedBox(
+                                  constraints: BoxConstraints.tight(
+                                    Size(double.infinity, 176),
+                                  ),
+                                  child: Stack(
+                                    alignment: AlignmentDirectional.center,
+                                    children: <Widget>[
+                                      Container(
+                                        width: double.infinity,
+                                        height: 176,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
                                         ),
-                                        Positioned(
-                                          bottom: 12,
-                                          right: 12,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: <Widget>[
-                                              GestureDetector(
-                                                onTap: () {
-                                                  showImageSelectOption(
-                                                      context);
-                                                },
-                                                child: Image.asset(
-                                                  'assets/images/image_edit.png',
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 12,
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    _imageFile = null;
-                                                  });
-                                                },
-                                                child: Image.asset(
-                                                  'assets/images/image_delete.png',
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            ],
+                                        child: ClipRRect(
+                                          child: Image.file(
+                                            File(_imageFile.path),
+                                            fit: BoxFit.cover,
                                           ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(
-                                    width: double.infinity,
-                                    height: 176,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      border: Border.all(
-                                        style: BorderStyle.solid,
-                                        color:
-                                            AppTheme.color100.withOpacity(0.25),
-                                        width: 1.0,
                                       ),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        FlatButton.icon(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          icon: Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 20,
-                                              top: 14,
-                                              bottom: 14,
+                                      Positioned(
+                                        bottom: 12,
+                                        right: 12,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            GestureDetector(
+                                              onTap: () {
+                                                showImageSelectOption(context);
+                                              },
+                                              child: Image.asset(
+                                                'assets/images/image_edit.png',
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
-                                            child: Icon(BotigaIcons.gallery,
-                                                size: 18),
-                                          ),
-                                          onPressed: () {
-                                            showImageSelectOption(context);
-                                          },
-                                          color: Colors.black.withOpacity(0.05),
-                                          label: Padding(
-                                            padding: const EdgeInsets.only(
-                                              right: 20,
-                                              top: 14,
-                                              bottom: 14,
-                                              left: 8,
+                                            SizedBox(
+                                              width: 12,
                                             ),
-                                            child: Text('Add image',
-                                                style: AppTheme
-                                                    .textStyle.color100.w500
-                                                    .size(15)),
-                                          ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  _imageFile = null;
+                                                });
+                                              },
+                                              child: Image.asset(
+                                                'assets/images/image_delete.png',
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 55, right: 55, top: 16),
-                                          child: Text(
-                                            "Adding image will increase people interest in your product",
-                                            textAlign: TextAlign.center,
-                                            style: AppTheme
-                                                .textStyle.color50.w400
-                                                .size(12)
-                                                .letterSpace(0.2),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Container(
+                                  width: double.infinity,
+                                  height: 176,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    border: Border.all(
+                                      style: BorderStyle.solid,
+                                      color:
+                                          AppTheme.color100.withOpacity(0.25),
+                                      width: 1.0,
                                     ),
                                   ),
-                            SizedBox(
-                              height: 26,
-                            ),
-                            BotigaTextFieldForm(
-                                focusNode: _nameFocusNode,
-                                labelText: "Product name",
-                                onSave: (value) => _name = value,
-                                validator: nameValidator,
-                                nextFocusNode: _priceFocusNode),
-                            SizedBox(
-                              height: 26,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3.5),
-                                border: Border.all(
-                                  style: BorderStyle.solid,
-                                  color: AppTheme.color25,
-                                  width: 1.0,
-                                ),
-                              ),
-                              child: ListTile(
-                                visualDensity:
-                                    VisualDensity(horizontal: 0, vertical: -1),
-                                onTap: () {
-                                  showCategories();
-                                },
-                                trailing: Icon(Icons.keyboard_arrow_down,
-                                    color: AppTheme.color100),
-                                title: _seletedCategory == ''
-                                    ? Text(
-                                        'Select Category',
-                                        style: AppTheme.textStyle.color100.w500
-                                            .size(15),
-                                      )
-                                    : Text(
-                                        '$_seletedCategory',
-                                        style: AppTheme.textStyle.color100.w500
-                                            .size(15),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      FlatButton.icon(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        icon: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 20,
+                                            top: 14,
+                                            bottom: 14,
+                                          ),
+                                          child: Icon(BotigaIcons.gallery,
+                                              size: 18),
+                                        ),
+                                        onPressed: () {
+                                          showImageSelectOption(context);
+                                        },
+                                        color: Colors.black.withOpacity(0.05),
+                                        label: Padding(
+                                          padding: const EdgeInsets.only(
+                                            right: 20,
+                                            top: 14,
+                                            bottom: 14,
+                                            left: 8,
+                                          ),
+                                          child: Text('Add image',
+                                              style: AppTheme
+                                                  .textStyle.color100.w500
+                                                  .size(15)),
+                                        ),
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 55, right: 55, top: 16),
+                                        child: Text(
+                                          "Adding image will increase people interest in your product",
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme.textStyle.color50.w400
+                                              .size(12)
+                                              .letterSpace(0.2),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          SizedBox(
+                            height: 26,
+                          ),
+                          BotigaTextFieldForm(
+                              focusNode: _nameFocusNode,
+                              labelText: "Product name",
+                              onSave: (value) => _name = value,
+                              validator: nameValidator,
+                              nextFocusNode: _priceFocusNode),
+                          SizedBox(
+                            height: 26,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3.5),
+                              border: Border.all(
+                                style: BorderStyle.solid,
+                                color: AppTheme.color25,
+                                width: 1.0,
                               ),
                             ),
-                            SizedBox(
-                              height: 26,
+                            child: ListTile(
+                              visualDensity:
+                                  VisualDensity(horizontal: 0, vertical: -1),
+                              onTap: () {
+                                showCategories();
+                              },
+                              trailing: Icon(Icons.keyboard_arrow_down,
+                                  color: AppTheme.color100),
+                              title: _seletedCategory == ''
+                                  ? Text(
+                                      'Select Category',
+                                      style: AppTheme.textStyle.color100.w500
+                                          .size(15),
+                                    )
+                                  : Text(
+                                      '$_seletedCategory',
+                                      style: AppTheme.textStyle.color100.w500
+                                          .size(15),
+                                    ),
                             ),
-                            BotigaTextFieldForm(
-                                icon: BotigaIcons.rupee,
-                                iconSize: 14.0,
-                                focusNode: _priceFocusNode,
-                                labelText: "Price",
-                                keyboardType: TextInputType.number,
-                                onSave: (value) => _price = double.parse(value),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Required';
-                                  } else if (double.tryParse(value) == null) {
-                                    return 'Please use numbers for price';
-                                  }
-                                  return null;
-                                },
-                                nextFocusNode: _quantityFocusNode),
-                            SizedBox(
-                              height: 26,
-                            ),
-                            BotigaTextFieldForm(
-                              focusNode: _quantityFocusNode,
-                              labelText: "Quantity",
+                          ),
+                          SizedBox(
+                            height: 26,
+                          ),
+                          BotigaTextFieldForm(
+                              icon: BotigaIcons.rupee,
+                              iconSize: 14.0,
+                              focusNode: _priceFocusNode,
+                              labelText: "Price",
                               keyboardType: TextInputType.number,
-                              onSave: (value) => _quantity = int.parse(value),
+                              onSave: (value) => _price = double.parse(value),
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Required';
-                                } else if (int.tryParse(value) == null) {
-                                  return 'Please use numbers for quantity';
+                                } else if (double.tryParse(value) == null) {
+                                  return 'Please use numbers for price';
                                 }
                                 return null;
                               },
-                            ),
+                              nextFocusNode: _quantityFocusNode),
+                          SizedBox(
+                            height: 26,
+                          ),
+                          BotigaTextFieldForm(
+                            focusNode: _quantityFocusNode,
+                            labelText: "Quantity",
+                            keyboardType: TextInputType.number,
+                            onSave: (value) => _quantity = int.parse(value),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Required';
+                              } else if (int.tryParse(value) == null) {
+                                return 'Please use numbers for quantity';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 20.0, top: 17, bottom: 17),
+                      child: Container(
+                        height: 44,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: <Widget>[
+                            ...["kg", "gms", "lt", "ml", "piece", "pieces"].map(
+                              (val) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 12),
+                                  child: Container(
+                                    height: 44,
+                                    child: FlatButton(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _selectedQuantity = val;
+                                        });
+                                      },
+                                      color: _selectedQuantity == val
+                                          ? AppTheme.primaryColor
+                                          : AppTheme.dividerColor,
+                                      child: Text('$val',
+                                          style: _selectedQuantity == val
+                                              ? AppTheme.textStyle
+                                                  .size(13)
+                                                  .lineHeight(1.5)
+                                                  .w600
+                                                  .colored(
+                                                      AppTheme.backgroundColor)
+                                              : AppTheme.textStyle.color100
+                                                  .size(13)
+                                                  .lineHeight(1.5)
+                                                  .w600),
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 20.0, top: 17, bottom: 17),
-                        child: Container(
-                          height: 44,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: <Widget>[
-                              ...["kg", "gms", "lt", "ml", "piece", "pieces"]
-                                  .map(
-                                (val) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(right: 12),
-                                    child: Container(
-                                      height: 44,
-                                      child: FlatButton(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _selectedQuantity = val;
-                                          });
-                                        },
-                                        color: _selectedQuantity == val
-                                            ? AppTheme.primaryColor
-                                            : AppTheme.dividerColor,
-                                        child: Text('$val',
-                                            style: _selectedQuantity == val
-                                                ? AppTheme.textStyle
-                                                    .size(13)
-                                                    .lineHeight(1.5)
-                                                    .w600
-                                                    .colored(AppTheme
-                                                        .backgroundColor)
-                                                : AppTheme.textStyle.color100
-                                                    .size(13)
-                                                    .lineHeight(1.5)
-                                                    .w600),
-                                      ),
-                                    ),
-                                  );
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, top: 10),
+                      child: Container(
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "Add description",
+                              style: AppTheme.textStyle.size(15).w500.color100,
+                            ),
+                            Transform.scale(
+                              alignment: Alignment.centerLeft,
+                              scale: 0.75,
+                              child: CupertinoSwitch(
+                                value: _switchValue,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    _switchValue = value;
+                                  });
+                                  _descriptionFocusNode.requestFocus();
                                 },
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, top: 10),
-                        child: Container(
-                          width: double.infinity,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(
-                                "Add description",
-                                style:
-                                    AppTheme.textStyle.size(15).w500.color100,
-                              ),
-                              Transform.scale(
-                                alignment: Alignment.centerLeft,
-                                scale: 0.75,
-                                child: CupertinoSwitch(
-                                  value: _switchValue,
-                                  onChanged: (bool value) {
-                                    setState(() {
-                                      _switchValue = value;
-                                    });
-                                    _descriptionFocusNode.requestFocus();
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      _switchValue == true
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 15, bottom: 15, top: 25),
-                              child: BotigaTextFieldForm(
-                                maxLines: 3,
-                                maxLength: 80,
-                                focusNode: _descriptionFocusNode,
-                                labelText: 'Description',
-                                onSave: (value) => _description = value,
                               ),
                             )
-                          : SizedBox()
-                    ],
-                  ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    _switchValue == true
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 15, bottom: 15, top: 25),
+                            child: BotigaTextFieldForm(
+                              maxLines: 3,
+                              maxLength: 80,
+                              focusNode: _descriptionFocusNode,
+                              labelText: 'Description',
+                              onSave: (value) => _description = value,
+                            ),
+                          )
+                        : SizedBox()
+                  ],
                 ),
               ),
-              isSaving ? Loader() : SizedBox.shrink()
-            ],
-          ),
-        ));
+            ),
+          )),
+    );
   }
 }
