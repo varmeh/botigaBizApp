@@ -74,7 +74,10 @@ class _ProductsState extends State<Products> {
                 },
               )
             : (_products == null || _products.length == 0)
-                ? EmptyOrders()
+                ? BrandingTile(
+                    'Thriving communities, empowering people',
+                    'Made by awesome team of Botiga',
+                  )
                 : SafeArea(
                     child: LoaderOverlay(
                       isLoading: _isApiInProgress,

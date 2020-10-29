@@ -25,7 +25,10 @@ class _CategoryState extends State<Category> {
     List<StoreCategory> categories =
         Provider.of<CategoryProvider>(context, listen: false).allCategories;
     return (categories == null || categories.length == 0)
-        ? EmptyOrders()
+        ? BrandingTile(
+            'Thriving communities, empowering people',
+            'Made by awesome team of Botiga',
+          )
         : SafeArea(
             child: Stack(
               children: [
