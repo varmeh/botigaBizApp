@@ -10,10 +10,6 @@ import '../Orders/OrdersHome.dart';
 import '../Store/StoreScreen.dart';
 import '../Profile/ProfileScreen.dart';
 import '../Delivery/deliveryScreen.dart';
-import '../../providers/Store/Category/CategoryProvider.dart';
-import '../../providers/Apartment/ApartmentProvide.dart';
-import '../../providers/Profile/StoreProvider.dart';
-import '../../providers/Profile/BusinessProvider.dart';
 import '../../providers/Profile/ProfileProvider.dart';
 
 class HomeScreen extends StatefulWidget {
