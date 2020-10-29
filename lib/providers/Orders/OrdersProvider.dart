@@ -26,7 +26,6 @@ class OrdersProvider with ChangeNotifier {
 
   Future<void> fetchAggregatedOrders(String date) async {
     try {
-      //TODO: check date returns 404
       final response = await HttpService()
           .get('${Constants.AGGREGATED_ORDERS_INFORMATION}/$date');
       this._aggregatedOrders = AggregatedOrders.fromJson(response);
@@ -39,11 +38,8 @@ class OrdersProvider with ChangeNotifier {
   Future<void> fetchOrderByDateApartment(
       String apartmentId, String date) async {
     try {
-      //TODO: Check date returns 404
-      //TODO: Replace with actual apartmentId
-      //TODO: Actual date
       final response = await HttpService().get(
-          '${Constants.ORDER_BYDATE_APARTMENT}/5f75dce36495931a756da594/2020-10-17?limit=100&page=1');
+          '${Constants.ORDER_BYDATE_APARTMENT}/$apartmentId/$date?limit=100&page=1');
       List<OrderByDateDetail> items = [];
       for (var order in response['orders']) {
         items.add(OrderByDateDetail.fromJson(order));

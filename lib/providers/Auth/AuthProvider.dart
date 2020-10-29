@@ -107,4 +107,16 @@ class AuthProvider with ChangeNotifier {
       throw (error);
     }
   }
+
+  Future logout() async {
+    try {
+      final body = json.encode({});
+      final response =
+          await HttpService().post('/api/seller/auth/signout', body);
+      await secureStorage.expireToken();
+      return response;
+    } catch (err) {
+      throw (err);
+    }
+  }
 }
