@@ -41,7 +41,6 @@ dependencies:
   flutter_secure_storage: ^3.3.5
   share: ^0.6.5+2
   clipboard: ^0.1.2+5
-  
 
   # Firebase integration
   firebase_core: ^0.5.0
@@ -57,11 +56,12 @@ dev_dependencies:
   json_serializable: ^3.4.1
   flutter_launcher_icons: ^0.8.1
 
-  
 flutter_icons:
   android: true
   ios: true
-  image_path: assets/launcher.png
+  image_path: assets/launcher/launcher.png
+  adaptive_icon_background: assets/launcher/background.png
+  adaptive_icon_foreground: assets/launcher/foreground.png
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
