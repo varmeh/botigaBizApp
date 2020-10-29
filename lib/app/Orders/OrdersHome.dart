@@ -57,50 +57,53 @@ class _OrdersHomeState extends State<OrdersHome> {
                   fetchData(FormatDate.getRequestFormatDate(DateTime.now()));
                 },
               )
-            : Consumer<OrdersProvider>(
-                builder: (ctx, ordersprovider, _) {
-                  bool isEmptyOrders = false;
-                  bool isEmptyCommunties = false;
-                  final aggregatedOrders = ordersprovider.aggregatedOrders;
-                  if (profileInfo.apartments.length == 0) {
-                    isEmptyCommunties = true;
-                  }
-                  if (aggregatedOrders == null ||
-                      aggregatedOrders.apartmentWiseBreakup.length == 0) {
-                    isEmptyOrders = true;
-                  }
-                  return Container(
-                    color: AppTheme.dividerColor,
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: <Widget>[
-                        _orderHeader(
-                          aggregatedOrders.totalRevenue,
-                          aggregatedOrders.totalOrders,
-                          profileInfo.firstName,
-                        ),
-                        ...isEmptyCommunties
-                            ? [
-                                BrandingTile("No communites added",
-                                    "Please add communites to let your customer know that you are accepting orders")
-                              ]
-                            : isEmptyOrders
-                                ? [EmptyOrders()]
-                                : aggregatedOrders.apartmentWiseBreakup.map(
-                                    (apartment) => _orderCard(
-                                      apartment.id,
-                                      apartment.apartmentName,
-                                      apartment.orders,
-                                      apartment.revenue,
+            : RefreshIndicator(
+                onRefresh: _onRefresh,
+                child: Consumer<OrdersProvider>(
+                  builder: (ctx, ordersprovider, _) {
+                    bool isEmptyOrders = false;
+                    bool isEmptyCommunties = false;
+                    final aggregatedOrders = ordersprovider.aggregatedOrders;
+                    if (profileInfo.apartments.length == 0) {
+                      isEmptyCommunties = true;
+                    }
+                    if (aggregatedOrders == null ||
+                        aggregatedOrders.apartmentWiseBreakup.length == 0) {
+                      isEmptyOrders = true;
+                    }
+                    return Container(
+                      color: AppTheme.dividerColor,
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: <Widget>[
+                          _orderHeader(
+                            aggregatedOrders.totalRevenue,
+                            aggregatedOrders.totalOrders,
+                            profileInfo.firstName,
+                          ),
+                          ...isEmptyCommunties
+                              ? [
+                                  BrandingTile("No communites added",
+                                      "Please add communites to let your customer know that you are accepting orders")
+                                ]
+                              : isEmptyOrders
+                                  ? [EmptyOrders()]
+                                  : aggregatedOrders.apartmentWiseBreakup.map(
+                                      (apartment) => _orderCard(
+                                        apartment.id,
+                                        apartment.apartmentName,
+                                        apartment.orders,
+                                        apartment.revenue,
+                                      ),
                                     ),
-                                  ),
-                        SizedBox(
-                          height: 32,
-                        )
-                      ],
-                    ),
-                  );
-                },
+                          SizedBox(
+                            height: 32,
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
               );
   }
 
@@ -122,6 +125,11 @@ class _OrdersHomeState extends State<OrdersHome> {
         _isLoading = false;
       });
     });
+  }
+
+  Future _onRefresh() {
+    return Provider.of<OrdersProvider>(context, listen: false)
+        .fetchAggregatedOrders(FormatDate.getRequestFormatDate(DateTime.now()));
   }
 
   Widget _orderHeader(int revenue, int totalOrder, String name) {

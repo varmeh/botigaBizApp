@@ -23,24 +23,25 @@ class _CategoryState extends State<Category> {
   @override
   Widget build(BuildContext context) {
     List<StoreCategory> categories =
-        Provider.of<CategoryProvider>(context, listen: false).allCategories;
-    return (categories == null || categories.length == 0)
-        ? EmptyOrders()
-        : SafeArea(
-            child: Stack(
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: ListView(
-                    children: <Widget>[
-                      ...categories.map((category) {
-                        return getTile(context, category, this.setStatus);
-                      })
-                    ],
-                  ),
+        Provider.of<CategoryProvider>(context, listen: true).allCategories;
+    return (categories.length == 0)
+        ? BrandingTile(
+            'Thriving communities, empowering people',
+            'Made by awesome team of Botiga',
+          )
+        : LoaderOverlay(
+            isLoading: _isProcessing,
+            child: SafeArea(
+              child: Container(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: ListView(
+                  children: <Widget>[
+                    ...categories.map((category) {
+                      return getTile(context, category, this.setStatus);
+                    })
+                  ],
                 ),
-                _isProcessing ? Loader() : SizedBox.shrink()
-              ],
+              ),
             ),
           );
   }
@@ -48,7 +49,7 @@ class _CategoryState extends State<Category> {
 
 Widget getTile(
     BuildContext context, StoreCategory category, Function setStatus) {
-  final productProvider = Provider.of<ProductProvider>(context, listen: false);
+  final productProvider = Provider.of<ProductProvider>(context, listen: true);
   final productCount = productProvider.productCountForCategory(category.id);
   final countDispaly = productCount < 10 ? '0$productCount' : productCount;
   return Column(
@@ -81,25 +82,22 @@ Widget getTile(
                   Icons.delete_sharp,
                   color: AppTheme.color100,
                 ),
-                onTap: () {
-                  setStatus(true);
-                  final categoryProvide =
-                      Provider.of<CategoryProvider>(context, listen: false);
-                  categoryProvide.deleteCategory(category.id).then((value) {
-                    categoryProvide.fetchCategories().then((value) {
-                      setStatus(false);
-                    }).catchError((error) {
-                      setStatus(false);
-                    });
-                    Toast(message: '$value', iconData: BotigaIcons.truck)
+                onTap: () async {
+                  try {
+                    setStatus(true);
+                    final categoryProvider =
+                        Provider.of<CategoryProvider>(context, listen: false);
+                    final productProvider =
+                        Provider.of<ProductProvider>(context, listen: false);
+                    await categoryProvider.deleteCategory(category.id);
+                    await productProvider.fetchProducts();
+                    await categoryProvider.fetchCategories();
+                  } catch (err) {
+                    Toast(message: '$err', iconData: Icons.error_outline_sharp)
                         .show(context);
-                  }).catchError((error) {
+                  } finally {
                     setStatus(false);
-                    Toast(
-                            message: '$error',
-                            iconData: Icons.error_outline_sharp)
-                        .show(context);
-                  });
+                  }
                 },
               ),
       ),

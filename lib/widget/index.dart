@@ -2,7 +2,7 @@ export 'botigaTextFieldForm.dart';
 export 'pinTextField.dart';
 export 'toast.dart';
 export 'loader.dart';
-export 'productNetworkAvtar.dart';
+export 'NetworkAvtar.dart';
 export 'botigaBottomModal.dart';
 export 'EmptyOrders.dart';
 export 'Error.dart';

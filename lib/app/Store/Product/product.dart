@@ -13,47 +13,11 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  bool _isLoading = false;
-  bool _isError = false;
-  var _error;
-  bool _isInit = false;
   bool _isApiInProgress = false;
-  List<ProductByCategory> _products;
 
   @override
   void initState() {
     super.initState();
-  }
-
-  void fetchProducts() {
-    final productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
-    setState(() {
-      _error = null;
-      _isError = false;
-      _isLoading = true;
-    });
-    productProvider.fetchProducts().then((_) {
-      setState(() {
-        _isLoading = false;
-        _products = productProvider.allProducts;
-      });
-    }).catchError((err) {
-      setState(() {
-        _error = err;
-        _isError = true;
-        _isLoading = false;
-      });
-    });
-  }
-
-  @override
-  void didChangeDependencies() {
-    if (!_isInit) {
-      fetchProducts();
-      _isInit = true;
-    }
-    super.didChangeDependencies();
   }
 
   _setApiInProgressStatus(bool status) {
@@ -64,90 +28,54 @@ class _ProductsState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
-    return _isLoading
-        ? Loader()
-        : _isError
-            ? HttpServiceExceptionWidget(
-                exception: _error,
-                onTap: () {
-                  fetchProducts();
-                },
-              )
-            : (_products == null || _products.length == 0)
-                ? EmptyOrders()
-                : SafeArea(
-                    child: LoaderOverlay(
-                      isLoading: _isApiInProgress,
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                        ),
-                        child: ListView(
-                          children: <Widget>[
-                            // TextField(
-                            //   style: TextStyle(
-                            //     fontSize: 15.0,
-                            //     color: Colors.black,
-                            //     fontWeight: FontWeight.normal,
-                            //   ),
-                            //   decoration: InputDecoration(
-                            //     fillColor: Theme.of(context).backgroundColor,
-                            //     filled: true,
-                            //     contentPadding: EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
-                            //     suffixIcon: Icon(
-                            //       Icons.search,
-                            //       color: Color(0xff121715),
-                            //     ),
-                            //     hintText: "Search...",
-                            //     enabledBorder: const OutlineInputBorder(
-                            //       borderSide: BorderSide(color: Colors.white),
-                            //     ),
-                            //     border: OutlineInputBorder(
-                            //       borderSide: BorderSide(color: Colors.white),
-                            //       borderRadius: BorderRadius.circular(8.0),
-                            //     ),
-                            //     focusedBorder: OutlineInputBorder(
-                            //       borderSide: BorderSide(color: Colors.white),
-                            //       borderRadius: BorderRadius.circular(8.0),
-                            //     ),
-                            //   ),
-                            // ),
-                            // SizedBox(
-                            //   height: 10,
-                            // ),
-
-                            ..._products.map((productWithCategory) {
-                              return getTile(context, productWithCategory,
-                                  this._setApiInProgressStatus);
-                            })
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+    final _products =
+        Provider.of<ProductProvider>(context, listen: true).allProducts;
+    if (_products.length == 0) {
+      return BrandingTile(
+        'Thriving communities, empowering people',
+        'Made by awesome team of Botiga',
+      );
+    }
+    return SafeArea(
+      child: LoaderOverlay(
+        isLoading: _isApiInProgress,
+        child: Container(
+          padding: const EdgeInsets.only(
+            left: 20,
+            right: 20,
+          ),
+          child: ListView(
+            children: <Widget>[
+              ..._products.map((productWithCategory) {
+                return getTile(
+                    context, productWithCategory, this._setApiInProgressStatus);
+              })
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
 Widget getTile(BuildContext context, ProductByCategory productWithCategory,
     Function setApiStatus) {
-  //Function to check product availiblity.
-  void setProductAvilablity(String productId, bool availabelStatus) {
-    setApiStatus(true);
-    final productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
-    productProvider
-        .updateProductStatus(
-            productWithCategory.categoryId, productId, availabelStatus)
-        .then((value) {
-      setApiStatus(false);
-      Toast(message: '${value['message']}', iconData: Icons.check_circle)
-          .show(context);
-    }).catchError((error) {
-      setApiStatus(false);
+  void setProductAvilablity(
+      String productId, bool availabelStatus, Function onFail) async {
+    try {
+      setApiStatus(true);
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.updateProductStatus(
+          productWithCategory.categoryId, productId, availabelStatus);
+      await productProvider.fetchProducts();
+    } catch (error) {
+      onFail();
       Toast(message: '$error', iconData: Icons.error_outline_sharp)
           .show(context);
-    });
+    } finally {
+      setApiStatus(false);
+    }
   }
 
   final theme = Theme.of(context).copyWith(
@@ -253,9 +181,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ProductNetworkAvatar(
-                  imageUrl:
-                      'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg'),
+              ProductNetworkAvatar(imageUrl: '${product.imageUrl}'),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.only(left: 12),
@@ -316,7 +242,11 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                     },
                                   );
                                   widget.setProductAvilablity(
-                                      widget.product.id, value);
+                                      widget.product.id, value, () {
+                                    setState(() {
+                                      _switchValue = !value;
+                                    });
+                                  });
                                 },
                               ),
                             )
