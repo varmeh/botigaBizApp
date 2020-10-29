@@ -66,11 +66,17 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
     authProvider.verifyOtp(phone, sessionId, pinValue).then((value) {
+      String message = value['message'];
       setState(() {
         _isLoading = false;
       });
-      Navigator.pushNamed(context, SetPin.routeName,
-          arguments: {'phone': phone});
+      if (message == "createSeller") {
+        Toast(iconData: Icons.info_outline, message: 'You are not registerd')
+            .show(context);
+      } else {
+        Navigator.pushNamed(context, SetPin.routeName,
+            arguments: {'phone': phone});
+      }
     }).catchError((error) {
       setState(() {
         _isLoading = false;
