@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:botiga_biz/widget/index.dart';
 import 'package:provider/provider.dart';
 import 'package:botiga_biz/util/index.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
   bool _isInit = false;
+  bool _isLoading = false;
+  bool _isError = false;
+  var _error;
 
   @override
   void didChangeDependencies() {
@@ -33,7 +37,23 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future preFetchData() async {
-    await Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
+    try {
+      setState(() {
+        _isLoading = true;
+        _isError = false;
+        _error = null;
+      });
+      await Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
+    } catch (err) {
+      setState(() {
+        _isError = true;
+        _error = err;
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -97,7 +117,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return FlavorBanner(
       child: Scaffold(
         backgroundColor: AppTheme.backgroundColor,
-        body: _pages[_selectedPageIndex]['page'],
+        body: _isLoading
+            ? Loader()
+            : _isError
+                ? HttpServiceExceptionWidget(
+                    exception: _error,
+                    onTap: () {
+                      preFetchData();
+                    },
+                  )
+                : _pages[_selectedPageIndex]['page'],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(
