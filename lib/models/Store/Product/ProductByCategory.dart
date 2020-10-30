@@ -23,6 +23,7 @@ class Product {
   bool available;
   String size;
   String description;
+  String imageUrl;
 
   Product(
       {this.id,
@@ -30,7 +31,8 @@ class Product {
       this.price,
       this.available,
       this.size,
-      this.description = ''});
+      this.description = '',
+      this.imageUrl});
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

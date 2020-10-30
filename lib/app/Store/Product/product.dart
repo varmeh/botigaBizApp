@@ -181,9 +181,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              ProductNetworkAvatar(
-                  imageUrl:
-                      'https://www.spendwithpennies.com/wp-content/uploads/2015/10/Chocolate-Ganache-22.jpg'),
+              ProductNetworkAvatar(imageUrl: '${product.imageUrl}'),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.only(left: 12),

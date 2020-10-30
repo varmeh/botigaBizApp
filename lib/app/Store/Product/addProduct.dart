@@ -192,42 +192,28 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
         ),
       );
     }
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: MediaQuery.of(context).viewInsets,
-          child: SingleChildScrollView(
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.65,
-              decoration: BoxDecoration(
-                color: AppTheme.backgroundColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(16.0),
-                  topRight: const Radius.circular(16.0),
+    BotigaBottomModal(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Select category",
+                    style: AppTheme.textStyle.color100.w700.size(22)),
+                SizedBox(
+                  height: 20,
                 ),
-              ),
-              padding: EdgeInsets.only(left: 20, right: 20, top: 32),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text("Select category",
-                      style: AppTheme.textStyle.color100.w700.size(22)),
-                  SizedBox(
-                    height: 20,
+                SafeArea(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.40,
+                    child: ListView(
+                      children: [...widgets],
+                    ),
                   ),
-                  ...widgets
-                ],
-              ),
+                )
+              ],
             ),
-          ),
-        ),
-      ),
-    );
+            isDismissible: true)
+        .show(context);
   }
 
   void showImageSelectOption(BuildContext context) {
