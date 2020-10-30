@@ -178,8 +178,6 @@ class _SelectAreaState extends State<SelectArea> {
   ) {
     final profileInfo =
         Provider.of<ProfileProvider>(context, listen: false).profileInfo;
-
-    final String bussinessName = profileInfo.businessName;
     final String email = profileInfo.contact.email;
     final String whatsapp = profileInfo.contact.whatsapp;
     final String phone = profileInfo.contact.phone;
