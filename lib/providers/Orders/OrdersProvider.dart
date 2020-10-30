@@ -32,7 +32,6 @@ class OrdersProvider with ChangeNotifier {
       this._aggregatedOrders = AggregatedOrders.fromJson(response);
       notifyListeners();
     } catch (error) {
-      print('+++>>>>>>>$error');
       throw (error);
     }
   }
