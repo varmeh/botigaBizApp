@@ -23,6 +23,7 @@ class PinTextField extends StatelessWidget {
       animationType: AnimationType.fade,
       mainAxisAlignment: mainAxisAlignment,
       keyboardType: TextInputType.number,
+      keyboardAppearance: MediaQuery.of(context).platformBrightness,
       textStyle: AppTheme.textStyle.w500.color50.size(20.0).lineHeight(1.25),
       pastedTextStyle:
           AppTheme.textStyle.w500.color50.size(20.0).lineHeight(1.25),
@@ -59,7 +60,6 @@ class PinTextField extends StatelessWidget {
       onCompleted: (_) {},
       onSaved: onSaved,
       beforeTextPaste: (text) {
-        print("Allowing to paste $text");
         //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
         //but you can show anything you want here, like your pop up saying wrong paste format or etc
         return true;

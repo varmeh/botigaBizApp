@@ -97,9 +97,11 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
           _autoValidate ? AutovalidateMode.always : AutovalidateMode.disabled,
       inputFormatters: inputFormatters,
       textCapitalization: widget.textCapitalization,
+      initialValue: widget.initialValue,
       validator: widget.validator,
       keyboardType:
           widget.maxLines > 1 ? TextInputType.multiline : widget.keyboardType,
+      keyboardAppearance: MediaQuery.of(context).platformBrightness,
       style: AppTheme.textStyle.w500.color100.size(15.0).lineHeight(1.3),
       textInputAction: widget.nextFocusNode != null
           ? TextInputAction.next
@@ -154,7 +156,6 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
           ),
         ),
       ),
-      initialValue: widget.initialValue,
     );
   }
 }
