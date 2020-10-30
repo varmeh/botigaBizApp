@@ -40,4 +40,15 @@ class CategoryProvider with ChangeNotifier {
       throw (error);
     }
   }
+
+  Future editCategory(String categoryId, String name) async {
+    try {
+      return Http.patch('/api/seller/categories', body: {
+        "categoryId": categoryId,
+        "name": name,
+      });
+    } catch (error) {
+      throw (error);
+    }
+  }
 }

@@ -2,6 +2,7 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../widget/index.dart';
+import '../../../util/FormValidators.dart';
 import '../../../providers/Store/Category/CategoryProvider.dart';
 import '../../../providers/Store/Product/ProductProvider.dart';
 import '../../../models/Store/Category/StoreCategory.dart';
@@ -18,6 +19,28 @@ class _CategoryState extends State<Category> {
     setState(() {
       _isProcessing = status;
     });
+  }
+
+  void _handleCategoryEdit(String categoryId, String name) async {
+    try {
+      setState(() {
+        _isProcessing = true;
+      });
+      final categoryProvider =
+          Provider.of<CategoryProvider>(context, listen: false);
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await categoryProvider.editCategory(categoryId, name);
+      await categoryProvider.fetchCategories();
+      await productProvider.fetchProducts();
+      Navigator.of(context).pop();
+    } catch (error) {
+      Toast(message: '$error', iconData: Icons.error_outline).show(context);
+    } finally {
+      setState(() {
+        _isProcessing = false;
+      });
+    }
   }
 
   @override
@@ -37,7 +60,8 @@ class _CategoryState extends State<Category> {
                 child: ListView(
                   children: <Widget>[
                     ...categories.map((category) {
-                      return getTile(context, category, this.setStatus);
+                      return getTile(context, category, this.setStatus,
+                          this._handleCategoryEdit);
                     })
                   ],
                 ),
@@ -47,14 +71,112 @@ class _CategoryState extends State<Category> {
   }
 }
 
-Widget getTile(
-    BuildContext context, StoreCategory category, Function setStatus) {
+Widget getTile(BuildContext context, StoreCategory category, Function setStatus,
+    Function handleCategoryEdit) {
   final productProvider = Provider.of<ProductProvider>(context, listen: true);
   final productCount = productProvider.productCountForCategory(category.id);
   final countDispaly = productCount < 10 ? '0$productCount' : productCount;
   return Column(
     children: <Widget>[
       ListTile(
+        onTap: () {
+          final _formKey = GlobalKey<FormState>();
+          FocusNode _categoryNameFocusNode = FocusNode();
+          String _categoryName = category.name;
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => Padding(
+              padding: MediaQuery.of(context).viewInsets,
+              child: Form(
+                key: _formKey,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.backgroundColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(16.0),
+                      topRight: const Radius.circular(16.0),
+                    ),
+                  ),
+                  padding:
+                      EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 32),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        "Edit category",
+                        style: AppTheme.textStyle.color100.w700.size(22),
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      BotigaTextFieldForm(
+                        initialValue: _categoryName,
+                        focusNode: _categoryNameFocusNode,
+                        labelText: "Category name",
+                        onSave: (value) => _categoryName = value,
+                        validator: nameValidator,
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 14, bottom: 14),
+                              child: Text('Cancel',
+                                  style:
+                                      AppTheme.textStyle.color50.w600.size(15)),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                handleCategoryEdit(category.id, _categoryName);
+                              }
+                            },
+                            color: AppTheme.primaryColor,
+                            highlightColor: AppTheme.primaryColorVariant,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 14, bottom: 14),
+                              child: Text('Edit category',
+                                  style: AppTheme.textStyle
+                                      .colored(AppTheme.backgroundColor)
+                                      .w600
+                                      .size(15)),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
         contentPadding: EdgeInsets.only(left: 0, right: 0),
         title: RichText(
           text: TextSpan(
