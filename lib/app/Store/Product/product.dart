@@ -60,7 +60,8 @@ class _ProductsState extends State<Products> {
 
 Widget getTile(BuildContext context, ProductByCategory productWithCategory,
     Function setApiStatus) {
-  void setProductAvilablity(String productId, bool availabelStatus) async {
+  void setProductAvilablity(
+      String productId, bool availabelStatus, Function onFail) async {
     try {
       setApiStatus(true);
       final productProvider =
@@ -68,9 +69,8 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
       await productProvider.updateProductStatus(
           productWithCategory.categoryId, productId, availabelStatus);
       await productProvider.fetchProducts();
-      Toast(
-          message: 'Product availablity updated', iconData: Icons.check_circle);
     } catch (error) {
+      onFail();
       Toast(message: '$error', iconData: Icons.error_outline_sharp)
           .show(context);
     } finally {
@@ -242,7 +242,11 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                     },
                                   );
                                   widget.setProductAvilablity(
-                                      widget.product.id, value);
+                                      widget.product.id, value, () {
+                                    setState(() {
+                                      _switchValue = !value;
+                                    });
+                                  });
                                 },
                               ),
                             )
