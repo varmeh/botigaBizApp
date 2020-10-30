@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:botiga_biz/widget/index.dart';
-import 'package:provider/provider.dart';
 import 'package:botiga_biz/util/index.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -11,7 +9,6 @@ import '../Orders/OrdersHome.dart';
 import '../Store/StoreScreen.dart';
 import '../Profile/ProfileScreen.dart';
 import '../Delivery/deliveryScreen.dart';
-import '../../providers/Profile/ProfileProvider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -22,39 +19,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
-  bool _isInit = false;
-  bool _isLoading = false;
-  bool _isError = false;
-  var _error;
-
-  @override
-  void didChangeDependencies() {
-    if (!_isInit) {
-      preFetchData();
-      _isInit = true;
-    }
-    super.didChangeDependencies();
-  }
-
-  Future preFetchData() async {
-    try {
-      setState(() {
-        _isLoading = true;
-        _isError = false;
-        _error = null;
-      });
-      await Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
-    } catch (err) {
-      setState(() {
-        _isError = true;
-        _error = err;
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
 
   @override
   void initState() {
@@ -117,16 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return FlavorBanner(
       child: Scaffold(
         backgroundColor: AppTheme.backgroundColor,
-        body: _isLoading
-            ? Loader()
-            : _isError
-                ? HttpServiceExceptionWidget(
-                    exception: _error,
-                    onTap: () {
-                      preFetchData();
-                    },
-                  )
-                : _pages[_selectedPageIndex]['page'],
+        body: _pages[_selectedPageIndex]['page'],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(
