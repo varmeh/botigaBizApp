@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../../../util/constants.dart';
-import 'dart:convert';
-import '../../../util/network/index.dart' show HttpService;
+import '../../../util/index.dart' show Http;
 import '../../../models/Store/Category/StoreCategory.dart';
 
 class CategoryProvider with ChangeNotifier {
@@ -13,7 +11,7 @@ class CategoryProvider with ChangeNotifier {
 
   Future<void> fetchCategories() async {
     try {
-      final response = await HttpService().get('${Constants.GET_ALL_CATEGORY}');
+      final response = await Http.get('/api/seller/categories');
       List<StoreCategory> items = [];
       for (var category in response) {
         items.add(StoreCategory.fromJson(category));
@@ -27,7 +25,7 @@ class CategoryProvider with ChangeNotifier {
 
   Future deleteCategory(String categoryId) async {
     try {
-      return HttpService().delete('${Constants.DELETE_CATEGORY}/$categoryId');
+      return Http.delete('/api/seller/categories/$categoryId');
     } catch (error) {
       throw (error);
     }
@@ -35,10 +33,9 @@ class CategoryProvider with ChangeNotifier {
 
   Future saveCategory(String name) async {
     try {
-      final body = json.encode({
+      return Http.post('/api/seller/categories', body: {
         "name": name,
       });
-      return HttpService().post('${Constants.ADD_CATEGORIES}', body);
     } catch (error) {
       throw (error);
     }

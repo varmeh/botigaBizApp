@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'addContactDetails.dart';
 import '../../../models/Apartment/ApartmentModel.dart';
-import '../../../util/network/index.dart' show HttpService;
+import '../../../util/index.dart' show Http;
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
 import '../../../providers/Profile/ProfileProvider.dart';
@@ -581,9 +581,8 @@ class _SelectAreaState extends State<SelectArea> {
 
   Future<void> getApartments() async {
     try {
-      final json = await HttpService()
-          .get('/api/services/apartments/search?text=$_query');
-      print(json);
+      final json =
+          await Http.get('/api/services/apartments/search?text=$_query');
       _apartments.clear();
       json.forEach(
           (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));

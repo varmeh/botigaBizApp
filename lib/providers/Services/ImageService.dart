@@ -1,13 +1,12 @@
 import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import '../../util/constants.dart';
-import '../../util/network/index.dart' show HttpService;
+import '../../util/index.dart' show Http;
 
 class ImageService {
   static Future getPresignedImageUrl() async {
     try {
-      return await HttpService().get('${Constants.IMAGE_PRESIGNED_URL}');
+      return await Http.get('/api/services/imageurls/png');
     } catch (error) {
       throw (error);
     }
@@ -15,7 +14,7 @@ class ImageService {
 
   static Future getPresignedBrandImageUrl() async {
     try {
-      return await HttpService().get('${Constants.IMAGE_BRAND_URL}');
+      return await Http.get('/api/services/brandimageurls/png');
     } catch (error) {
       throw (error);
     }

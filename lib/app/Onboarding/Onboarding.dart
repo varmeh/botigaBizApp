@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import '../Auth/Signup/SignUpWelcome.dart';
-import '../../util/index.dart';
 
 class IntroScreen extends StatefulWidget {
   static const routeName = '/intro';
@@ -46,8 +45,6 @@ class IntroScreenState extends State<IntroScreen> {
   }
 
   void onDonePress() {
-    final secureStorage = SecureStorage();
-    secureStorage.setIntroStatusCompleted();
     Navigator.pushReplacement(context,
         MaterialPageRoute(builder: (BuildContext context) => SignupWelcome()));
   }

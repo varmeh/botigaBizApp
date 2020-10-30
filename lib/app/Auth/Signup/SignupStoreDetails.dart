@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'SetPin.dart';
 import '../../../widget/index.dart';
 import '../../../util/FormValidators.dart';
-import '../../../providers/Profile/StoreProvider.dart';
+import '../../../providers/Profile/ProfileProvider.dart';
 import '../../../providers/Services/index.dart';
 
 class SignUpStoreDetails extends StatefulWidget {
@@ -22,8 +22,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
       _streetName = '',
       _area = '',
       _city = '',
-      _state = '';
-  int _pincode;
+      _state = '',
+      _pincode = '';
   FocusNode _emailFocusNode,
       _whatsappFocusNode,
       _pincodeFocusNode,
@@ -81,8 +81,9 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
     setState(() {
       _isLoading = true;
     });
-    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
-    storeProvider
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+    profileProvider
         .updateStoreDetails(null, _watsappNumber, _email, _buildingNumber,
             _streetName, _area, _city, _state, _pincode)
         .then((value) {
@@ -268,7 +269,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             BotigaTextFieldForm(
                                 focusNode: _pincodeFocusNode,
                                 labelText: 'Pincode',
-                                onSave: (value) => _pincode = int.parse(value),
+                                onSave: (value) => _pincode = value,
                                 nextFocusNode: _areaFocusNode,
                                 keyboardType: TextInputType.number,
                                 onChange: (value) {

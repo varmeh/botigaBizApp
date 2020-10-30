@@ -1,16 +1,10 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
-import '../../util/network/index.dart' show HttpService;
-import '../../util/index.dart';
+import '../../util/index.dart' show Http, Token;
 
 class AuthProvider with ChangeNotifier {
-  final secureStorage = SecureStorage();
-  final baseUrl = Flavor.shared.baseUrl;
-
   Future validateToken() async {
     try {
-      return HttpService().get('${Constants.VALIDATE_TOKEN}');
+      return Http.get('/api/services/token/validate');
     } catch (err) {
       throw (err);
     }
@@ -18,18 +12,8 @@ class AuthProvider with ChangeNotifier {
 
   Future signInWithPin(String phone, String pin) async {
     try {
-      Map<String, String> headers = {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-      };
-      final body = json.encode({"phone": phone, "pin": pin});
-      final response = await http.post('$baseUrl${Constants.SIGNIN_WITH_PIN}',
-          headers: headers, body: body);
-      if (response.statusCode == 200) {
-        final authToken = response.headers['authorization'];
-        await secureStorage.setAuthToken(authToken);
-      }
-      return HttpService().returnResponse(response);
+      return Http.postAuth('/api/seller/auth/signin/pin',
+          body: {"phone": phone, "pin": pin});
     } catch (error) {
       throw (error);
     }
@@ -37,7 +21,7 @@ class AuthProvider with ChangeNotifier {
 
   Future getOTP(String phone) async {
     try {
-      return HttpService().get('${Constants.GET_OTP}/$phone');
+      return Http.get('/api/seller/auth/otp/$phone');
     } catch (error) {
       throw (error);
     }
@@ -45,19 +29,8 @@ class AuthProvider with ChangeNotifier {
 
   Future verifyOtp(String phone, String sessionId, String otpVal) async {
     try {
-      Map<String, String> headers = {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-      };
-      final body = json
-          .encode({"phone": phone, "sessionId": sessionId, "otpVal": otpVal});
-      final response = await http.post('$baseUrl${Constants.VERIFY_OTP}',
-          headers: headers, body: body);
-      final authToken = response.headers['authorization'];
-      if (authToken != null) {
-        await secureStorage.setAuthToken(authToken);
-      }
-      return HttpService().returnResponse(response);
+      return await Http.postAuth('/api/seller/auth/otp/verify',
+          body: {"phone": phone, "sessionId": sessionId, "otpVal": otpVal});
     } catch (error) {
       throw (error);
     }
@@ -65,8 +38,7 @@ class AuthProvider with ChangeNotifier {
 
   Future updatePin(String phone, String pin) async {
     try {
-      final body = json.encode({"pin": pin});
-      return HttpService().patch('${Constants.UPDATE_PIN}', body);
+      return Http.patch('/api/seller/auth/pin', body: {"pin": pin});
     } catch (error) {
       throw (error);
     }
@@ -82,7 +54,7 @@ class AuthProvider with ChangeNotifier {
       String tagline,
       String url) async {
     try {
-      final body = json.encode({
+      return await Http.postAuth('/api/seller/auth/signup', body: {
         "businessName": businessName,
         "businessCategory": businessCategory,
         "firstName": firstName,
@@ -92,29 +64,21 @@ class AuthProvider with ChangeNotifier {
         ...(tagline != null && tagline != '') ? {"tagline": tagline} : {},
         ...(url != null && url != '') ? {"brandUrl": url} : {}
       });
-      Map<String, String> headers = {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-      };
-      final response = await http.post('$baseUrl${Constants.SIGNUP}',
-          headers: headers, body: body);
-      if (response.statusCode == 201) {
-        final authToken = response.headers['authorization'];
-        await secureStorage.setAuthToken(authToken);
-      }
-      return HttpService().returnResponse(response);
     } catch (error) {
       throw (error);
     }
   }
 
   Future logout() async {
+    /*
+    We set token to '' and not as Null 
+    to indicate user logged out and on second launch he can be 
+    redirected to login screen 
+    rather then intro screen.
+    */
     try {
-      final body = json.encode({});
-      final response =
-          await HttpService().post('/api/seller/auth/signout', body);
-      await secureStorage.expireToken();
-      return response;
+      await Http.post('/api/seller/auth/signout', body: {});
+      return Token.write('');
     } catch (err) {
       throw (err);
     }

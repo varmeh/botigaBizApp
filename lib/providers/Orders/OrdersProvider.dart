@@ -2,8 +2,7 @@ import 'package:flutter/foundation.dart';
 import '../../models/Orders/AggregatedOrders.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import '../../util/constants.dart';
-import '../../util/network/index.dart' show HttpService;
-import 'dart:convert';
+import '../../util/index.dart' show Http;
 
 class OrdersProvider with ChangeNotifier {
   AggregatedOrders _aggregatedOrders;
@@ -26,8 +25,7 @@ class OrdersProvider with ChangeNotifier {
 
   Future<void> fetchAggregatedOrders(String date) async {
     try {
-      final response = await HttpService()
-          .get('${Constants.AGGREGATED_ORDERS_INFORMATION}/$date');
+      final response = await Http.get('/api/seller/orders/aggregate/$date');
       this._aggregatedOrders = AggregatedOrders.fromJson(response);
       notifyListeners();
     } catch (error) {
@@ -38,8 +36,8 @@ class OrdersProvider with ChangeNotifier {
   Future<void> fetchOrderByDateApartment(
       String apartmentId, String date) async {
     try {
-      final response = await HttpService().get(
-          '${Constants.ORDER_BYDATE_APARTMENT}/$apartmentId/$date?limit=100&page=1');
+      final response = await Http.get(
+          '/api/seller/orders/$apartmentId/$date?limit=100&page=1');
       List<OrderByDateDetail> items = [];
       for (var order in response['orders']) {
         items.add(OrderByDateDetail.fromJson(order));
@@ -53,8 +51,8 @@ class OrdersProvider with ChangeNotifier {
 
   Future setDeliveryDelayed(String orderId, String newDate) async {
     try {
-      final body = json.encode({"orderId": orderId, "newDate": newDate});
-      return HttpService().patch('${Constants.DELIVERY_DELAYED}', body);
+      return Http.patch('/api/seller/orders/delivery/delayed',
+          body: {"orderId": orderId, "newDate": newDate});
     } catch (error) {
       throw (error);
     }
@@ -62,9 +60,8 @@ class OrdersProvider with ChangeNotifier {
 
   Future setDeliveryStatus(String orderId) async {
     try {
-      final body = json.encode({"orderId": orderId, "status": "delivered"});
-      return HttpService()
-          .patch('${Constants.ORDER_DELIVERY_STATUS_SET}', body);
+      return Http.patch('/api/seller/orders/delivery/status',
+          body: {"orderId": orderId, "status": "delivered"});
     } catch (error) {
       throw (error);
     }
@@ -72,8 +69,7 @@ class OrdersProvider with ChangeNotifier {
 
   Future cancelOrder(String orderId) async {
     try {
-      final body = json.encode({"orderId": orderId});
-      return HttpService().post('${Constants.CANCEL_ORDER}', body);
+      return Http.post('/api/seller/orders/cancel', body: {"orderId": orderId});
     } catch (error) {
       throw (error);
     }

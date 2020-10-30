@@ -7,7 +7,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-import 'util/index.dart' show Flavor;
+import 'util/index.dart' show Flavor, Http;
 
 import 'app/Home/HomeScreen.dart';
 import 'app/Orders/orderList.dart';
@@ -30,14 +30,11 @@ import 'app/Auth/Login/Login.dart';
 import 'app/Auth/Login/ForgotPin.dart';
 import 'app/Auth/Login/EnterPin.dart';
 import 'app/Onboarding/Onboarding.dart';
-import 'app/Onboarding/Splash.dart';
+import 'app/Onboarding/SplashScreen.dart';
 import 'package:provider/provider.dart';
 import './providers/Orders/OrdersProvider.dart';
-import './providers/Apartment/ApartmentProvide.dart';
 import './providers/Store/Category/CategoryProvider.dart';
 import './providers/Store/Product/ProductProvider.dart';
-import './providers/Profile/StoreProvider.dart';
-import './providers/Profile/BusinessProvider.dart';
 import './providers/Auth/AuthProvider.dart';
 import './providers/Profile/ProfileProvider.dart';
 
@@ -53,8 +50,8 @@ Future<void> main() async {
   );
 
   await Firebase.initializeApp();
-
   await Flavor.shared.init();
+  await Http.fetchToken();
 
   // Pass all uncaught errors to Crashlytics.
   if (kReleaseMode) {
@@ -87,19 +84,10 @@ class BotigaBizApp extends StatelessWidget {
           create: (_) => AuthProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => BusinessProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => StoreProvider(),
-        ),
-        ChangeNotifierProvider(
           create: (_) => CategoryProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => ApartmentProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => OrdersProvider(),
@@ -108,7 +96,7 @@ class BotigaBizApp extends StatelessWidget {
       child: MaterialApp(
         themeMode: ThemeMode.light,
         title: 'Botiga Business',
-        home: Splash(),
+        home: SplashScreen(),
         routes: {
           IntroScreen.routeName: (ctx) => IntroScreen(),
           Login.routeName: (ctx) => Login(),

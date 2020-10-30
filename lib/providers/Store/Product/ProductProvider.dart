@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../../../util/constants.dart';
-import 'dart:convert';
-import '../../../util/network/index.dart' show HttpService;
+import '../../../util/index.dart' show Http;
 import '../../../models/Store/Product/ProductByCategory.dart';
 
 class ProductProvider with ChangeNotifier {
@@ -23,7 +21,7 @@ class ProductProvider with ChangeNotifier {
 
   Future<void> fetchProducts() async {
     try {
-      final response = await HttpService().get('${Constants.GET_ALL_PRODUCTS}');
+      final response = await Http.get('/api/seller/products');
       List<ProductByCategory> items = [];
       for (var product in response) {
         items.add(ProductByCategory.fromJson(product));
@@ -38,7 +36,7 @@ class ProductProvider with ChangeNotifier {
   Future saveProduct(String categoryId, String name, double price, int quantity,
       String unit, String imageUrl, String description) async {
     try {
-      final body = json.encode({
+      return Http.post('/api/seller/products', body: {
         "categoryId": categoryId,
         "name": name,
         "price": price,
@@ -47,7 +45,6 @@ class ProductProvider with ChangeNotifier {
         "description": description,
         "available": true
       });
-      return HttpService().post('${Constants.ADD_PRODUCT}', body);
     } catch (error) {
       throw (error);
     }
@@ -56,12 +53,11 @@ class ProductProvider with ChangeNotifier {
   Future updateProductStatus(
       String categoryId, String productId, bool availabelStatus) {
     try {
-      final body = json.encode({
+      return Http.patch('/api/seller/products', body: {
         "categoryId": categoryId,
         "productId": productId,
         "available": availabelStatus
       });
-      return HttpService().patch('${Constants.ADD_PRODUCT}', body);
     } catch (error) {
       throw (error);
     }

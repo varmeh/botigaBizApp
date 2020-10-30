@@ -3,4 +3,5 @@ export 'flavor.dart';
 export 'flavorBanner.dart';
 export 'FormatDate.dart';
 export 'FormValidators.dart';
-export 'SecureStorage.dart';
+export 'token.dart';
+export 'httpService.dart';

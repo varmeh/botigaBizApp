@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'dart:convert';
-import '../../util/network/index.dart' show HttpService;
-import '../../util/constants.dart';
+import '../../util/index.dart' show Http;
 import '../../models/Profile/Profile.dart';
 
 class ProfileProvider with ChangeNotifier {
@@ -25,8 +23,8 @@ class ProfileProvider with ChangeNotifier {
 
   Future setApartmentStatus(String apartmentid, bool status) async {
     try {
-      final body = json.encode({"apartmentId": apartmentid, "live": status});
-      return HttpService().patch('${Constants.CHANGE_APT_STATUS}', body);
+      return Http.patch('/api/seller/apartments/live',
+          body: {"apartmentId": apartmentid, "live": status});
     } catch (error) {
       throw (error);
     }
@@ -34,7 +32,7 @@ class ProfileProvider with ChangeNotifier {
 
   Future fetchProfile() async {
     try {
-      final response = await HttpService().get('/api/seller/profile');
+      final response = await Http.get('/api/seller/profile');
       this._profile = Profile.fromJson(response);
       notifyListeners();
     } catch (error) {
@@ -45,10 +43,11 @@ class ProfileProvider with ChangeNotifier {
   Future updateBusinessInfromation(String brandName, String tagline,
       String imageUrl, String businessCategory) async {
     try {
-      final body = json.encode(
-          {"brandName": brandName, "tagline": tagline, "imageUrl": imageUrl});
-      return HttpService()
-          .patch('${Constants.UPDATE_BUSINESS_INFROMATION}', body);
+      return Http.patch('/api/seller/profile/business', body: {
+        "brandName": brandName,
+        "tagline": tagline,
+        "imageUrl": imageUrl
+      });
     } catch (error) {
       throw (error);
     }
@@ -65,20 +64,19 @@ class ProfileProvider with ChangeNotifier {
       String state,
       String pincode) async {
     try {
-      final body = json.encode({
-        "phone": phone,
+      return Http.patch('/api/seller/profile/contact', body: {
+        ...(phone != '' && phone != null) ? {"phone": phone} : {},
         "email": email,
         "whatsapp": whatsapp,
         "address": {
           "building": building,
           "street": street,
           "area": area,
-          "pincode": int.parse(pincode),
+          "pincode": pincode,
           "city": city,
           "state": state
         }
       });
-      return HttpService().patch('${Constants.UPDATE_STORE_DETAILS}', body);
     } catch (error) {
       throw (error);
     }
@@ -87,7 +85,7 @@ class ProfileProvider with ChangeNotifier {
   Future addApartment(String apartmentId, String phone, String whatsapp,
       String email, String deliveryType, int day) async {
     try {
-      final body = json.encode({
+      return Http.post('/api/seller/apartments', body: {
         "apartmentId": apartmentId,
         "phone": phone,
         "whatsapp": whatsapp,
@@ -95,7 +93,6 @@ class ProfileProvider with ChangeNotifier {
         "deliveryType": deliveryType,
         "day": day
       });
-      return HttpService().post('/api/seller/apartments', body);
     } catch (error) {
       throw (error);
     }
@@ -104,12 +101,11 @@ class ProfileProvider with ChangeNotifier {
   Future updateApartmentDeliveryScheduled(
       String apartmentId, String deliveryType, int day) async {
     try {
-      final body = json.encode({
+      return Http.patch('/api/seller/apartments/delivery', body: {
         "apartmentId": apartmentId,
         "deliveryType": deliveryType,
         "day": day
       });
-      return HttpService().patch('/api/seller/apartments/delivery', body);
     } catch (error) {
       throw (error);
     }
@@ -118,13 +114,12 @@ class ProfileProvider with ChangeNotifier {
   Future updateApartmentContactInformation(
       String apartmentId, String email, String whatsapp, String phone) async {
     try {
-      final body = json.encode({
+      return Http.patch('/api/seller/apartments/contact', body: {
         "apartmentId": apartmentId,
         "phone": phone,
         "whatsapp": whatsapp,
         "email": email
       });
-      return HttpService().patch('/api/seller/apartments/contact', body);
     } catch (error) {
       throw (error);
     }

@@ -80,9 +80,9 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   }
 
   void _handleImageUpload(PickedFile file) {
-    ImageService.uploadImageToS3(uploadurl, file).then((value) {
-      print(value);
-    }).catchError((error) {
+    ImageService.uploadImageToS3(uploadurl, file)
+        .then((value) {})
+        .catchError((error) {
       print(error);
       Toast(message: '$error', iconData: Icons.error_outline_sharp)
           .show(context);
