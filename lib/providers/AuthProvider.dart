@@ -2,10 +2,6 @@ import 'package:flutter/foundation.dart';
 import '../util/index.dart' show Http, Token;
 
 class AuthProvider with ChangeNotifier {
-  Future validateToken() async {
-    return Http.get('/api/services/token/validate');
-  }
-
   Future signInWithPin(String phone, String pin) async {
     return Http.postAuth('/api/seller/auth/signin/pin',
         body: {"phone": phone, "pin": pin});

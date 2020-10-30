@@ -1,9 +1,11 @@
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import "../../Home/HomeScreen.dart";
 import "./ForgotPin.dart";
-import '../../../widget/index.dart';
+import '../../../widget/index.dart' show Toast, PinTextField, LoaderOverlay;
+import '../../../util/index.dart' show Http;
 import '../../Auth/widgets/index.dart';
 import '../../../providers/AuthProvider.dart';
 
@@ -31,27 +33,21 @@ class _EnterPinState extends State<EnterPin> {
     super.dispose();
   }
 
-  void _handleLogin() {
-    setState(() {
-      _isLoading = true;
-    });
+  void _handleLogin() async {
+    setState(() => _isLoading = true);
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    authProvider.signInWithPin(phone, pinValue).then((value) {
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => HomeScreen()));
-    }).catchError((error) {
-      setState(() {
-        _isLoading = false;
-      });
-      Toast(message: '$error', iconData: Icons.error_outline_outlined)
-          .show(context);
-    });
+    try {
+      await authProvider.signInWithPin(phone, pinValue);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+    } catch (error) {
+      Toast(message: Http.message(error)).show(context);
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   Form pinForm() {
