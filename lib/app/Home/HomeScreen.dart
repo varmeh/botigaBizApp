@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'package:botiga_biz/util/index.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../theme/index.dart';
-import '../../util/index.dart' show FlavorBanner;
+import '../../util/index.dart' show FlavorBanner, Http;
 import '../Orders/OrdersHome.dart';
 import '../Store/StoreScreen.dart';
 import '../Profile/ProfileScreen.dart';
@@ -17,63 +17,61 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Map<String, Object>> _pages;
+  List<Widget> _pages = [
+    OrdersHome(),
+    StoreScreen(),
+    DeliveryScreen(),
+    ProfileScreen(),
+  ];
+
   int _selectedPageIndex = 0;
+  FirebaseMessaging _fbm;
 
   @override
   void initState() {
     super.initState();
-    _pages = [
-      {
-        'page': OrdersHome(),
-        'title': 'Orders',
-      },
-      {
-        'page': StoreScreen(),
-        'title': 'Store',
-      },
-      {
-        'page': DeliveryScreen(),
-        'title': 'Categories',
-      },
-      {
-        'page': ProfileScreen(),
-        'title': "Profile",
-      }
-    ];
 
-    final fbm = FirebaseMessaging();
+    // Configure Firebase Messaging
+    _fbm = FirebaseMessaging();
 
-    //Request for permission on notification on Ios device
+    // Request for permission on notification on Ios device
     if (Platform.isIOS) {
-      fbm.onIosSettingsRegistered.listen((data) {
-        // save the token  OR subscribe to a topic here
+      _fbm.onIosSettingsRegistered.listen((data) {
+        _saveToken();
       });
-      fbm.requestNotificationPermissions();
+      Future.delayed(
+        Duration(seconds: 1),
+        () => _fbm
+            .requestNotificationPermissions(), //Delay request to ensure screen loading
+      );
+    } else {
+      _saveToken();
     }
 
-    fbm.getToken().then((value) => {
-          //TODO: upload the push notification token to database
-          print('Push Token: $value')
-        });
-
-    fbm.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        print('onMessage: $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('onLaunch: $message');
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('onResume: $message');
-      },
+    _fbm.configure(
+      onMessage: (Map<String, dynamic> message) async {},
+      onLaunch: (Map<String, dynamic> message) async {},
+      onResume: (Map<String, dynamic> message) async {},
     );
   }
 
   void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
+    setState(() => _selectedPageIndex = index);
+    setStatusBarBrightness();
+  }
+
+  void setStatusBarBrightness() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarBrightness:
+          _selectedPageIndex == 0 ? Brightness.dark : Brightness.light,
+    ));
+  }
+
+  void _saveToken() async {
+    final token = await _fbm.getToken();
+    try {
+      await Http.patch('/api/seller/auth/token', body: {'token': token});
+    } catch (_) {}
   }
 
   @override
@@ -81,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return FlavorBanner(
       child: Scaffold(
         backgroundColor: AppTheme.backgroundColor,
-        body: _pages[_selectedPageIndex]['page'],
+        body: _pages[_selectedPageIndex],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(

@@ -267,6 +267,7 @@ class _StoreScreenState extends State<StoreScreen> {
                     appBar: AppBar(
                       elevation: 0.0,
                       backgroundColor: AppTheme.backgroundColor,
+                      brightness: Brightness.light,
                       bottom: PreferredSize(
                         preferredSize: Size.fromHeight(11),
                         child: Theme(
