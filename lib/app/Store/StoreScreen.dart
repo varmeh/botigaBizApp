@@ -63,7 +63,10 @@ class _StoreScreenState extends State<StoreScreen> {
       });
       final categoryProvider =
           Provider.of<CategoryProvider>(context, listen: false);
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
       await categoryProvider.saveCategory(name);
+      await productProvider.fetchProducts();
       await categoryProvider.fetchCategories();
       Navigator.of(context).pop();
     } catch (error) {

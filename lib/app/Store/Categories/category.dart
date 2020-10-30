@@ -85,10 +85,13 @@ Widget getTile(
                 onTap: () async {
                   try {
                     setStatus(true);
-                    final categoryProvide =
+                    final categoryProvider =
                         Provider.of<CategoryProvider>(context, listen: false);
-                    await categoryProvide.deleteCategory(category.id);
-                    await categoryProvide.fetchCategories();
+                    final productProvider =
+                        Provider.of<ProductProvider>(context, listen: false);
+                    await categoryProvider.deleteCategory(category.id);
+                    await productProvider.fetchProducts();
+                    await categoryProvider.fetchCategories();
                   } catch (err) {
                     Toast(message: '$err', iconData: Icons.error_outline_sharp)
                         .show(context);
