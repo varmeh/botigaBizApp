@@ -6,7 +6,7 @@ import '../../util/index.dart' show Http;
 import '../Onboarding/Onboarding.dart';
 import '../Auth/Login/Login.dart';
 import '../Home/HomeScreen.dart';
-import '../../providers/Profile/ProfileProvider.dart';
+import '../../providers/ProfileProvider.dart';
 
 class SplashScreen extends StatefulWidget {
   static final route = 'splashScreen';

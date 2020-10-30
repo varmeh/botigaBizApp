@@ -7,8 +7,7 @@ import 'package:botiga_biz/theme/index.dart';
 import 'SignupStoreDetails.dart';
 import '../../../util/index.dart';
 import '../../../widget/index.dart';
-import '../../../providers/Auth/AuthProvider.dart';
-import '../../../providers/Services/ImageService.dart';
+import '../../../providers/index.dart' show AuthProvider, ImageService;
 
 class SignupBuissnessDetails extends StatefulWidget {
   static const routeName = '/signup-bussiness-detail';

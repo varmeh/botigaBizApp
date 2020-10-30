@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'orderRow.dart';
 import 'orderDetails.dart';
-import '../../providers/Orders/OrdersProvider.dart';
+import '../../providers/OrdersProvider.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';

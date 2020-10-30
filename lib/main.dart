@@ -32,11 +32,13 @@ import 'app/Auth/Login/EnterPin.dart';
 import 'app/Onboarding/Onboarding.dart';
 import 'app/Onboarding/SplashScreen.dart';
 import 'package:provider/provider.dart';
-import './providers/Orders/OrdersProvider.dart';
-import './providers/Store/Category/CategoryProvider.dart';
-import './providers/Store/Product/ProductProvider.dart';
-import './providers/Auth/AuthProvider.dart';
-import './providers/Profile/ProfileProvider.dart';
+import 'providers/index.dart'
+    show
+        OrdersProvider,
+        CategoryProvider,
+        ProductProvider,
+        AuthProvider,
+        ProfileProvider;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

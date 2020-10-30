@@ -5,8 +5,7 @@ import 'package:provider/provider.dart';
 import 'SetPin.dart';
 import '../../../widget/index.dart';
 import '../../../util/FormValidators.dart';
-import '../../../providers/Profile/ProfileProvider.dart';
-import '../../../providers/Services/index.dart';
+import '../../../providers/index.dart' show PinService, ProfileProvider;
 
 class SignUpStoreDetails extends StatefulWidget {
   static const routeName = '/signup-store-detail';

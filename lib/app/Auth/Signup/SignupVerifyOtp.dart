@@ -6,7 +6,7 @@ import '../../Auth/widgets/index.dart';
 import 'SignupBussinessDetails.dart';
 import '../../Home/HomeScreen.dart';
 import '../../../widget/index.dart';
-import '../../../providers/Auth/AuthProvider.dart';
+import '../../../providers/AuthProvider.dart';
 
 class SignUpOtp extends StatefulWidget {
   static const routeName = '/signup-otp';

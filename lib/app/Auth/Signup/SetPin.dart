@@ -4,7 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import '../../../widget/index.dart';
 import '../../Home/HomeScreen.dart';
-import '../../../providers/Auth/AuthProvider.dart';
+import '../../../providers/AuthProvider.dart';
 
 class SetPin extends StatefulWidget {
   static const routeName = '/signup-setpin';
