@@ -26,6 +26,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
   bool _isInit, _isLoading;
   FocusNode _brandNameFocusNode, _taglineFocusNode;
   String uploadurl, downloadUrl;
+  String _imageUrl;
 
   @override
   void initState() {
@@ -60,11 +61,12 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       _seletedCategory = profile.businessCategory;
       _businessName = profile.businessName;
       _fullName = '${profile.firstName} ${profile.lastName}';
+      _imageUrl = profile.brand.imageUrl;
     });
   }
 
   void _getPreSignedUrl() {
-    ImageService.getPresignedImageUrl().then((value) {
+    ImageService.getPresignedBrandImageUrl().then((value) {
       print(value);
       setState(() {
         uploadurl = value['uploadUrl'];
@@ -275,15 +277,19 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                               borderRadius: BorderRadius.circular(50),
                             ),
                           )
-                        : Container(
-                            height: 96,
-                            width: 96,
-                            margin: EdgeInsets.only(top: 20.0, bottom: 20),
-                            decoration: BoxDecoration(
-                              color: AppTheme.color05,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
+                        : (_imageUrl != null && _imageUrl != '')
+                            ? ProfileNetworkAvatar(
+                                imageUrl: _imageUrl,
+                              )
+                            : Container(
+                                height: 96,
+                                width: 96,
+                                margin: EdgeInsets.only(top: 20.0, bottom: 20),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.color05,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
                     Container(
                       child: Text(
                         '$_businessName',
