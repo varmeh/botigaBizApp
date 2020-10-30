@@ -5,27 +5,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import '../../../providers/index.dart'
-    show CategoryProvider, ProductProvider, ImageService;
+import '../../../models/Store/Product/ProductByCategory.dart';
+import '../../../providers/index.dart' show ProductProvider, ImageService;
 import '../../../theme/index.dart';
 import '../../../util/FormValidators.dart';
 import '../../Home/HomeScreen.dart';
 
-class AddProduct extends StatefulWidget {
-  static const routeName = '/add-product';
+class EditProduct extends StatefulWidget {
+  static const routeName = '/edit-product';
   @override
-  _AddProductState createState() => _AddProductState();
+  _EditProductState createState() => _EditProductState();
 }
 
-class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
+class _EditProductState extends State<EditProduct>
+    with TickerProviderStateMixin {
   PickedFile _imageFile;
   ImagePicker _picker;
   TextEditingController maxWidthController,
       maxHeightController,
       qualityController;
-
   GlobalKey<FormState> _formKey;
-
   bool _isInit;
   String _name;
   double _price;
@@ -33,11 +32,11 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   String _selectedQuantity;
   String _seletedCategory;
   String _seletedCategoryId;
+  String _productId;
   bool _switchValue;
   String _description;
-  String uploadurl = '', downloadUrl = '';
+  String uploadurl = '', downloadUrl = '', _imageUrl = '';
   bool isSaving;
-
   FocusNode _nameFocusNode,
       _priceFocusNode,
       _quantityFocusNode,
@@ -53,25 +52,48 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
-
     _isInit = false;
-    _switchValue = false;
-    _selectedQuantity = 'kg';
-    _seletedCategory = '';
-    _seletedCategoryId = '';
-    _name = '';
-    _price = 0.0;
-    _quantity = 0;
-    _description = '';
-
     _nameFocusNode = FocusNode();
     _priceFocusNode = FocusNode();
     _quantityFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
-
     isSaving = false;
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      this._getPreSignedUrl();
+      loadInitialFormValue();
+      _isInit = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  void loadInitialFormValue() {
+    final routesArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, String>;
+    Product product = Provider.of<ProductProvider>(context, listen: false)
+        .getProductById(routesArgs['categoryId'], routesArgs['productId']);
+    if (product != null) {
+      setState(() {
+        _productId = routesArgs['productId'];
+        _seletedCategory = routesArgs['categoryName'];
+        _seletedCategoryId = routesArgs['categoryId'];
+        _imageUrl = product.imageUrl;
+        _name = product.name;
+        _price = double.parse(product.price.toString());
+        _quantity = int.parse(product.size.split(" ")[0]);
+        _selectedQuantity = product.size.split(" ")[1];
+        _switchValue =
+            (product.description != '' && product.description != null)
+                ? true
+                : false;
+        _description = product.description;
+      });
+    }
   }
 
   @override
@@ -89,7 +111,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     }
   }
 
-  Widget addProductSuccessful() {
+  Widget editSuccessful() {
     return Column(
       children: [
         Lottie.asset(
@@ -106,7 +128,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
         ),
         SizedBox(height: 42.0),
         Text(
-          'Product Added Successfuly',
+          'Product updated Successfuly',
           style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
         ),
         SizedBox(height: 64.0),
@@ -114,23 +136,29 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     );
   }
 
-  @override
-  void didChangeDependencies() {
-    if (!_isInit) {
-      this._getPreSignedUrl();
-      final firstCategories =
-          Provider.of<CategoryProvider>(context, listen: true)
-              .allCategories
-              .first;
-      if (firstCategories != null) {
-        setState(() {
-          _seletedCategory = firstCategories.name;
-          _seletedCategoryId = firstCategories.id;
-        });
-      }
-      _isInit = true;
-    }
-    super.didChangeDependencies();
+  Widget deleteSuccessful() {
+    return Column(
+      children: [
+        Lottie.asset(
+          'assets/lotties/checkSuccess.json',
+          width: 160.0,
+          height: 160.0,
+          fit: BoxFit.fill,
+          controller: _controller,
+          onLoaded: (composition) {
+            _controller.duration = composition.duration * 3;
+            _controller.reset();
+            _controller.forward();
+          },
+        ),
+        SizedBox(height: 42.0),
+        Text(
+          'Product deleted Successfuly',
+          style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
+        ),
+        SizedBox(height: 64.0),
+      ],
+    );
   }
 
   void _getPreSignedUrl() {
@@ -154,66 +182,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
         _imageFile = null;
       });
     });
-  }
-
-  void showCategories() {
-    List<Widget> widgets = [];
-    final categories =
-        Provider.of<CategoryProvider>(context, listen: false).allCategories;
-    for (final category in categories) {
-      widgets.add(
-        Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  category.name,
-                  style: AppTheme.textStyle.color100.w500.size(17),
-                ),
-                Radio(
-                  value: category.name,
-                  groupValue: _seletedCategory,
-                  onChanged: (_) {
-                    setState(() {
-                      Navigator.of(context).pop();
-                      _seletedCategory = category.name;
-                      _seletedCategoryId = category.id;
-                    });
-                  },
-                )
-              ],
-            ),
-            Divider(
-              color: AppTheme.dividerColor,
-              thickness: 1.2,
-            )
-          ],
-        ),
-      );
-    }
-    BotigaBottomModal(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text("Select category",
-                    style: AppTheme.textStyle.color100.w700.size(22)),
-                SizedBox(
-                  height: 20,
-                ),
-                SafeArea(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.40,
-                    child: ListView(
-                      children: [...widgets],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            isDismissible: true)
-        .show(context);
   }
 
   void showImageSelectOption(BuildContext context) {
@@ -295,17 +263,48 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     Navigator.of(context).pop();
   }
 
-  void _handleProductSave() async {
+  void _handleProductEdit() async {
+    try {
+      setState(() {
+        isSaving = true;
+      });
+      final _productDescription = _switchValue == true ? _description : '';
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.updateProduct(
+          _seletedCategoryId,
+          _productId,
+          _name,
+          _price,
+          _quantity,
+          _selectedQuantity,
+          downloadUrl,
+          _productDescription);
+      await productProvider.fetchProducts();
+      BotigaBottomModal(child: editSuccessful()).show(context);
+    } catch (error) {
+      Toast(message: '$error', iconData: Icons.error_outline_sharp)
+          .show(context);
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
+    }
+  }
+
+  void _handleDelete() async {
     try {
       setState(() {
         isSaving = true;
       });
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.saveProduct(_seletedCategoryId, _name, _price,
-          _quantity, _selectedQuantity, downloadUrl, _description);
+      await productProvider.deleteProduct(
+        _seletedCategoryId,
+        _productId,
+      );
       await productProvider.fetchProducts();
-      BotigaBottomModal(child: addProductSuccessful()).show(context);
+      BotigaBottomModal(child: deleteSuccessful()).show(context);
     } catch (error) {
       Toast(message: '$error', iconData: Icons.error_outline_sharp)
           .show(context);
@@ -326,9 +325,63 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
               backgroundColor: AppTheme.backgroundColor,
               elevation: 0,
               centerTitle: false,
+              actions: [
+                FlatButton(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                              "Delete product",
+                              style: AppTheme.textStyle.color100.w600
+                                  .size(14)
+                                  .letterSpace(.02),
+                            ),
+                            content: Text(
+                              "Are you sure you want to delete this product ?",
+                              style: AppTheme.textStyle.color100.w500
+                                  .size(13)
+                                  .letterSpace(.02),
+                            ),
+                            actions: [
+                              FlatButton(
+                                child: Text(
+                                  "Yes",
+                                  style: AppTheme.textStyle.color100.w500
+                                      .size(13)
+                                      .letterSpace(.02),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  _handleDelete();
+                                },
+                              ),
+                              FlatButton(
+                                child: Text(
+                                  "No",
+                                  style: AppTheme.textStyle.color100.w500
+                                      .size(13)
+                                      .letterSpace(.02),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  child: Text('Delete',
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(
+                          color: Theme.of(context).colorScheme.error)),
+                )
+              ],
               title: Align(
                 child: Text(
-                  'Add Product',
+                  'Edit Product',
                   style:
                       AppTheme.textStyle.w500.color100.size(20).lineHeight(1.0),
                 ),
@@ -359,12 +412,12 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
-                            _handleProductSave();
+                            _handleProductEdit();
                           }
                         },
                         color: AppTheme.primaryColor,
                         child: Text(
-                          'Add Product',
+                          'Edit Product',
                           style: AppTheme.textStyle
                               .colored(AppTheme.backgroundColor)
                               .w600
@@ -450,72 +503,124 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                     ],
                                   ),
                                 )
-                              : Container(
-                                  width: double.infinity,
-                                  height: 176,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    border: Border.all(
-                                      style: BorderStyle.solid,
-                                      color:
-                                          AppTheme.color100.withOpacity(0.25),
-                                      width: 1.0,
-                                    ),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      FlatButton.icon(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                        ),
-                                        icon: Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 20,
-                                            top: 14,
-                                            bottom: 14,
+                              : (_imageUrl != '' && _imageUrl != null)
+                                  ? ConstrainedBox(
+                                      constraints: BoxConstraints.tight(
+                                        Size(double.infinity, 176),
+                                      ),
+                                      child: Stack(
+                                        alignment: AlignmentDirectional.center,
+                                        children: <Widget>[
+                                          EditProductNetworkAvatar(
+                                              imageUrl: _imageUrl),
+                                          Positioned(
+                                            bottom: 12,
+                                            right: 12,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: <Widget>[
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    showImageSelectOption(
+                                                        context);
+                                                  },
+                                                  child: Image.asset(
+                                                    'assets/images/image_edit.png',
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 12,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      _imageFile = null;
+                                                    });
+                                                  },
+                                                  child: Image.asset(
+                                                    'assets/images/image_delete.png',
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          child: Icon(BotigaIcons.gallery,
-                                              size: 18),
+                                        ],
+                                      ),
+                                    )
+                                  : Container(
+                                      width: double.infinity,
+                                      height: 176,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                          style: BorderStyle.solid,
+                                          color: AppTheme.color100
+                                              .withOpacity(0.25),
+                                          width: 1.0,
                                         ),
-                                        onPressed: () {
-                                          showImageSelectOption(context);
-                                        },
-                                        color: Colors.black.withOpacity(0.05),
-                                        label: Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 20,
-                                            top: 14,
-                                            bottom: 14,
-                                            left: 8,
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          FlatButton.icon(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            icon: Padding(
+                                              padding: const EdgeInsets.only(
+                                                left: 20,
+                                                top: 14,
+                                                bottom: 14,
+                                              ),
+                                              child: Icon(BotigaIcons.gallery,
+                                                  size: 18),
+                                            ),
+                                            onPressed: () {
+                                              showImageSelectOption(context);
+                                            },
+                                            color:
+                                                Colors.black.withOpacity(0.05),
+                                            label: Padding(
+                                              padding: const EdgeInsets.only(
+                                                right: 20,
+                                                top: 14,
+                                                bottom: 14,
+                                                left: 8,
+                                              ),
+                                              child: Text('Add image',
+                                                  style: AppTheme
+                                                      .textStyle.color100.w500
+                                                      .size(15)),
+                                            ),
                                           ),
-                                          child: Text('Add image',
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 55, right: 55, top: 16),
+                                            child: Text(
+                                              "Adding image will increase people interest in your product",
+                                              textAlign: TextAlign.center,
                                               style: AppTheme
-                                                  .textStyle.color100.w500
-                                                  .size(15)),
-                                        ),
+                                                  .textStyle.color50.w400
+                                                  .size(12)
+                                                  .letterSpace(0.2),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 55, right: 55, top: 16),
-                                        child: Text(
-                                          "Adding image will increase people interest in your product",
-                                          textAlign: TextAlign.center,
-                                          style: AppTheme.textStyle.color50.w400
-                                              .size(12)
-                                              .letterSpace(0.2),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                    ),
                           SizedBox(
                             height: 26,
                           ),
                           BotigaTextFieldForm(
+                              initialValue: _name,
                               focusNode: _nameFocusNode,
                               labelText: "Product name",
                               onSave: (value) => _name = value,
@@ -536,28 +641,21 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                             child: ListTile(
                               visualDensity:
                                   VisualDensity(horizontal: 0, vertical: -1),
-                              onTap: () {
-                                showCategories();
-                              },
+                              tileColor: AppTheme.color05,
                               trailing: Icon(Icons.keyboard_arrow_down,
                                   color: AppTheme.color100),
-                              title: _seletedCategory == ''
-                                  ? Text(
-                                      'Select Category',
-                                      style: AppTheme.textStyle.color100.w500
-                                          .size(15),
-                                    )
-                                  : Text(
-                                      '$_seletedCategory',
-                                      style: AppTheme.textStyle.color100.w500
-                                          .size(15),
-                                    ),
+                              title: Text(
+                                '$_seletedCategory',
+                                style:
+                                    AppTheme.textStyle.color100.w500.size(15),
+                              ),
                             ),
                           ),
                           SizedBox(
                             height: 26,
                           ),
                           BotigaTextFieldForm(
+                              initialValue: _price.toString(),
                               icon: BotigaIcons.rupee,
                               iconSize: 14.0,
                               focusNode: _priceFocusNode,
@@ -577,6 +675,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                             height: 26,
                           ),
                           BotigaTextFieldForm(
+                            initialValue: _quantity.toString(),
                             focusNode: _quantityFocusNode,
                             labelText: "Quantity",
                             keyboardType: TextInputType.number,
@@ -674,6 +773,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                             padding: const EdgeInsets.only(
                                 left: 20, right: 15, bottom: 15, top: 25),
                             child: BotigaTextFieldForm(
+                              initialValue: _description,
                               maxLines: 3,
                               maxLength: 80,
                               focusNode: _descriptionFocusNode,

@@ -2,6 +2,7 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'editProduct.dart';
 import '../../../util/constants.dart';
 import '../../../widget/index.dart';
 import '../../../providers/Store/ProductProvider.dart';
@@ -123,11 +124,19 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
                   ...productWithCategory.products.asMap().entries.map((entry) {
                     int idx = entry.key;
                     if (idx == productWithCategory.products.length - 1) {
-                      return ProductItemRow(entry.value, setProductAvilablity);
+                      return ProductItemRow(
+                          entry.value,
+                          productWithCategory.categoryId,
+                          productWithCategory.name,
+                          setProductAvilablity);
                     }
                     return Column(
                       children: [
-                        ProductItemRow(entry.value, setProductAvilablity),
+                        ProductItemRow(
+                            entry.value,
+                            productWithCategory.categoryId,
+                            productWithCategory.name,
+                            setProductAvilablity),
                         Divider(
                           color: AppTheme.dividerColor,
                           thickness: 1.2,
@@ -151,8 +160,11 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
 
 class ProductItemRow extends StatefulWidget {
   final Product product;
+  final String categoryId;
+  final String categoryName;
   final Function setProductAvilablity;
-  ProductItemRow(this.product, this.setProductAvilablity);
+  ProductItemRow(this.product, this.categoryId, this.categoryName,
+      this.setProductAvilablity);
   @override
   _ProductItemRowState createState() => _ProductItemRowState();
 }
@@ -171,109 +183,122 @@ class _ProductItemRowState extends State<ProductItemRow> {
   Widget build(BuildContext context) {
     Product product = widget.product;
 
-    return Container(
-      height: 100,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              ProductNetworkAvatar(imageUrl: '${product.imageUrl}'),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(left: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              '${product.name}',
-                              style: AppTheme.textStyle.color100.size(15).w500,
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              '${product.size} .${Constants.rupeeSymbol}${product.price}',
-                              style: AppTheme.textStyle.color50
-                                  .size(13)
-                                  .w500
-                                  .letterSpace(0.5),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            _switchValue
-                                ? Text(
-                                    "Available",
-                                    style: AppTheme.textStyle.color100
-                                        .size(12)
-                                        .w500
-                                        .letterSpace(0.2),
-                                  )
-                                : Text(
-                                    "Not Available",
-                                    style: AppTheme.textStyle.color100
-                                        .size(12)
-                                        .w500
-                                        .letterSpace(0.2),
-                                  ),
-                            Transform.scale(
-                              alignment: Alignment.topRight,
-                              scale: 0.75,
-                              child: CupertinoSwitch(
-                                value: _switchValue,
-                                onChanged: (bool value) {
-                                  setState(
-                                    () {
-                                      _switchValue = value;
-                                    },
-                                  );
-                                  widget.setProductAvilablity(
-                                      widget.product.id, value, () {
-                                    setState(() {
-                                      _switchValue = !value;
-                                    });
-                                  });
-                                },
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(
+          EditProduct.routeName,
+          arguments: {
+            'productId': product.id,
+            "categoryId": widget.categoryId,
+            "categoryName": widget.categoryName,
+          },
+        );
+      },
+      child: Container(
+        height: 100,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ProductNetworkAvatar(imageUrl: '${product.imageUrl}'),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                '${product.name}',
+                                style:
+                                    AppTheme.textStyle.color100.size(15).w500,
                               ),
-                            )
-                          ],
+                              SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                '${product.size} .${Constants.rupeeSymbol}${product.price}',
+                                style: AppTheme.textStyle.color50
+                                    .size(13)
+                                    .w500
+                                    .letterSpace(0.5),
+                              ),
+                            ],
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-          (product.description != null && product.description != '')
-              ? Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Text(
-                      '${product.description}',
-                      style: AppTheme.textStyle.color100
-                          .size(12)
-                          .w500
-                          .letterSpace(0.2),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: <Widget>[
+                              _switchValue
+                                  ? Text(
+                                      "Available",
+                                      style: AppTheme.textStyle.color100
+                                          .size(12)
+                                          .w500
+                                          .letterSpace(0.2),
+                                    )
+                                  : Text(
+                                      "Not Available",
+                                      style: AppTheme.textStyle.color100
+                                          .size(12)
+                                          .w500
+                                          .letterSpace(0.2),
+                                    ),
+                              Transform.scale(
+                                alignment: Alignment.topRight,
+                                scale: 0.75,
+                                child: CupertinoSwitch(
+                                  value: _switchValue,
+                                  onChanged: (bool value) {
+                                    setState(
+                                      () {
+                                        _switchValue = value;
+                                      },
+                                    );
+                                    widget.setProductAvilablity(
+                                        widget.product.id, value, () {
+                                      setState(() {
+                                        _switchValue = !value;
+                                      });
+                                    });
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 )
-              : SizedBox.shrink()
-        ],
+              ],
+            ),
+            (product.description != null && product.description != '')
+                ? Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        '${product.description}',
+                        style: AppTheme.textStyle.color100
+                            .size(12)
+                            .w500
+                            .letterSpace(0.2),
+                      ),
+                    ),
+                  )
+                : SizedBox.shrink()
+          ],
+        ),
       ),
     );
   }

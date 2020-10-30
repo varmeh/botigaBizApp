@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   int _selectedPageIndex = 0;
+  bool _isInit = false;
   FirebaseMessaging _fbm;
 
   @override
@@ -53,6 +54,19 @@ class _HomeScreenState extends State<HomeScreen> {
       onLaunch: (Map<String, dynamic> message) async {},
       onResume: (Map<String, dynamic> message) async {},
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!_isInit) {
+      final routesArgs =
+          ModalRoute.of(context).settings.arguments as Map<String, int>;
+      if (routesArgs != null && routesArgs['tab'] != null) {
+        _selectPage(routesArgs['tab']);
+      }
+      _isInit = true;
+    }
+    super.didChangeDependencies();
   }
 
   void _selectPage(int index) {

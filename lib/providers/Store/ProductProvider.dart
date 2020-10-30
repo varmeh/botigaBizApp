@@ -19,6 +19,18 @@ class ProductProvider with ChangeNotifier {
     return 0;
   }
 
+  Product getProductById(String categoryId, String productId) {
+    Product product;
+    final ProductByCategory categoryProduct = _products.firstWhere(
+        (product) => product.categoryId == categoryId,
+        orElse: () => null);
+    if (categoryProduct != null) {
+      product = categoryProduct.products
+          .firstWhere((product) => product.id == productId, orElse: () => null);
+    }
+    return product;
+  }
+
   Future<void> fetchProducts() async {
     final response = await Http.get('/api/seller/products');
     List<ProductByCategory> items = [];
@@ -49,5 +61,36 @@ class ProductProvider with ChangeNotifier {
       "productId": productId,
       "available": availabelStatus
     });
+  }
+
+  Future updateProduct(
+      String categoryId,
+      String productId,
+      String name,
+      double price,
+      int quantity,
+      String unit,
+      String imageUrl,
+      String description) async {
+    return Http.patch('/api/seller/products', body: {
+      "categoryId": categoryId,
+      "productId": productId,
+      "name": name,
+      "price": price,
+      "size": {"quantity": '$quantity', "unit": unit},
+      "imageUrl": imageUrl,
+      ...(description != null && description != '')
+          ? {"description": description}
+          : {},
+      "available": true
+    });
+  }
+
+  Future deleteProduct(
+    String categoryId,
+    String productId,
+  ) async {
+    return Http.delete(
+        '/api/seller/products/$productId/categories/$categoryId');
   }
 }

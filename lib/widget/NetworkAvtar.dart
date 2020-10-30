@@ -89,3 +89,47 @@ class ProfileNetworkAvatar extends StatelessWidget {
     );
   }
 }
+
+class EditProductNetworkAvatar extends StatelessWidget {
+  final String imageUrl;
+  final String imagePlaceholder;
+  final double radius;
+
+  EditProductNetworkAvatar({
+    @required this.imageUrl,
+    this.imagePlaceholder = 'assets/images/avatar.png',
+    this.radius = 8.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return imageUrl == null ? _placeholderImage() : _networkImage();
+  }
+
+  Widget _networkImage() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(this.radius),
+      child: CachedNetworkImage(
+        fit: BoxFit.fill,
+        width: double.infinity,
+        height: 176.0,
+        placeholder: (_, __) => _placeholderImage(),
+        imageUrl: this.imageUrl,
+      ),
+    );
+  }
+
+  Widget _placeholderImage() {
+    return Container(
+      width: double.infinity,
+      height: 176.0,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            fit: BoxFit.fill, image: AssetImage(this.imagePlaceholder)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(8.0),
+        ),
+      ),
+    );
+  }
+}
