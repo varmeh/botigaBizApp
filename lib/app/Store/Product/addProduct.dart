@@ -5,11 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import '../../../providers/Store/Category/CategoryProvider.dart';
-import '../../../providers/Store/Product/ProductProvider.dart';
+import '../../../providers/index.dart'
+    show CategoryProvider, ProductProvider, ImageService;
 import '../../../theme/index.dart';
 import '../../../util/FormValidators.dart';
-import '../../../providers/Services/ImageService.dart';
 import '../../Home/HomeScreen.dart';
 
 class AddProduct extends StatefulWidget {

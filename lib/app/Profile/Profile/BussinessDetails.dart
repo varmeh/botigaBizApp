@@ -6,8 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../widget/index.dart';
 import '../../../util/index.dart';
-import '../../../providers/Profile/ProfileProvider.dart';
-import '../../../providers/Services/ImageService.dart';
+import '../../../providers/index.dart' show ProfileProvider, ImageService;
 
 class BussinessDetails extends StatefulWidget {
   static const routeName = '/business-details';

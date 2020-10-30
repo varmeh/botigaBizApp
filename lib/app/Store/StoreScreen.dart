@@ -7,8 +7,7 @@ import './Product/product.dart';
 import 'Product/addProduct.dart';
 import '../../widget/index.dart';
 import '../../util/FormValidators.dart';
-import '../../providers/Store/Category/CategoryProvider.dart';
-import '../../providers/Store/Product/ProductProvider.dart';
+import '../../providers/index.dart' show CategoryProvider, ProductProvider;
 
 class StoreScreen extends StatefulWidget {
   static const routeName = '/store-screen';

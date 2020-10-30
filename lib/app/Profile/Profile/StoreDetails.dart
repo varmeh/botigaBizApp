@@ -3,7 +3,7 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "../../../widget/index.dart";
-import '../../../providers/Profile/ProfileProvider.dart';
+import '../../../providers/ProfileProvider.dart';
 import '../../../providers/Services/index.dart';
 import '../../../util/FormValidators.dart';
 

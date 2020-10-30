@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'orderSummary.dart';
 import '../../theme/index.dart';
-import '../../providers/Orders/OrdersProvider.dart';
+import '../../providers/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';

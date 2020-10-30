@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'orderSummary.dart';
 import 'orderFinalResult.dart';
-import '../../providers/Orders/OrdersProvider.dart';
+import '../../providers/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import '../../theme/index.dart';
 import '../../widget/index.dart';

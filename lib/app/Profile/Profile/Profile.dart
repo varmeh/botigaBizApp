@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'BussinessDetails.dart';
 import 'StoreDetails.dart';
-import '../../../providers/Auth/AuthProvider.dart';
+import '../../../providers/AuthProvider.dart';
 import '../../../theme/index.dart';
 import '../../Auth/Login/Login.dart';
 

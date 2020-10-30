@@ -5,7 +5,7 @@ import 'package:botiga_biz/theme/index.dart';
 import '../Signup/SetPin.dart';
 import '../../Auth/widgets/index.dart';
 import '../../../widget/index.dart';
-import '../../../providers/Auth/AuthProvider.dart';
+import '../../../providers/AuthProvider.dart';
 
 class LoginForgotPin extends StatefulWidget {
   static const routeName = '/forgot-pin';

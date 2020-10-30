@@ -2,9 +2,8 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../widget/index.dart';
-import '../../../providers/Store/Category/CategoryProvider.dart';
-import '../../../providers/Store/Product/ProductProvider.dart';
 import '../../../models/Store/Category/StoreCategory.dart';
+import '../../../providers/index.dart' show CategoryProvider, ProductProvider;
 
 class Category extends StatefulWidget {
   @override

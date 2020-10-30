@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../util/constants.dart';
 import '../../../widget/index.dart';
-import '../../../providers/Store/Product/ProductProvider.dart';
+import '../../../providers/Store/ProductProvider.dart';
 import '../../../models/Store/Product/ProductByCategory.dart';
 
 class Products extends StatefulWidget {

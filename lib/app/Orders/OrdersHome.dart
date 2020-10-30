@@ -5,8 +5,7 @@ import 'orderList.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../widget/index.dart';
-import '../../providers/Orders/OrdersProvider.dart';
-import '../../providers/Profile/ProfileProvider.dart';
+import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
 
 class OrdersHome extends StatefulWidget {
   static const routeName = '/orders-home';

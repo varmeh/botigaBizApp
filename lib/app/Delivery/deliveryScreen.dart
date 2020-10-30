@@ -8,8 +8,7 @@ import '../../models/Orders/OrderByDateDetail.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';
-import '../../providers/Orders/OrdersProvider.dart';
-import '../../providers/Profile/ProfileProvider.dart';
+import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
 
 class DeliveryScreen extends StatefulWidget {
   static const routeName = '/all-delivery-list';

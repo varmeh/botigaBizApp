@@ -5,7 +5,7 @@ import "../../Home/HomeScreen.dart";
 import "./ForgotPin.dart";
 import '../../../widget/index.dart';
 import '../../Auth/widgets/index.dart';
-import '../../../providers/Auth/AuthProvider.dart';
+import '../../../providers/AuthProvider.dart';
 
 class EnterPin extends StatefulWidget {
   static const routeName = '/login-enter-pin';
