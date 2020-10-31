@@ -4,7 +4,21 @@ import '../theme/index.dart';
 import 'inviteShare.dart';
 import 'botigaBottomModal.dart';
 
-class EmptyOrders extends StatelessWidget {
+class EmptyOrders extends StatefulWidget {
+  @override
+  _EmptyOrdersState createState() => _EmptyOrdersState();
+}
+
+class _EmptyOrdersState extends State<EmptyOrders>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 24);
@@ -19,6 +33,12 @@ class EmptyOrders extends StatelessWidget {
               width: 330,
               height: 300,
               fit: BoxFit.fill,
+              controller: _controller,
+              onLoaded: (composition) {
+                _controller.duration = composition.duration * 2;
+                _controller.reset();
+                _controller.forward();
+              },
             ),
             Text(
               'No orders yet!',
