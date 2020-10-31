@@ -267,19 +267,9 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                               borderRadius: BorderRadius.circular(50),
                             ),
                           )
-                        : (_imageUrl != null && _imageUrl != '')
-                            ? ProfileNetworkAvatar(
-                                imageUrl: _imageUrl,
-                              )
-                            : Container(
-                                height: 96,
-                                width: 96,
-                                margin: EdgeInsets.only(top: 20.0, bottom: 20),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.color05,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
+                        : ProfileNetworkAvatar(
+                            imageUrl: _imageUrl,
+                          ),
                     Container(
                       child: Text(
                         '$_businessName',
@@ -296,43 +286,67 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                     SizedBox(
                       height: 24,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(6.0)),
-                          onPressed: () {
-                            showImageSelectOption();
-                          },
-                          color: AppTheme.color05,
-                          child: Padding(
-                            padding: const EdgeInsets.all(13.0),
-                            child: Text('Change logo',
-                                style:
-                                    AppTheme.textStyle.w600.color100.size(15)),
+                    _imageFile != null
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              FlatButton(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6.0)),
+                                onPressed: () {
+                                  showImageSelectOption();
+                                },
+                                color: AppTheme.color05,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(13.0),
+                                  child: Text('Change logo',
+                                      style: AppTheme.textStyle.w600.color100
+                                          .size(15)),
+                                ),
+                              ),
+                              FlatButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _imageFile = null;
+                                  });
+                                },
+                                color: AppTheme.color05,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(13),
+                                  child: Text(
+                                    'Remove logo',
+                                    style: AppTheme.textStyle.w600.color100
+                                        .size(15),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              FlatButton(
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(6.0)),
+                                onPressed: () {
+                                  showImageSelectOption();
+                                },
+                                color: AppTheme.color05,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(13.0),
+                                  child: Text(
+                                    "Change logo",
+                                    style: AppTheme.textStyle.color100.w600
+                                        .size(15),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _imageFile = null;
-                            });
-                          },
-                          color: AppTheme.color05,
-                          child: Padding(
-                            padding: const EdgeInsets.all(13),
-                            child: Text(
-                              'Remove logo',
-                              style: AppTheme.textStyle.w600.color100.size(15),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                     SizedBox(
                       height: 24,
                     ),
