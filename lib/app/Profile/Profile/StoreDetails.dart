@@ -74,12 +74,12 @@ class _StoreDeatilsState extends State<StoreDeatils> {
     _phoneMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
         filter: {"#": RegExp(r'[0-9]')},
-        initialText: contactInfo.phone);
+        initialText: '91${contactInfo.phone}');
 
     _whatsappMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
         filter: {"#": RegExp(r'[0-9]')},
-        initialText: contactInfo.whatsapp);
+        initialText: '91${contactInfo.whatsapp}');
   }
 
   void _handlePinCodeChange(pin) {

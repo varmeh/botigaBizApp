@@ -63,12 +63,12 @@ class _AddContactDetailsState extends State<AddContactDetails> {
     _phoneMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
         filter: {"#": RegExp(r'[0-9]')},
-        initialText: widget.phoneNumber);
+        initialText: '91${widget.phoneNumber}');
 
     _whatsappMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
         filter: {"#": RegExp(r'[0-9]')},
-        initialText: widget.whatsappNumber);
+        initialText: '91${widget.whatsappNumber}');
   }
 
   void _handleStoreDetailSave() {
