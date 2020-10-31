@@ -64,13 +64,13 @@ class _ProductsState extends State<Products> {
 Widget getTile(BuildContext context, ProductByCategory productWithCategory,
     Function setApiStatus) {
   void setProductAvilablity(
-      String productId, bool availabelStatus, Function onFail) async {
+      Product product, bool availabelStatus, Function onFail) async {
     try {
       setApiStatus(true);
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.updateProductStatus(
-          productWithCategory.categoryId, productId, availabelStatus);
+          productWithCategory.categoryId, product, availabelStatus);
       await productProvider.fetchProducts();
     } catch (error) {
       onFail();
@@ -273,7 +273,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                       },
                                     );
                                     widget.setProductAvilablity(
-                                        widget.product.id, value, () {
+                                        widget.product, value, () {
                                       setState(() {
                                         _switchValue = !value;
                                       });

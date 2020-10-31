@@ -34,7 +34,7 @@ class _EditProductState extends State<EditProduct>
   String _name;
   double _price;
   int _quantity;
-  String _selectedQuantity;
+  String _selectedUnit;
   String _seletedCategory;
   String _seletedCategoryId;
   String _productId;
@@ -46,6 +46,7 @@ class _EditProductState extends State<EditProduct>
       _priceFocusNode,
       _quantityFocusNode,
       _descriptionFocusNode;
+  bool _available;
 
   AnimationController _controller;
 
@@ -81,6 +82,7 @@ class _EditProductState extends State<EditProduct>
     Product product = Provider.of<ProductProvider>(context, listen: false)
         .getProductById(widget.categoryId, widget.productId);
     if (product != null) {
+      List productSpec = product.size.split(" ");
       setState(() {
         _productId = widget.productId;
         _seletedCategory = widget.categoryName;
@@ -88,13 +90,14 @@ class _EditProductState extends State<EditProduct>
         _imageUrl = product.imageUrl;
         _name = product.name;
         _price = double.parse(product.price.toString());
-        _quantity = int.parse(product.size.split(" ")[0]);
-        _selectedQuantity = product.size.split(" ")[1];
+        _quantity = int.parse(productSpec.elementAt(0));
+        _selectedUnit = productSpec.elementAt(1);
         _switchValue =
             (product.description != '' && product.description != null)
                 ? true
                 : false;
         _description = product.description;
+        _available = product.available;
       });
     }
   }
@@ -272,6 +275,7 @@ class _EditProductState extends State<EditProduct>
         isSaving = true;
       });
       final _productDescription = _switchValue == true ? _description : '';
+      final updateImage = _imageFile != null ? true : false;
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.updateProduct(
@@ -280,9 +284,11 @@ class _EditProductState extends State<EditProduct>
           _name,
           _price,
           _quantity,
-          _selectedQuantity,
+          _selectedUnit,
           downloadUrl,
-          _productDescription);
+          _productDescription,
+          _available,
+          updateImage);
       await productProvider.fetchProducts();
       BotigaBottomModal(child: editSuccessful()).show(context);
     } catch (error) {
@@ -504,119 +510,37 @@ class _EditProductState extends State<EditProduct>
                                     ],
                                   ),
                                 )
-                              : (_imageUrl != '' && _imageUrl != null)
-                                  ? ConstrainedBox(
-                                      constraints: BoxConstraints.tight(
-                                        Size(double.infinity, 176),
-                                      ),
-                                      child: Stack(
-                                        alignment: AlignmentDirectional.center,
-                                        children: <Widget>[
-                                          EditProductNetworkAvatar(
-                                              imageUrl: _imageUrl),
-                                          Positioned(
-                                            bottom: 12,
-                                            right: 12,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: <Widget>[
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    showImageSelectOption(
-                                                        context);
-                                                  },
-                                                  child: Image.asset(
-                                                    'assets/images/image_edit.png',
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 12,
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      _imageFile = null;
-                                                    });
-                                                  },
-                                                  child: Image.asset(
-                                                    'assets/images/image_delete.png',
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ],
+                              : ConstrainedBox(
+                                  constraints: BoxConstraints.tight(
+                                    Size(double.infinity, 176),
+                                  ),
+                                  child: Stack(
+                                    alignment: AlignmentDirectional.center,
+                                    children: <Widget>[
+                                      EditProductNetworkAvatar(
+                                          imageUrl: _imageUrl),
+                                      Positioned(
+                                        bottom: 12,
+                                        right: 12,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            GestureDetector(
+                                              onTap: () {
+                                                showImageSelectOption(context);
+                                              },
+                                              child: Image.asset(
+                                                'assets/images/image_edit.png',
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Container(
-                                      width: double.infinity,
-                                      height: 176,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        border: Border.all(
-                                          style: BorderStyle.solid,
-                                          color: AppTheme.color100
-                                              .withOpacity(0.25),
-                                          width: 1.0,
+                                          ],
                                         ),
                                       ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          FlatButton.icon(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            icon: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 20,
-                                                top: 14,
-                                                bottom: 14,
-                                              ),
-                                              child: Icon(BotigaIcons.gallery,
-                                                  size: 18),
-                                            ),
-                                            onPressed: () {
-                                              showImageSelectOption(context);
-                                            },
-                                            color:
-                                                Colors.black.withOpacity(0.05),
-                                            label: Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 20,
-                                                top: 14,
-                                                bottom: 14,
-                                                left: 8,
-                                              ),
-                                              child: Text('Add image',
-                                                  style: AppTheme
-                                                      .textStyle.color100.w500
-                                                      .size(15)),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 55, right: 55, top: 16),
-                                            child: Text(
-                                              "Adding image will increase people interest in your product",
-                                              textAlign: TextAlign.center,
-                                              style: AppTheme
-                                                  .textStyle.color50.w400
-                                                  .size(12)
-                                                  .letterSpace(0.2),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    ],
+                                  ),
+                                ),
                           SizedBox(
                             height: 26,
                           ),
@@ -714,14 +638,14 @@ class _EditProductState extends State<EditProduct>
                                       ),
                                       onPressed: () {
                                         setState(() {
-                                          _selectedQuantity = val;
+                                          _selectedUnit = val;
                                         });
                                       },
-                                      color: _selectedQuantity == val
+                                      color: _selectedUnit == val
                                           ? AppTheme.primaryColor
                                           : AppTheme.dividerColor,
                                       child: Text('$val',
-                                          style: _selectedQuantity == val
+                                          style: _selectedUnit == val
                                               ? AppTheme.textStyle
                                                   .size(13)
                                                   .lineHeight(1.5)

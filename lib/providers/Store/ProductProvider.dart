@@ -55,11 +55,19 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future updateProductStatus(
-      String categoryId, String productId, bool availabelStatus) {
+      String categoryId, Product product, bool availableStatus) async {
+    List productSpec = product.size.split(" ");
     return Http.patch('/api/seller/products', body: {
       "categoryId": categoryId,
-      "productId": productId,
-      "available": availabelStatus
+      "productId": product.id,
+      "name": product.name,
+      "price": product.price,
+      "unit": productSpec.elementAt(1),
+      "quantity": productSpec.elementAt(0),
+      "available": availableStatus,
+      "updateImage": false,
+      "imageUrl": product.imageUrl,
+      "description": product.description,
     });
   }
 
@@ -71,18 +79,20 @@ class ProductProvider with ChangeNotifier {
       int quantity,
       String unit,
       String imageUrl,
-      String description) async {
+      String description,
+      bool availableStatus,
+      bool updateImagurl) async {
     return Http.patch('/api/seller/products', body: {
       "categoryId": categoryId,
       "productId": productId,
       "name": name,
       "price": price,
-      "size": {"quantity": '$quantity', "unit": unit},
+      "unit": unit,
+      "quantity": quantity,
+      "available": availableStatus,
+      "updateImage": updateImagurl,
       "imageUrl": imageUrl,
-      ...(description != null && description != '')
-          ? {"description": description}
-          : {},
-      "available": true
+      "description": description,
     });
   }
 
