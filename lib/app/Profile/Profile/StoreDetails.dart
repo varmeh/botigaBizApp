@@ -1,3 +1,4 @@
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
@@ -82,14 +83,12 @@ class _StoreDeatilsState extends State<StoreDeatils> {
         initialText: '91${contactInfo.whatsapp}');
   }
 
-  void _handlePinCodeChange(pin) {
+  void _handlePinCodeChange(pin) async {
     setState(() {
       _isLoading = true;
     });
-    PinService.getAreaFromPincode(pin).then((value) {
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      final value = await PinService.getAreaFromPincode(pin);
       List postOffices = value['PostOffice'];
       if (postOffices != null) {
         final firstArea = postOffices.first;
@@ -99,41 +98,33 @@ class _StoreDeatilsState extends State<StoreDeatils> {
           });
         }
       }
-    }).catchError((error) {
+    } catch (err) {} finally {
       setState(() {
         _isLoading = false;
       });
-    });
+    }
   }
 
-  void _handleStoreDetailSave() {
+  void _handleStoreDetailSave() async {
     setState(() {
       _isLoading = true;
     });
-    final String whatsapp = checkboxValue ? _phoneNumber : _watsappNumber;
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    profileProvider
-        .updateStoreDetails(_phoneNumber, whatsapp, _email, _buildingNumber,
-            _streetName, _area, _city, _state, _pincode)
-        .then((value) {
-      profileProvider.fetchProfile().then((value) {
-        setState(() {
-          _isLoading = false;
-        });
-        Toast(message: 'Store details updated', iconData: Icons.check_circle)
-            .show(context);
-      }).catchError((err) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
-    }).catchError((error) {
+    try {
+      final String whatsapp = checkboxValue ? _phoneNumber : _watsappNumber;
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      await profileProvider.updateStoreDetails(_phoneNumber, whatsapp, _email,
+          _buildingNumber, _streetName, _area, _city, _state, _pincode);
+      await profileProvider.fetchProfile();
+      Toast(message: 'Store details updated', iconData: Icons.check_circle)
+          .show(context);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: BotigaIcons.truck).show(context);
-    });
+    }
   }
 
   @override

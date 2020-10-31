@@ -69,7 +69,7 @@ class _StoreScreenState extends State<StoreScreen> {
       await categoryProvider.fetchCategories();
       Navigator.of(context).pop();
     } catch (error) {
-      Toast(message: '$error', iconData: Icons.error_outline).show(context);
+      Toast(message: Http.message(error)).show(context);
     } finally {
       setState(() {
         isSavingCategory = false;

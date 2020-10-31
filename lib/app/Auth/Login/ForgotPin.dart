@@ -6,6 +6,7 @@ import '../Signup/SetPin.dart';
 import '../../Auth/widgets/index.dart';
 import '../../../widget/index.dart';
 import '../../../providers/AuthProvider.dart';
+import '../../../util/httpService.dart';
 
 class LoginForgotPin extends StatefulWidget {
   static const routeName = '/forgot-pin';
@@ -57,48 +58,45 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
     );
   }
 
-  void _verifyOTP() {
-    setState(() {
-      _isLoading = true;
-    });
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final phone = routesArgs['phone'];
-    authProvider.verifyOtp(phone, sessionId, pinValue).then((value) {
-      String message = value['message'];
+  void _verifyOTP() async {
+    try {
       setState(() {
-        _isLoading = false;
+        _isLoading = true;
       });
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final routesArgs =
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      final phone = routesArgs['phone'];
+      final value = await authProvider.verifyOtp(phone, sessionId, pinValue);
+      String message = value['message'];
       if (message == "createSeller") {
-        Toast(iconData: Icons.info_outline, message: 'You are not registerd')
+        Toast(iconData: Icons.info_outline, message: 'You Are Not Registerd !')
             .show(context);
       } else {
         Navigator.pushNamed(context, SetPin.routeName,
             arguments: {'phone': phone});
       }
-    }).catchError((error) {
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(iconData: Icons.error_outline_outlined, message: '$error');
-    });
+    }
   }
 
-  void _getOTP() {
-    startTimer();
-    final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final phone = routesArgs['phone'];
-    authProvider.getOTP(phone).then((value) {
-      setState(() {
-        sessionId = value['sessionId'];
-      });
-    }).catchError((error) {
-      Toast(iconData: Icons.error_outline_outlined, message: '$error')
-          .show(context);
-    });
+  void _getOTP() async {
+    try {
+      startTimer();
+      final routesArgs =
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final phone = routesArgs['phone'];
+      final value = await authProvider.getOTP(phone);
+      sessionId = value['sessionId'];
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    }
   }
 
   Form otpForm() {

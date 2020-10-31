@@ -1,3 +1,4 @@
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'orderSummary.dart';
@@ -26,46 +27,44 @@ class _OrderDeliveryState extends State<OrderDelivery> {
     super.dispose();
   }
 
-  void handleCancelOrder(String orderId) {
+  void handleCancelOrder(String orderId) async {
     setState(() {
       _isLoading = true;
     });
-    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
-    ordersProvider.cancelOrder(orderId).then((value) {
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      final ordersProvider =
+          Provider.of<OrdersProvider>(context, listen: false);
+      final value = await ordersProvider.cancelOrder(orderId);
       Toast(message: '${value['message']}', iconData: BotigaIcons.truck)
           .show(context);
-    }).catchError((error) {
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
-    });
+    }
   }
 
-  void handleMarkAsDeliverd(String orderId, String apartmentName) {
+  void handleMarkAsDeliverd(String orderId, String apartmentName) async {
     setState(() {
       _isLoading = true;
     });
-    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
-    ordersProvider.setDeliveryStatus(orderId).then((value) {
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      final ordersProvider =
+          Provider.of<OrdersProvider>(context, listen: false);
+      await ordersProvider.setDeliveryStatus(orderId);
       Navigator.of(context).pushNamed(OrderFinalResult.routeName, arguments: {
         'orderId': orderId,
         'apartmentName': apartmentName,
       });
-    }).catchError((error) {
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
-    });
+    }
   }
 
   @override

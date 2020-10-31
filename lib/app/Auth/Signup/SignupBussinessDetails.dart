@@ -67,28 +67,27 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     super.didChangeDependencies();
   }
 
-  void _getPreSignedUrl() {
-    ImageService.getPresignedBrandImageUrl().then((value) {
+  void _getPreSignedUrl() async {
+    try {
+      final value = await ImageService.getPresignedBrandImageUrl();
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
       });
-    }).catchError((error) {
-      Toast(message: '$error', iconData: Icons.error_outline);
-    });
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    }
   }
 
-  void _handleImageUpload(PickedFile file) {
-    ImageService.uploadImageToS3(uploadurl, file)
-        .then((value) {})
-        .catchError((error) {
-      print(error);
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
+  void _handleImageUpload(PickedFile file) async {
+    try {
+      await ImageService.uploadImageToS3(uploadurl, file);
+    } catch (err) {
       setState(() {
         _imageFile = null;
       });
-    });
+      Toast(message: Http.message(err)).show(context);
+    }
   }
 
   void _onImageButtonPressed(ImageSource source, BuildContext context) async {
@@ -104,7 +103,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       });
       _handleImageUpload(pickedFile);
     } catch (e) {
-      Toast(message: '$e', iconData: Icons.error_outline_sharp).show(context);
+      Toast(message: Http.message(e)).show(context);
     }
     Navigator.of(context).pop();
   }
@@ -317,28 +316,25 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     );
   }
 
-  void handleSignUp(BuildContext context) {
+  void handleSignUp(BuildContext context) async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
-    setState(() {
-      _isLoading = true;
-    });
-    authProvider
-        .signup(_businessName, _seletedCategory, _firstName, _lastName,
-            _brandName, phone, _tagline, downloadUrl)
-        .then((value) {
+    try {
       setState(() {
-        _isLoading = false;
+        _isLoading = true;
       });
+      await authProvider.signup(_businessName, _seletedCategory, _firstName,
+          _lastName, _brandName, phone, _tagline, downloadUrl);
       Navigator.of(context).pushNamed(SignUpStoreDetails.routeName);
-    }).catchError((error) {
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(iconData: Icons.error_outline, message: '$error').show(context);
-    });
+    }
   }
 
   @override

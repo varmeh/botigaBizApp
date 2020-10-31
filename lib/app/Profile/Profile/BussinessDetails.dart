@@ -64,28 +64,27 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     });
   }
 
-  void _getPreSignedUrl() {
-    ImageService.getPresignedBrandImageUrl().then((value) {
-      print(value);
+  void _getPreSignedUrl() async {
+    try {
+      final value = await ImageService.getPresignedBrandImageUrl();
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
       });
-    }).catchError((error) {
-      Toast(message: '$error', iconData: Icons.error_outline).show(context);
-    });
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    }
   }
 
-  void _handleImageUpload(PickedFile file) {
-    ImageService.uploadImageToS3(uploadurl, file).then((value) {
-      print(value);
-    }).catchError((error) {
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
+  void _handleImageUpload(PickedFile file) async {
+    try {
+      await ImageService.uploadImageToS3(uploadurl, file);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
       setState(() {
         _imageFile = null;
       });
-    });
+    }
   }
 
   void _onImageButtonPressed(ImageSource source) async {
@@ -101,7 +100,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       });
       _handleImageUpload(pickedFile);
     } catch (e) {
-      Toast(message: '$e', iconData: Icons.error_outline_sharp).show(context);
+      Toast(message: Http.message(e)).show(context);
     }
     Navigator.of(context).pop();
   }
@@ -165,34 +164,24 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     );
   }
 
-  void handleBusinessInformationSave() {
+  void handleBusinessInformationSave() async {
     setState(() {
       _isLoading = true;
     });
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    profileProvider
-        .updateBusinessInfromation(
-            _brandName, _tagline, downloadUrl, _seletedCategory)
-        .then((value) {
-      profileProvider.fetchProfile().then((value) {
-        setState(() {
-          _isLoading = false;
-        });
-        Toast(message: 'Business details updated', iconData: Icons.check_circle)
-            .show(context);
-      }).catchError((error) {
-        setState(() {
-          _isLoading = false;
-        });
-        Toast(message: '$error', iconData: Icons.error_outline).show(context);
-      });
-    }).catchError((error) {
+    try {
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      await profileProvider.updateBusinessInfromation(
+          _brandName, _tagline, downloadUrl, _seletedCategory);
+      await profileProvider.fetchProfile();
+      Toast(message: 'Business details updated', iconData: Icons.check_circle);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline).show(context);
-    });
+    }
   }
 
   @override

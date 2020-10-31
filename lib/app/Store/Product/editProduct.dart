@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:botiga_biz/widget/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -163,27 +164,27 @@ class _EditProductState extends State<EditProduct>
     );
   }
 
-  void _getPreSignedUrl() {
-    ImageService.getPresignedImageUrl().then((value) {
+  void _getPreSignedUrl() async {
+    try {
+      final value = await ImageService.getPresignedImageUrl();
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
       });
-    }).catchError((error) {
-      Toast(message: '$error', iconData: Icons.error_outline);
-    });
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    }
   }
 
-  void _handleImageUpload(PickedFile file) {
-    ImageService.uploadImageToS3(uploadurl, file)
-        .then((value) {})
-        .catchError((error) {
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
+  void _handleImageUpload(PickedFile file) async {
+    try {
+      await ImageService.uploadImageToS3(uploadurl, file);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
       setState(() {
         _imageFile = null;
       });
-    });
+    }
   }
 
   void showImageSelectOption(BuildContext context) {
@@ -260,7 +261,7 @@ class _EditProductState extends State<EditProduct>
       });
       this._handleImageUpload(pickedFile);
     } catch (e) {
-      Toast(message: '$e', iconData: Icons.error_outline_sharp).show(context);
+      Toast(message: Http.message(e)).show(context);
     }
     Navigator.of(context).pop();
   }
@@ -285,8 +286,7 @@ class _EditProductState extends State<EditProduct>
       await productProvider.fetchProducts();
       BotigaBottomModal(child: editSuccessful()).show(context);
     } catch (error) {
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
+      Toast(message: Http.message(error)).show(context);
     } finally {
       setState(() {
         isSaving = false;
@@ -308,8 +308,7 @@ class _EditProductState extends State<EditProduct>
       await productProvider.fetchProducts();
       BotigaBottomModal(child: deleteSuccessful()).show(context);
     } catch (error) {
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
+      Toast(message: Http.message(error)).show(context);
     } finally {
       setState(() {
         isSaving = false;

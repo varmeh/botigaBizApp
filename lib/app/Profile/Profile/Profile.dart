@@ -1,3 +1,4 @@
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:botiga_biz/widget/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -91,11 +92,11 @@ class _ProfileState extends State<Profile> {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         Login.routeName, (route) => false);
                   } catch (err) {
+                    Toast(message: Http.message(err)).show(context);
+                  } finally {
                     setState(() {
                       isProcessing = false;
                     });
-                    Toast(message: '$err', iconData: Icons.error_outline)
-                        .show(context);
                   }
                 },
                 leading: Icon(

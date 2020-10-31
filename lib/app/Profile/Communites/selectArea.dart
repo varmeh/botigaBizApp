@@ -587,7 +587,7 @@ class _SelectAreaState extends State<SelectArea> {
       json.forEach(
           (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
     } catch (error) {
-      Toast(message: '$error', iconData: Icons.error_outline).show(context);
+      Toast(message: Http.message(error)).show(context);
     }
   }
 }

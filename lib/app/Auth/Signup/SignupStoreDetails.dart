@@ -1,3 +1,4 @@
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
@@ -52,14 +53,12 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
     );
   }
 
-  void _handlePinCodeChange(pin) {
+  void _handlePinCodeChange(pin) async {
     setState(() {
       _isLoading = true;
     });
-    PinService.getAreaFromPincode(pin).then((value) {
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      final value = await PinService.getAreaFromPincode(pin);
       List postOffices = value['PostOffice'];
       if (postOffices != null) {
         final firstArea = postOffices.first;
@@ -69,34 +68,31 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
           });
         }
       }
-    }).catchError((error) {
+    } finally {
       setState(() {
         _isLoading = false;
       });
-    });
+    }
   }
 
-  void _handleStoreDetailSave(BuildContext context) {
+  void _handleStoreDetailSave(BuildContext context) async {
     setState(() {
       _isLoading = true;
     });
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    profileProvider
-        .updateStoreDetails(null, _watsappNumber, _email, _buildingNumber,
-            _streetName, _area, _city, _state, _pincode)
-        .then((value) {
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      await profileProvider.updateStoreDetails(null, _watsappNumber, _email,
+          _buildingNumber, _streetName, _area, _city, _state, _pincode);
       Navigator.of(context)
           .pushNamed(SetPin.routeName, arguments: {'phone': _watsappNumber});
-    }).catchError((error) {
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline).show(context);
-    });
+    }
   }
 
   @override

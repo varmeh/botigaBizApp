@@ -32,51 +32,47 @@ class _OrderDetailsState extends State<OrderDetails> {
     super.dispose();
   }
 
-  void handleMarkAsDelayOrders(String orderId, DateTime date) {
+  void handleMarkAsDelayOrders(String orderId, DateTime date) async {
     Navigator.of(context).pop();
     setState(() {
       _isLoading = true;
     });
-    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
-    final deliveryDelayedDate = FormatDate.getRequestFormatDate(date);
-    ordersProvider
-        .setDeliveryDelayed(orderId, deliveryDelayedDate)
-        .then((value) {
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      final ordersProvider =
+          Provider.of<OrdersProvider>(context, listen: false);
+      final deliveryDelayedDate = FormatDate.getRequestFormatDate(date);
+      await ordersProvider.setDeliveryDelayed(orderId, deliveryDelayedDate);
       final newDateforDelivery = FormatDate.getDate(date);
       Toast(
               message: '${Constants.deliveryDateChanged} $newDateforDelivery',
               iconData: BotigaIcons.truck)
           .show(context);
-    }).catchError((error) {
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
-    });
+    }
   }
 
-  void handleCancelOrder(String orderId) {
+  void handleCancelOrder(String orderId) async {
     setState(() {
       _isLoading = true;
     });
-    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
-    ordersProvider.cancelOrder(orderId).then((value) {
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      final ordersProvider =
+          Provider.of<OrdersProvider>(context, listen: false);
+      final value = await ordersProvider.cancelOrder(orderId);
       Toast(message: '${value['message']}', iconData: BotigaIcons.truck)
           .show(context);
-    }).catchError((error) {
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
-    });
+    }
   }
 
   @override

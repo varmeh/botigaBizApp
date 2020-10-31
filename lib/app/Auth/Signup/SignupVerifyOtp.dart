@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:botiga_biz/theme/index.dart';
@@ -58,18 +59,16 @@ class _SignUpOtpState extends State<SignUpOtp> {
     );
   }
 
-  void _verifyOTP() {
+  void _verifyOTP() async {
     setState(() {
       _isLoading = true;
     });
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final phone = routesArgs['phone'];
-    authProvider.verifyOtp(phone, sessionId, pinValue).then((value) {
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final routesArgs =
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      final phone = routesArgs['phone'];
+      final value = await authProvider.verifyOtp(phone, sessionId, pinValue);
       String message = value['message'];
       if (message == "createSeller") {
         Navigator.pushReplacementNamed(
@@ -79,27 +78,29 @@ class _SignUpOtpState extends State<SignUpOtp> {
         Navigator.pushReplacementNamed(context, HomeScreen.routeName,
             arguments: {'phone': phone});
       }
-    }).catchError((error) {
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(iconData: Icons.error_outline, message: '$error').show(context);
-    });
+    }
   }
 
-  void _getOTP() {
+  void _getOTP() async {
     startTimer();
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final phone = routesArgs['phone'];
-    authProvider.getOTP(phone).then((value) {
+    try {
+      final value = await authProvider.getOTP(phone);
       setState(() {
         sessionId = value['sessionId'];
       });
-    }).catchError((error) {
-      Toast(iconData: Icons.error_outline, message: '$error').show(context);
-    });
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    }
   }
 
   Form otpForm() {

@@ -35,27 +35,30 @@ class _OrderListState extends State<OrderList> {
     super.dispose();
   }
 
-  void fetchData(String date) {
-    final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
-    final id = routesArgs['apartmentId'];
-    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+  void fetchData(String date) async {
     setState(() {
       _error = null;
       _isError = false;
       _isLoading = true;
     });
-    ordersProvider.fetchOrderByDateApartment(id, date).then((_) {
-      setState(() {
-        _isLoading = false;
-      });
-    }).catchError((err) {
+    try {
+      final routesArgs =
+          ModalRoute.of(context).settings.arguments as Map<String, String>;
+      final id = routesArgs['apartmentId'];
+      final ordersProvider =
+          Provider.of<OrdersProvider>(context, listen: false);
+      await ordersProvider.fetchOrderByDateApartment(id, date);
+    } catch (err) {
       setState(() {
         _error = err;
         _isError = true;
         _isLoading = false;
       });
-    });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override

@@ -106,24 +106,27 @@ class _OrdersHomeState extends State<OrdersHome> {
               );
   }
 
-  void fetchData(String date) {
-    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+  void fetchData(String date) async {
     setState(() {
       _error = null;
       _isError = false;
       _isLoading = true;
     });
-    ordersProvider.fetchAggregatedOrders(date).then((_) {
-      setState(() {
-        _isLoading = false;
-      });
-    }).catchError((err) {
+    try {
+      final ordersProvider =
+          Provider.of<OrdersProvider>(context, listen: false);
+      await ordersProvider.fetchAggregatedOrders(date);
+    } catch (err) {
       setState(() {
         _error = err;
         _isError = true;
         _isLoading = false;
       });
-    });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   Future _onRefresh() {

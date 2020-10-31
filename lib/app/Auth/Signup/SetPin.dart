@@ -1,4 +1,5 @@
 import 'package:botiga_biz/theme/index.dart';
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -60,26 +61,25 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
     );
   }
 
-  void _handleSetPin() {
+  void _handleSetPin() async {
     setState(() {
       _isLoading = true;
     });
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final phone = routesArgs['phone'];
-    authProvider.updatePin(phone, pinValue).then((value) {
-      setState(() {
-        _isLoading = false;
-      });
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final routesArgs =
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      final phone = routesArgs['phone'];
+      await authProvider.updatePin(phone, pinValue);
       BotigaBottomModal(isDismissible: false, child: setPinSuccessful())
           .show(context);
-    }).catchError((error) {
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline).show(context);
-    });
+    }
   }
 
   Row setPinButton(Function onVerification) {

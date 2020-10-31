@@ -1,4 +1,5 @@
 import 'package:botiga_biz/theme/index.dart';
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../util/FormValidators.dart';
@@ -34,7 +35,7 @@ class _CategoryState extends State<Category> {
       await productProvider.fetchProducts();
       Navigator.of(context).pop();
     } catch (error) {
-      Toast(message: '$error', iconData: Icons.error_outline).show(context);
+      Toast(message: Http.message(error)).show(context);
     } finally {
       setState(() {
         _isProcessing = false;
@@ -214,8 +215,7 @@ Widget getTile(BuildContext context, StoreCategory category, Function setStatus,
                     await productProvider.fetchProducts();
                     await categoryProvider.fetchCategories();
                   } catch (err) {
-                    Toast(message: '$err', iconData: Icons.error_outline_sharp)
-                        .show(context);
+                    Toast(message: Http.message(err)).show(context);
                   } finally {
                     setStatus(false);
                   }

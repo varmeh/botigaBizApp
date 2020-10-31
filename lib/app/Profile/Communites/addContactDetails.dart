@@ -71,82 +71,62 @@ class _AddContactDetailsState extends State<AddContactDetails> {
         initialText: '91${widget.whatsappNumber}');
   }
 
-  void _handleStoreDetailSave() {
+  void _handleStoreDetailSave() async {
     setState(() {
       _isLoading = true;
     });
     final whatsappNumber = checkboxValue ? _phoneNumber : _watsappNumber;
-
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    profileProvider
-        .addApartment(widget.apartmentId, _phoneNumber, whatsappNumber, _email,
-            widget.deliveryType, widget.day)
-        .then((value) {
-      profileProvider.fetchProfile().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (builder) {
-            return AddCommunitesSuccess(_businessName, widget.deliveryType,
-                widget.day, widget.isSave, widget.deliveryMsg);
-          },
-        );
-      }).catchError((error) {
-        setState(() {
-          _isLoading = false;
-        });
-        Toast(message: '$error', iconData: Icons.error_outline).show(context);
-      });
-    }).catchError((error) {
+    try {
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      await profileProvider.addApartment(widget.apartmentId, _phoneNumber,
+          whatsappNumber, _email, widget.deliveryType, widget.day);
+      await profileProvider.fetchProfile();
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (builder) {
+          return AddCommunitesSuccess(_businessName, widget.deliveryType,
+              widget.day, widget.isSave, widget.deliveryMsg);
+        },
+      );
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline).show(context);
-    });
+    }
   }
 
-  void _handleStoreDetailUpdate() {
+  void _handleStoreDetailUpdate() async {
     setState(() {
       _isLoading = true;
     });
-    final whatsappNumber = checkboxValue ? _phoneNumber : _watsappNumber;
-
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    profileProvider
-        .updateApartmentContactInformation(
-            widget.apartmentId, _email, whatsappNumber, _phoneNumber)
-        .then((value) {
-      profileProvider.fetchProfile().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          builder: (builder) {
-            return AddCommunitesSuccess(_businessName, widget.deliveryType,
-                widget.day, widget.isSave, widget.deliveryMsg);
-          },
-        );
-      }).catchError((error) {
-        setState(() {
-          _isLoading = false;
-        });
-        Toast(message: '$error', iconData: Icons.error_outline).show(context);
-      });
-    }).catchError((error) {
+    try {
+      final whatsappNumber = checkboxValue ? _phoneNumber : _watsappNumber;
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      await profileProvider.updateApartmentContactInformation(
+          widget.apartmentId, _email, whatsappNumber, _phoneNumber);
+      await profileProvider.fetchProfile();
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (builder) {
+          return AddCommunitesSuccess(_businessName, widget.deliveryType,
+              widget.day, widget.isSave, widget.deliveryMsg);
+        },
+      );
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      Toast(message: '$error', iconData: Icons.error_outline).show(context);
-    });
+    }
   }
 
   @override

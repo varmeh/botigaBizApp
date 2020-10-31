@@ -74,42 +74,44 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     _error = null;
   }
 
-  void fetchDeliveryData(String aprtmentId, String currentDate) {
+  void fetchDeliveryData(String aprtmentId, String currentDate) async {
     final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
     setState(() {
       _isError = false;
       _isLoading = true;
       _error = null;
     });
-    orderProvider.fetchOrderByDateApartment(aprtmentId, currentDate).then((_) {
-      setState(() {
-        _isLoading = false;
-      });
-    }).catchError((err) {
+    try {
+      await orderProvider.fetchOrderByDateApartment(aprtmentId, currentDate);
+    } catch (err) {
       setState(() {
         _isError = true;
         _isLoading = false;
         _error = err;
       });
-    });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
-  void _handleOutForDelivery(String orderId) {
+  void _handleOutForDelivery(String orderId) async {
     setState(() {
       _isProcessing = true;
     });
-    final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
-    orderProvider.setDeliveryStatus(orderId).then((value) {
+    try {
+      final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
+      final value = await orderProvider.setDeliveryStatus(orderId);
+      Toast(message: '${value['message']}', iconData: BotigaIcons.truck)
+          .show(context);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         _isProcessing = false;
       });
-      Toast(message: '$value', iconData: BotigaIcons.truck).show(context);
-    }).catchError((error) {
-      setState(() {
-        _isProcessing = false;
-      });
-      Toast(message: '$error', iconData: BotigaIcons.truck).show(context);
-    });
+    }
   }
 
   void fetchDefaultDeliveryDetails() {

@@ -1,4 +1,5 @@
 import 'package:botiga_biz/theme/index.dart';
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -73,8 +74,7 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
       await productProvider.fetchProducts();
     } catch (error) {
       onFail();
-      Toast(message: '$error', iconData: Icons.error_outline_sharp)
-          .show(context);
+      Toast(message: Http.message(error)).show(context);
     } finally {
       setApiStatus(false);
     }

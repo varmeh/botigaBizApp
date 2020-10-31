@@ -1,3 +1,4 @@
+import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -16,62 +17,48 @@ class Communities extends StatefulWidget {
 class _CommunitiesState extends State<Communities> {
   bool isLoading = false;
 
-  void setApartmentStatus(String aptId, bool value, Function onFail) {
+  void setApartmentStatus(String aptId, bool value, Function onFail) async {
     setState(() {
       isLoading = true;
     });
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    profileProvider.setApartmentStatus(aptId, value).then((value) {
-      profileProvider.fetchProfile().then((_) {
-        setState(() {
-          isLoading = false;
-        });
-        Toast(message: '$value', iconData: Icons.check_circle).show(context);
-      }).catchError((err) {
-        setState(() {
-          isLoading = false;
-        });
-        onFail();
-        Toast(message: '$err', iconData: Icons.error_outline).show(context);
-      });
-    }).catchError((err) {
+    try {
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      final res = await profileProvider.setApartmentStatus(aptId, value);
+      await profileProvider.fetchProfile();
+      Toast(message: "$res['message']", iconData: Icons.check_circle)
+          .show(context);
+    } catch (err) {
+      onFail();
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         isLoading = false;
       });
-      onFail();
-      Toast(message: '$err', iconData: Icons.error_outline).show(context);
-    });
+    }
   }
 
   void updateDeliverySchedule(
-      String _apartmentId, String _deliveryType, int _day) {
-    Navigator.of(context).popUntil(ModalRoute.withName(HomeScreen.routeName));
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    setState(() {
-      isLoading = true;
-    });
-    profileProvider
-        .updateApartmentDeliveryScheduled(_apartmentId, _deliveryType, _day)
-        .then((value) {
-      profileProvider.fetchProfile().then((_) {
-        setState(() {
-          isLoading = false;
-        });
-        Toast(message: '$value', iconData: Icons.check_circle).show(context);
-      }).catchError((err) {
-        setState(() {
-          isLoading = false;
-        });
-        Toast(message: '$err', iconData: Icons.error_outline).show(context);
+      String _apartmentId, String _deliveryType, int _day) async {
+    try {
+      Navigator.of(context).popUntil(ModalRoute.withName(HomeScreen.routeName));
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      setState(() {
+        isLoading = true;
       });
-    }).catchError((err) {
+      final value = await profileProvider.updateApartmentDeliveryScheduled(
+          _apartmentId, _deliveryType, _day);
+      await profileProvider.fetchProfile();
+      Toast(message: "$value['message']", iconData: Icons.check_circle)
+          .show(context);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
       setState(() {
         isLoading = false;
       });
-      Toast(message: '$err', iconData: Icons.error_outline).show(context);
-    });
+    }
   }
 
   @override
