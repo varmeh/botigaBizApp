@@ -33,11 +33,12 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future updateBusinessInfromation(String brandName, String tagline,
-      String imageUrl, String businessCategory) async {
+      String imageUrl, String businessCategory, bool updateImage) async {
     return Http.patch('/api/seller/profile/business', body: {
       "brandName": brandName,
       "tagline": tagline,
-      "imageUrl": imageUrl
+      "imageUrl": imageUrl,
+      "updateImage": updateImage
     });
   }
 

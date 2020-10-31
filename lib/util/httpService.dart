@@ -85,6 +85,7 @@ class Http {
     if (response.statusCode == 204) {
       return;
     }
+    print(json.decode(response.body));
 
     final data = json.decode(response.body);
     if (response.statusCode >= 500) {

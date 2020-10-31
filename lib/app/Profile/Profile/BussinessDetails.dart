@@ -171,10 +171,12 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     try {
       final profileProvider =
           Provider.of<ProfileProvider>(context, listen: false);
+      final updateImage = _imageFile != null ? true : false;
       await profileProvider.updateBusinessInfromation(
-          _brandName, _tagline, downloadUrl, _seletedCategory);
+          _brandName, _tagline, downloadUrl, _seletedCategory, updateImage);
       await profileProvider.fetchProfile();
-      Toast(message: 'Business details updated', iconData: Icons.check_circle);
+      Toast(message: 'Business details updated', iconData: Icons.check_circle)
+          .show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
