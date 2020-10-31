@@ -12,6 +12,13 @@ import '../../../util/FormValidators.dart';
 import '../../Home/HomeScreen.dart';
 
 class EditProduct extends StatefulWidget {
+  final String productId;
+  final String categoryId;
+  final String categoryName;
+  EditProduct(
+      {@required this.productId,
+      @required this.categoryId,
+      @required this.categoryName});
   static const routeName = '/edit-product';
   @override
   _EditProductState createState() => _EditProductState();
@@ -73,15 +80,13 @@ class _EditProductState extends State<EditProduct>
   }
 
   void loadInitialFormValue() {
-    final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
     Product product = Provider.of<ProductProvider>(context, listen: false)
-        .getProductById(routesArgs['categoryId'], routesArgs['productId']);
+        .getProductById(widget.categoryId, widget.productId);
     if (product != null) {
       setState(() {
-        _productId = routesArgs['productId'];
-        _seletedCategory = routesArgs['categoryName'];
-        _seletedCategoryId = routesArgs['categoryId'];
+        _productId = widget.productId;
+        _seletedCategory = widget.categoryName;
+        _seletedCategoryId = widget.categoryId;
         _imageUrl = product.imageUrl;
         _name = product.name;
         _price = double.parse(product.price.toString());

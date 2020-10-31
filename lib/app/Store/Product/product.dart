@@ -2,6 +2,7 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:animations/animations.dart';
 import 'editProduct.dart';
 import '../../../util/constants.dart';
 import '../../../widget/index.dart';
@@ -124,19 +125,33 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
                   ...productWithCategory.products.asMap().entries.map((entry) {
                     int idx = entry.key;
                     if (idx == productWithCategory.products.length - 1) {
-                      return ProductItemRow(
-                          entry.value,
-                          productWithCategory.categoryId,
-                          productWithCategory.name,
-                          setProductAvilablity);
+                      return OpenContainer(
+                        closedElevation: 0.0,
+                        transitionDuration: Duration(milliseconds: 500),
+                        closedBuilder: (context, openContainer) =>
+                            ProductItemRow(entry.value, setProductAvilablity,
+                                openContainer),
+                        openBuilder: (_, __) => EditProduct(
+                          productId: entry.value.id,
+                          categoryId: productWithCategory.categoryId,
+                          categoryName: productWithCategory.name,
+                        ),
+                      );
                     }
                     return Column(
                       children: [
-                        ProductItemRow(
-                            entry.value,
-                            productWithCategory.categoryId,
-                            productWithCategory.name,
-                            setProductAvilablity),
+                        OpenContainer(
+                          closedElevation: 0.0,
+                          transitionDuration: Duration(milliseconds: 500),
+                          closedBuilder: (context, openContainer) =>
+                              ProductItemRow(entry.value, setProductAvilablity,
+                                  openContainer),
+                          openBuilder: (_, __) => EditProduct(
+                            productId: entry.value.id,
+                            categoryId: productWithCategory.categoryId,
+                            categoryName: productWithCategory.name,
+                          ),
+                        ),
                         Divider(
                           color: AppTheme.dividerColor,
                           thickness: 1.2,
@@ -160,11 +175,10 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
 
 class ProductItemRow extends StatefulWidget {
   final Product product;
-  final String categoryId;
-  final String categoryName;
+
   final Function setProductAvilablity;
-  ProductItemRow(this.product, this.categoryId, this.categoryName,
-      this.setProductAvilablity);
+  final Function onOpen;
+  ProductItemRow(this.product, this.setProductAvilablity, this.onOpen);
   @override
   _ProductItemRowState createState() => _ProductItemRowState();
 }
@@ -185,14 +199,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
 
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          EditProduct.routeName,
-          arguments: {
-            'productId': product.id,
-            "categoryId": widget.categoryId,
-            "categoryName": widget.categoryName,
-          },
-        );
+        widget.onOpen();
       },
       child: Container(
         height: 100,
