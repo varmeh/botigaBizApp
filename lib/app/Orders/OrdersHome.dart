@@ -91,8 +91,8 @@ class _OrdersHomeState extends State<OrdersHome> {
                                       (apartment) => _orderCard(
                                         apartment.id,
                                         apartment.apartmentName,
-                                        apartment.orders,
                                         apartment.revenue,
+                                        apartment.orders,
                                       ),
                                     ),
                           SizedBox(
