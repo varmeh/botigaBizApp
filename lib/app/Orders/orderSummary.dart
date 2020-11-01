@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
+import '../../widget/contactWidget.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 
 class OrderSummary extends StatelessWidget {
@@ -79,67 +80,34 @@ class OrderSummary extends StatelessWidget {
                 width: 15,
               ),
               Flexible(
-                child: Text(
-                  '${Constants.expectedDelivery} ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
-                  style: AppTheme.textStyle.color100.w500.size(13),
-                ),
+                child: isOrderOpen(orderDetail.order.status)
+                    ? Text(
+                        '${Constants.expectedDelivery} ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
+                        style: AppTheme.textStyle.color100.w500.size(13),
+                      )
+                    : isOrderClosed(orderDetail.order.status)
+                        ? Text(
+                            '${Constants.deliverdOn} ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
+                            style: AppTheme.textStyle.color100.w500.size(13),
+                          )
+                        : Text(
+                            '${orderDetail.order.status.toUpperCase()}',
+                            style: AppTheme.textStyle.color100.w500.size(13),
+                          ),
               )
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 27, bottom: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Expanded(
-                child: SizedBox(
-                  height: 44,
-                  // width: 165,
-                  child: FlatButton.icon(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.0),
-                    ),
-                    icon: Icon(
-                      BotigaIcons.call,
-                      color: Colors.black,
-                      size: 18,
-                    ),
-                    onPressed: () {},
-                    color: Color(0xff121715).withOpacity(0.05),
-                    highlightColor: AppTheme.primaryColor,
-                    label: Text(
-                      'Call',
-                      style: AppTheme.textStyle.color100.w500.size(15),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 13,
-              ),
-              Expanded(
-                child: SizedBox(
-                  height: 44,
-                  // width: 165,
-                  child: FlatButton.icon(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.0),
-                    ),
-                    icon: Image.asset('assets/images/watsapp.png'),
-                    onPressed: () {},
-                    color: Color(0xff121715).withOpacity(0.05),
-                    highlightColor: AppTheme.primaryColor,
-                    label: Text(
-                      'Whatsapp',
-                      style: AppTheme.textStyle.color100.w500.size(15),
-                    ),
-                  ),
-                ),
+        isOrderOpen(orderDetail.order.status)
+            ? Padding(
+                padding: const EdgeInsets.only(top: 27, bottom: 24),
+                child: ContactWidget(
+                    whatsapp: orderDetail.buyer.whatsapp,
+                    phone: orderDetail.buyer.phone),
               )
-            ],
-          ),
-        )
+            : SizedBox(
+                height: 27,
+              )
       ],
     );
   }

@@ -13,3 +13,4 @@ export 'searchBar.dart';
 export 'BottomSheetHeader.dart';
 export 'EmptyDelivery.dart';
 export 'SelectDuration.dart';
+export 'contactWidget.dart';

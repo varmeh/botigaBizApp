@@ -43,7 +43,7 @@ class OrderRow extends StatelessWidget {
                             .letterSpace(1)),
                     Container(
                       decoration: BoxDecoration(
-                        color: Color(0xffE9A136),
+                        color: statusColor(status),
                         borderRadius: BorderRadius.all(
                           Radius.circular(2),
                         ),

@@ -19,6 +19,7 @@ class _OrdersHomeState extends State<OrdersHome> {
   var _error;
   var _isInit = false;
   var slectedDate = Constants.today;
+  var selectedDateForRequest;
   CalendarController _calendarController;
 
   @override
@@ -147,8 +148,11 @@ class _OrdersHomeState extends State<OrdersHome> {
   }
 
   Future _onRefresh() {
+    final date = selectedDateForRequest == null
+        ? DateTime.now()
+        : selectedDateForRequest;
     return Provider.of<OrdersProvider>(context, listen: false)
-        .fetchAggregatedOrders(FormatDate.getRequestFormatDate(DateTime.now()));
+        .fetchAggregatedOrders(FormatDate.getRequestFormatDate(date));
   }
 
   Widget _orderHeader(int revenue, int totalOrder, String name) {
@@ -273,12 +277,15 @@ class _OrdersHomeState extends State<OrdersHome> {
   }
 
   Widget _orderCard(
-      String apartmentIdid, String apartmentName, int revenue, int totalOrder) {
+      String apartmentId, String apartmentName, int revenue, int totalOrder) {
     return InkWell(
       onTap: () {
         Navigator.of(context).pushNamed(OrderList.routeName, arguments: {
-          'apartmentId': apartmentIdid,
-          'apartmentName': apartmentName
+          'apartmentId': apartmentId,
+          'apartmentName': apartmentName,
+          'selectedDateForRequest': selectedDateForRequest == null
+              ? DateTime.now()
+              : selectedDateForRequest
         });
       },
       child: Padding(
@@ -438,33 +445,36 @@ class _OrdersHomeState extends State<OrdersHome> {
             topRight: const Radius.circular(16.0),
           ),
         ),
-        child: TableCalendar(
-          initialSelectedDay: FormatDate.convertStringToDate(slectedDate),
-          startDay: DateTime.now(),
-          availableCalendarFormats: const {
-            CalendarFormat.month: 'Month',
-          },
-          calendarStyle: CalendarStyle(
-              todayColor: AppTheme.primaryColorVariant.withOpacity(0.5),
-              selectedColor: AppTheme.primaryColor,
-              outsideDaysVisible: true,
-              weekendStyle: AppTheme.textStyle.color100,
-              outsideWeekendStyle: AppTheme.textStyle.color50),
-          daysOfWeekStyle: DaysOfWeekStyle(
-            weekendStyle: AppTheme.textStyle.colored(AppTheme.color100),
+        child: SafeArea(
+          child: TableCalendar(
+            initialSelectedDay: FormatDate.convertStringToDate(slectedDate),
+            startDay: DateTime.now(),
+            availableCalendarFormats: const {
+              CalendarFormat.month: 'Month',
+            },
+            calendarStyle: CalendarStyle(
+                todayColor: AppTheme.primaryColorVariant.withOpacity(0.5),
+                selectedColor: AppTheme.primaryColor,
+                outsideDaysVisible: true,
+                weekendStyle: AppTheme.textStyle.color100,
+                outsideWeekendStyle: AppTheme.textStyle.color50),
+            daysOfWeekStyle: DaysOfWeekStyle(
+              weekendStyle: AppTheme.textStyle.colored(AppTheme.color100),
+            ),
+            headerStyle: HeaderStyle(
+              centerHeaderTitle: false,
+              formatButtonVisible: false,
+            ),
+            onDaySelected: (date, events) {
+              Navigator.of(context).pop();
+              setState(() {
+                slectedDate = FormatDate.getTodayOrSelectedDate(date);
+                selectedDateForRequest = date;
+              });
+              fetchData(FormatDate.getRequestFormatDate(date));
+            },
+            calendarController: _calendarController,
           ),
-          headerStyle: HeaderStyle(
-            centerHeaderTitle: false,
-            formatButtonVisible: false,
-          ),
-          onDaySelected: (date, events) {
-            Navigator.of(context).pop();
-            setState(() {
-              slectedDate = FormatDate.getTodayOrSelectedDate(date);
-            });
-            fetchData(FormatDate.getRequestFormatDate(date));
-          },
-          calendarController: _calendarController,
         ),
       ),
     );

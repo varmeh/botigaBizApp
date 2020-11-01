@@ -5,3 +5,4 @@ export 'FormatDate.dart';
 export 'FormValidators.dart';
 export 'token.dart';
 export 'httpService.dart';
+export 'Order.dart';

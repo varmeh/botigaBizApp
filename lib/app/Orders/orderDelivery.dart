@@ -2,11 +2,11 @@ import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'orderSummary.dart';
-import 'orderFinalResult.dart';
 import '../../providers/OrdersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import '../../theme/index.dart';
 import '../../widget/index.dart';
+import '../../util/index.dart';
 
 class OrderDelivery extends StatefulWidget {
   static const routeName = '/order-delivery';
@@ -27,15 +27,18 @@ class _OrderDeliveryState extends State<OrderDelivery> {
     super.dispose();
   }
 
-  void handleCancelOrder(String orderId) async {
+  void handleCancelOrder(
+      String orderId, String apartmentId, String selectedDateForRequest) async {
     setState(() {
       _isLoading = true;
     });
     try {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
-      final value = await ordersProvider.cancelOrder(orderId);
-      Toast(message: '${value['message']}', iconData: BotigaIcons.truck)
+      await ordersProvider.cancelOrder(orderId);
+      await ordersProvider.fetchOrderByDateApartment(
+          apartmentId, selectedDateForRequest);
+      Toast(message: 'Order canceled', iconData: BotigaIcons.truck)
           .show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
@@ -46,7 +49,8 @@ class _OrderDeliveryState extends State<OrderDelivery> {
     }
   }
 
-  void handleMarkAsDeliverd(String orderId, String apartmentName) async {
+  void handleMarkAsDeliverd(String orderId, String apartmentName,
+      String apartmentId, String selectedDateForRequest) async {
     setState(() {
       _isLoading = true;
     });
@@ -54,10 +58,10 @@ class _OrderDeliveryState extends State<OrderDelivery> {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
       await ordersProvider.setDeliveryStatus(orderId);
-      Navigator.of(context).pushNamed(OrderFinalResult.routeName, arguments: {
-        'orderId': orderId,
-        'apartmentName': apartmentName,
-      });
+      await ordersProvider.fetchOrderByDateApartment(
+          apartmentId, selectedDateForRequest);
+      Toast(message: "Order marked as deliverd", iconData: BotigaIcons.truck)
+          .show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
@@ -73,7 +77,9 @@ class _OrderDeliveryState extends State<OrderDelivery> {
         ModalRoute.of(context).settings.arguments;
     final orderId = routeArgs['orderId'];
     final apartmentName = routeArgs['apartmentName'];
-    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    final apartmentId = routeArgs['apartmentId'];
+    final selectedDateForRequest = routeArgs['selectedDateForRequest'];
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: true);
     final OrderByDateDetail orderDetail =
         ordersProvider.getOrderDetails(orderId);
 
@@ -82,60 +88,67 @@ class _OrderDeliveryState extends State<OrderDelivery> {
             backgroundColor: AppTheme.backgroundColor,
             elevation: 0,
             actions: [
-              FlatButton(
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(
-                            "Cancel Order",
-                            style: AppTheme.textStyle.color100.w600
-                                .size(14)
-                                .letterSpace(.02),
-                          ),
-                          content: Text(
-                            "Are you sure you want to cancel this order ?",
-                            style: AppTheme.textStyle.color100.w500
-                                .size(13)
-                                .letterSpace(.02),
-                          ),
-                          actions: [
-                            FlatButton(
-                              child: Text(
-                                "Yes",
-                                style: AppTheme.textStyle.color100.w500
-                                    .size(13)
-                                    .letterSpace(.02),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                handleCancelOrder(orderId);
-                              },
-                            ),
-                            FlatButton(
-                              child: Text(
-                                "No",
-                                style: AppTheme.textStyle.color100.w500
-                                    .size(13)
-                                    .letterSpace(.02),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      });
-                },
-                child: Text('Cancel Order',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: Theme.of(context).colorScheme.error)),
-              )
+              ...isOrderOpen(orderDetail.order.status)
+                  ? [
+                      FlatButton(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "Cancel Order",
+                                    style: AppTheme.textStyle.color100.w600
+                                        .size(14)
+                                        .letterSpace(.02),
+                                  ),
+                                  content: Text(
+                                    "Are you sure you want to cancel this order ?",
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(13)
+                                        .letterSpace(.02),
+                                  ),
+                                  actions: [
+                                    FlatButton(
+                                      child: Text(
+                                        "Yes",
+                                        style: AppTheme.textStyle.color100.w500
+                                            .size(13)
+                                            .letterSpace(.02),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        handleCancelOrder(orderId, apartmentId,
+                                            selectedDateForRequest);
+                                      },
+                                    ),
+                                    FlatButton(
+                                      child: Text(
+                                        "No",
+                                        style: AppTheme.textStyle.color100.w500
+                                            .size(13)
+                                            .letterSpace(.02),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        child: Text('Cancel Order',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.error)),
+                      )
+                    ]
+                  : []
             ],
             leading: IconButton(
               icon: Icon(
@@ -147,36 +160,39 @@ class _OrderDeliveryState extends State<OrderDelivery> {
               },
             )),
         backgroundColor: AppTheme.backgroundColor,
-        bottomNavigationBar: SafeArea(
-          child: Container(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: SizedBox(
-                      height: 52,
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.0),
+        bottomNavigationBar: isOrderOpen(orderDetail.order.status)
+            ? SafeArea(
+                child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: SizedBox(
+                            height: 52,
+                            child: FlatButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6.0),
+                              ),
+                              onPressed: () {
+                                handleMarkAsDeliverd(orderId, apartmentName,
+                                    apartmentId, selectedDateForRequest);
+                              },
+                              textColor: Colors.red,
+                              color: Color(0xff179F57),
+                              child: Text(
+                                'Mark as delivered',
+                                style: AppTheme.textStyle
+                                    .colored(AppTheme.backgroundColor)
+                                    .w500
+                                    .size(15),
+                              ),
+                            ),
+                          ),
                         ),
-                        onPressed: () {
-                          handleMarkAsDeliverd(orderId, apartmentName);
-                        },
-                        textColor: Colors.red,
-                        color: Color(0xff179F57),
-                        child: Text(
-                          'Mark as delivered',
-                          style: AppTheme.textStyle
-                              .colored(AppTheme.backgroundColor)
-                              .w500
-                              .size(15),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )),
-        ),
+                      ],
+                    )),
+              )
+            : SizedBox.shrink(),
         body: SafeArea(
           child: Stack(
             children: [

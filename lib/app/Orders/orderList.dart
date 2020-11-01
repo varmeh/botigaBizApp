@@ -21,6 +21,7 @@ class _OrderListState extends State<OrderList> {
   var _error;
   var _isInit = false;
   var slectedDate = 'TODAY';
+  var selectedDateForRequest;
   CalendarController _calendarController;
 
   @override
@@ -43,7 +44,7 @@ class _OrderListState extends State<OrderList> {
     });
     try {
       final routesArgs =
-          ModalRoute.of(context).settings.arguments as Map<String, String>;
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
       final id = routesArgs['apartmentId'];
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
@@ -64,8 +65,15 @@ class _OrderListState extends State<OrderList> {
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      var currentDate = FormatDate.getRequestFormatDate(DateTime.now());
+      final routesArgs =
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      final date = routesArgs['selectedDateForRequest'];
+      var currentDate = FormatDate.getRequestFormatDate(date);
       fetchData(currentDate);
+      setState(() {
+        selectedDateForRequest = date;
+        slectedDate = FormatDate.getTodayOrSelectedDate(date);
+      });
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -74,8 +82,9 @@ class _OrderListState extends State<OrderList> {
   @override
   Widget build(BuildContext context) {
     final routesArgs =
-        ModalRoute.of(context).settings.arguments as Map<String, String>;
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final aprtmentName = routesArgs['apartmentName'];
+    final apartmentId = routesArgs['apartmentId'];
     return Scaffold(
       appBar: AppBar(
           backgroundColor: AppTheme.backgroundColor,
@@ -135,9 +144,7 @@ class _OrderListState extends State<OrderList> {
                                     isScrollControlled: true,
                                     backgroundColor: Colors.transparent,
                                     builder: (context) => Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.65,
+                                      padding: EdgeInsets.only(bottom: 24),
                                       decoration: BoxDecoration(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -147,44 +154,48 @@ class _OrderListState extends State<OrderList> {
                                           topRight: const Radius.circular(16.0),
                                         ),
                                       ),
-                                      child: TableCalendar(
-                                        initialSelectedDay:
-                                            FormatDate.convertStringToDate(
-                                                slectedDate),
-                                        startDay: DateTime.now(),
-                                        availableCalendarFormats: const {
-                                          CalendarFormat.month: 'Month',
-                                        },
-                                        calendarStyle: CalendarStyle(
-                                            todayColor: AppTheme
-                                                .primaryColorVariant
-                                                .withOpacity(0.5),
-                                            selectedColor:
-                                                AppTheme.primaryColor,
-                                            outsideDaysVisible: true,
-                                            weekendStyle:
-                                                AppTheme.textStyle.color100,
-                                            outsideWeekendStyle:
-                                                AppTheme.textStyle.color50),
-                                        daysOfWeekStyle: DaysOfWeekStyle(
-                                          weekendStyle: AppTheme.textStyle
-                                              .colored(AppTheme.color100),
+                                      child: SafeArea(
+                                        child: TableCalendar(
+                                          initialSelectedDay:
+                                              FormatDate.convertStringToDate(
+                                                  slectedDate),
+                                          startDay: DateTime.now(),
+                                          availableCalendarFormats: const {
+                                            CalendarFormat.month: 'Month',
+                                          },
+                                          calendarStyle: CalendarStyle(
+                                              todayColor: AppTheme
+                                                  .primaryColorVariant
+                                                  .withOpacity(0.5),
+                                              selectedColor:
+                                                  AppTheme.primaryColor,
+                                              outsideDaysVisible: true,
+                                              weekendStyle:
+                                                  AppTheme.textStyle.color100,
+                                              outsideWeekendStyle:
+                                                  AppTheme.textStyle.color50),
+                                          daysOfWeekStyle: DaysOfWeekStyle(
+                                            weekendStyle: AppTheme.textStyle
+                                                .colored(AppTheme.color100),
+                                          ),
+                                          headerStyle: HeaderStyle(
+                                            centerHeaderTitle: false,
+                                            formatButtonVisible: false,
+                                          ),
+                                          onDaySelected: (date, events) {
+                                            Navigator.of(context).pop();
+                                            setState(() {
+                                              slectedDate = FormatDate
+                                                  .getTodayOrSelectedDate(date);
+                                              selectedDateForRequest = date;
+                                            });
+                                            fetchData(
+                                                FormatDate.getRequestFormatDate(
+                                                    date));
+                                          },
+                                          calendarController:
+                                              _calendarController,
                                         ),
-                                        headerStyle: HeaderStyle(
-                                          centerHeaderTitle: false,
-                                          formatButtonVisible: false,
-                                        ),
-                                        onDaySelected: (date, events) {
-                                          Navigator.of(context).pop();
-                                          setState(() {
-                                            slectedDate = FormatDate
-                                                .getTodayOrSelectedDate(date);
-                                          });
-                                          fetchData(
-                                              FormatDate.getRequestFormatDate(
-                                                  date));
-                                        },
-                                        calendarController: _calendarController,
                                       ),
                                     ),
                                   );
@@ -226,7 +237,14 @@ class _OrderListState extends State<OrderList> {
                                     OrderDetails.routeName,
                                     arguments: {
                                       'orderId': orderRow.id,
-                                      'apartmentName': aprtmentName
+                                      'apartmentName': aprtmentName,
+                                      'apartmentId': apartmentId,
+                                      'selectedDateForRequest':
+                                          selectedDateForRequest == null
+                                              ? FormatDate.getRequestFormatDate(
+                                                  DateTime.now())
+                                              : FormatDate.getRequestFormatDate(
+                                                  selectedDateForRequest)
                                     },
                                   );
                                 },
