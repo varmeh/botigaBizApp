@@ -167,225 +167,215 @@ class _OrderDetailsState extends State<OrderDetails> {
             },
           )),
       body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              color: AppTheme.backgroundColor,
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                      right: 20,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        OrderSummary(orderDetail, apartmentName)
-                      ],
-                    ),
+        child: LoaderOverlay(
+          isLoading: _isLoading,
+          child: Container(
+            color: AppTheme.backgroundColor,
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20.0,
+                    right: 20,
                   ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        OrderListSummary(orderDetail),
-                        SizedBox(
-                          height: 87,
-                        ),
-                        isOrderOpen(orderDetail.order.status)
-                            ? Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, right: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      width: 90,
-                                      height: 128,
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.backgroundColor,
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color(0xff121714)
-                                                .withOpacity(0.12),
-                                            blurRadius:
-                                                40.0, // soften the shadow
-                                            spreadRadius:
-                                                0.0, //extend the shadow
-                                            offset: Offset(
-                                              0.0, // Move to right 10  horizontally
-                                              0.0, // Move to bottom 10 Vertically
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      child: InkWell(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            isScrollControlled: true,
-                                            backgroundColor: Colors.transparent,
-                                            builder: (context) => Container(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 24),
-                                              decoration: BoxDecoration(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .surface,
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft:
-                                                      const Radius.circular(
-                                                          16.0),
-                                                  topRight:
-                                                      const Radius.circular(
-                                                          16.0),
-                                                ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      OrderSummary(orderDetail, apartmentName)
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      OrderListSummary(orderDetail),
+                      SizedBox(
+                        height: 87,
+                      ),
+                      isOrderOpen(orderDetail.order.status)
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20, right: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Container(
+                                    width: 90,
+                                    height: 128,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.backgroundColor,
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0xff121714)
+                                              .withOpacity(0.12),
+                                          blurRadius: 40.0, // soften the shadow
+                                          spreadRadius: 0.0, //extend the shadow
+                                          offset: Offset(
+                                            0.0, // Move to right 10  horizontally
+                                            0.0, // Move to bottom 10 Vertically
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          isScrollControlled: true,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (context) => Container(
+                                            padding:
+                                                EdgeInsets.only(bottom: 24),
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .surface,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft:
+                                                    const Radius.circular(16.0),
+                                                topRight:
+                                                    const Radius.circular(16.0),
                                               ),
-                                              child: SafeArea(
-                                                child: TableCalendar(
-                                                  startDay: DateTime.now(),
-                                                  availableCalendarFormats: const {
-                                                    CalendarFormat.month:
-                                                        'Month',
-                                                  },
-                                                  calendarStyle: CalendarStyle(
-                                                      todayColor: AppTheme
-                                                          .primaryColorVariant
-                                                          .withOpacity(0.5),
-                                                      selectedColor:
-                                                          AppTheme.primaryColor,
-                                                      outsideDaysVisible: true,
-                                                      weekendStyle: AppTheme
-                                                          .textStyle.color100,
-                                                      outsideWeekendStyle:
-                                                          AppTheme.textStyle
-                                                              .color50),
-                                                  daysOfWeekStyle:
-                                                      DaysOfWeekStyle(
+                                            ),
+                                            child: SafeArea(
+                                              child: TableCalendar(
+                                                startDay: DateTime.now(),
+                                                availableCalendarFormats: const {
+                                                  CalendarFormat.month: 'Month',
+                                                },
+                                                calendarStyle: CalendarStyle(
+                                                    todayColor: AppTheme
+                                                        .primaryColorVariant
+                                                        .withOpacity(0.5),
+                                                    selectedColor:
+                                                        AppTheme.primaryColor,
+                                                    outsideDaysVisible: true,
                                                     weekendStyle: AppTheme
-                                                        .textStyle
-                                                        .colored(
-                                                            AppTheme.color100),
-                                                  ),
-                                                  headerStyle: HeaderStyle(
-                                                    centerHeaderTitle: false,
-                                                    formatButtonVisible: false,
-                                                  ),
-                                                  onDaySelected:
-                                                      (date, events) {
-                                                    handleMarkAsDelayOrders(
-                                                        orderId,
-                                                        date,
-                                                        apartmentId,
-                                                        selectedDateForRequest);
-                                                  },
-                                                  calendarController:
-                                                      _calendarController,
+                                                        .textStyle.color100,
+                                                    outsideWeekendStyle:
+                                                        AppTheme
+                                                            .textStyle.color50),
+                                                daysOfWeekStyle:
+                                                    DaysOfWeekStyle(
+                                                  weekendStyle: AppTheme
+                                                      .textStyle
+                                                      .colored(
+                                                          AppTheme.color100),
                                                 ),
+                                                headerStyle: HeaderStyle(
+                                                  centerHeaderTitle: false,
+                                                  formatButtonVisible: false,
+                                                ),
+                                                onDaySelected: (date, events) {
+                                                  handleMarkAsDelayOrders(
+                                                      orderId,
+                                                      date,
+                                                      apartmentId,
+                                                      selectedDateForRequest);
+                                                },
+                                                calendarController:
+                                                    _calendarController,
                                               ),
                                             ),
-                                          );
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Icon(BotigaIcons.delay),
-                                              Text(
-                                                'Mark as delay',
-                                                textAlign: TextAlign.center,
-                                                style: AppTheme
-                                                    .textStyle.color100.w500
-                                                    .size(12)
-                                                    .letterSpace(0.2),
-                                              )
-                                            ],
                                           ),
+                                        );
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Icon(BotigaIcons.delay),
+                                            Text(
+                                              'Mark as delay',
+                                              textAlign: TextAlign.center,
+                                              style: AppTheme
+                                                  .textStyle.color100.w500
+                                                  .size(12)
+                                                  .letterSpace(0.2),
+                                            )
+                                          ],
                                         ),
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 24,
-                                    ),
-                                    Container(
-                                      width: 90,
-                                      height: 128,
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.backgroundColor,
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color(0xff121714)
-                                                .withOpacity(0.12),
-                                            blurRadius:
-                                                40.0, // soften the shadow
-                                            spreadRadius:
-                                                0.0, //extend the shadow
-                                            offset: Offset(
-                                              0.0, // Move to right 10  horizontally
-                                              0.0, // Move to bottom 10 Vertically
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.of(context).pushNamed(
-                                              OrderDelivery.routeName,
-                                              arguments: {
-                                                'orderId': orderDetail.id,
-                                                'apartmentName': apartmentName,
-                                                'apartmentId': apartmentId,
-                                                'selectedDateForRequest':
-                                                    selectedDateForRequest
-                                              });
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Icon(
-                                                BotigaIcons.truck,
-                                                color: AppTheme.primaryColor,
-                                                size: 34,
-                                              ),
-                                              Text(
-                                                'Out for delivery',
-                                                textAlign: TextAlign.center,
-                                                style: AppTheme.textStyle
-                                                    .colored(
-                                                        AppTheme.primaryColor)
-                                                    .w500
-                                                    .size(12)
-                                                    .letterSpace(0.3),
-                                              )
-                                            ],
+                                  ),
+                                  SizedBox(
+                                    width: 24,
+                                  ),
+                                  Container(
+                                    width: 90,
+                                    height: 128,
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.backgroundColor,
+                                      borderRadius: BorderRadius.circular(12),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color(0xff121714)
+                                              .withOpacity(0.12),
+                                          blurRadius: 40.0, // soften the shadow
+                                          spreadRadius: 0.0, //extend the shadow
+                                          offset: Offset(
+                                            0.0, // Move to right 10  horizontally
+                                            0.0, // Move to bottom 10 Vertically
                                           ),
+                                        )
+                                      ],
+                                    ),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(
+                                            OrderDelivery.routeName,
+                                            arguments: {
+                                              'orderId': orderDetail.id,
+                                              'apartmentName': apartmentName,
+                                              'apartmentId': apartmentId,
+                                              'selectedDateForRequest':
+                                                  selectedDateForRequest
+                                            });
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Icon(
+                                              BotigaIcons.truck,
+                                              color: AppTheme.primaryColor,
+                                              size: 34,
+                                            ),
+                                            Text(
+                                              'Out for delivery',
+                                              textAlign: TextAlign.center,
+                                              style: AppTheme.textStyle
+                                                  .colored(
+                                                      AppTheme.primaryColor)
+                                                  .w500
+                                                  .size(12)
+                                                  .letterSpace(0.3),
+                                            )
+                                          ],
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          : SizedBox.shrink(),
+                    ],
+                  ),
+                )
+              ],
             ),
-            _isLoading ? Loader() : SizedBox.shrink(),
-          ],
+          ),
         ),
       ),
     );
