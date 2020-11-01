@@ -45,8 +45,9 @@ class _OrdersHomeState extends State<OrdersHome> {
 
   @override
   Widget build(BuildContext context) {
-    final profileInfo =
-        Provider.of<ProfileProvider>(context, listen: false).profileInfo;
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+    final profileInfo = profileProvider.profileInfo;
     return _isLoading
         ? Loader()
         : _isError
@@ -62,39 +63,55 @@ class _OrdersHomeState extends State<OrdersHome> {
                   builder: (ctx, ordersprovider, _) {
                     bool isEmptyOrders = false;
                     bool isEmptyCommunties = false;
+                    bool isAllComunityDisabled = true;
                     final aggregatedOrders = ordersprovider.aggregatedOrders;
-                    if (profileInfo.apartments.length == 0) {
+
+                    if (profileProvider.totalApartment == 0) {
                       isEmptyCommunties = true;
+                    }
+                    if (profileProvider.hasAnyEnabledApartment == true) {
+                      isAllComunityDisabled = false;
                     }
                     if (aggregatedOrders == null ||
                         aggregatedOrders.apartmentWiseBreakup.length == 0) {
                       isEmptyOrders = true;
                     }
+
                     return Container(
                       color: AppTheme.dividerColor,
                       child: ListView(
                         padding: EdgeInsets.zero,
                         children: <Widget>[
-                          _orderHeader(
-                            aggregatedOrders.totalRevenue,
-                            aggregatedOrders.totalOrders,
-                            profileInfo.firstName,
-                          ),
                           ...isEmptyCommunties
                               ? [
-                                  BrandingTile("No communites added",
-                                      "Please add communites to let your customer know that you are accepting orders")
+                                  _communitesInfoHeader(profileInfo.firstName,
+                                      "No Communities Added")
                                 ]
-                              : isEmptyOrders
-                                  ? [EmptyOrders()]
-                                  : aggregatedOrders.apartmentWiseBreakup.map(
-                                      (apartment) => _orderCard(
-                                        apartment.id,
-                                        apartment.apartmentName,
-                                        apartment.revenue,
-                                        apartment.orders,
+                              : isAllComunityDisabled
+                                  ? [
+                                      _communitesInfoHeader(
+                                          profileInfo.firstName,
+                                          "No Communities enabled")
+                                    ]
+                                  : [
+                                      _orderHeader(
+                                        aggregatedOrders.totalRevenue,
+                                        aggregatedOrders.totalOrders,
+                                        profileInfo.firstName,
                                       ),
-                                    ),
+                                      ...isEmptyOrders
+                                          ? [EmptyOrders()]
+                                          : aggregatedOrders
+                                              .apartmentWiseBreakup
+                                              .map(
+                                              (apartment) => _orderCard(
+                                                apartment.id,
+                                                apartment.apartmentName,
+                                                apartment.revenue,
+                                                apartment.orders,
+                                              ),
+                                            )
+                                    ],
                           SizedBox(
                             height: 32,
                           )
@@ -208,7 +225,6 @@ class _OrdersHomeState extends State<OrdersHome> {
               ),
               child: Container(
                 width: double.infinity,
-                height: 100,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -450,6 +466,102 @@ class _OrdersHomeState extends State<OrdersHome> {
           },
           calendarController: _calendarController,
         ),
+      ),
+    );
+  }
+
+  Widget _communitesInfoHeader(String name, String info) {
+    return ConstrainedBox(
+      constraints: BoxConstraints.tight(Size(double.infinity, 500)),
+      child: new Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Positioned(
+            top: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 240,
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor,
+                borderRadius: new BorderRadius.only(
+                  bottomLeft: const Radius.circular(5.0),
+                  bottomRight: const Radius.circular(5.0),
+                ),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/background.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 65, left: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      "Hi, $name",
+                      style: AppTheme.textStyle
+                          .colored(AppTheme.backgroundColor)
+                          .w700
+                          .size(22),
+                    ),
+                    SizedBox(height: 30),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 170,
+            left: 20,
+            right: 20,
+            bottom: 0,
+            child: Card(
+              margin: EdgeInsets.all(0),
+              elevation: 0,
+              color: AppTheme.backgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(35.0),
+                child: Container(
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Image.asset(
+                        "assets/images/nocommunites.png",
+                      ),
+                      SizedBox(
+                        height: 22,
+                      ),
+                      Text(
+                        info,
+                        textAlign: TextAlign.center,
+                        style: AppTheme.textStyle.w700
+                            .size(20)
+                            .lineHeight(1.5)
+                            .color100,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        "Go to Profile > Communities to see available comunities",
+                        textAlign: TextAlign.center,
+                        style: AppTheme.textStyle.w500
+                            .size(13)
+                            .lineHeight(1.5)
+                            .color50,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -11,10 +11,32 @@ class ProfileProvider with ChangeNotifier {
     }
   }
 
+  get totalApartment {
+    if (this._profile != null && this._profile.apartments != null) {
+      return this._profile.apartments.length;
+    }
+    return 0;
+  }
+
   get defaultApartment {
     if (this._profile != null && this._profile.apartments.length > 0) {
       return this._profile.apartments.first;
     }
+  }
+
+  get hasAnyEnabledApartment {
+    if (this._profile != null && this._profile.apartments.length > 0) {
+      final apartment = this
+          ._profile
+          .apartments
+          .firstWhere((apt) => apt.live == true, orElse: () => null);
+      if (apartment != null) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
   }
 
   get profileInfo {
