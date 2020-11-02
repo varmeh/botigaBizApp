@@ -23,7 +23,7 @@ class CommunitiesInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image.asset(
-                "assets/images/nocommunites.png",
+                "assets/images/communites.png",
               ),
               SizedBox(
                 height: 22,
