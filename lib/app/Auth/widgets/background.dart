@@ -16,6 +16,7 @@ class Background extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
       body: Container(
         width: double.infinity,
         color: AppTheme.primaryColor,
@@ -39,8 +40,10 @@ class Background extends StatelessWidget {
                           },
                           child: Container(
                             padding: EdgeInsets.only(right: 10.0),
-                            child: Icon(Icons.arrow_back,
-                                color: AppTheme.backgroundColor),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: AppTheme.backgroundColor,
+                            ),
                           ),
                         )
                       : Container(),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
 import 'background.dart';
 import '../../../theme/index.dart';
 import '../../../widget/botigaTextFieldForm.dart';
@@ -27,6 +29,10 @@ class _PhoneScreenState extends State<PhoneScreen> {
     super.initState();
     _phoneFormKey = GlobalKey<FormState>();
     _phoneFocusNode = FocusNode();
+
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
+    );
   }
 
   @override
