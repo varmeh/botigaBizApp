@@ -12,8 +12,10 @@ import '../../../widget/index.dart'
         BotigaTextFieldForm,
         Toast,
         FullWidthButton,
-        BotigaAppBar;
-import '../../../providers/index.dart' show AuthProvider, ImageService;
+        BotigaAppBar,
+        BotigaBottomModal;
+import '../../../providers/index.dart'
+    show AuthProvider, ImageService, Businesscategory;
 
 class SignupBuissnessDetails extends StatefulWidget {
   static const routeName = '/signup-bussiness-detail';
@@ -44,6 +46,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   bool _isInit;
   bool _isLoading;
   final _sizedBox24 = SizedBox(height: 24);
+  List bsCategory;
 
   @override
   void initState() {
@@ -66,12 +69,14 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     _isLoading = false;
     uploadurl = '';
     downloadUrl = '';
+    bsCategory = [];
   }
 
   @override
   void didChangeDependencies() {
     if (!_isInit) {
       this._getPreSignedUrl();
+      this._getBusinessCategory();
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -98,6 +103,17 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
+      });
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    }
+  }
+
+  void _getBusinessCategory() async {
+    try {
+      final value = await Businesscategory.getbusinessCategory();
+      setState(() {
+        bsCategory = value;
       });
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
@@ -463,99 +479,78 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   }
 
   void showCategories() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.60,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(16.0),
-            topRight: const Radius.circular(16.0),
-          ),
-        ),
-        padding: EdgeInsets.only(left: 20, right: 20, top: 32),
+    BotigaBottomModal(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  "Select category",
+                  style: AppTheme.textStyle.color100.size(22).w700,
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                SafeArea(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.40,
+                    child: ListView(
+                      children: [
+                        ...bsCategory.map((bsCat) {
+                          return categoryItem(bsCat, false);
+                        }),
+                        categoryItem("Other", true),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            isDismissible: true)
+        .show(context);
+  }
+
+  void showImageSelectOption(BuildContext context) {
+    BotigaBottomModal(
+        isDismissible: true,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(
-              "Select category",
-              style: AppTheme.textStyle.color100.size(22).w700,
-            ),
+            Text("Add image", style: AppTheme.textStyle.color100.size(22).w700),
             SizedBox(
-              height: 25,
+              height: 24,
             ),
-            categoryItem("Beverages", false),
-            categoryItem("Clothings", false),
-            categoryItem("Speciality foods", false),
-            categoryItem("Other", true),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void showImageSelectOption(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppTheme.backgroundColor,
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(16.0),
-              topRight: const Radius.circular(16.0),
-            ),
-          ),
-          padding: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text("Add image",
-                  style: AppTheme.textStyle.color100.size(22).w700),
-              SizedBox(
-                height: 24,
-              ),
-              ListTile(
-                  onTap: () {
-                    _onImageButtonPressed(ImageSource.camera, context);
-                  },
-                  contentPadding: EdgeInsets.only(left: 0.0),
-                  leading: Icon(
-                    Icons.camera_alt,
-                    color: Color(0xff121715),
-                  ),
-                  title: Text('Take photo',
-                      style: AppTheme.textStyle.color100.size(17).w500)),
-              ListTile(
+            ListTile(
                 onTap: () {
-                  _onImageButtonPressed(ImageSource.gallery, context);
+                  _onImageButtonPressed(ImageSource.camera, context);
                 },
                 contentPadding: EdgeInsets.only(left: 0.0),
                 leading: Icon(
-                  Icons.image,
-                  color: Color(0xff121715),
+                  Icons.camera_alt,
+                  color: AppTheme.color100,
                 ),
-                title: Text('Choose from gallery',
-                    style: AppTheme.textStyle.color100.size(17).w500),
+                title: Text('Take photo',
+                    style: AppTheme.textStyle.color100.size(17).w500)),
+            ListTile(
+              onTap: () {
+                _onImageButtonPressed(ImageSource.gallery, context);
+              },
+              contentPadding: EdgeInsets.only(left: 0.0),
+              leading: Icon(
+                Icons.image,
+                color: AppTheme.color100,
               ),
-              SizedBox(
-                height: 40,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+              title: Text('Choose from gallery',
+                  style: AppTheme.textStyle.color100.size(17).w500),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+          ],
+        )).show(context);
   }
 
   void handleSignUp(BuildContext context) async {
