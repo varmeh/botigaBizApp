@@ -31,6 +31,12 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
     _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
   }
 
+  @override
+  dispose() {
+    _controller.dispose(); // you need this
+    super.dispose();
+  }
+
   void loadTabbarAfterAnimationCompletion(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
       Navigator.of(context)

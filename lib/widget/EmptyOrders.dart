@@ -20,6 +20,12 @@ class _EmptyOrdersState extends State<EmptyOrders>
   }
 
   @override
+  dispose() {
+    _controller.dispose(); // you need this
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 24);
     return Padding(
