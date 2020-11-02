@@ -443,7 +443,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                                           false,
                                                     ),
                                                     onDaySelected:
-                                                        (date, events) {
+                                                        (date, events, _) {
                                                       Navigator.of(context)
                                                           .pop();
                                                       setState(() {

@@ -268,7 +268,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                   centerHeaderTitle: false,
                                                   formatButtonVisible: false,
                                                 ),
-                                                onDaySelected: (date, events) {
+                                                onDaySelected:
+                                                    (date, events, _) {
                                                   handleMarkAsDelayOrders(
                                                       orderId,
                                                       date,

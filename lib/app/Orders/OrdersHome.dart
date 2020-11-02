@@ -465,7 +465,7 @@ class _OrdersHomeState extends State<OrdersHome> {
               centerHeaderTitle: false,
               formatButtonVisible: false,
             ),
-            onDaySelected: (date, events) {
+            onDaySelected: (date, events, _) {
               Navigator.of(context).pop();
               setState(() {
                 slectedDate = FormatDate.getTodayOrSelectedDate(date);

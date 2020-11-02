@@ -182,7 +182,7 @@ class _OrderListState extends State<OrderList> {
                                             centerHeaderTitle: false,
                                             formatButtonVisible: false,
                                           ),
-                                          onDaySelected: (date, events) {
+                                          onDaySelected: (date, events, _) {
                                             Navigator.of(context).pop();
                                             setState(() {
                                               slectedDate = FormatDate
