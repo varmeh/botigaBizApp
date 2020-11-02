@@ -9,22 +9,20 @@ class IntroScreen extends StatelessWidget {
 
   final List<Slide> _slides = [
     Slide(
-      title: "Reach more customers",
+      title: "Manage orders & deliveries",
       description:
-          "Vivamus amet, quam egestas elementum purus, viverra sed volutpat placerat",
+          "Keep track of all orders and improve delivery efficiency with our smart delivery system.",
       pathImage: "assets/images/intro_one.png",
     ),
     Slide(
       title: "Reach more customers",
-      description:
-          "Vivamus amet, quam egestas elementum purus, viverra sed volutpat placerat",
-      pathImage: "assets/images/intro_one.png",
+      description: "Get instant access to communities to expand your business",
+      pathImage: "assets/images/intro_two.png",
     ),
     Slide(
-      title: "Reach more customers",
-      description:
-          "Vivamus amet, quam egestas elementum purus, viverra sed volutpat placerat",
-      pathImage: "assets/images/intro_one.png",
+      title: "Accept payments",
+      description: "Sell your products and receive payments with 0% fee.",
+      pathImage: "assets/images/intro_three.png",
     ),
   ];
 
