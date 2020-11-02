@@ -36,5 +36,3 @@ class Flavor {
   String get baseUrl =>
       isProduction ? 'http://production.url' : 'https://dev.botiga.app';
 }
-
-//      'https://b5fcdfb2-e6be-4d97-b3bc-64ae4f03983a.mock.pstmn.io';
