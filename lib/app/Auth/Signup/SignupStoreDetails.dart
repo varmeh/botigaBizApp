@@ -42,6 +42,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
   bool _isLoading;
   MaskTextInputFormatter _whatsappMaskFormatter;
 
+  TextEditingController _areaController, _cityController, _stateController;
+
   final _sizedBox16 = SizedBox(height: 16);
 
   @override
@@ -61,6 +63,29 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
       mask: '+91 #####-#####',
       filter: {'#': RegExp(r'[0-9]')},
     );
+
+    _areaController = TextEditingController();
+    _cityController = TextEditingController();
+    _stateController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _areaController.dispose();
+    _cityController.dispose();
+    _stateController.dispose();
+
+    _emailFocusNode.dispose();
+    _whatsappFocusNode.dispose();
+    _pincodeFocusNode.dispose();
+    _buildingNumberFocusNode.dispose();
+    _buildingNumberFocusNode.dispose();
+    _streetNameFocusNode.dispose();
+    _areaFocusNode.dispose();
+    _cityFocusNode.dispose();
+    _statefocusNode.dispose();
+
+    super.dispose();
   }
 
   void _handlePinCodeChange(pin) async {
@@ -72,9 +97,9 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
         final firstArea = postOffices.first;
         if (firstArea != null) {
           setState(() {
-            _area = firstArea['Name'];
-            _city = firstArea['District'];
-            _state = firstArea['State'];
+            _areaController.text = firstArea['Name'];
+            _cityController.text = firstArea['District'];
+            _stateController.text = firstArea['State'];
           });
         }
       }
@@ -250,7 +275,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             _sizedBox16,
                             BotigaTextFieldForm(
                               readOnly: _isLoading,
-                              initialValue: _area,
+                              textEditingController: _areaController,
                               focusNode: _areaFocusNode,
                               labelText: 'Area',
                               onSave: (value) => _area = value,
@@ -260,7 +285,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             _sizedBox16,
                             BotigaTextFieldForm(
                               readOnly: _isLoading,
-                              initialValue: _city,
+                              textEditingController: _cityController,
                               focusNode: _cityFocusNode,
                               labelText: 'City',
                               onSave: (value) => _city = value,
@@ -270,7 +295,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                             _sizedBox16,
                             BotigaTextFieldForm(
                               readOnly: _isLoading,
-                              initialValue: _state,
+                              textEditingController: _stateController,
                               focusNode: _statefocusNode,
                               labelText: 'State',
                               onSave: (value) => _state = value,
