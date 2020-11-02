@@ -50,11 +50,14 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     super.initState();
     _formKey = GlobalKey<FormState>();
     _picker = ImagePicker();
+
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
+
     _isInit = false;
     _seletedCategory = 'Beverages';
+
     _businessNameFocusNode = FocusNode();
     _firstNameFocusNode = FocusNode();
     _lastFocusNode = FocusNode();
@@ -72,6 +75,21 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       _isInit = true;
     }
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    maxWidthController.dispose();
+    maxHeightController.dispose();
+    qualityController.dispose();
+
+    _businessNameFocusNode.dispose();
+    _firstNameFocusNode.dispose();
+    _lastFocusNode.dispose();
+    _brandNameFocusNode.dispose();
+    _taglineFocusNode.dispose();
+
+    super.dispose();
   }
 
   void _getPreSignedUrl() async {
