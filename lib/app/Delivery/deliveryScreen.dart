@@ -140,8 +140,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final hasApt =
+    final bool hasApt =
         Provider.of<ProfileProvider>(context, listen: false).totalApartment > 0;
+    final bool hasEnabledApt =
+        Provider.of<ProfileProvider>(context, listen: false)
+            .hasAnyEnabledApartment;
     return _isLoading
         ? Loader()
         : _isError
@@ -178,7 +181,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 ),
                 backgroundColor: AppTheme.dividerColor,
                 key: _scaffoldKey,
-                endDrawer: hasApt
+                endDrawer: (hasApt && hasEnabledApt)
                     ? Align(
                         child: ClipRRect(
                           borderRadius: BorderRadius.only(
@@ -240,7 +243,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                         alignment: Alignment(1, 0.8),
                       )
                     : SizedBox.shrink(),
-                floatingActionButton: hasApt
+                floatingActionButton: (hasApt && hasEnabledApt)
                     ? Align(
                         child: FloatingActionButton.extended(
                           onPressed: () {
@@ -270,7 +273,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                             ? Alignment(3.01, 0.9)
                             : Alignment(1.6, 0.9))
                     : SizedBox.shrink(),
-                body: hasApt
+                body: (hasApt && hasEnabledApt)
                     ? SafeArea(
                         child: LoaderOverlay(
                           isLoading: _isProcessing,
@@ -533,8 +536,9 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                           ),
                         ),
                       )
-                    : BrandingTile(
-                        "No Communties added", "Please add communites"));
+                    : !hasApt
+                        ? CommunitiesInfo("No Communities Added")
+                        : CommunitiesInfo("No Communities enabled"));
   }
 }
 
