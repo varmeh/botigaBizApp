@@ -108,6 +108,257 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     Navigator.of(context).pop();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
+      bottomNavigationBar: Container(
+        color: AppTheme.backgroundColor,
+        padding: EdgeInsets.all(10),
+        child: SafeArea(
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                child: SizedBox(
+                  height: 52,
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save();
+                        handleSignUp(context);
+                      }
+                    },
+                    color: AppTheme.primaryColor,
+                    child: Text(
+                      'Save and continue',
+                      style: AppTheme.textStyle
+                          .size(15)
+                          .w600
+                          .colored(AppTheme.backgroundColor),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      appBar: AppBar(
+        backgroundColor: AppTheme.backgroundColor,
+        elevation: 0,
+        centerTitle: false,
+        automaticallyImplyLeading: false,
+        title: Align(
+          child: Text(
+            'Business details',
+            style: AppTheme.textStyle.color100.size(20).w500,
+          ),
+          alignment: Alignment.centerLeft,
+        ),
+      ),
+      body: LoaderOverlay(
+        isLoading: _isLoading,
+        child: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                color: AppTheme.backgroundColor,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5, bottom: 5),
+                      child: Flexible(
+                        child: Text(
+                          "We collect these details for future communication and to create your store.",
+                          style: AppTheme.textStyle.size(13).w500.color50,
+                        ),
+                      ),
+                    ),
+                    _imageFile != null
+                        ? Container(
+                            height: 96,
+                            width: 96,
+                            margin: EdgeInsets.only(top: 25.0, bottom: 20),
+                            decoration: BoxDecoration(shape: BoxShape.circle),
+                            child: ClipRRect(
+                              child: Image.file(
+                                File(_imageFile.path),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(50),
+                            ))
+                        : Container(
+                            height: 96,
+                            width: 96,
+                            child: Icon(
+                              Icons.storefront,
+                              size: 40,
+                            ),
+                            margin: EdgeInsets.only(top: 25.0, bottom: 20),
+                            decoration: BoxDecoration(
+                                color: Color(0xff121715).withOpacity(0.05),
+                                shape: BoxShape.circle)),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    _imageFile != null
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              FlatButton(
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(6.0)),
+                                onPressed: () {
+                                  showImageSelectOption(context);
+                                },
+                                color: AppTheme.color05,
+                                child: Padding(
+                                    padding: const EdgeInsets.all(13.0),
+                                    child: Text('Change logo',
+                                        style: AppTheme.textStyle.color100.w600
+                                            .size(15))),
+                              ),
+                              FlatButton(
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(6.0)),
+                                onPressed: () {
+                                  setState(() {
+                                    _imageFile = null;
+                                  });
+                                },
+                                color: AppTheme.color05,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(13),
+                                  child: Text(
+                                    'Remove logo',
+                                    style: AppTheme.textStyle.color100.w600
+                                        .size(15),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              FlatButton(
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(6.0)),
+                                onPressed: () {
+                                  showImageSelectOption(context);
+                                },
+                                color: AppTheme.color05,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(13.0),
+                                  child: Text(
+                                    'Upload logo',
+                                    style: AppTheme.textStyle.color100.w600
+                                        .size(15),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    BotigaTextFieldForm(
+                      focusNode: _businessNameFocusNode,
+                      labelText: 'Business Name',
+                      onSave: (value) => _businessName = value,
+                      nextFocusNode: _firstNameFocusNode,
+                      validator: nameValidator,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    BotigaTextFieldForm(
+                      focusNode: _firstNameFocusNode,
+                      labelText: 'Business Owner First Name',
+                      onSave: (value) => _firstName = value,
+                      nextFocusNode: _lastFocusNode,
+                      validator: nameValidator,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    BotigaTextFieldForm(
+                      focusNode: _lastFocusNode,
+                      labelText: 'Business Owner Last Name',
+                      onSave: (value) => _lastName = value,
+                      nextFocusNode: _brandNameFocusNode,
+                      validator: nameValidator,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    BotigaTextFieldForm(
+                      focusNode: _brandNameFocusNode,
+                      labelText: 'Brand Name',
+                      onSave: (value) => _brandName = value,
+                      nextFocusNode: _taglineFocusNode,
+                      validator: nameValidator,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    BotigaTextFieldForm(
+                      focusNode: _taglineFocusNode,
+                      labelText: 'Tagline',
+                      onSave: (value) => _tagline = value,
+                      validator: nameValidator,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(3.5),
+                        border: Border.all(
+                          style: BorderStyle.solid,
+                          color: AppTheme.color25,
+                          width: 1.0,
+                        ),
+                      ),
+                      child: ListTile(
+                        visualDensity:
+                            VisualDensity(horizontal: 0, vertical: -1),
+                        onTap: () {
+                          showCategories();
+                        },
+                        trailing: Icon(Icons.keyboard_arrow_down,
+                            color: AppTheme.color100),
+                        title: _seletedCategory == ''
+                            ? Text(
+                                'Business Category',
+                                style:
+                                    AppTheme.textStyle.color100.w500.size(15),
+                              )
+                            : Text(
+                                '$_seletedCategory',
+                                style:
+                                    AppTheme.textStyle.color100.w500.size(15),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget categoryItem(String s, bool isOther) {
     return Column(
       children: <Widget>[
@@ -136,7 +387,11 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         ),
                       ),
                       padding: EdgeInsets.only(
-                          left: 20, right: 20, bottom: 20, top: 32),
+                        left: 20,
+                        right: 20,
+                        bottom: 20,
+                        top: 32,
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -335,255 +590,5 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
         _isLoading = false;
       });
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: Container(
-        color: AppTheme.backgroundColor,
-        padding: EdgeInsets.all(10),
-        child: SafeArea(
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: SizedBox(
-                  height: 52,
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6.0),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        handleSignUp(context);
-                      }
-                    },
-                    color: AppTheme.primaryColor,
-                    child: Text(
-                      'Save and continue',
-                      style: AppTheme.textStyle
-                          .size(15)
-                          .w600
-                          .colored(AppTheme.backgroundColor),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      appBar: AppBar(
-        backgroundColor: AppTheme.backgroundColor,
-        elevation: 0,
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        title: Align(
-          child: Text(
-            'Business details',
-            style: AppTheme.textStyle.color100.size(20).w500,
-          ),
-          alignment: Alignment.centerLeft,
-        ),
-      ),
-      body: LoaderOverlay(
-        isLoading: _isLoading,
-        child: SafeArea(
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView(
-              child: Container(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  color: AppTheme.backgroundColor,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5, bottom: 5),
-                        child: Flexible(
-                          child: Text(
-                            "We collect these details for future communication and to create your store.",
-                            style: AppTheme.textStyle.size(13).w500.color50,
-                          ),
-                        ),
-                      ),
-                      _imageFile != null
-                          ? Container(
-                              height: 96,
-                              width: 96,
-                              margin: EdgeInsets.only(top: 25.0, bottom: 20),
-                              decoration: BoxDecoration(shape: BoxShape.circle),
-                              child: ClipRRect(
-                                child: Image.file(
-                                  File(_imageFile.path),
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(50),
-                              ))
-                          : Container(
-                              height: 96,
-                              width: 96,
-                              child: Icon(
-                                Icons.storefront,
-                                size: 40,
-                              ),
-                              margin: EdgeInsets.only(top: 25.0, bottom: 20),
-                              decoration: BoxDecoration(
-                                  color: Color(0xff121715).withOpacity(0.05),
-                                  shape: BoxShape.circle)),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      _imageFile != null
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                FlatButton(
-                                  shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(6.0)),
-                                  onPressed: () {
-                                    showImageSelectOption(context);
-                                  },
-                                  color: AppTheme.color05,
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(13.0),
-                                      child: Text('Change logo',
-                                          style: AppTheme
-                                              .textStyle.color100.w600
-                                              .size(15))),
-                                ),
-                                FlatButton(
-                                  shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(6.0)),
-                                  onPressed: () {
-                                    setState(() {
-                                      _imageFile = null;
-                                    });
-                                  },
-                                  color: AppTheme.color05,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(13),
-                                    child: Text(
-                                      'Remove logo',
-                                      style: AppTheme.textStyle.color100.w600
-                                          .size(15),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                FlatButton(
-                                  shape: new RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(6.0)),
-                                  onPressed: () {
-                                    showImageSelectOption(context);
-                                  },
-                                  color: AppTheme.color05,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(13.0),
-                                    child: Text(
-                                      'Upload logo',
-                                      style: AppTheme.textStyle.color100.w600
-                                          .size(15),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      BotigaTextFieldForm(
-                        focusNode: _businessNameFocusNode,
-                        labelText: 'Business Name',
-                        onSave: (value) => _businessName = value,
-                        nextFocusNode: _firstNameFocusNode,
-                        validator: nameValidator,
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      BotigaTextFieldForm(
-                        focusNode: _firstNameFocusNode,
-                        labelText: 'Business Owner First Name',
-                        onSave: (value) => _firstName = value,
-                        nextFocusNode: _lastFocusNode,
-                        validator: nameValidator,
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      BotigaTextFieldForm(
-                        focusNode: _lastFocusNode,
-                        labelText: 'Business Owner Last Name',
-                        onSave: (value) => _lastName = value,
-                        nextFocusNode: _brandNameFocusNode,
-                        validator: nameValidator,
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      BotigaTextFieldForm(
-                        focusNode: _brandNameFocusNode,
-                        labelText: 'Brand Name',
-                        onSave: (value) => _brandName = value,
-                        nextFocusNode: _taglineFocusNode,
-                        validator: nameValidator,
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      BotigaTextFieldForm(
-                        focusNode: _taglineFocusNode,
-                        labelText: 'Tagline',
-                        onSave: (value) => _tagline = value,
-                        validator: nameValidator,
-                      ),
-                      SizedBox(
-                        height: 24,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3.5),
-                          border: Border.all(
-                            style: BorderStyle.solid,
-                            color: AppTheme.color25,
-                            width: 1.0,
-                          ),
-                        ),
-                        child: ListTile(
-                          visualDensity:
-                              VisualDensity(horizontal: 0, vertical: -1),
-                          onTap: () {
-                            showCategories();
-                          },
-                          trailing: Icon(Icons.keyboard_arrow_down,
-                              color: AppTheme.color100),
-                          title: _seletedCategory == ''
-                              ? Text(
-                                  'Business Category',
-                                  style:
-                                      AppTheme.textStyle.color100.w500.size(15),
-                                )
-                              : Text(
-                                  '$_seletedCategory',
-                                  style:
-                                      AppTheme.textStyle.color100.w500.size(15),
-                                ),
-                        ),
-                      ),
-                    ],
-                  )),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
