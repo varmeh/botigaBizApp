@@ -21,7 +21,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     "All": 'All',
     "Open": "open",
     "Out for delivery": "out",
-    "Deliverd": "deliverd",
+    "Deliverd": "delivered",
     "Delayed": "delayed",
     "Cancelled": "cancelled"
   };
@@ -31,6 +31,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   bool _isProcessing;
   String selectedStatus;
   String slectedDate;
+  var selectedDateForRequest;
   bool fabIsVisible;
   Apartment apartment;
   GlobalKey<ScaffoldState> _scaffoldKey;
@@ -71,6 +72,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     selectedStatus = 'All';
     apartment = deafaultApartment;
     slectedDate = 'TODAY';
+    selectedDateForRequest = null;
     _error = null;
   }
 
@@ -102,8 +104,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     });
     try {
       final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
-      final value = await orderProvider.setDeliveryStatus(orderId);
-      Toast(message: '${value['message']}', iconData: BotigaIcons.truck)
+      final date = selectedDateForRequest == null
+          ? DateTime.now()
+          : selectedDateForRequest;
+      await orderProvider.setDeliveryStatus(orderId);
+      await orderProvider.fetchOrderByDateApartment(
+          apartment.id, FormatDate.getRequestFormatDate(date));
+      Toast(message: 'Order deliverd', iconData: BotigaIcons.truck)
           .show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
@@ -133,10 +140,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final hasApt = Provider.of<ProfileProvider>(context, listen: false)
-            .allApartment
-            .length >
-        0;
+    final hasApt =
+        Provider.of<ProfileProvider>(context, listen: false).totalApartment > 0;
     return _isLoading
         ? Loader()
         : _isError
@@ -214,12 +219,16 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                               slectedDate = FormatDate
                                                   .getTodayOrSelectedDate(
                                                       DateTime.now());
+                                              selectedDateForRequest =
+                                                  DateTime.now();
                                             });
-                                            final currentDate =
+                                            final date = DateTime.now();
+
+                                            final reqDate =
                                                 FormatDate.getRequestFormatDate(
-                                                    DateTime.now());
+                                                    date);
                                             fetchDeliveryData(
-                                                apartment.id, currentDate);
+                                                apartment.id, reqDate);
                                           });
                                     }),
                                   ],
@@ -378,10 +387,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                               backgroundColor:
                                                   Colors.transparent,
                                               builder: (context) => Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.65,
+                                                padding:
+                                                    EdgeInsets.only(bottom: 24),
                                                 decoration: BoxDecoration(
                                                   color: Theme.of(context)
                                                       .colorScheme
@@ -396,54 +403,62 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                                             16.0),
                                                   ),
                                                 ),
-                                                child: TableCalendar(
-                                                  initialSelectedDay: FormatDate
-                                                      .convertStringToDate(
-                                                          slectedDate),
-                                                  startDay: DateTime.now(),
-                                                  availableCalendarFormats: const {
-                                                    CalendarFormat.month:
-                                                        'Month',
-                                                  },
-                                                  calendarStyle: CalendarStyle(
-                                                      todayColor: AppTheme
-                                                          .primaryColorVariant
-                                                          .withOpacity(0.5),
-                                                      selectedColor:
-                                                          AppTheme.primaryColor,
-                                                      outsideDaysVisible: true,
-                                                      weekendStyle: AppTheme
-                                                          .textStyle.color100,
-                                                      outsideWeekendStyle:
-                                                          AppTheme.textStyle
-                                                              .color50),
-                                                  daysOfWeekStyle:
-                                                      DaysOfWeekStyle(
-                                                    weekendStyle: AppTheme
-                                                        .textStyle
-                                                        .colored(
-                                                            AppTheme.color100),
-                                                  ),
-                                                  headerStyle: HeaderStyle(
-                                                    centerHeaderTitle: false,
-                                                    formatButtonVisible: false,
-                                                  ),
-                                                  onDaySelected:
-                                                      (date, events) {
-                                                    Navigator.of(context).pop();
-                                                    setState(() {
-                                                      slectedDate = FormatDate
-                                                          .getTodayOrSelectedDate(
-                                                              date);
-                                                    });
-                                                    fetchDeliveryData(
-                                                        apartment.id,
+                                                child: SafeArea(
+                                                  child: TableCalendar(
+                                                    initialSelectedDay:
                                                         FormatDate
-                                                            .getRequestFormatDate(
-                                                                date));
-                                                  },
-                                                  calendarController:
-                                                      _calendarController,
+                                                            .convertStringToDate(
+                                                                slectedDate),
+                                                    startDay: DateTime.now(),
+                                                    availableCalendarFormats: const {
+                                                      CalendarFormat.month:
+                                                          'Month',
+                                                    },
+                                                    calendarStyle: CalendarStyle(
+                                                        todayColor: AppTheme
+                                                            .primaryColorVariant
+                                                            .withOpacity(0.5),
+                                                        selectedColor: AppTheme
+                                                            .primaryColor,
+                                                        outsideDaysVisible:
+                                                            true,
+                                                        weekendStyle: AppTheme
+                                                            .textStyle.color100,
+                                                        outsideWeekendStyle:
+                                                            AppTheme.textStyle
+                                                                .color50),
+                                                    daysOfWeekStyle:
+                                                        DaysOfWeekStyle(
+                                                      weekendStyle: AppTheme
+                                                          .textStyle
+                                                          .colored(AppTheme
+                                                              .color100),
+                                                    ),
+                                                    headerStyle: HeaderStyle(
+                                                      centerHeaderTitle: false,
+                                                      formatButtonVisible:
+                                                          false,
+                                                    ),
+                                                    onDaySelected:
+                                                        (date, events) {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      setState(() {
+                                                        slectedDate = FormatDate
+                                                            .getTodayOrSelectedDate(
+                                                                date);
+                                                        selectedDateForRequest =
+                                                            date;
+                                                      });
+                                                      fetchDeliveryData(
+                                                          apartment.id,
+                                                          FormatDate
+                                                              .getRequestFormatDate(
+                                                                  date));
+                                                    },
+                                                    calendarController:
+                                                        _calendarController,
+                                                  ),
                                                 ),
                                               ),
                                             );
@@ -503,7 +518,9 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                         return DeliveryRow(
                                             deliveryRow,
                                             apartment.apartmentName,
-                                            this._handleOutForDelivery);
+                                            apartment.id,
+                                            this._handleOutForDelivery,
+                                            selectedDateForRequest);
                                       })
                                     ],
                                   );
@@ -524,8 +541,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 class DeliveryRow extends StatelessWidget {
   final OrderByDateDetail delivery;
   final String apartmentName;
+  final String apartmentId;
   final Function handleOutForDelivery;
-  DeliveryRow(this.delivery, this.apartmentName, this.handleOutForDelivery);
+  final selectedDateForRequest;
+  DeliveryRow(this.delivery, this.apartmentName, this.apartmentId,
+      this.handleOutForDelivery, this.selectedDateForRequest);
 
   _handleOutForDelivery(String orderId) {
     this.handleOutForDelivery(orderId);
@@ -535,9 +555,17 @@ class DeliveryRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        final date = selectedDateForRequest == null
+            ? DateTime.now()
+            : selectedDateForRequest;
         Navigator.of(context).pushNamed(
           OrderDetails.routeName,
-          arguments: {'orderId': delivery.id, 'apartmentName': apartmentName},
+          arguments: {
+            'orderId': delivery.id,
+            'apartmentName': apartmentName,
+            'apartmentId': apartmentId,
+            'selectedDateForRequest': FormatDate.getRequestFormatDate(date)
+          },
         );
       },
       child: Container(
@@ -545,7 +573,7 @@ class DeliveryRow extends StatelessWidget {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Color(0xff121714).withOpacity(0.12),
+              color: AppTheme.color100.withOpacity(0.12),
               blurRadius: 20.0, // soften the shadow
               spreadRadius: 0.0, //extend the shadow
               offset: Offset(
@@ -604,7 +632,7 @@ class DeliveryRow extends StatelessWidget {
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: Color(0xffE9A136),
+                                      color: statusColor(delivery.order.status),
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(2))),
                                   padding: EdgeInsets.only(
