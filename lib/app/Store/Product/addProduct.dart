@@ -79,6 +79,16 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   void dispose() {
     _controller.removeStatusListener(loadTabbarAfterAnimationCompletion);
     _controller.dispose();
+
+    maxWidthController.dispose();
+    maxHeightController.dispose();
+    qualityController.dispose();
+
+    _nameFocusNode.dispose();
+    _priceFocusNode.dispose();
+    _quantityFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+
     super.dispose();
   }
 

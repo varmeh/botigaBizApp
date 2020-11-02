@@ -32,9 +32,11 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     super.initState();
     _formKey = GlobalKey<FormState>();
     _picker = ImagePicker();
+
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
+
     _brandNameFocusNode = FocusNode();
     _taglineFocusNode = FocusNode();
     _isLoading = false;
@@ -49,6 +51,18 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       _isInit = true;
     }
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    maxWidthController.dispose();
+    maxHeightController.dispose();
+    qualityController.dispose();
+
+    _brandNameFocusNode.dispose();
+    _taglineFocusNode.dispose();
+
+    super.dispose();
   }
 
   void loadInitialValueForForm() {

@@ -55,6 +55,7 @@ class _EditProductState extends State<EditProduct>
     super.initState();
     _formKey = GlobalKey<FormState>();
     _picker = ImagePicker();
+
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
@@ -106,6 +107,16 @@ class _EditProductState extends State<EditProduct>
   void dispose() {
     _controller.removeStatusListener(loadTabbarAfterAnimationCompletion);
     _controller.dispose();
+
+    maxWidthController.dispose();
+    maxHeightController.dispose();
+    qualityController.dispose();
+
+    _nameFocusNode.dispose();
+    _priceFocusNode.dispose();
+    _quantityFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+
     super.dispose();
   }
 

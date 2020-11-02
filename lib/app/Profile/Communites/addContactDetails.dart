@@ -51,6 +51,15 @@ class _AddContactDetailsState extends State<AddContactDetails> {
     loadInitialFormValues();
   }
 
+  @override
+  void dispose() {
+    _phoneNumberFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _whatsappFocusNode.dispose();
+
+    super.dispose();
+  }
+
   void loadInitialFormValues() {
     final profileInfo =
         Provider.of<ProfileProvider>(context, listen: false).profileInfo;

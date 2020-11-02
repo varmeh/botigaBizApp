@@ -23,6 +23,21 @@ class _StoreScreenState extends State<StoreScreen> {
   var _error;
   bool isSavingCategory = false;
 
+  FocusNode _categoryNameFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _categoryNameFocusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _categoryNameFocusNode.dispose();
+
+    super.dispose();
+  }
+
   @override
   void didChangeDependencies() {
     if (!_isInit) {
@@ -126,8 +141,6 @@ class _StoreScreenState extends State<StoreScreen> {
                               onPressed: () {
                                 if (slelectedTab == 1) {
                                   final _formKey = GlobalKey<FormState>();
-                                  FocusNode _categoryNameFocusNode =
-                                      FocusNode();
                                   String _categoryName = '';
                                   showModalBottomSheet(
                                     context: context,

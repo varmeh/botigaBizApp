@@ -28,6 +28,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
       _city = '',
       _state = '',
       _pincode = '';
+
   FocusNode _emailFocusNode,
       _whatsappFocusNode,
       _pincodeFocusNode,
@@ -55,6 +56,21 @@ class _StoreDeatilsState extends State<StoreDeatils> {
     _isLoading = false;
     checkboxValue = false;
     loadInitialFormValues();
+  }
+
+  @override
+  void dispose() {
+    _phoneNumberFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _whatsappFocusNode.dispose();
+    _pincodeFocusNode.dispose();
+    _buildingNumberFocusNode.dispose();
+    _streetNameFocusNode.dispose();
+    _areaFocusNode.dispose();
+    _cityFocusNode.dispose();
+    _statefocusNode.dispose();
+
+    super.dispose();
   }
 
   void loadInitialFormValues() {
