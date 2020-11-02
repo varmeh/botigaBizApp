@@ -1,9 +1,11 @@
-import 'package:botiga_biz/theme/index.dart';
-import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import '../../../widget/index.dart';
+
+import '../../../theme/index.dart';
+import '../../../util/httpService.dart';
+import '../../../widget/index.dart'
+    show BotigaBottomModal, Toast, LoaderOverlay, PinTextField, BotigaAppBar;
 import '../../Home/HomeScreen.dart';
 import '../../../providers/AuthProvider.dart';
 
@@ -34,6 +36,35 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
       Navigator.of(context)
           .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final sizedBox = SizedBox(height: 30);
+    return Scaffold(
+      appBar: BotigaAppBar('Set Pin'),
+      backgroundColor: AppTheme.backgroundColor,
+      body: LoaderOverlay(
+        isLoading: _isLoading,
+        child: Container(
+          padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Last step! You are almost done. Going forward this 4-digit pin will be used to login.',
+                style: AppTheme.textStyle.w500.color50.size(13).lineHeight(1.3),
+              ),
+              sizedBox,
+              Center(child: Container(width: 200, child: pinForm())),
+              sizedBox,
+              setPinButton(this._handleSetPin),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Widget setPinSuccessful() {
@@ -116,55 +147,6 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
       child: PinTextField(
         pins: 4,
         onSaved: (val) => pinValue = val,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final sizedBox = SizedBox(height: 30);
-    return Scaffold(
-      appBar: AppBar(
-          backgroundColor: AppTheme.backgroundColor,
-          elevation: 0,
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          title: Align(
-            child: Text(
-              "Set PIN",
-              style: AppTheme.textStyle.w700.color100.size(22).lineHeight(1.0),
-            ),
-            alignment: Alignment.centerLeft,
-          ),
-          leading: IconButton(
-            icon: Icon(
-              BotigaIcons.arrowBack,
-              color: AppTheme.color100,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )),
-      backgroundColor: AppTheme.backgroundColor,
-      body: LoaderOverlay(
-        isLoading: _isLoading,
-        child: Container(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Last step! You are almost done. Going forward this 4-digit pin will be used to login.',
-                style: AppTheme.textStyle.w500.color50.size(13).lineHeight(1.3),
-              ),
-              sizedBox,
-              Center(child: Container(width: 200, child: pinForm())),
-              sizedBox,
-              setPinButton(this._handleSetPin),
-            ],
-          ),
-        ),
       ),
     );
   }

@@ -6,7 +6,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:botiga_biz/theme/index.dart';
 import 'SignupStoreDetails.dart';
 import '../../../util/index.dart';
-import '../../../widget/index.dart';
+import '../../../widget/index.dart'
+    show
+        LoaderOverlay,
+        BotigaTextFieldForm,
+        Toast,
+        FullWidthButton,
+        BotigaAppBar;
 import '../../../providers/index.dart' show AuthProvider, ImageService;
 
 class SignupBuissnessDetails extends StatefulWidget {
@@ -134,19 +140,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
           ),
         ),
       ),
-      appBar: AppBar(
-        backgroundColor: AppTheme.backgroundColor,
-        elevation: 0,
-        centerTitle: false,
-        automaticallyImplyLeading: false,
-        title: Align(
-          child: Text(
-            'Business details',
-            style: AppTheme.textStyle.color100.size(20).w500,
-          ),
-          alignment: Alignment.centerLeft,
-        ),
-      ),
+      appBar: BotigaAppBar('Business details'),
       body: LoaderOverlay(
         isLoading: _isLoading,
         child: SafeArea(
