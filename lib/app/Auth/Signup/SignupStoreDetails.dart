@@ -4,7 +4,13 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'SetPin.dart';
-import '../../../widget/index.dart';
+import '../../../widget/index.dart'
+    show
+        FullWidthButton,
+        LoaderOverlay,
+        Toast,
+        BotigaTextFieldForm,
+        BotigaAppBar;
 import '../../../util/FormValidators.dart';
 import '../../../providers/index.dart' show PinService, ProfileProvider;
 
@@ -99,53 +105,27 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: AppBar(
-          backgroundColor: AppTheme.backgroundColor,
-          elevation: 0,
-          centerTitle: false,
-          title: Align(
-            child: Text(
-              'Store details',
-              style: AppTheme.textStyle.color100.size(20).w500,
-            ),
-            alignment: Alignment.centerLeft,
-          ),
-          leading: IconButton(
-            icon: Icon(
-              BotigaIcons.arrowBack,
-              color: AppTheme.color100,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )),
-      bottomNavigationBar: SafeArea(
+      appBar: BotigaAppBar('Store Details'),
+      bottomNavigationBar: Material(
+        elevation: 16.0,
         child: Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: SizedBox(
-                    height: 52,
-                    child: FlatButton(
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(6.0)),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            this._handleStoreDetailSave(context);
-                          }
-                        },
-                        color: AppTheme.primaryColor,
-                        child: Text('Save and continue',
-                            style: AppTheme.textStyle
-                                .size(15)
-                                .w600
-                                .colored(AppTheme.backgroundColor))),
-                  ),
-                ),
-              ],
-            )),
+          color: AppTheme.backgroundColor,
+          padding: const EdgeInsets.only(
+            top: 10.0,
+            left: 10.0,
+            right: 10.0,
+            bottom: 32.0,
+          ),
+          child: FullWidthButton(
+            title: 'Save and continue',
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                _formKey.currentState.save();
+                _handleStoreDetailSave(context);
+              }
+            },
+          ),
+        ),
       ),
       body: LoaderOverlay(
         isLoading: _isLoading,
