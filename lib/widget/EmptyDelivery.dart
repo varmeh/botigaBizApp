@@ -4,7 +4,21 @@ import '../theme/index.dart';
 import 'inviteShare.dart';
 import 'botigaBottomModal.dart';
 
-class EmptyDelivery extends StatelessWidget {
+class EmptyDelivery extends StatefulWidget {
+  @override
+  _EmptyDeliveryState createState() => _EmptyDeliveryState();
+}
+
+class _EmptyDeliveryState extends State<EmptyDelivery>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
     const sizedBox = SizedBox(height: 24);
@@ -19,6 +33,12 @@ class EmptyDelivery extends StatelessWidget {
               width: 330,
               height: 300,
               fit: BoxFit.fill,
+              controller: _controller,
+              onLoaded: (composition) {
+                _controller.duration = composition.duration * 2;
+                _controller.reset();
+                _controller.forward();
+              },
             ),
             Text(
               'No deliveries today',
