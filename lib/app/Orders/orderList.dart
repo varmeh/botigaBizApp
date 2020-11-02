@@ -86,6 +86,7 @@ class _OrderListState extends State<OrderList> {
     final aprtmentName = routesArgs['apartmentName'];
     final apartmentId = routesArgs['apartmentId'];
     return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
       appBar: AppBar(
           backgroundColor: AppTheme.backgroundColor,
           elevation: 0,

@@ -205,6 +205,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     return LoaderOverlay(
       isLoading: _isLoading,
       child: Scaffold(
+        backgroundColor: AppTheme.backgroundColor,
         bottomNavigationBar: Container(
           color: AppTheme.backgroundColor,
           padding: EdgeInsets.all(10),

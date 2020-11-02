@@ -95,6 +95,7 @@ class _OrderDetailsState extends State<OrderDetails> {
         ordersProvider.getOrderDetails(orderId);
 
     return Scaffold(
+      backgroundColor: AppTheme.backgroundColor,
       appBar: AppBar(
           backgroundColor: AppTheme.backgroundColor,
           elevation: 0,
