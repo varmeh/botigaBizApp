@@ -49,6 +49,6 @@ class AuthProvider with ChangeNotifier {
     rather then intro screen.
     */
     await Http.post('/api/seller/auth/signout', body: {});
-    return Token.delete();
+    return Token.write('');
   }
 }
