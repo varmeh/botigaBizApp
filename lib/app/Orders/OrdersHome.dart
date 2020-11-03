@@ -14,18 +14,17 @@ class OrdersHome extends StatefulWidget {
 }
 
 class _OrdersHomeState extends State<OrdersHome> {
-  var _isLoading = false;
-  var _isError = false;
-  var _error;
-  var _isInit = false;
-  var slectedDate = Constants.today;
+  var _loadData = true;
+  var selectedDate = Constants.today;
   var selectedDateForRequest;
+
   CalendarController _calendarController;
 
   @override
   void initState() {
     super.initState();
     _calendarController = CalendarController();
+    selectedDateForRequest = FormatDate.getRequestFormatDate(DateTime.now());
   }
 
   @override
@@ -35,124 +34,77 @@ class _OrdersHomeState extends State<OrdersHome> {
   }
 
   @override
-  void didChangeDependencies() {
-    if (!_isInit) {
-      var currentDate = FormatDate.getRequestFormatDate(DateTime.now());
-      fetchData(currentDate);
-      _isInit = true;
-    }
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final profileProvider =
-        Provider.of<ProfileProvider>(context, listen: false);
-    final profileInfo = profileProvider.profileInfo;
-    return _isLoading
-        ? Loader()
-        : _isError
-            ? HttpServiceExceptionWidget(
-                exception: _error,
+    return Consumer<OrdersProvider>(
+      builder: (context, provider, child) {
+        return FutureBuilder(
+          future: _loadData
+              ? provider.fetchAggregatedOrders(selectedDateForRequest)
+              : null,
+          builder: (context, snapshot) {
+            _loadData = false;
+            if (snapshot.hasError) {
+              return HttpServiceExceptionWidget(
+                exception: snapshot.error,
                 onTap: () {
-                  fetchData(FormatDate.getRequestFormatDate(DateTime.now()));
+                  setState(() => _loadData = true);
                 },
-              )
-            : RefreshIndicator(
-                onRefresh: _onRefresh,
-                child: Consumer<OrdersProvider>(
-                  builder: (ctx, ordersprovider, _) {
-                    bool isEmptyOrders = false;
-                    bool isEmptyCommunties = false;
-                    bool isAllComunityDisabled = true;
-                    final aggregatedOrders = ordersprovider.aggregatedOrders;
-
-                    if (profileProvider.totalApartment == 0) {
-                      isEmptyCommunties = true;
-                    }
-                    if (profileProvider.hasAnyEnabledApartment == true) {
-                      isAllComunityDisabled = false;
-                    }
-                    if (aggregatedOrders == null ||
-                        aggregatedOrders.apartmentWiseBreakup.length == 0) {
-                      isEmptyOrders = true;
-                    }
-
-                    return Container(
-                      color: AppTheme.dividerColor,
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        children: <Widget>[
-                          ...isEmptyCommunties
-                              ? [
-                                  _communitesInfoHeader(profileInfo.firstName,
-                                      "No Communities Added")
-                                ]
-                              : isAllComunityDisabled
-                                  ? [
-                                      _communitesInfoHeader(
-                                          profileInfo.firstName,
-                                          "No Communities enabled")
-                                    ]
-                                  : [
-                                      _orderHeader(
-                                        aggregatedOrders.totalRevenue,
-                                        aggregatedOrders.totalOrders,
-                                        profileInfo.firstName,
-                                      ),
-                                      ...isEmptyOrders
-                                          ? [EmptyOrders()]
-                                          : aggregatedOrders
-                                              .apartmentWiseBreakup
-                                              .map(
-                                              (apartment) => _orderCard(
-                                                apartment.id,
-                                                apartment.apartmentName,
-                                                apartment.revenue,
-                                                apartment.orders,
-                                              ),
-                                            )
-                                    ],
-                          SizedBox(
-                            height: 32,
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
               );
-  }
+            }
+            final profileProvider =
+                Provider.of<ProfileProvider>(context, listen: false);
 
-  void fetchData(String date) async {
-    setState(() {
-      _error = null;
-      _isError = false;
-      _isLoading = true;
-    });
-    try {
-      final ordersProvider =
-          Provider.of<OrdersProvider>(context, listen: false);
-      await ordersProvider.fetchAggregatedOrders(date);
-    } catch (err) {
-      setState(() {
-        _error = err;
-        _isError = true;
-        _isLoading = false;
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
+            if (profileProvider.totalApartment == 0) {
+              return _communitiesScreen(
+                profileProvider.profileInfo.firstName,
+                'No Communities Added',
+              );
+            }
 
-  Future _onRefresh() {
-    final date = selectedDateForRequest == null
-        ? DateTime.now()
-        : selectedDateForRequest;
-    return Provider.of<OrdersProvider>(context, listen: false)
-        .fetchAggregatedOrders(FormatDate.getRequestFormatDate(date));
+            if (!profileProvider.hasAnyEnabledApartment) {
+              return _communitiesScreen(
+                profileProvider.profileInfo.firstName,
+                'No Communities enabled',
+              );
+            }
+
+            final aggregatedOrders = provider.aggregatedOrders;
+
+            return RefreshIndicator(
+              onRefresh: () =>
+                  provider.fetchAggregatedOrders(selectedDateForRequest),
+              child: LoaderOverlay(
+                isLoading: snapshot.connectionState == ConnectionState.waiting,
+                child: Container(
+                  color: AppTheme.dividerColor,
+                  child: ListView(
+                    padding: const EdgeInsets.only(bottom: 32.0),
+                    children: [
+                      _orderHeader(
+                        aggregatedOrders?.totalRevenue ?? 0,
+                        aggregatedOrders?.totalOrders ?? 0,
+                        profileProvider.profileInfo.firstName,
+                      ),
+                      ...aggregatedOrders == null ||
+                              aggregatedOrders.apartmentWiseBreakup.length == 0
+                          ? [EmptyOrders()]
+                          : aggregatedOrders.apartmentWiseBreakup.map(
+                              (apartment) => _orderCard(
+                                apartment.id,
+                                apartment.apartmentName,
+                                apartment.revenue,
+                                apartment.orders,
+                              ),
+                            ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   Widget _orderHeader(int revenue, int totalOrder, String name) {
@@ -197,16 +149,20 @@ class _OrdersHomeState extends State<OrdersHome> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                              '${FormatDate.getShortDateFromDate(slectedDate)}',
-                              style: AppTheme.textStyle
-                                  .colored(AppTheme.backgroundColor)
-                                  .w500
-                                  .size(15)),
+                            '${FormatDate.getShortDateFromDate(selectedDate)}',
+                            style: AppTheme.textStyle
+                                .colored(AppTheme.backgroundColor)
+                                .w500
+                                .size(15),
+                          ),
                           SizedBox(
                             width: 9,
                           ),
-                          Icon(Icons.expand_more_sharp,
-                              size: 25, color: AppTheme.backgroundColor),
+                          Icon(
+                            Icons.expand_more_sharp,
+                            size: 25,
+                            color: AppTheme.backgroundColor,
+                          ),
                         ],
                       ),
                     )
@@ -447,8 +403,8 @@ class _OrdersHomeState extends State<OrdersHome> {
         ),
         child: SafeArea(
           child: TableCalendar(
-            initialSelectedDay: FormatDate.convertStringToDate(slectedDate),
-            startDay: DateTime.now(),
+            initialSelectedDay: FormatDate.convertStringToDate(selectedDate),
+            startDay: DateTime.now().subtract(Duration(days: 15)),
             availableCalendarFormats: const {
               CalendarFormat.month: 'Month',
             },
@@ -468,10 +424,12 @@ class _OrdersHomeState extends State<OrdersHome> {
             onDaySelected: (date, events, _) {
               Navigator.of(context).pop();
               setState(() {
-                slectedDate = FormatDate.getTodayOrSelectedDate(date);
-                selectedDateForRequest = date;
+                selectedDate = FormatDate.getTodayOrSelectedDate(date);
+                selectedDateForRequest = FormatDate.getRequestFormatDate(date);
+                _loadData = true;
               });
-              fetchData(FormatDate.getRequestFormatDate(date));
+              Provider.of<OrdersProvider>(context, listen: false)
+                  .fetchAggregatedOrders(FormatDate.getRequestFormatDate(date));
             },
             calendarController: _calendarController,
           ),
@@ -480,52 +438,47 @@ class _OrdersHomeState extends State<OrdersHome> {
     );
   }
 
-  Widget _communitesInfoHeader(String name, String info) {
-    return Stack(
-      alignment: Alignment.center,
-      children: <Widget>[
-        Positioned(
-          top: 0,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 240,
-            decoration: BoxDecoration(
-              color: AppTheme.primaryColor,
-              borderRadius: new BorderRadius.only(
-                bottomLeft: const Radius.circular(5.0),
-                bottomRight: const Radius.circular(5.0),
-              ),
-              image: DecorationImage(
-                image: AssetImage('assets/images/background.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Padding(
+  Widget _communitiesScreen(String name, String info) {
+    return Container(
+      color: AppTheme.dividerColor,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            top: 0,
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 240,
               padding: const EdgeInsets.only(top: 65, left: 25),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Hi, $name",
-                    style: AppTheme.textStyle
-                        .colored(AppTheme.backgroundColor)
-                        .w700
-                        .size(22),
-                  ),
-                  SizedBox(height: 30),
-                ],
+              decoration: BoxDecoration(
+                color: AppTheme.primaryColor,
+                borderRadius: new BorderRadius.only(
+                  bottomLeft: const Radius.circular(5.0),
+                  bottomRight: const Radius.circular(5.0),
+                ),
+                image: DecorationImage(
+                  image: AssetImage('assets/images/background.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Text(
+                "Hi $name",
+                style: AppTheme.textStyle
+                    .colored(AppTheme.backgroundColor)
+                    .w700
+                    .size(22),
               ),
             ),
           ),
-        ),
-        Positioned(
-          top: 170,
-          left: 20,
-          right: 20,
-          bottom: 0,
-          child: CommunitiesInfo(info),
-        ),
-      ],
+          Positioned(
+            top: 170,
+            left: 20,
+            right: 20,
+            height: 500,
+            child: CommunitiesInfo(info),
+          ),
+        ],
+      ),
     );
   }
 }

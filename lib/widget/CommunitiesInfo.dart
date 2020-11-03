@@ -14,16 +14,14 @@ class CommunitiesInfo extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.all(35.0),
-        width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
               'assets/images/communities.png',
-              width: 200,
             ),
             SizedBox(height: 22),
             Text(
@@ -31,9 +29,7 @@ class CommunitiesInfo extends StatelessWidget {
               textAlign: TextAlign.center,
               style: AppTheme.textStyle.w700.size(20).lineHeight(1.5).color100,
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             Text(
               'Go to Profile > Communities to see available comunities',
               textAlign: TextAlign.center,
