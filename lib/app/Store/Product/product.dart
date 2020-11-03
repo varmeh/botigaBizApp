@@ -72,6 +72,8 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
       await productProvider.updateProductStatus(
           productWithCategory.categoryId, product, availabelStatus);
       await productProvider.fetchProducts();
+      Toast(message: "Product status updated", iconData: Icons.check_circle)
+          .show(context);
     } catch (error) {
       onFail();
       Toast(message: Http.message(error)).show(context);
