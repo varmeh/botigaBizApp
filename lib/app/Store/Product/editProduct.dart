@@ -17,7 +17,7 @@ class EditProduct extends StatefulWidget {
   final String categoryId;
   final String categoryName;
   EditProduct({this.productId, this.categoryId, this.categoryName});
-  static const routeName = '/edit-product';
+  static const routeName = 'edit-product';
   @override
   _EditProductState createState() => _EditProductState();
 }

@@ -3,7 +3,7 @@ import 'EnterPin.dart';
 import '../../Auth/widgets/phoneScreen.dart';
 
 class Login extends StatelessWidget {
-  static const routeName = '/login';
+  static const routeName = 'login';
 
   @override
   Widget build(BuildContext context) {

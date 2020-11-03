@@ -13,7 +13,7 @@ import '../../../util/FormValidators.dart';
 import '../../Home/HomeScreen.dart';
 
 class AddProduct extends StatefulWidget {
-  static const routeName = '/add-product';
+  static const routeName = 'add-product';
   @override
   _AddProductState createState() => _AddProductState();
 }

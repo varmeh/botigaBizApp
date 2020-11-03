@@ -9,7 +9,7 @@ import '../../../providers/Services/index.dart';
 import '../../../util/FormValidators.dart';
 
 class StoreDeatils extends StatefulWidget {
-  static const routeName = '/add-store-details';
+  static const routeName = 'add-store-details';
   @override
   _StoreDeatilsState createState() => _StoreDeatilsState();
 }

@@ -11,7 +11,7 @@ import '../../widget/index.dart';
 import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
 
 class DeliveryScreen extends StatefulWidget {
-  static const routeName = '/all-delivery-list';
+  static const routeName = 'all-delivery-list';
   @override
   _DeliveryScreenState createState() => _DeliveryScreenState();
 }

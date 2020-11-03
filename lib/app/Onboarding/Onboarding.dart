@@ -5,7 +5,7 @@ import 'package:intro_slider/slide_object.dart';
 import '../Auth/Signup/SignUpWelcome.dart';
 
 class IntroScreen extends StatelessWidget {
-  static const routeName = '/intro';
+  static const routeName = 'intro';
 
   final List<Slide> _slides = [
     Slide(

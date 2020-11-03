@@ -9,7 +9,7 @@ import '../Home/HomeScreen.dart';
 import '../../providers/ProfileProvider.dart';
 
 class SplashScreen extends StatefulWidget {
-  static final route = 'splashScreen';
+  static final routeName = 'splashScreen';
 
   @override
   _SplashScreenState createState() => _SplashScreenState();

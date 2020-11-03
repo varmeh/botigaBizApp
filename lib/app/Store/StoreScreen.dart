@@ -10,7 +10,7 @@ import '../../util/FormValidators.dart';
 import '../../providers/index.dart' show CategoryProvider, ProductProvider;
 
 class StoreScreen extends StatefulWidget {
-  static const routeName = '/store-screen';
+  static const routeName = 'store-screen';
   @override
   _StoreScreenState createState() => _StoreScreenState();
 }

@@ -15,7 +15,7 @@ import '../../../util/FormValidators.dart';
 import '../../../providers/index.dart' show PinService, ProfileProvider;
 
 class SignUpStoreDetails extends StatefulWidget {
-  static const routeName = '/signup-store-detail';
+  static const routeName = 'signup-store-detail';
   @override
   _SignUpStoreDetailsState createState() => _SignUpStoreDetailsState();
 }

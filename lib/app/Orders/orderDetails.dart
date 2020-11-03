@@ -10,7 +10,7 @@ import '../../util/index.dart';
 import '../../widget/index.dart';
 
 class OrderDetails extends StatefulWidget {
-  static const routeName = '/order-details';
+  static const routeName = 'order-details';
 
   @override
   _OrderDetailsState createState() => _OrderDetailsState();

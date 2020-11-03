@@ -8,7 +8,7 @@ import '../../widget/index.dart';
 import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
 
 class OrdersHome extends StatefulWidget {
-  static const routeName = '/orders-home';
+  static const routeName = 'orders-home';
   @override
   _OrdersHomeState createState() => _OrdersHomeState();
 }
@@ -481,53 +481,51 @@ class _OrdersHomeState extends State<OrdersHome> {
   }
 
   Widget _communitesInfoHeader(String name, String info) {
-    return ConstrainedBox(
-      constraints: BoxConstraints.tight(Size(double.infinity, 500)),
-      child: new Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Positioned(
-            top: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 240,
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
-                borderRadius: new BorderRadius.only(
-                  bottomLeft: const Radius.circular(5.0),
-                  bottomRight: const Radius.circular(5.0),
-                ),
-                image: DecorationImage(
-                  image: AssetImage('assets/images/background.png'),
-                  fit: BoxFit.cover,
-                ),
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        Positioned(
+          top: 0,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 240,
+            decoration: BoxDecoration(
+              color: AppTheme.primaryColor,
+              borderRadius: new BorderRadius.only(
+                bottomLeft: const Radius.circular(5.0),
+                bottomRight: const Radius.circular(5.0),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 65, left: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Hi, $name",
-                      style: AppTheme.textStyle
-                          .colored(AppTheme.backgroundColor)
-                          .w700
-                          .size(22),
-                    ),
-                    SizedBox(height: 30),
-                  ],
-                ),
+              image: DecorationImage(
+                image: AssetImage('assets/images/background.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 65, left: 25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Hi, $name",
+                    style: AppTheme.textStyle
+                        .colored(AppTheme.backgroundColor)
+                        .w700
+                        .size(22),
+                  ),
+                  SizedBox(height: 30),
+                ],
               ),
             ),
           ),
-          Positioned(
-              top: 170,
-              left: 20,
-              right: 20,
-              bottom: 0,
-              child: CommunitiesInfo(info)),
-        ],
-      ),
+        ),
+        Positioned(
+          top: 170,
+          left: 20,
+          right: 20,
+          bottom: 0,
+          child: CommunitiesInfo(info),
+        ),
+      ],
     );
   }
 }

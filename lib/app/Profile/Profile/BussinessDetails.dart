@@ -9,7 +9,7 @@ import '../../../util/index.dart';
 import '../../../providers/index.dart' show ProfileProvider, ImageService;
 
 class BussinessDetails extends StatefulWidget {
-  static const routeName = '/business-details';
+  static const routeName = 'business-details';
   @override
   _BussinessDetailsState createState() => _BussinessDetailsState();
 }

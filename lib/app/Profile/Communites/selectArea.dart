@@ -8,7 +8,7 @@ import '../../../widget/index.dart';
 import '../../../providers/ProfileProvider.dart';
 
 class SelectArea extends StatefulWidget {
-  static const routeName = '/select-area';
+  static const routeName = 'select-area';
   @override
   _SelectAreaState createState() => _SelectAreaState();
 }

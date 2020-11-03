@@ -11,7 +11,7 @@ import '../Profile/ProfileScreen.dart';
 import '../Delivery/deliveryScreen.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const routeName = '/home-screen';
+  static const routeName = 'home-screen';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }

@@ -10,7 +10,7 @@ import '../../Auth/widgets/index.dart';
 import '../../../providers/AuthProvider.dart';
 
 class EnterPin extends StatefulWidget {
-  static const routeName = '/login-enter-pin';
+  static const routeName = 'login-enter-pin';
   @override
   _EnterPinState createState() => _EnterPinState();
 }

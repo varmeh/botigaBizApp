@@ -9,7 +9,7 @@ import '../../util/index.dart';
 import '../../widget/index.dart';
 
 class OrderList extends StatefulWidget {
-  static const routeName = '/all-orders-list';
+  static const routeName = 'all-orders-list';
 
   @override
   _OrderListState createState() => _OrderListState();

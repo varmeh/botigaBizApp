@@ -10,7 +10,7 @@ import '../../Home/HomeScreen.dart';
 import '../../../providers/AuthProvider.dart';
 
 class SetPin extends StatefulWidget {
-  static const routeName = '/signup-setpin';
+  static const routeName = 'signup-setpin';
   @override
   _SetPinState createState() => _SetPinState();
 }

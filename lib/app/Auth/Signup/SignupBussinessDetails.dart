@@ -18,7 +18,7 @@ import '../../../providers/index.dart'
     show AuthProvider, ImageService, Businesscategory;
 
 class SignupBuissnessDetails extends StatefulWidget {
-  static const routeName = '/signup-bussiness-detail';
+  static const routeName = 'signup-bussiness-detail';
   @override
   _SignupBuissnessDetailsState createState() => _SignupBuissnessDetailsState();
 }

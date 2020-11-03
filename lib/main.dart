@@ -66,18 +66,8 @@ Future<void> main() async {
     };
   }
 
-  runApp(BotigaBizApp());
-}
-
-class BotigaBizApp extends StatelessWidget {
-  // This widget is the root of your application.
-  static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => ProfileProvider(),
@@ -95,40 +85,52 @@ class BotigaBizApp extends StatelessWidget {
           create: (_) => OrdersProvider(),
         ),
       ],
-      child: MaterialApp(
-        themeMode: ThemeMode.light,
-        title: 'Botiga Business',
-        home: SplashScreen(),
-        routes: {
-          IntroScreen.routeName: (ctx) => IntroScreen(),
-          Login.routeName: (ctx) => Login(),
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          OrdersHome.routeName: (ctx) => OrdersHome(),
-          OrderList.routeName: (ctx) => OrderList(),
-          OrderDetails.routeName: (ctx) => OrderDetails(),
-          OrderDelivery.routeName: (ctx) => OrderDelivery(),
-          StoreScreen.routeName: (ctx) => StoreScreen(),
-          AddProduct.routeName: (ctx) => AddProduct(),
-          EditProduct.routeName: (ctx) => EditProduct(),
-          SelectArea.routeName: (ctx) => SelectArea(),
-          BussinessDetails.routeName: (ctx) => BussinessDetails(),
-          StoreDeatils.routeName: (ctx) => StoreDeatils(),
-          DeliveryScreen.routeName: (ctx) => DeliveryScreen(),
-          SignupWelcome.routeName: (ctx) => SignupWelcome(),
-          SignUpOtp.routeName: (ctx) => SignUpOtp(),
-          SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
-          SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
-          SetPin.routeName: (ctx) => SetPin(),
-          EnterPin.routeName: (ctx) => EnterPin(),
-          LoginForgotPin.routeName: (ctx) => LoginForgotPin()
-        },
-        onUnknownRoute: (settings) {
-          return MaterialPageRoute(
-            builder: (ctx) => null,
-          );
-        },
-        // navigatorObservers: <NavigatorObserver>[observer],
-      ),
+      child: BotigaBizApp(),
+    ),
+  );
+}
+
+class BotigaBizApp extends StatelessWidget {
+  // This widget is the root of your application.
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      themeMode: ThemeMode.light,
+      title: 'Botiga Business',
+      initialRoute: SplashScreen.routeName,
+      routes: {
+        SplashScreen.routeName: (ctx) => SplashScreen(),
+        IntroScreen.routeName: (ctx) => IntroScreen(),
+        Login.routeName: (ctx) => Login(),
+        HomeScreen.routeName: (ctx) => HomeScreen(),
+        OrdersHome.routeName: (ctx) => OrdersHome(),
+        OrderList.routeName: (ctx) => OrderList(),
+        OrderDetails.routeName: (ctx) => OrderDetails(),
+        OrderDelivery.routeName: (ctx) => OrderDelivery(),
+        StoreScreen.routeName: (ctx) => StoreScreen(),
+        AddProduct.routeName: (ctx) => AddProduct(),
+        EditProduct.routeName: (ctx) => EditProduct(),
+        SelectArea.routeName: (ctx) => SelectArea(),
+        BussinessDetails.routeName: (ctx) => BussinessDetails(),
+        StoreDeatils.routeName: (ctx) => StoreDeatils(),
+        DeliveryScreen.routeName: (ctx) => DeliveryScreen(),
+        SignupWelcome.routeName: (ctx) => SignupWelcome(),
+        SignUpOtp.routeName: (ctx) => SignUpOtp(),
+        SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
+        SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
+        SetPin.routeName: (ctx) => SetPin(),
+        EnterPin.routeName: (ctx) => EnterPin(),
+        LoginForgotPin.routeName: (ctx) => LoginForgotPin()
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (ctx) => null,
+        );
+      },
     );
   }
 }

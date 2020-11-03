@@ -3,7 +3,7 @@ import 'SignupVerifyOtp.dart';
 import '../../Auth/widgets/phoneScreen.dart';
 
 class SignupWelcome extends StatelessWidget {
-  static const routeName = '/signup-welcome';
+  static const routeName = 'signup-welcome';
 
   @override
   Widget build(BuildContext context) {

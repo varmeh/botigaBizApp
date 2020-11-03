@@ -9,7 +9,7 @@ import '../../../providers/AuthProvider.dart';
 import '../../../util/httpService.dart';
 
 class LoginForgotPin extends StatefulWidget {
-  static const routeName = '/forgot-pin';
+  static const routeName = 'forgot-pin';
   @override
   _LoginForgotPinState createState() => _LoginForgotPinState();
 }

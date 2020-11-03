@@ -10,7 +10,7 @@ import '../../../widget/index.dart';
 import '../../../providers/AuthProvider.dart';
 
 class SignUpOtp extends StatefulWidget {
-  static const routeName = '/signup-otp';
+  static const routeName = 'signup-otp';
   @override
   _SignUpOtpState createState() => _SignUpOtpState();
 }
