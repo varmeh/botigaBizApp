@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'orderList.dart';
+import 'emptyOrders.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../widget/index.dart';
@@ -45,7 +46,7 @@ class _OrdersHomeState extends State<OrdersHome> {
           builder: (context, snapshot) {
             _loadData = false;
             if (snapshot.hasError) {
-              return HttpServiceExceptionWidget(
+              return HttpExceptionWidget(
                 exception: snapshot.error,
                 onTap: () {
                   setState(() => _loadData = true);

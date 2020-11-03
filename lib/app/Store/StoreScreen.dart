@@ -102,7 +102,7 @@ class _StoreScreenState extends State<StoreScreen> {
     return _isLoading
         ? Loader()
         : _isError
-            ? HttpServiceExceptionWidget(
+            ? HttpExceptionWidget(
                 exception: _error,
                 onTap: () {
                   fetchData();

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/rendering.dart';
+
+import 'emptyDelivery.dart';
 import '../Orders/orderDetails.dart';
 import '../../models/Profile/Profile.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
@@ -148,7 +150,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     return _isLoading
         ? Loader()
         : _isError
-            ? HttpServiceExceptionWidget(
+            ? HttpExceptionWidget(
                 exception: _error,
                 onTap: () {
                   fetchDefaultDeliveryDetails();

@@ -73,7 +73,7 @@ class _SelectAreaState extends State<SelectArea> {
       future: getApartments(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return HttpServiceExceptionWidget(
+          return HttpExceptionWidget(
             exception: snapshot.error,
             onTap: () {
               // Rebuild screen

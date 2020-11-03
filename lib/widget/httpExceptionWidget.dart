@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'lottieScreen.dart';
 
-class HttpServiceExceptionWidget extends StatelessWidget {
+class HttpExceptionWidget extends StatelessWidget {
   final Exception exception;
   final Function onTap;
 
-  HttpServiceExceptionWidget({
+  HttpExceptionWidget({
     @required this.exception,
     @required this.onTap,
   });

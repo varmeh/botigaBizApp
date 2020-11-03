@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'orderRow.dart';
 import 'orderDetails.dart';
+import 'emptyOrders.dart';
 import '../../providers/OrdersProvider.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart';
@@ -102,7 +103,7 @@ class _OrderListState extends State<OrderList> {
       body: _isLoading
           ? Loader()
           : _isError
-              ? HttpServiceExceptionWidget(
+              ? HttpExceptionWidget(
                   exception: _error,
                   onTap: () {
                     fetchData(FormatDate.getRequestFormatDate(DateTime.now()));
