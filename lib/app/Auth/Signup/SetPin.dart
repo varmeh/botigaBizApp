@@ -50,23 +50,26 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
     return Scaffold(
       appBar: BotigaAppBar('Set Pin'),
       backgroundColor: AppTheme.backgroundColor,
-      body: LoaderOverlay(
-        isLoading: _isLoading,
-        child: Container(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Last step! You are almost done. Going forward this 4-digit pin will be used to login.',
-                style: AppTheme.textStyle.w500.color50.size(13).lineHeight(1.3),
-              ),
-              sizedBox,
-              Center(child: Container(width: 200, child: pinForm())),
-              sizedBox,
-              setPinButton(this._handleSetPin),
-            ],
+      body: SingleChildScrollView(
+        child: LoaderOverlay(
+          isLoading: _isLoading,
+          child: Container(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Last step! You are almost done. Going forward this 4-digit pin will be used to login.',
+                  style:
+                      AppTheme.textStyle.w500.color50.size(13).lineHeight(1.3),
+                ),
+                sizedBox,
+                Center(child: Container(width: 200, child: pinForm())),
+                sizedBox,
+                setPinButton(this._handleSetPin),
+              ],
+            ),
           ),
         ),
       ),

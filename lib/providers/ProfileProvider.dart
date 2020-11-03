@@ -4,6 +4,11 @@ import '../models/Profile/Profile.dart';
 
 class ProfileProvider with ChangeNotifier {
   Profile _profile;
+  bool _hasProfile = false;
+
+  get hasProfile {
+    return this._hasProfile;
+  }
 
   get allApartment {
     if (this._profile != null) {
@@ -51,6 +56,7 @@ class ProfileProvider with ChangeNotifier {
   Future fetchProfile() async {
     final response = await Http.get('/api/seller/profile');
     this._profile = Profile.fromJson(response);
+    this._hasProfile = true;
     notifyListeners();
   }
 

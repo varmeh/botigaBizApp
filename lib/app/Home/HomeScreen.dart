@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -9,6 +10,8 @@ import '../Orders/OrdersHome.dart';
 import '../Store/StoreScreen.dart';
 import '../Profile/ProfileScreen.dart';
 import '../Delivery/deliveryScreen.dart';
+import '../../providers/ProfileProvider.dart';
+import '../../widget/index.dart' show Loader, HttpExceptionWidget;
 
 class HomeScreen extends StatefulWidget {
   static const routeName = 'home-screen';
@@ -31,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int _selectedPageIndex;
   FirebaseMessaging _fbm;
+  bool _isLoading = false;
+  bool _isError = false;
+  var _error;
 
   @override
   void initState() {
@@ -60,6 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     _selectedPageIndex = widget.index ?? 0;
+    _fetchProfile();
   }
 
   void _selectPage(int index) {
@@ -81,12 +88,45 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (_) {}
   }
 
+  void _fetchProfile() async {
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+    if (!profileProvider.hasProfile) {
+      setState(() {
+        _isLoading = true;
+        _isError = false;
+        _error = null;
+      });
+      try {
+        await profileProvider.fetchProfile();
+      } catch (err) {
+        setState(() {
+          _isError = true;
+          _error = err;
+        });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FlavorBanner(
       child: Scaffold(
         backgroundColor: AppTheme.backgroundColor,
-        body: _pages[_selectedPageIndex],
+        body: _isLoading
+            ? Loader()
+            : _isError
+                ? HttpExceptionWidget(
+                    exception: _error,
+                    onTap: () {
+                      _fetchProfile();
+                    },
+                  )
+                : _pages[_selectedPageIndex],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(
@@ -96,35 +136,37 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          child: BottomNavigationBar(
-            backgroundColor: AppTheme.backgroundColor,
-            selectedIconTheme: IconThemeData(size: 28),
-            selectedItemColor: AppTheme.primaryColor,
-            selectedLabelStyle: AppTheme.textStyle.w500.size(12),
-            unselectedLabelStyle: AppTheme.textStyle.w500.size(13),
-            unselectedItemColor: AppTheme.navigationItemColor,
-            type: BottomNavigationBarType.fixed,
-            onTap: _selectPage,
-            currentIndex: _selectedPageIndex,
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(BotigaIcons.orders),
-                label: 'Orders',
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(BotigaIcons.store),
-                label: 'Store',
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(BotigaIcons.package),
-                label: 'Delivery',
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(BotigaIcons.profile),
-                label: "Profile",
-              ),
-            ],
-          ),
+          child: (!_isLoading && !_isError)
+              ? BottomNavigationBar(
+                  backgroundColor: AppTheme.backgroundColor,
+                  selectedIconTheme: IconThemeData(size: 28),
+                  selectedItemColor: AppTheme.primaryColor,
+                  selectedLabelStyle: AppTheme.textStyle.w500.size(12),
+                  unselectedLabelStyle: AppTheme.textStyle.w500.size(13),
+                  unselectedItemColor: AppTheme.navigationItemColor,
+                  type: BottomNavigationBarType.fixed,
+                  onTap: _selectPage,
+                  currentIndex: _selectedPageIndex,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: const Icon(BotigaIcons.orders),
+                      label: 'Orders',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(BotigaIcons.store),
+                      label: 'Store',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(BotigaIcons.package),
+                      label: 'Delivery',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(BotigaIcons.profile),
+                      label: "Profile",
+                    ),
+                  ],
+                )
+              : SizedBox.shrink(),
         ),
       ),
     );
