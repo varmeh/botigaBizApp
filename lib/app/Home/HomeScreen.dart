@@ -12,6 +12,11 @@ import '../Delivery/deliveryScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = 'home-screen';
+
+  final int index;
+
+  HomeScreen({this.index});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -24,8 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ProfileScreen(),
   ];
 
-  int _selectedPageIndex = 0;
-  bool _isInit = false;
+  int _selectedPageIndex;
   FirebaseMessaging _fbm;
 
   @override
@@ -54,19 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
       onLaunch: (Map<String, dynamic> message) async {},
       onResume: (Map<String, dynamic> message) async {},
     );
-  }
 
-  @override
-  void didChangeDependencies() {
-    if (!_isInit) {
-      final routesArgs =
-          ModalRoute.of(context).settings.arguments as Map<String, int>;
-      if (routesArgs != null && routesArgs['tab'] != null) {
-        _selectPage(routesArgs['tab']);
-      }
-      _isInit = true;
-    }
-    super.didChangeDependencies();
+    _selectedPageIndex = widget.index ?? 0;
   }
 
   void _selectPage(int index) {

@@ -119,9 +119,9 @@ PODS:
   - Protobuf (3.13.0)
   - share (0.0.1):
     - Flutter
-  - sqflite (0.0.1):
+  - sqflite (0.0.2):
     - Flutter
-    - FMDB (~> 2.7.2)
+    - FMDB (>= 2.7.5)
   - url_launcher (0.0.1):
     - Flutter
 
@@ -209,7 +209,7 @@ SPEC CHECKSUMS:
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
-  sqflite: 4001a31ff81d210346b500c55b17f4d6c7589dd0
+  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: f2087c8b8a656a60451dc6d54530d6fe92d9f2c8

@@ -122,9 +122,13 @@ class _EditProductState extends State<EditProduct>
 
   void loadTabbarAfterAnimationCompletion(AnimationStatus status) {
     if (status == AnimationStatus.completed) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          HomeScreen.routeName, (route) => false,
-          arguments: {'tab': 1});
+      Navigator.of(context).pushAndRemoveUntil(
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => HomeScreen(index: 1),
+          transitionDuration: Duration.zero,
+        ),
+        (route) => false,
+      );
     }
   }
 

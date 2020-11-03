@@ -75,8 +75,7 @@ class _SignUpOtpState extends State<SignUpOtp> {
             context, SignupBuissnessDetails.routeName,
             arguments: {'phone': phone});
       } else {
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName,
-            arguments: {'phone': phone});
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       }
     } catch (err) {
       Toast(message: Http.message(err)).show(context);

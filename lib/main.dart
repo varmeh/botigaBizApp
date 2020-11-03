@@ -106,7 +106,7 @@ class BotigaBizApp extends StatelessWidget {
         SplashScreen.routeName: (ctx) => SplashScreen(),
         IntroScreen.routeName: (ctx) => IntroScreen(),
         Login.routeName: (ctx) => Login(),
-        HomeScreen.routeName: (ctx) => HomeScreen(),
+        HomeScreen.routeName: (ctx) => HomeScreen(index: 0),
         OrdersHome.routeName: (ctx) => OrdersHome(),
         OrderList.routeName: (ctx) => OrderList(),
         OrderDetails.routeName: (ctx) => OrderDetails(),
