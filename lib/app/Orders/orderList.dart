@@ -87,35 +87,18 @@ class _OrderListState extends State<OrderList> {
     final apartmentId = routesArgs['apartmentId'];
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: AppBar(
-          backgroundColor: AppTheme.backgroundColor,
-          elevation: 0,
-          centerTitle: false,
-          title: Align(
-            child: Text(
-              '$aprtmentName',
-              style: AppTheme.textStyle.w500.color100.size(20).lineHeight(1.0),
-            ),
-            alignment: Alignment.centerLeft,
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                BotigaIcons.search,
-                color: AppTheme.color100,
-              ),
-              onPressed: () {},
-            )
-          ],
-          leading: IconButton(
+      appBar: BotigaAppBar(
+        aprtmentName,
+        actions: [
+          IconButton(
             icon: Icon(
-              BotigaIcons.arrowBack,
+              BotigaIcons.search,
               color: AppTheme.color100,
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )),
+            onPressed: () {},
+          )
+        ],
+      ),
       body: _isLoading
           ? Loader()
           : _isError

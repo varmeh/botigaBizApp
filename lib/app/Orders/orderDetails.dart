@@ -96,77 +96,68 @@ class _OrderDetailsState extends State<OrderDetails> {
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: AppBar(
-          backgroundColor: AppTheme.backgroundColor,
-          elevation: 0,
-          actions: [
-            ...isOrderOpen(orderDetail.order.status)
-                ? [
-                    FlatButton(
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      onPressed: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text(
-                                  "Cancel Order",
-                                  style: AppTheme.textStyle.color100.w600
-                                      .size(14)
-                                      .letterSpace(.02),
-                                ),
-                                content: Text(
-                                  "Are you sure you want to cancel this order ?",
-                                  style: AppTheme.textStyle.color100.w500
-                                      .size(13)
-                                      .letterSpace(.02),
-                                ),
-                                actions: [
-                                  FlatButton(
-                                    child: Text(
-                                      "Yes",
-                                      style: AppTheme.textStyle.color100.w500
-                                          .size(13)
-                                          .letterSpace(.02),
-                                    ),
-                                    onPressed: () async {
-                                      Navigator.of(context).pop();
-                                      handleCancelOrder(orderId, apartmentId,
-                                          selectedDateForRequest);
-                                    },
+      appBar: BotigaAppBar(
+        '',
+        actions: [
+          ...isOrderOpen(orderDetail.order.status)
+              ? [
+                  FlatButton(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                "Cancel Order",
+                                style: AppTheme.textStyle.color100.w600
+                                    .size(14)
+                                    .letterSpace(.02),
+                              ),
+                              content: Text(
+                                "Are you sure you want to cancel this order ?",
+                                style: AppTheme.textStyle.color100.w500
+                                    .size(13)
+                                    .letterSpace(.02),
+                              ),
+                              actions: [
+                                FlatButton(
+                                  child: Text(
+                                    "Yes",
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(13)
+                                        .letterSpace(.02),
                                   ),
-                                  FlatButton(
-                                    child: Text(
-                                      "No",
-                                      style: AppTheme.textStyle.color100.w500
-                                          .size(13)
-                                          .letterSpace(.02),
-                                    ),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
+                                  onPressed: () async {
+                                    Navigator.of(context).pop();
+                                    handleCancelOrder(orderId, apartmentId,
+                                        selectedDateForRequest);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text(
+                                    "No",
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(13)
+                                        .letterSpace(.02),
                                   ),
-                                ],
-                              );
-                            });
-                      },
-                      child: Text('Cancel Order',
-                          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                              color: Theme.of(context).colorScheme.error)),
-                    )
-                  ]
-                : []
-          ],
-          leading: IconButton(
-            icon: Icon(
-              BotigaIcons.arrowBack,
-              color: AppTheme.color100,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          )),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                    child: Text('Cancel Order',
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(
+                            color: Theme.of(context).colorScheme.error)),
+                  )
+                ]
+              : []
+        ],
+      ),
       body: SafeArea(
         child: LoaderOverlay(
           isLoading: _isLoading,

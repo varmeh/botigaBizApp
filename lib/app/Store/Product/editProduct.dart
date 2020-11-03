@@ -339,81 +339,65 @@ class _EditProductState extends State<EditProduct>
       isLoading: isSaving,
       child: Scaffold(
           backgroundColor: AppTheme.backgroundColor,
-          appBar: AppBar(
-              backgroundColor: AppTheme.backgroundColor,
-              elevation: 0,
-              centerTitle: false,
-              actions: [
-                FlatButton(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(
-                              "Delete product",
-                              style: AppTheme.textStyle.color100.w600
-                                  .size(14)
-                                  .letterSpace(.02),
-                            ),
-                            content: Text(
-                              "Are you sure you want to delete this product ?",
-                              style: AppTheme.textStyle.color100.w500
-                                  .size(13)
-                                  .letterSpace(.02),
-                            ),
-                            actions: [
-                              FlatButton(
-                                child: Text(
-                                  "Yes",
-                                  style: AppTheme.textStyle.color100.w500
-                                      .size(13)
-                                      .letterSpace(.02),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  _handleDelete();
-                                },
-                              ),
-                              FlatButton(
-                                child: Text(
-                                  "No",
-                                  style: AppTheme.textStyle.color100.w500
-                                      .size(13)
-                                      .letterSpace(.02),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        });
-                  },
-                  child: Text('Delete',
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(
-                          color: Theme.of(context).colorScheme.error)),
-                )
-              ],
-              title: Align(
-                child: Text(
-                  'Edit Product',
-                  style:
-                      AppTheme.textStyle.w500.color100.size(20).lineHeight(1.0),
-                ),
-                alignment: Alignment.centerLeft,
-              ),
-              leading: IconButton(
-                icon: Icon(
-                  BotigaIcons.arrowBack,
-                  color: AppTheme.color100,
-                ),
+          appBar: BotigaAppBar(
+            'Edit Product',
+            actions: [
+              FlatButton(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
                 onPressed: () {
-                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(
+                            "Delete product",
+                            style: AppTheme.textStyle.color100.w600
+                                .size(14)
+                                .letterSpace(.02),
+                          ),
+                          content: Text(
+                            "Are you sure you want to delete this product ?",
+                            style: AppTheme.textStyle.color100.w500
+                                .size(13)
+                                .letterSpace(.02),
+                          ),
+                          actions: [
+                            FlatButton(
+                              child: Text(
+                                "Yes",
+                                style: AppTheme.textStyle.color100.w500
+                                    .size(13)
+                                    .letterSpace(.02),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                _handleDelete();
+                              },
+                            ),
+                            FlatButton(
+                              child: Text(
+                                "No",
+                                style: AppTheme.textStyle.color100.w500
+                                    .size(13)
+                                    .letterSpace(.02),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      });
                 },
-              )),
+                child: Text('Delete',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(color: Theme.of(context).colorScheme.error)),
+              )
+            ],
+          ),
           bottomNavigationBar: SafeArea(
             child: Container(
               color: AppTheme.backgroundColor,

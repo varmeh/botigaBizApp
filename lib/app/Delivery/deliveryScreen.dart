@@ -155,20 +155,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 },
               )
             : Scaffold(
-                appBar: AppBar(
-                  backgroundColor: AppTheme.backgroundColor,
-                  elevation: 0,
-                  centerTitle: false,
-                  automaticallyImplyLeading: false,
-                  title: Align(
-                    child: Text(
-                      "Delivery",
-                      style: AppTheme.textStyle.w700.color100
-                          .size(22)
-                          .lineHeight(1.0),
-                    ),
-                    alignment: Alignment.centerLeft,
-                  ),
+                appBar: BotigaAppBar(
+                  'Delivery',
                   actions: [
                     IconButton(
                       icon: Icon(

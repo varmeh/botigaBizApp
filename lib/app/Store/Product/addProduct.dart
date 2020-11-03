@@ -332,27 +332,9 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
       isLoading: isSaving,
       child: Scaffold(
           backgroundColor: AppTheme.backgroundColor,
-          appBar: AppBar(
-              backgroundColor: AppTheme.backgroundColor,
-              elevation: 0,
-              centerTitle: false,
-              title: Align(
-                child: Text(
-                  'Add Product',
-                  style:
-                      AppTheme.textStyle.w500.color100.size(20).lineHeight(1.0),
-                ),
-                alignment: Alignment.centerLeft,
-              ),
-              leading: IconButton(
-                icon: Icon(
-                  BotigaIcons.arrowBack,
-                  color: AppTheme.color100,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )),
+          appBar: BotigaAppBar(
+            'Add Product',
+          ),
           bottomNavigationBar: SafeArea(
             child: Container(
               color: AppTheme.backgroundColor,

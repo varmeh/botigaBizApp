@@ -240,26 +240,9 @@ class _BussinessDetailsState extends State<BussinessDetails> {
             ),
           ),
         ),
-        appBar: AppBar(
-            backgroundColor: AppTheme.backgroundColor,
-            elevation: 0,
-            centerTitle: false,
-            title: Align(
-              child: Text(
-                'Business details',
-                style: AppTheme.textStyle.color100.size(20).w500,
-              ),
-              alignment: Alignment.centerLeft,
-            ),
-            leading: IconButton(
-              icon: Icon(
-                BotigaIcons.arrowBack,
-                color: AppTheme.color100,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )),
+        appBar: BotigaAppBar(
+          'Business details',
+        ),
         body: SafeArea(
           child: Form(
             key: _formKey,

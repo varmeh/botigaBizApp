@@ -42,27 +42,7 @@ class _SelectAreaState extends State<SelectArea> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: AppTheme.backgroundColor,
-        elevation: 0,
-        centerTitle: false,
-        leading: IconButton(
-          icon: Icon(
-            BotigaIcons.arrowBack,
-            color: AppTheme.color100,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Align(
-          child: Text(
-            'Select your community',
-            style: AppTheme.textStyle.w700.color100.size(22).lineHeight(1.2),
-          ),
-          alignment: Alignment.centerLeft,
-        ),
-      ),
+      appBar: BotigaAppBar('Select your community'),
       body: SafeArea(
         child: Container(
           color: AppTheme.backgroundColor,

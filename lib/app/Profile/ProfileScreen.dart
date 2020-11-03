@@ -39,7 +39,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         appBar: AppBar(
           elevation: 0.0,
-          backgroundColor: Colors.white,
+          brightness: Brightness.light,
+          backgroundColor: AppTheme.backgroundColor,
           bottom: PreferredSize(
             preferredSize: Size.fromHeight(11),
             child: Theme(
