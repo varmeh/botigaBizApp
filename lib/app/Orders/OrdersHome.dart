@@ -74,6 +74,7 @@ class _OrdersHomeState extends State<OrdersHome> {
             return RefreshIndicator(
               onRefresh: () => provider
                   .fetchAggregatedOrders(selectedDate.getRequestFormatDate()),
+              color: AppTheme.primaryColor,
               child: LoaderOverlay(
                 isLoading: snapshot.connectionState == ConnectionState.waiting,
                 child: Container(

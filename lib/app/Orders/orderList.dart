@@ -67,8 +67,8 @@ class _OrderListState extends State<OrderList> {
     if (!_isInit) {
       final routesArgs =
           ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-      final date = routesArgs['selectedDateForRequest'];
-      var currentDate = FormatDate.getRequestFormatDate(date);
+      DateTime date = routesArgs['selectedDateForRequest'];
+      var currentDate = date.getRequestFormatDate();
       fetchData(currentDate);
       setState(() {
         selectedDateForRequest = date;
