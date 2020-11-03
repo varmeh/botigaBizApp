@@ -42,11 +42,9 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>camera description.</string>
+	<string>Required to click images of your product</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string> photos description.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string> microphone description.</string>
+	<string>Required to select images from your gallery</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>
