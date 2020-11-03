@@ -83,7 +83,7 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
           fit: BoxFit.fill,
           controller: _controller,
           onLoaded: (composition) {
-            _controller.duration = composition.duration * 2;
+            _controller.duration = composition.duration;
             _controller.reset();
             _controller.forward();
           },
