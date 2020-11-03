@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     _selectedPageIndex = widget.index ?? 0;
-    _fetchProfile();
+    _initializeHome();
   }
 
   void _selectPage(int index) {
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (_) {}
   }
 
-  void _fetchProfile() async {
+  void _initializeHome() async {
     final profileProvider =
         Provider.of<ProfileProvider>(context, listen: false);
     if (!profileProvider.hasProfile) {
@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? HttpExceptionWidget(
                     exception: _error,
                     onTap: () {
-                      _fetchProfile();
+                      _initializeHome();
                     },
                   )
                 : _pages[_selectedPageIndex],

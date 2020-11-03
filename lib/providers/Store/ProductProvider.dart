@@ -4,9 +4,14 @@ import '../../models/Store/Product/ProductByCategory.dart';
 
 class ProductProvider with ChangeNotifier {
   List<ProductByCategory> _products = [];
+  bool _hasProducts = false;
 
   get allProducts {
     return this._products;
+  }
+
+  get hasProducts {
+    return this._hasProducts;
   }
 
   int productCountForCategory(String categoryId) {
@@ -38,6 +43,7 @@ class ProductProvider with ChangeNotifier {
       items.add(ProductByCategory.fromJson(product));
     }
     _products = items;
+    this._hasProducts = true;
     notifyListeners();
   }
 

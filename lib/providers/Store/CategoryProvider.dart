@@ -4,9 +4,14 @@ import '../../models/Store/Category/StoreCategory.dart';
 
 class CategoryProvider with ChangeNotifier {
   List<StoreCategory> _categories = [];
+  bool _hasCategories = false;
 
   get allCategories {
     return this._categories;
+  }
+
+  get hasCategories {
+    return this._hasCategories;
   }
 
   Future<void> fetchCategories() async {
@@ -16,6 +21,7 @@ class CategoryProvider with ChangeNotifier {
       items.add(StoreCategory.fromJson(category));
     }
     _categories = items;
+    _hasCategories = true;
     notifyListeners();
   }
 

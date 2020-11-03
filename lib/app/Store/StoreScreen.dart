@@ -41,32 +41,36 @@ class _StoreScreenState extends State<StoreScreen> {
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      fetchData();
+      _fetchStoreData();
       _isInit = true;
     }
     super.didChangeDependencies();
   }
 
-  void fetchData() async {
-    try {
-      setState(() {
-        _isLoading = true;
-        _isError = false;
-        _error = null;
-      });
-      await Provider.of<ProductProvider>(context, listen: false)
-          .fetchProducts();
-      await Provider.of<CategoryProvider>(context, listen: false)
-          .fetchCategories();
-    } catch (err) {
-      setState(() {
-        _isError = true;
-        _error = err;
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+  void _fetchStoreData() async {
+    final productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+    final categoryProvider =
+        Provider.of<CategoryProvider>(context, listen: false);
+    if (!productProvider.hasProducts || !categoryProvider.hasCategories) {
+      try {
+        setState(() {
+          _isLoading = true;
+          _isError = false;
+          _error = null;
+        });
+        await productProvider.fetchProducts();
+        await categoryProvider.fetchCategories();
+      } catch (err) {
+        setState(() {
+          _isError = true;
+          _error = err;
+        });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -105,7 +109,7 @@ class _StoreScreenState extends State<StoreScreen> {
             ? HttpExceptionWidget(
                 exception: _error,
                 onTap: () {
-                  fetchData();
+                  _fetchStoreData();
                 },
               )
             : LoaderOverlay(
