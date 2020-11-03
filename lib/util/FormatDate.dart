@@ -12,8 +12,8 @@ extension DateFormatter on DateTime {
 
   String getTodayOrSelectedDate() {
     final now = new DateTime.now();
-    String currentDate = DateFormat('d MMM, y').format(now);
-    String selectedDate = DateFormat('d MMM, y').format(this);
+    String currentDate = DateFormat('d MMM').format(now);
+    String selectedDate = DateFormat('d MMM').format(this);
     if (currentDate == selectedDate) {
       return Constants.today;
     }
