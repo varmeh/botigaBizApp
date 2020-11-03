@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+
 import 'orderList.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
@@ -15,8 +16,7 @@ class OrdersHome extends StatefulWidget {
 
 class _OrdersHomeState extends State<OrdersHome> {
   var _loadData = true;
-  var selectedDate = Constants.today;
-  var selectedDateForRequest;
+  DateTime selectedDate;
 
   CalendarController _calendarController;
 
@@ -24,7 +24,7 @@ class _OrdersHomeState extends State<OrdersHome> {
   void initState() {
     super.initState();
     _calendarController = CalendarController();
-    selectedDateForRequest = FormatDate.getRequestFormatDate(DateTime.now());
+    selectedDate = DateTime.now();
   }
 
   @override
@@ -39,7 +39,8 @@ class _OrdersHomeState extends State<OrdersHome> {
       builder: (context, provider, child) {
         return FutureBuilder(
           future: _loadData
-              ? provider.fetchAggregatedOrders(selectedDateForRequest)
+              ? provider
+                  .fetchAggregatedOrders(selectedDate.getRequestFormatDate())
               : null,
           builder: (context, snapshot) {
             _loadData = false;
@@ -71,8 +72,8 @@ class _OrdersHomeState extends State<OrdersHome> {
             final aggregatedOrders = provider.aggregatedOrders;
 
             return RefreshIndicator(
-              onRefresh: () =>
-                  provider.fetchAggregatedOrders(selectedDateForRequest),
+              onRefresh: () => provider
+                  .fetchAggregatedOrders(selectedDate.getRequestFormatDate()),
               child: LoaderOverlay(
                 isLoading: snapshot.connectionState == ConnectionState.waiting,
                 child: Container(
@@ -112,7 +113,7 @@ class _OrdersHomeState extends State<OrdersHome> {
       constraints: BoxConstraints.tight(Size(double.infinity, 285)),
       child: new Stack(
         alignment: Alignment.center,
-        children: <Widget>[
+        children: [
           Positioned(
             top: 0,
             child: Container(
@@ -135,7 +136,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      "Hi, $name",
+                      'Hi, $name',
                       style: AppTheme.textStyle
                           .colored(AppTheme.backgroundColor)
                           .w700
@@ -149,7 +150,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            '${FormatDate.getShortDateFromDate(selectedDate)}',
+                            '${selectedDate.getTodayOrSelectedDate()}',
                             style: AppTheme.textStyle
                                 .colored(AppTheme.backgroundColor)
                                 .w500
@@ -193,8 +194,10 @@ class _OrdersHomeState extends State<OrdersHome> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("REVENUE",
-                            style: AppTheme.textStyle.color50.w500.size(12)),
+                        Text(
+                          'REVENUE',
+                          style: AppTheme.textStyle.color50.w500.size(12),
+                        ),
                         SizedBox(
                           height: 5,
                         ),
@@ -211,11 +214,11 @@ class _OrdersHomeState extends State<OrdersHome> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("ORDERS",
-                            style: AppTheme.textStyle.color50.w500.size(12)),
-                        SizedBox(
-                          height: 5,
+                        Text(
+                          'ORDERS',
+                          style: AppTheme.textStyle.color50.w500.size(12),
                         ),
+                        SizedBox(height: 5),
                         Text(
                           '$totalOrder',
                           style: AppTheme.textStyle.color100.w500.size(22),
@@ -239,9 +242,7 @@ class _OrdersHomeState extends State<OrdersHome> {
         Navigator.of(context).pushNamed(OrderList.routeName, arguments: {
           'apartmentId': apartmentId,
           'apartmentName': apartmentName,
-          'selectedDateForRequest': selectedDateForRequest == null
-              ? DateTime.now()
-              : selectedDateForRequest
+          'selectedDateForRequest': selectedDate
         });
       },
       child: Padding(
@@ -284,7 +285,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                         child: Container(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
+                            children: [
                               Padding(
                                 padding: const EdgeInsets.only(
                                   top: 18,
@@ -354,7 +355,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          "${Constants.orders}",
+                                          '${Constants.orders}',
                                           style: AppTheme.textStyle.color50.w500
                                               .size(12),
                                         ),
@@ -403,7 +404,7 @@ class _OrdersHomeState extends State<OrdersHome> {
         ),
         child: SafeArea(
           child: TableCalendar(
-            initialSelectedDay: FormatDate.convertStringToDate(selectedDate),
+            initialSelectedDay: selectedDate,
             startDay: DateTime.now().subtract(Duration(days: 15)),
             availableCalendarFormats: const {
               CalendarFormat.month: 'Month',
@@ -424,12 +425,9 @@ class _OrdersHomeState extends State<OrdersHome> {
             onDaySelected: (date, events, _) {
               Navigator.of(context).pop();
               setState(() {
-                selectedDate = FormatDate.getTodayOrSelectedDate(date);
-                selectedDateForRequest = FormatDate.getRequestFormatDate(date);
+                selectedDate = date;
                 _loadData = true;
               });
-              Provider.of<OrdersProvider>(context, listen: false)
-                  .fetchAggregatedOrders(FormatDate.getRequestFormatDate(date));
             },
             calendarController: _calendarController,
           ),
@@ -462,7 +460,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                 ),
               ),
               child: Text(
-                "Hi $name",
+                'Hi $name',
                 style: AppTheme.textStyle
                     .colored(AppTheme.backgroundColor)
                     .w700
