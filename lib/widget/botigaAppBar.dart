@@ -18,23 +18,38 @@ class BotigaAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (Navigator.canPop(context)) {
+      return AppBar(
+        centerTitle: false,
+        titleSpacing: 0.0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: AppTheme.color100,
+          ),
+        ),
+        title: Text(
+          title,
+          style: AppTheme.textStyle.w600.color100.size(20).lineHeight(1.25),
+        ),
+        backgroundColor: AppTheme.backgroundColor,
+        brightness: Brightness.light,
+        elevation: 0.0,
+        actions: actions,
+      );
+    }
     return AppBar(
       centerTitle: false,
-      titleSpacing: 0.0,
-      leading: Navigator.canPop(context)
-          ? GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back,
-                color: AppTheme.color100,
-              ),
-            )
-          : Container(),
-      title: Text(
-        title,
-        style: AppTheme.textStyle.w600.color100.size(20).lineHeight(1.25),
+      automaticallyImplyLeading: false,
+      title: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title,
+          style: AppTheme.textStyle.w600.color100.size(20).lineHeight(1.25),
+        ),
       ),
       backgroundColor: AppTheme.backgroundColor,
       brightness: Brightness.light,
