@@ -157,6 +157,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
             : Scaffold(
                 appBar: BotigaAppBar(
                   'Delivery',
+                  neverShowLeadingBtn: true,
                   actions: [
                     IconButton(
                       icon: Icon(
