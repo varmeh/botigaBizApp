@@ -57,7 +57,7 @@ class _AddCommunitesSuccessState extends State<AddCommunitesSuccess>
         ),
         //could change this to Color(0xFF737373),
         //so you don't have to change MaterialApp canvasColor
-        child: Column(
+        child: ListView(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(
