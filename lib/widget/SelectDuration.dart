@@ -92,11 +92,11 @@ class _ListWheelScrollViewFixedDayState
       offAxisFraction: 0,
       itemExtent: 60,
       children: items,
-      magnification: 1.5,
+      magnification: 1.4,
       useMagnifier: true,
       physics: FixedExtentScrollPhysics(),
       diameterRatio: 2,
-      squeeze: 0.8,
+      squeeze: 1,
       onSelectedItemChanged: (index) {
         setState(() {
           _selectedItemIndex = index;
@@ -200,11 +200,11 @@ class _ListWheelScrollViewFixedDurationState
       offAxisFraction: 0,
       itemExtent: 60,
       children: items,
-      magnification: 1.5,
+      magnification: 1.4,
       useMagnifier: true,
       physics: FixedExtentScrollPhysics(),
       diameterRatio: 2,
-      squeeze: 0.8,
+      squeeze: 1,
       onSelectedItemChanged: (index) {
         setState(() {
           _selectedItemIndex = index;
