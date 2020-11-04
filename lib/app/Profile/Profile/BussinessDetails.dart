@@ -246,152 +246,154 @@ class _BussinessDetailsState extends State<BussinessDetails> {
         body: SafeArea(
           child: Form(
             key: _formKey,
-            child: Container(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                color: AppTheme.backgroundColor,
-                child: Column(
-                  children: <Widget>[
-                    _imageFile != null
-                        ? Container(
-                            height: 96,
-                            width: 96,
-                            margin: EdgeInsets.only(top: 20.0, bottom: 20),
-                            decoration: BoxDecoration(shape: BoxShape.circle),
-                            child: ClipRRect(
-                              child: Image.file(
-                                File(_imageFile.path),
-                                fit: BoxFit.cover,
+            child: SingleChildScrollView(
+              child: Container(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  color: AppTheme.backgroundColor,
+                  child: Column(
+                    children: <Widget>[
+                      _imageFile != null
+                          ? Container(
+                              height: 96,
+                              width: 96,
+                              margin: EdgeInsets.only(top: 20.0, bottom: 20),
+                              decoration: BoxDecoration(shape: BoxShape.circle),
+                              child: ClipRRect(
+                                child: Image.file(
+                                  File(_imageFile.path),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(50),
                               ),
-                              borderRadius: BorderRadius.circular(50),
+                            )
+                          : ProfileNetworkAvatar(
+                              imageUrl: _imageUrl,
                             ),
-                          )
-                        : ProfileNetworkAvatar(
-                            imageUrl: _imageUrl,
-                          ),
-                    Container(
-                      child: Text(
-                        '$_businessName',
-                        textAlign: TextAlign.center,
-                        style: AppTheme.textStyle.w700.size(17),
+                      Container(
+                        child: Text(
+                          '$_businessName',
+                          textAlign: TextAlign.center,
+                          style: AppTheme.textStyle.w700.size(17),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text('$_fullName',
-                        textAlign: TextAlign.center,
-                        style: AppTheme.textStyle.w500.size(13).color50),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    _imageFile != null
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              FlatButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6.0)),
-                                onPressed: () {
-                                  showImageSelectOption();
-                                },
-                                color: AppTheme.color05,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(13.0),
-                                  child: Text('Change logo',
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text('$_fullName',
+                          textAlign: TextAlign.center,
+                          style: AppTheme.textStyle.w500.size(13).color50),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      _imageFile != null
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6.0)),
+                                  onPressed: () {
+                                    showImageSelectOption();
+                                  },
+                                  color: AppTheme.color05,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(13.0),
+                                    child: Text('Change logo',
+                                        style: AppTheme.textStyle.w600.color100
+                                            .size(15)),
+                                  ),
+                                ),
+                                FlatButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6.0),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _imageFile = null;
+                                    });
+                                  },
+                                  color: AppTheme.color05,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(13),
+                                    child: Text(
+                                      'Remove logo',
                                       style: AppTheme.textStyle.w600.color100
-                                          .size(15)),
-                                ),
-                              ),
-                              FlatButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6.0),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _imageFile = null;
-                                  });
-                                },
-                                color: AppTheme.color05,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(13),
-                                  child: Text(
-                                    'Remove logo',
-                                    style: AppTheme.textStyle.w600.color100
-                                        .size(15),
+                                          .size(15),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              FlatButton(
-                                shape: new RoundedRectangleBorder(
-                                    borderRadius:
-                                        new BorderRadius.circular(6.0)),
-                                onPressed: () {
-                                  showImageSelectOption();
-                                },
-                                color: AppTheme.color05,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(13.0),
-                                  child: Text(
-                                    "Change logo",
-                                    style: AppTheme.textStyle.color100.w600
-                                        .size(15),
+                              ],
+                            )
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                FlatButton(
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(6.0)),
+                                  onPressed: () {
+                                    showImageSelectOption();
+                                  },
+                                  color: AppTheme.color05,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(13.0),
+                                    child: Text(
+                                      "Change logo",
+                                      style: AppTheme.textStyle.color100.w600
+                                          .size(15),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      BotigaTextFieldForm(
+                        initialValue: _brandName,
+                        focusNode: _brandNameFocusNode,
+                        labelText: "Brand name",
+                        onSave: (value) => _brandName = value,
+                        validator: nameValidator,
+                        nextFocusNode: _taglineFocusNode,
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      BotigaTextFieldForm(
+                        initialValue: _tagline,
+                        focusNode: _taglineFocusNode,
+                        labelText: "Tagline",
+                        onSave: (value) => _tagline = value,
+                        validator: nameValidator,
+                      ),
+                      SizedBox(
+                        height: 24,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3.5),
+                          border: Border.all(
+                            style: BorderStyle.solid,
+                            color: AppTheme.color25,
+                            width: 1.0,
                           ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    BotigaTextFieldForm(
-                      initialValue: _brandName,
-                      focusNode: _brandNameFocusNode,
-                      labelText: "Brand name",
-                      onSave: (value) => _brandName = value,
-                      validator: nameValidator,
-                      nextFocusNode: _taglineFocusNode,
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    BotigaTextFieldForm(
-                      initialValue: _tagline,
-                      focusNode: _taglineFocusNode,
-                      labelText: "Tagline",
-                      onSave: (value) => _tagline = value,
-                      validator: nameValidator,
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3.5),
-                        border: Border.all(
-                          style: BorderStyle.solid,
-                          color: AppTheme.color25,
-                          width: 1.0,
+                        ),
+                        child: ListTile(
+                          tileColor: AppTheme.dividerColor,
+                          visualDensity:
+                              VisualDensity(horizontal: 0, vertical: -1),
+                          trailing: Icon(Icons.keyboard_arrow_down,
+                              color: AppTheme.color50),
+                          title: Text(
+                            '$_seletedCategory',
+                            style: AppTheme.textStyle.color100.w500.size(15),
+                          ),
                         ),
                       ),
-                      child: ListTile(
-                        tileColor: AppTheme.dividerColor,
-                        visualDensity:
-                            VisualDensity(horizontal: 0, vertical: -1),
-                        trailing: Icon(Icons.keyboard_arrow_down,
-                            color: AppTheme.color50),
-                        title: Text(
-                          '$_seletedCategory',
-                          style: AppTheme.textStyle.color100.w500.size(15),
-                        ),
-                      ),
-                    ),
-                  ],
-                )),
+                    ],
+                  )),
+            ),
           ),
         ),
       ),
