@@ -50,7 +50,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     _scrollcontroller.addListener(() {
       setState(() {
         fabIsVisible = _scrollcontroller.position.userScrollDirection ==
-            ScrollDirection.reverse;
+            ScrollDirection.forward;
       });
     });
   }
@@ -69,7 +69,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     _isLoading = false;
     _isError = false;
     _isInit = false;
-    fabIsVisible = false;
+    fabIsVisible = true;
     _isProcessing = false;
     selectedStatus = 'All';
     apartment = deafaultApartment;
@@ -235,34 +235,40 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                       )
                     : SizedBox.shrink(),
                 floatingActionButton: (hasApt && hasEnabledApt)
-                    ? Align(
-                        child: FloatingActionButton.extended(
-                          onPressed: () {
-                            // Add your onPressed code here!
-                            setState(() {
-                              _scaffoldKey.currentState.openEndDrawer();
-                            });
-                          },
-                          label: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 0, top: 10, bottom: 10, right: 35),
-                            child: Text(
+                    ? fabIsVisible
+                        ? FloatingActionButton.extended(
+                            onPressed: () {
+                              // Add your onPressed code here!
+                              setState(() {
+                                _scaffoldKey.currentState.openEndDrawer();
+                              });
+                            },
+                            label: Text(
                               'Select apartment',
                               style: AppTheme.textStyle
                                   .colored(AppTheme.primaryColor)
                                   .w600
-                                  .size(12),
+                                  .size(12)
+                                  .lineHeight(1.5),
                             ),
-                          ),
-                          icon: Icon(
-                            Icons.chevron_left,
-                            color: AppTheme.primaryColor,
-                          ),
-                          backgroundColor: AppTheme.backgroundColor,
-                        ),
-                        alignment: fabIsVisible
-                            ? Alignment(3.01, 0.9)
-                            : Alignment(1.6, 0.9))
+                            icon: Icon(
+                              Icons.chevron_left,
+                              color: AppTheme.primaryColor,
+                            ),
+                            backgroundColor: AppTheme.backgroundColor,
+                          )
+                        : FloatingActionButton(
+                            onPressed: () {
+                              setState(() {
+                                _scaffoldKey.currentState.openEndDrawer();
+                              });
+                            },
+                            child: Icon(
+                              Icons.chevron_left,
+                              color: AppTheme.primaryColor,
+                            ),
+                            backgroundColor: AppTheme.backgroundColor,
+                          )
                     : SizedBox.shrink(),
                 body: (hasApt && hasEnabledApt)
                     ? SafeArea(

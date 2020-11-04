@@ -147,6 +147,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                   final _formKey = GlobalKey<FormState>();
                                   String _categoryName = '';
                                   showModalBottomSheet(
+                                    isDismissible: false,
                                     context: context,
                                     isScrollControlled: true,
                                     backgroundColor: Colors.transparent,
