@@ -439,45 +439,49 @@ class _OrdersHomeState extends State<OrdersHome> {
   }
 
   Widget _communitiesScreen(String name, String info) {
-    return Container(
-      color: AppTheme.dividerColor,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Positioned(
-            top: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 240,
-              padding: const EdgeInsets.only(top: 65, left: 25),
-              decoration: BoxDecoration(
-                color: AppTheme.primaryColor,
-                borderRadius: new BorderRadius.only(
-                  bottomLeft: const Radius.circular(5.0),
-                  bottomRight: const Radius.circular(5.0),
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.only(bottom: 60),
+        height: MediaQuery.of(context).size.height,
+        color: AppTheme.dividerColor,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              top: 0,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 240,
+                padding: const EdgeInsets.only(top: 65, left: 25),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor,
+                  borderRadius: new BorderRadius.only(
+                    bottomLeft: const Radius.circular(5.0),
+                    bottomRight: const Radius.circular(5.0),
+                  ),
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/background.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                image: DecorationImage(
-                  image: AssetImage('assets/images/background.png'),
-                  fit: BoxFit.cover,
+                child: Text(
+                  'Hi $name',
+                  style: AppTheme.textStyle
+                      .colored(AppTheme.backgroundColor)
+                      .w700
+                      .size(22),
                 ),
-              ),
-              child: Text(
-                'Hi $name',
-                style: AppTheme.textStyle
-                    .colored(AppTheme.backgroundColor)
-                    .w700
-                    .size(22),
               ),
             ),
-          ),
-          Positioned(
-            top: 170,
-            left: 20,
-            right: 20,
-            height: 500,
-            child: CommunitiesInfo(info),
-          ),
-        ],
+            Positioned(
+              top: 170,
+              left: 20,
+              right: 20,
+              height: 500,
+              child: CommunitiesInfo(info),
+            ),
+          ],
+        ),
       ),
     );
   }
