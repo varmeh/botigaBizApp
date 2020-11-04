@@ -232,6 +232,7 @@ class _SelectAreaState extends State<SelectArea> {
                                   ),
                                 ),
                                 onPressed: () {
+                                  Navigator.of(context).pop();
                                   showModalBottomSheet(
                                     context: context,
                                     isScrollControlled: true,
@@ -358,6 +359,7 @@ class _SelectAreaState extends State<SelectArea> {
                                   ),
                                 ),
                                 onPressed: () {
+                                  Navigator.of(context).pop();
                                   showModalBottomSheet(
                                     context: context,
                                     isScrollControlled: true,
