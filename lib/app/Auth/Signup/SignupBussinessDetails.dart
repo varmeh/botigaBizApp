@@ -174,7 +174,10 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
           ),
         ),
       ),
-      appBar: BotigaAppBar('Business details'),
+      appBar: BotigaAppBar(
+        'Business details',
+        neverShowLeadingBtn: true,
+      ),
       body: LoaderOverlay(
         isLoading: _isLoading,
         child: SafeArea(
