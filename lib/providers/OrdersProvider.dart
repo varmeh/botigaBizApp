@@ -5,7 +5,7 @@ import '../util/index.dart' show Http;
 
 class OrdersProvider with ChangeNotifier {
   AggregatedOrders _aggregatedOrders;
-  List<OrderByDateDetail> _orderByDateApartment;
+  List<OrderByDateDetail> _orderByDateApartment = [];
 
   get aggregatedOrders {
     return this._aggregatedOrders;
@@ -52,5 +52,11 @@ class OrdersProvider with ChangeNotifier {
 
   Future cancelOrder(String orderId) async {
     return Http.post('/api/seller/orders/cancel', body: {"orderId": orderId});
+  }
+
+  Future resetOrder() async {
+    this._aggregatedOrders = null;
+    this._orderByDateApartment = [];
+    notifyListeners();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:botiga_biz/providers/index.dart';
 import 'package:botiga_biz/util/httpService.dart';
 import 'package:botiga_biz/widget/index.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,29 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool isProcessing = false;
+
+  _handleLogout() async {
+    try {
+      setState(() {
+        isProcessing = true;
+      });
+      await Provider.of<AuthProvider>(context, listen: false).logout();
+      await Provider.of<ProductProvider>(context, listen: false).resetProduct();
+      await Provider.of<CategoryProvider>(context, listen: false)
+          .resetCategory();
+      await Provider.of<OrdersProvider>(context, listen: false).resetOrder();
+      await new OrdersProvider().resetOrder();
+      await Provider.of<ProfileProvider>(context, listen: false).restProfile();
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(Login.routeName, (route) => false);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        isProcessing = false;
+      });
+    }
+  }
 
   Widget build(BuildContext context) {
     return LoaderOverlay(
@@ -82,22 +106,8 @@ class _ProfileState extends State<Profile> {
                 ),
               ),
               ListTile(
-                onTap: () async {
-                  try {
-                    setState(() {
-                      isProcessing = true;
-                    });
-                    await Provider.of<AuthProvider>(context, listen: false)
-                        .logout();
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        Login.routeName, (route) => false);
-                  } catch (err) {
-                    Toast(message: Http.message(err)).show(context);
-                  } finally {
-                    setState(() {
-                      isProcessing = false;
-                    });
-                  }
+                onTap: () {
+                  this._handleLogout();
                 },
                 leading: Icon(
                   BotigaIcons.exit,

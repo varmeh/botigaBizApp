@@ -125,4 +125,10 @@ class ProfileProvider with ChangeNotifier {
       "email": email
     });
   }
+
+  Future restProfile() async {
+    this._profile = null;
+    this._hasProfile = false;
+    notifyListeners();
+  }
 }

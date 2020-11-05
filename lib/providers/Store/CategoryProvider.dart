@@ -41,4 +41,10 @@ class CategoryProvider with ChangeNotifier {
       "name": name,
     });
   }
+
+  Future resetCategory() async {
+    this._categories = [];
+    this._hasCategories = false;
+    notifyListeners();
+  }
 }

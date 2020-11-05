@@ -109,4 +109,10 @@ class ProductProvider with ChangeNotifier {
     return Http.delete(
         '/api/seller/products/$productId/categories/$categoryId');
   }
+
+  Future resetProduct() async {
+    this._products = [];
+    this._hasProducts = false;
+    notifyListeners();
+  }
 }
