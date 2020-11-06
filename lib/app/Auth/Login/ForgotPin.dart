@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:botiga_biz/theme/index.dart';
-import '../Signup/SetPin.dart';
-import '../../Auth/widgets/index.dart';
+import '../Signup/setPin.dart';
+import '../widgets/index.dart';
 import '../../../widget/index.dart';
-import '../../../providers/AuthProvider.dart';
+import '../../../providers/index.dart' show ProfileProvider;
 import '../../../util/httpService.dart';
 
 class LoginForgotPin extends StatefulWidget {
@@ -63,11 +63,12 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
       setState(() {
         _isLoading = true;
       });
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
       final routesArgs =
           ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
       final phone = routesArgs['phone'];
-      final value = await authProvider.verifyOtp(phone, sessionId, pinValue);
+      final value = await profileProvider.verifyOtp(phone, sessionId, pinValue);
       String message = value['message'];
       if (message == "createSeller") {
         Toast(iconData: Icons.info_outline, message: 'You Are Not Registerd !')
@@ -90,9 +91,10 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
       startTimer();
       final routesArgs =
           ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
       final phone = routesArgs['phone'];
-      final value = await authProvider.getOTP(phone);
+      final value = await profileProvider.getOTP(phone);
       sessionId = value['sessionId'];
     } catch (err) {
       Toast(message: Http.message(err)).show(context);

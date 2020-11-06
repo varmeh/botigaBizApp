@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
 import 'editProduct.dart';
-import '../../../util/constants.dart';
 import '../../../widget/index.dart';
-import '../../../providers/Store/ProductProvider.dart';
+import '../../../providers/Store/productProvider.dart';
 import '../../../models/Store/Product/ProductByCategory.dart';
+
+const rupeeSymbol = '\u20B9';
 
 class Products extends StatefulWidget {
   @override
@@ -234,7 +235,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                 height: 4,
                               ),
                               Text(
-                                '${product.size} .${Constants.rupeeSymbol}${product.price}',
+                                '${product.size} .$rupeeSymbol${product.price}',
                                 style: AppTheme.textStyle.color50
                                     .size(13)
                                     .w500

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'SignupVerifyOtp.dart';
-import '../../Auth/widgets/phoneScreen.dart';
+import 'signupVerifyOtp.dart';
+import '../widgets/phoneScreen.dart';
 
 class SignupWelcome extends StatelessWidget {
   static const routeName = 'signup-welcome';

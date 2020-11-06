@@ -12,6 +12,8 @@ import '../../util/index.dart';
 import '../../widget/index.dart';
 import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
 
+const rupeeSymbol = '\u20B9';
+
 class DeliveryScreen extends StatefulWidget {
   static const routeName = 'all-delivery-list';
   @override
@@ -623,7 +625,7 @@ class DeliveryRow extends StatelessWidget {
                             Row(
                               children: <Widget>[
                                 Text(
-                                  '${Constants.rupeeSymbol} ${delivery.order.totalAmount}',
+                                  '$rupeeSymbol ${delivery.order.totalAmount}',
                                   style: AppTheme.textStyle.color100.w500
                                       .size(15)
                                       .letterSpace(1),

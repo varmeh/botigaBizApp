@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:botiga_biz/theme/index.dart';
-import 'SignupStoreDetails.dart';
+import 'signupStoreDetails.dart';
 import '../../../util/index.dart';
 import '../../../widget/index.dart'
     show
@@ -14,8 +14,7 @@ import '../../../widget/index.dart'
         FullWidthButton,
         BotigaAppBar,
         BotigaBottomModal;
-import '../../../providers/index.dart'
-    show AuthProvider, ImageService, Businesscategory;
+import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
 
 class SignupBuissnessDetails extends StatefulWidget {
   static const routeName = 'signup-bussiness-detail';
@@ -99,7 +98,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
 
   void _getPreSignedUrl() async {
     try {
-      final value = await ImageService.getPresignedBrandImageUrl();
+      final value = await Provider.of<ServicesProvider>(context, listen: false)
+          .getPresignedBrandImageUrl();
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
@@ -111,7 +111,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
 
   void _getBusinessCategory() async {
     try {
-      final value = await Businesscategory.getbusinessCategory();
+      final value = await Provider.of<ServicesProvider>(context, listen: false)
+          .getbusinessCategory();
       setState(() {
         bsCategory = value;
       });
@@ -122,7 +123,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
 
   void _handleImageUpload(PickedFile file) async {
     try {
-      await ImageService.uploadImageToS3(uploadurl, file);
+      await Provider.of<ServicesProvider>(context, listen: false)
+          .uploadImageToS3(uploadurl, file);
     } catch (err) {
       setState(() {
         _imageFile = null;
@@ -557,7 +559,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   }
 
   void handleSignUp(BuildContext context) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
@@ -565,7 +568,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       setState(() {
         _isLoading = true;
       });
-      await authProvider.signup(_businessName, _seletedCategory, _firstName,
+      await profileProvider.signup(_businessName, _seletedCategory, _firstName,
           _lastName, _brandName, phone, _tagline, downloadUrl);
       Navigator.of(context).pushNamed(SignUpStoreDetails.routeName);
     } catch (err) {

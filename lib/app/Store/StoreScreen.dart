@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart';
-import './Categories/category.dart';
-import './Product/product.dart';
+import 'Categories/category.dart';
+import 'Product/product.dart';
 import 'Product/addProduct.dart';
 import '../../widget/index.dart';
-import '../../util/FormValidators.dart';
+import '../../util/formValidators.dart';
 import '../../providers/index.dart' show CategoryProvider, ProductProvider;
 
 class StoreScreen extends StatefulWidget {
@@ -128,14 +128,14 @@ class _StoreScreenState extends State<StoreScreen> {
                               icon: const Icon(Icons.add,
                                   color: Color(0xff179F57)),
                               label: slelectedTab == 0
-                                  ? Text('${Constants.ADD_PRODUCT_BTN}',
+                                  ? Text('ADD PRODUCT',
                                       style: AppTheme.textStyle
                                           .colored(AppTheme.primaryColor)
                                           .w700
                                           .size(12)
                                           .letterSpace(1))
                                   : Text(
-                                      '${Constants.ADD_CATEGORY_BTN}',
+                                      'ADD CATEGORY',
                                       style: AppTheme.textStyle
                                           .colored(AppTheme.primaryColor)
                                           .w700
@@ -310,7 +310,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                 labelPadding:
                                     EdgeInsets.only(left: 0, right: 0),
                                 indicatorColor: Colors.transparent,
-                                tabs: Constants.STORE_TABS
+                                tabs: ['Products', 'Categories']
                                     .map(
                                       (label) => Padding(
                                         padding:

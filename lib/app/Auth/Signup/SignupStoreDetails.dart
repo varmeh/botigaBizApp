@@ -3,7 +3,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'SetPin.dart';
+import 'setPin.dart';
 import '../../../widget/index.dart'
     show
         FullWidthButton,
@@ -11,8 +11,8 @@ import '../../../widget/index.dart'
         Toast,
         BotigaTextFieldForm,
         BotigaAppBar;
-import '../../../util/FormValidators.dart';
-import '../../../providers/index.dart' show PinService, ProfileProvider;
+import '../../../util/formValidators.dart';
+import '../../../providers/index.dart' show ServicesProvider, ProfileProvider;
 
 class SignUpStoreDetails extends StatefulWidget {
   static const routeName = 'signup-store-detail';
@@ -91,7 +91,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
   void _handlePinCodeChange(pin) async {
     setState(() => _isLoading = true);
     try {
-      final value = await PinService.getAreaFromPincode(pin);
+      final value = await Provider.of<ServicesProvider>(context, listen: false)
+          .getAreaFromPincode(pin);
       List postOffices = value['PostOffice'];
       if (postOffices != null) {
         final firstArea = postOffices.first;

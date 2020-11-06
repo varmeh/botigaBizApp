@@ -2,7 +2,7 @@ import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'orderSummary.dart';
-import '../../providers/OrdersProvider.dart';
+import '../../providers/ordersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import '../../theme/index.dart';
 import '../../widget/index.dart';

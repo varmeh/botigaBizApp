@@ -9,36 +9,36 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'util/index.dart' show Flavor, Http;
 
-import 'app/Home/HomeScreen.dart';
+import 'app/Home/homeScreen.dart';
 import 'app/Orders/orderList.dart';
-import 'app/Orders/OrdersHome.dart';
+import 'app/Orders/ordersHome.dart';
 import 'app/Orders/orderDetails.dart';
 import 'app/Orders/orderDelivery.dart';
-import 'app/Store/StoreScreen.dart';
+import 'app/Store/storeScreen.dart';
 import 'app/Store/Product/addProduct.dart';
 import 'app/Store/Product/editProduct.dart';
 import 'app/Profile/Communites/selectArea.dart';
-import 'app/Profile/Profile/BussinessDetails.dart';
-import 'app/Profile/Profile/StoreDetails.dart';
+import 'app/Profile/Profile/bussinessDetails.dart';
+import 'app/Profile/Profile/storeDetails.dart';
 import 'app/Delivery/deliveryScreen.dart';
-import 'app/Auth/Signup/SignUpWelcome.dart';
-import 'app/Auth/Signup/SignupVerifyOtp.dart';
-import 'app/Auth/Signup/SignupBussinessDetails.dart';
-import 'app/Auth/Signup/SignupStoreDetails.dart';
-import 'app/Auth/Signup/SetPin.dart';
-import 'app/Auth/Login/Login.dart';
-import 'app/Auth/Login/ForgotPin.dart';
-import 'app/Auth/Login/EnterPin.dart';
-import 'app/Onboarding/Onboarding.dart';
-import 'app/Onboarding/SplashScreen.dart';
+import 'app/Auth/Signup/signUpWelcome.dart';
+import 'app/Auth/Signup/signupVerifyOtp.dart';
+import 'app/Auth/Signup/signupBussinessDetails.dart';
+import 'app/Auth/Signup/signupStoreDetails.dart';
+import 'app/Auth/Signup/setPin.dart';
+import 'app/Auth/Login/login.dart';
+import 'app/Auth/Login/forgotPin.dart';
+import 'app/Auth/Login/enterPin.dart';
+import 'app/Onboarding/onboarding.dart';
+import 'app/Onboarding/splashScreen.dart';
 import 'package:provider/provider.dart';
 import 'providers/index.dart'
     show
         OrdersProvider,
         CategoryProvider,
         ProductProvider,
-        AuthProvider,
-        ProfileProvider;
+        ProfileProvider,
+        ServicesProvider;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,10 +70,10 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ProfileProvider(),
+          create: (_) => ServicesProvider(),
         ),
         ChangeNotifierProvider(
-          create: (_) => AuthProvider(),
+          create: (_) => ProfileProvider(),
         ),
         ChangeNotifierProvider(
           create: (_) => CategoryProvider(),

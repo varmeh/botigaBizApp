@@ -2,12 +2,12 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import "../../Home/HomeScreen.dart";
-import "./ForgotPin.dart";
+import '../../Home/homeScreen.dart';
+import 'forgotPin.dart';
 import '../../../widget/index.dart' show Toast, PinTextField, LoaderOverlay;
 import '../../../util/index.dart' show Http;
-import '../../Auth/widgets/index.dart';
-import '../../../providers/AuthProvider.dart';
+import '../widgets/index.dart';
+import '../../../providers/index.dart';
 
 class EnterPin extends StatefulWidget {
   static const routeName = 'login-enter-pin';
@@ -38,9 +38,10 @@ class _EnterPinState extends State<EnterPin> {
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
     try {
-      await authProvider.signInWithPin(phone, pinValue);
+      await profileProvider.signInWithPin(phone, pinValue);
       Navigator.of(context)
           .pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
     } catch (error) {

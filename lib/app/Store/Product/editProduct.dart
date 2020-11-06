@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import '../../../models/Store/Product/ProductByCategory.dart';
-import '../../../providers/index.dart' show ProductProvider, ImageService;
+import '../../../providers/index.dart' show ProductProvider, ServicesProvider;
 import '../../../theme/index.dart';
-import '../../../util/FormValidators.dart';
-import '../../Home/HomeScreen.dart';
+import '../../../util/formValidators.dart';
+import '../../Home/homeScreen.dart';
 
 class EditProduct extends StatefulWidget {
   final String productId;
@@ -184,7 +184,8 @@ class _EditProductState extends State<EditProduct>
 
   void _getPreSignedUrl() async {
     try {
-      final value = await ImageService.getPresignedImageUrl();
+      final value = await Provider.of<ServicesProvider>(context, listen: false)
+          .getPresignedImageUrl();
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
@@ -196,7 +197,8 @@ class _EditProductState extends State<EditProduct>
 
   void _handleImageUpload(PickedFile file) async {
     try {
-      await ImageService.uploadImageToS3(uploadurl, file);
+      await Provider.of<ServicesProvider>(context, listen: false)
+          .uploadImageToS3(uploadurl, file);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
       setState(() {

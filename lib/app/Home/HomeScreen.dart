@@ -6,11 +6,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../theme/index.dart';
 import '../../util/index.dart' show FlavorBanner, Http;
-import '../Orders/OrdersHome.dart';
-import '../Store/StoreScreen.dart';
-import '../Profile/ProfileScreen.dart';
+import '../Orders/ordersHome.dart';
+import '../Store/storeScreen.dart';
+import '../Profile/profileScreen.dart';
 import '../Delivery/deliveryScreen.dart';
-import '../../providers/ProfileProvider.dart';
+import '../../providers/profileProvider.dart';
 import '../../widget/index.dart' show Loader, HttpExceptionWidget;
 
 class HomeScreen extends StatefulWidget {

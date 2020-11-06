@@ -5,7 +5,7 @@ import 'package:botiga_biz/theme/index.dart';
 import 'addCommunitesSuccess.dart';
 import '../../../util/index.dart';
 import '../../../widget/index.dart';
-import '../../../providers/ProfileProvider.dart';
+import '../../../providers/profileProvider.dart';
 
 class AddContactDetails extends StatefulWidget {
   final String apartmentId;

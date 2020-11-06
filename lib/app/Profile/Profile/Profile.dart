@@ -3,11 +3,10 @@ import 'package:botiga_biz/util/httpService.dart';
 import 'package:botiga_biz/widget/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'BussinessDetails.dart';
-import 'StoreDetails.dart';
-import '../../../providers/AuthProvider.dart';
+import 'bussinessDetails.dart';
+import 'storeDetails.dart';
 import '../../../theme/index.dart';
-import '../../Auth/Login/Login.dart';
+import '../../Auth/Login/login.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -22,7 +21,7 @@ class _ProfileState extends State<Profile> {
       setState(() {
         isProcessing = true;
       });
-      await Provider.of<AuthProvider>(context, listen: false).logout();
+      await Provider.of<ProfileProvider>(context, listen: false).logout();
       await Provider.of<ProductProvider>(context, listen: false).resetProduct();
       await Provider.of<CategoryProvider>(context, listen: false)
           .resetCategory();

@@ -9,6 +9,8 @@ import '../../theme/index.dart';
 import '../../widget/index.dart';
 import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
 
+const rupeeSymbol = '\u20B9';
+
 class OrdersHome extends StatefulWidget {
   static const routeName = 'orders-home';
   @override
@@ -204,7 +206,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                           height: 5,
                         ),
                         Text(
-                          '${Constants.rupeeSymbol} $revenue',
+                          '$rupeeSymbol $revenue',
                           style: AppTheme.textStyle.color100.w500.size(22),
                         ),
                       ],
@@ -334,7 +336,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          '${Constants.revenue}',
+                                          'REVENUE',
                                           style: AppTheme.textStyle.color50.w500
                                               .size(12),
                                         ),
@@ -342,7 +344,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                                           height: 3,
                                         ),
                                         Text(
-                                          '${Constants.rupeeSymbol} $revenue',
+                                          '$rupeeSymbol $revenue',
                                           style: AppTheme
                                               .textStyle.color100.w500
                                               .size(17),
@@ -357,7 +359,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          '${Constants.orders}',
+                                          'ORDERS',
                                           style: AppTheme.textStyle.color50.w500
                                               .size(12),
                                         ),

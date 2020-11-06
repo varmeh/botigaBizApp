@@ -4,6 +4,8 @@ import '../../theme/index.dart';
 import '../../widget/contactWidget.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 
+const rupeeSymbol = '\u20B9';
+
 class OrderSummary extends StatelessWidget {
   final OrderByDateDetail orderDetail;
   final String apartmentName;
@@ -82,12 +84,12 @@ class OrderSummary extends StatelessWidget {
               Flexible(
                 child: isOrderOpen(orderDetail.order.status)
                     ? Text(
-                        '${Constants.expectedDelivery} ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
+                        'Expected delivery ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
                         style: AppTheme.textStyle.color100.w500.size(13),
                       )
                     : isOrderClosed(orderDetail.order.status)
                         ? Text(
-                            '${Constants.deliverdOn} ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
+                            'Delivered on ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
                             style: AppTheme.textStyle.color100.w500.size(13),
                           )
                         : Text(
@@ -166,7 +168,7 @@ class OrderListSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '${Constants.rupeeSymbol}${orderDetail.order.totalAmount}',
+                  '$rupeeSymbol${orderDetail.order.totalAmount}',
                   style: AppTheme.textStyle.color100.w600.size(13),
                 ),
               )
@@ -204,7 +206,7 @@ class OrderListItem extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              '${Constants.rupeeSymbol}${quantity * price}',
+              '$rupeeSymbol${quantity * price}',
               style: AppTheme.textStyle.color100.w500.size(13),
             ),
           )

@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
-import '../util/index.dart';
+
+const TODAY = 'TODAY';
 
 extension DateFormatter on DateTime {
   String getLongformatDateWithTime() {
@@ -15,13 +16,13 @@ extension DateFormatter on DateTime {
     String currentDate = DateFormat('d MMM').format(now);
     String selectedDate = DateFormat('d MMM').format(this);
     if (currentDate == selectedDate) {
-      return Constants.today;
+      return TODAY;
     }
     return selectedDate;
   }
 
   DateTime convertStringToDate(String date) {
-    if (date == Constants.today) {
+    if (date == TODAY) {
       return DateTime.now();
     }
     return DateFormat('d MMM, y').parse(date);
@@ -54,13 +55,13 @@ class FormatDate {
     String currentDate = DateFormat('d MMM, y').format(now);
     String selectedDate = DateFormat('d MMM, y').format(date);
     if (currentDate == selectedDate) {
-      return Constants.today;
+      return TODAY;
     }
     return selectedDate;
   }
 
   static DateTime convertStringToDate(String date) {
-    if (date == Constants.today) {
+    if (date == TODAY) {
       return DateTime.now();
     }
     return DateFormat('d MMM, y').parse(date);

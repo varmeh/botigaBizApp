@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../../theme/index.dart';
-import '../../../util/constants.dart';
-import '../../Home/HomeScreen.dart';
+import '../../Home/homeScreen.dart';
 import '../../../widget/inviteShare.dart';
 
 class AddCommunitesSuccess extends StatefulWidget {
@@ -20,7 +19,15 @@ class AddCommunitesSuccess extends StatefulWidget {
 
 class _AddCommunitesSuccessState extends State<AddCommunitesSuccess>
     with TickerProviderStateMixin {
-  final daymap = Constants.daysMap;
+  final daymap = {
+    1: 'Sunday',
+    2: 'Monday',
+    3: 'Tuesday',
+    4: 'Wednesday',
+    5: 'Thrusday',
+    6: 'Friday',
+    7: 'Saturday'
+  };
   AnimationController _controller;
 
   @override

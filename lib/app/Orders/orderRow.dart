@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
 
+const rupeeSymbol = '\u20B9';
+
 class OrderRow extends StatelessWidget {
   final Function tapHandler;
   final String number;
@@ -72,7 +74,7 @@ class OrderRow extends StatelessWidget {
                             .size(12)
                             .letterSpace(1)),
                     Text(
-                      '${Constants.rupeeSymbol} $totalAmount',
+                      '$rupeeSymbol $totalAmount',
                       style: AppTheme.textStyle.color100.w600
                           .size(15)
                           .letterSpace(1),

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'orderSummary.dart';
 import '../../theme/index.dart';
-import '../../providers/OrdersProvider.dart';
+import '../../providers/ordersProvider.dart';
 import '../../models/Orders/OrderByDateDetail.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';
@@ -47,7 +47,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           apartmentId, selectedDateForRequest);
       final newDateforDelivery = FormatDate.getDate(date);
       Toast(
-              message: '${Constants.deliveryDateChanged} $newDateforDelivery',
+              message: 'Delivery date changed to $newDateforDelivery',
               iconData: BotigaIcons.truck)
           .show(context);
     } catch (err) {

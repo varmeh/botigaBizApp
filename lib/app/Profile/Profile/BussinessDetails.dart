@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../widget/index.dart';
 import '../../../util/index.dart';
-import '../../../providers/index.dart' show ProfileProvider, ImageService;
+import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
 
 class BussinessDetails extends StatefulWidget {
   static const routeName = 'business-details';
@@ -80,7 +80,8 @@ class _BussinessDetailsState extends State<BussinessDetails> {
 
   void _getPreSignedUrl() async {
     try {
-      final value = await ImageService.getPresignedBrandImageUrl();
+      final value = await Provider.of<ServicesProvider>(context, listen: false)
+          .getPresignedBrandImageUrl();
       setState(() {
         uploadurl = value['uploadUrl'];
         downloadUrl = value['downloadUrl'];
@@ -92,7 +93,8 @@ class _BussinessDetailsState extends State<BussinessDetails> {
 
   void _handleImageUpload(PickedFile file) async {
     try {
-      await ImageService.uploadImageToS3(uploadurl, file);
+      await Provider.of<ServicesProvider>(context, listen: false)
+          .uploadImageToS3(uploadurl, file);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
       setState(() {

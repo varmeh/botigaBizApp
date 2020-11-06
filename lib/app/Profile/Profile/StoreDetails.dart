@@ -3,10 +3,10 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import "../../../widget/index.dart";
-import '../../../providers/ProfileProvider.dart';
-import '../../../providers/Services/index.dart';
-import '../../../util/FormValidators.dart';
+import '../../../widget/index.dart';
+import '../../../providers/profileProvider.dart';
+import '../../../providers/index.dart' show ServicesProvider;
+import '../../../util/formValidators.dart';
 
 class StoreDeatils extends StatefulWidget {
   static const routeName = 'add-store-details';
@@ -104,7 +104,8 @@ class _StoreDeatilsState extends State<StoreDeatils> {
       _isLoading = true;
     });
     try {
-      final value = await PinService.getAreaFromPincode(pin);
+      final value = await Provider.of<ServicesProvider>(context, listen: false)
+          .getAreaFromPincode(pin);
       List postOffices = value['PostOffice'];
       if (postOffices != null) {
         final firstArea = postOffices.first;

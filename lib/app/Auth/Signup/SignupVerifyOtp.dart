@@ -3,11 +3,11 @@ import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:botiga_biz/theme/index.dart';
-import '../../Auth/widgets/index.dart';
-import 'SignupBussinessDetails.dart';
-import '../../Home/HomeScreen.dart';
+import '../widgets/index.dart';
+import 'signupBussinessDetails.dart';
+import '../../Home/homeScreen.dart';
 import '../../../widget/index.dart';
-import '../../../providers/AuthProvider.dart';
+import '../../../providers/index.dart' show ProfileProvider;
 
 class SignUpOtp extends StatefulWidget {
   static const routeName = 'signup-otp';
@@ -64,11 +64,12 @@ class _SignUpOtpState extends State<SignUpOtp> {
       _isLoading = true;
     });
     try {
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
       final routesArgs =
           ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
       final phone = routesArgs['phone'];
-      final value = await authProvider.verifyOtp(phone, sessionId, pinValue);
+      final value = await profileProvider.verifyOtp(phone, sessionId, pinValue);
       String message = value['message'];
       if (message == "createSeller") {
         Navigator.pushReplacementNamed(
@@ -90,10 +91,11 @@ class _SignUpOtpState extends State<SignUpOtp> {
     startTimer();
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
     final phone = routesArgs['phone'];
     try {
-      final value = await authProvider.getOTP(phone);
+      final value = await profileProvider.getOTP(phone);
       setState(() {
         sessionId = value['sessionId'];
       });

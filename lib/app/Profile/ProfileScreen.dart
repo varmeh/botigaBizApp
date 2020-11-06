@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Profile/Profile.dart';
+import 'Profile/profile.dart';
 import '../../theme/index.dart';
 import 'Communites/communities.dart';
 import 'Communites/selectArea.dart';

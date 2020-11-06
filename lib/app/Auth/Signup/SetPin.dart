@@ -6,8 +6,8 @@ import '../../../theme/index.dart';
 import '../../../util/httpService.dart';
 import '../../../widget/index.dart'
     show BotigaBottomModal, Toast, LoaderOverlay, PinTextField, BotigaAppBar;
-import '../../Home/HomeScreen.dart';
-import '../../../providers/AuthProvider.dart';
+import '../../Home/homeScreen.dart';
+import '../../../providers/index.dart' show ProfileProvider;
 
 class SetPin extends StatefulWidget {
   static const routeName = 'signup-setpin';
@@ -106,11 +106,12 @@ class _SetPinState extends State<SetPin> with TickerProviderStateMixin {
       _isLoading = true;
     });
     try {
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
       final routesArgs =
           ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
       final phone = routesArgs['phone'];
-      await authProvider.updatePin(phone, pinValue);
+      await profileProvider.updatePin(phone, pinValue);
       BotigaBottomModal(isDismissible: false, child: setPinSuccessful())
           .show(context);
     } catch (err) {

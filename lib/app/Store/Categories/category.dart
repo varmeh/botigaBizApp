@@ -2,7 +2,7 @@ import 'package:botiga_biz/theme/index.dart';
 import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../util/FormValidators.dart';
+import '../../../util/formValidators.dart';
 import '../../../widget/index.dart';
 import '../../../models/Store/Category/StoreCategory.dart';
 import '../../../providers/index.dart' show CategoryProvider, ProductProvider;
