@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'StoreCategory.g.dart';
+part 'storeCategory.g.dart';
 
 @JsonSerializable()
 class StoreCategory {

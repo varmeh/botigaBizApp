@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'Apartments.g.dart';
+part 'apartments.g.dart';
 
 @JsonSerializable()
 class Apartments {

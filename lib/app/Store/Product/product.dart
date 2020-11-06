@@ -7,7 +7,7 @@ import 'package:animations/animations.dart';
 import './index.dart' show EditProduct;
 import '../../../widget/index.dart';
 import '../../../providers/index.dart' show ProductProvider;
-import '../../../models/Store/Product/ProductByCategory.dart';
+import '../../../models/store/product/productByCategory.dart';
 
 const rupeeSymbol = '\u20B9';
 

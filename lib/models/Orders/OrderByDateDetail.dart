@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'OrderByDateDetail.g.dart';
+part 'orderByDateDetail.g.dart';
 
 @JsonSerializable()
 class OrderByDateDetail {

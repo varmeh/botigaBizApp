@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'AggregatedOrders.g.dart';
+part 'aggregatedOrders.g.dart';
 
 @JsonSerializable()
 class AggregatedOrders {

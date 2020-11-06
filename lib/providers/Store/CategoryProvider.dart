@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../../util/index.dart' show Http;
-import '../../models/Store/Category/StoreCategory.dart';
+import '../../models/store/category/storeCategory.dart';
 
 class CategoryProvider with ChangeNotifier {
   List<StoreCategory> _categories = [];

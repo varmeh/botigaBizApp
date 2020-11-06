@@ -10,7 +10,7 @@ import '../../../theme/index.dart';
 import '../../../util/index.dart';
 import '../../../widget/index.dart';
 import '../../home/index.dart' show HomeScreen;
-import '../../../models/Store/Product/ProductByCategory.dart';
+import '../../../models/store/product/productByCategory.dart';
 
 class EditProduct extends StatefulWidget {
   final String productId;

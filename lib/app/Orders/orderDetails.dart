@@ -6,7 +6,7 @@ import '../../theme/index.dart';
 import '../../providers/index.dart' show OrdersProvider;
 import '../../util/index.dart';
 import '../../widget/index.dart';
-import '../../models/Orders/OrderByDateDetail.dart';
+import '../../models/orders/orderByDateDetail.dart';
 
 class OrderDetails extends StatefulWidget {
   static const routeName = 'order-details';

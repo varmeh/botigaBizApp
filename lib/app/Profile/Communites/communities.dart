@@ -7,7 +7,7 @@ import '../../../widget/index.dart';
 import '../../../providers/index.dart' show ProfileProvider;
 import '../../home/index.dart' show HomeScreen;
 import '../../profile/index.dart' show AddContactDetails;
-import '../../../models/Profile/Profile.dart';
+import '../../../models/profile/profile.dart';
 
 class Communities extends StatefulWidget {
   @override
