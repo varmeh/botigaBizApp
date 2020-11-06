@@ -1,12 +1,10 @@
-import 'package:botiga_biz/util/httpService.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../widget/index.dart';
-import '../../../providers/profileProvider.dart';
-import '../../../providers/index.dart' show ServicesProvider;
-import '../../../util/formValidators.dart';
+import '../../../util/index.dart';
+import '../../../providers/index.dart' show ServicesProvider, ProfileProvider;
 
 class StoreDeatils extends StatefulWidget {
   static const routeName = 'add-store-details';

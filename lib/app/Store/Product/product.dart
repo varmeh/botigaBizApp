@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:animations/animations.dart';
-import 'editProduct.dart';
+import './index.dart' show EditProduct;
 import '../../../widget/index.dart';
-import '../../../providers/Store/productProvider.dart';
+import '../../../providers/index.dart' show ProductProvider;
 import '../../../models/Store/Product/ProductByCategory.dart';
 
 const rupeeSymbol = '\u20B9';

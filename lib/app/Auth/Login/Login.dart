@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'enterPin.dart';
-import '../widgets/phoneScreen.dart';
+import './index.dart' show EnterPin;
+import '../widgets/index.dart' show PhoneScreen;
 
 class Login extends StatelessWidget {
   static const routeName = 'login';

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
-import '../../widget/contactWidget.dart';
+import '../../widget/index.dart' show ContactWidget;
 import '../../models/Orders/OrderByDateDetail.dart';
-
-const rupeeSymbol = '\u20B9';
 
 class OrderSummary extends StatelessWidget {
   final OrderByDateDetail orderDetail;
@@ -116,6 +114,7 @@ class OrderSummary extends StatelessWidget {
 }
 
 class OrderListSummary extends StatelessWidget {
+  final String rupeeSymbol = '\u20B9';
   final OrderByDateDetail orderDetail;
   OrderListSummary(this.orderDetail);
 
@@ -181,6 +180,7 @@ class OrderListSummary extends StatelessWidget {
 }
 
 class OrderListItem extends StatelessWidget {
+  final String rupeeSymbol = '\u20B9';
   final String name;
   final int price;
   final int quantity;

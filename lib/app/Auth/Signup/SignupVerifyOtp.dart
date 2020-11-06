@@ -1,12 +1,12 @@
 import 'dart:async';
-import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:botiga_biz/theme/index.dart';
-import '../widgets/index.dart';
-import 'signupBussinessDetails.dart';
+import '../widgets/index.dart' show Background;
+import './index.dart' show SignupBuissnessDetails;
 import '../../Home/homeScreen.dart';
 import '../../../widget/index.dart';
+import '../../../util/index.dart' show Http;
 import '../../../providers/index.dart' show ProfileProvider;
 
 class SignUpOtp extends StatefulWidget {

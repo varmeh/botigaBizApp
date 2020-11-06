@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 
@@ -6,32 +7,28 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
 import 'util/index.dart' show Flavor, Http;
 
-import 'app/Home/homeScreen.dart';
-import 'app/Orders/orderList.dart';
-import 'app/Orders/ordersHome.dart';
-import 'app/Orders/orderDetails.dart';
-import 'app/Orders/orderDelivery.dart';
-import 'app/Store/storeScreen.dart';
-import 'app/Store/Product/addProduct.dart';
-import 'app/Store/Product/editProduct.dart';
-import 'app/Profile/Communites/selectArea.dart';
-import 'app/Profile/Profile/bussinessDetails.dart';
-import 'app/Profile/Profile/storeDetails.dart';
-import 'app/Delivery/deliveryScreen.dart';
-import 'app/Auth/Signup/signUpWelcome.dart';
-import 'app/Auth/Signup/signupVerifyOtp.dart';
-import 'app/Auth/Signup/signupBussinessDetails.dart';
-import 'app/Auth/Signup/signupStoreDetails.dart';
-import 'app/Auth/Signup/setPin.dart';
-import 'app/Auth/Login/login.dart';
-import 'app/Auth/Login/forgotPin.dart';
-import 'app/Auth/Login/enterPin.dart';
-import 'app/Onboarding/onboarding.dart';
-import 'app/Onboarding/splashScreen.dart';
-import 'package:provider/provider.dart';
+import 'app/auth/index.dart'
+    show
+        //SignUp
+        SignupWelcome,
+        SignupBuissnessDetails,
+        SignUpStoreDetails,
+        SetPin,
+        SignUpOtp,
+        //Login
+        Login,
+        LoginForgotPin,
+        EnterPin;
+import 'app/home/index.dart' show HomeScreen;
+import 'app/orders/index.dart'
+    show OrderDetails, OrdersHome, OrderList, OrderDelivery;
+import 'app/store/index.dart' show StoreScreen, AddProduct, EditProduct;
+import 'app/profile/index.dart' show SelectArea, BussinessDetails, StoreDeatils;
+import 'app/delivery/index.dart' show DeliveryScreen;
+import 'app/onboarding/index.dart' show SplashScreen, IntroScreen;
+
 import 'providers/index.dart'
     show
         OrdersProvider,

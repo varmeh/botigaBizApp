@@ -2,12 +2,12 @@ import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import '../../Home/homeScreen.dart';
-import '../../Profile/Communites/addContactDetails.dart';
-import '../../../models/Profile/Profile.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
-import '../../../providers/profileProvider.dart';
+import '../../../providers/index.dart' show ProfileProvider;
+import '../../home/index.dart' show HomeScreen;
+import '../../profile/index.dart' show AddContactDetails;
+import '../../../models/Profile/Profile.dart';
 
 class Communities extends StatefulWidget {
   @override

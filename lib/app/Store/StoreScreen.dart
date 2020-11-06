@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../theme/index.dart';
-import '../../util/index.dart';
-import 'Categories/category.dart';
-import 'Product/product.dart';
-import 'Product/addProduct.dart';
 import '../../widget/index.dart';
-import '../../util/formValidators.dart';
+import '../../util/index.dart';
 import '../../providers/index.dart' show CategoryProvider, ProductProvider;
+import './index.dart';
 
 class StoreScreen extends StatefulWidget {
   static const routeName = 'store-screen';

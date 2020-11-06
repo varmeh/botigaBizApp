@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
 import '../../../theme/index.dart';
-import '../../../util/httpService.dart';
+import '../../../util/index.dart' show Http;
+import '../../home/index.dart' show HomeScreen;
+import '../../../providers/index.dart' show ProfileProvider;
 import '../../../widget/index.dart'
     show BotigaBottomModal, Toast, LoaderOverlay, PinTextField, BotigaAppBar;
-import '../../Home/homeScreen.dart';
-import '../../../providers/index.dart' show ProfileProvider;
 
 class SetPin extends StatefulWidget {
   static const routeName = 'signup-setpin';

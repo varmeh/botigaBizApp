@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:botiga_biz/theme/index.dart';
-import '../Signup/setPin.dart';
-import '../widgets/index.dart';
-import '../../../widget/index.dart';
+import '../../../util/index.dart' show Http;
+import '../index.dart' show SetPin;
+import '../widgets/index.dart' show Background;
+import '../../../widget/index.dart' show Toast, PinTextField, LoaderOverlay;
 import '../../../providers/index.dart' show ProfileProvider;
-import '../../../util/httpService.dart';
 
 class LoginForgotPin extends StatefulWidget {
   static const routeName = 'forgot-pin';

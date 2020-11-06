@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter/rendering.dart';
-
 import 'emptyDelivery.dart';
-import '../Orders/orderDetails.dart';
-import '../../models/Profile/Profile.dart';
-import '../../models/Orders/OrderByDateDetail.dart';
+import '../orders/index.dart' show OrderDetails;
 import '../../theme/index.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';
 import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
+
+import '../../models/Profile/Profile.dart';
+import '../../models/Orders/OrderByDateDetail.dart';
 
 const rupeeSymbol = '\u20B9';
 

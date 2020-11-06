@@ -1,12 +1,11 @@
-import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'orderSummary.dart';
-import '../../providers/ordersProvider.dart';
-import '../../models/Orders/OrderByDateDetail.dart';
+import '../../providers/index.dart' show OrdersProvider;
 import '../../theme/index.dart';
-import '../../widget/index.dart';
+import '../../widget/index.dart' show BotigaAppBar, LoaderOverlay, Toast;
 import '../../util/index.dart';
+import '../../models/Orders/OrderByDateDetail.dart';
 
 class OrderDelivery extends StatefulWidget {
   static const routeName = 'order-delivery';

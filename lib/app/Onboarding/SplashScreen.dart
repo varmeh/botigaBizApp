@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../util/index.dart' show Http;
-import 'onboarding.dart';
-import '../Auth/Login/login.dart';
-import '../Home/homeScreen.dart';
-import '../../providers/profileProvider.dart';
+import '../auth/index.dart' show Login;
+import '../../providers/index.dart' show ProfileProvider;
+import './index.dart' show IntroScreen;
+import '../home/index.dart' show HomeScreen;
 
 class SplashScreen extends StatefulWidget {
   static final routeName = 'splashScreen';

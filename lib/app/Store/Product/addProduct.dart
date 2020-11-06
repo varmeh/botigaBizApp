@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'package:botiga_biz/util/httpService.dart';
-import 'package:botiga_biz/widget/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -9,8 +7,9 @@ import 'package:lottie/lottie.dart';
 import '../../../providers/index.dart'
     show CategoryProvider, ProductProvider, ServicesProvider;
 import '../../../theme/index.dart';
-import '../../../util/formValidators.dart';
-import '../../Home/homeScreen.dart';
+import '../../../util/index.dart';
+import '../../home/index.dart' show HomeScreen;
+import '../../../widget/index.dart';
 
 class AddProduct extends StatefulWidget {
   static const routeName = 'add-product';

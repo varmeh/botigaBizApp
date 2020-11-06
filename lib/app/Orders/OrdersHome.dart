@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-
-import 'orderList.dart';
-import 'emptyOrders.dart';
+import './index.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
 import '../../widget/index.dart';
 import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
-
-const rupeeSymbol = '\u20B9';
 
 class OrdersHome extends StatefulWidget {
   static const routeName = 'orders-home';
@@ -18,6 +14,7 @@ class OrdersHome extends StatefulWidget {
 }
 
 class _OrdersHomeState extends State<OrdersHome> {
+  final String rupeeSymbol = '\u20B9';
   var _loadData = true;
   DateTime selectedDate;
 

@@ -1,13 +1,12 @@
 import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../Home/homeScreen.dart';
-import 'forgotPin.dart';
-import '../../../widget/index.dart' show Toast, PinTextField, LoaderOverlay;
 import '../../../util/index.dart' show Http;
+import '../../home/index.dart' show HomeScreen;
+import './index.dart' show LoginForgotPin;
+import '../../../providers/index.dart' show ProfileProvider;
 import '../widgets/index.dart';
-import '../../../providers/index.dart';
+import '../../../widget/index.dart' show Toast, PinTextField, LoaderOverlay;
 
 class EnterPin extends StatefulWidget {
   static const routeName = 'login-enter-pin';

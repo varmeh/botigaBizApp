@@ -1,16 +1,16 @@
 import 'dart:io';
-import 'package:botiga_biz/util/httpService.dart';
 import 'package:botiga_biz/widget/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
-import '../../../models/Store/Product/ProductByCategory.dart';
 import '../../../providers/index.dart' show ProductProvider, ServicesProvider;
 import '../../../theme/index.dart';
-import '../../../util/formValidators.dart';
-import '../../Home/homeScreen.dart';
+import '../../../util/index.dart';
+import '../../../widget/index.dart';
+import '../../home/index.dart' show HomeScreen;
+import '../../../models/Store/Product/ProductByCategory.dart';
 
 class EditProduct extends StatefulWidget {
   final String productId;

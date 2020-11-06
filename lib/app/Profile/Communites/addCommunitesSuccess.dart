@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../../theme/index.dart';
-import '../../Home/homeScreen.dart';
+import '../../home/index.dart' show HomeScreen;
 import '../../../widget/inviteShare.dart';
 
 class AddCommunitesSuccess extends StatefulWidget {

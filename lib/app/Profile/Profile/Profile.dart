@@ -1,12 +1,11 @@
-import 'package:botiga_biz/providers/index.dart';
-import 'package:botiga_biz/util/httpService.dart';
-import 'package:botiga_biz/widget/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'bussinessDetails.dart';
-import 'storeDetails.dart';
+import './index.dart';
+import '../../../util/index.dart';
+import '../../../providers/index.dart';
 import '../../../theme/index.dart';
-import '../../Auth/Login/login.dart';
+import '../../../widget/index.dart';
+import '../../auth/index.dart' show Login;
 
 class Profile extends StatefulWidget {
   @override

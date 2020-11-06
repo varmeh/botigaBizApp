@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:botiga_biz/theme/index.dart';
-import 'signupStoreDetails.dart';
-import '../../../util/index.dart';
 import '../../../widget/index.dart'
     show
         LoaderOverlay,
@@ -15,6 +13,8 @@ import '../../../widget/index.dart'
         BotigaAppBar,
         BotigaBottomModal;
 import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
+import '../../../util/index.dart';
+import './index.dart';
 
 class SignupBuissnessDetails extends StatefulWidget {
   static const routeName = 'signup-bussiness-detail';

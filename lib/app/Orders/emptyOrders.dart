@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../theme/index.dart';
-import '../../widget/inviteShare.dart';
-import '../../widget/botigaBottomModal.dart';
+import '../../widget/index.dart' show inviteShare, BotigaBottomModal;
 
 class EmptyOrders extends StatefulWidget {
   @override

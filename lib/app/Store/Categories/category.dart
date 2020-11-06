@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../util/formValidators.dart';
 import '../../../widget/index.dart';
-import '../../../models/Store/Category/StoreCategory.dart';
 import '../../../providers/index.dart' show CategoryProvider, ProductProvider;
+import '../../../models/Store/Category/StoreCategory.dart';
 
 class Category extends StatefulWidget {
   @override
