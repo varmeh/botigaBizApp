@@ -33,7 +33,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   bool _isInit;
   bool _isProcessing;
   String selectedStatus;
-  String slectedDate;
+  DateTime selectedDate;
   var selectedDateForRequest;
   bool fabIsVisible;
   Apartment apartment;
@@ -74,7 +74,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     _isProcessing = false;
     selectedStatus = 'All';
     apartment = deafaultApartment;
-    slectedDate = 'TODAY';
+    selectedDate = DateTime.now();
     selectedDateForRequest = null;
     _error = null;
   }
@@ -112,7 +112,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
           : selectedDateForRequest;
       await orderProvider.setDeliveryStatus(orderId);
       await orderProvider.fetchOrderByDateApartment(
-          apartment.id, FormatDate.getRequestFormatDate(date));
+          apartment.id, date.getRequestFormatDate());
       Toast(message: 'Order deliverd', iconData: BotigaIcons.truck)
           .show(context);
     } catch (err) {
@@ -128,7 +128,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     final apartment =
         Provider.of<ProfileProvider>(context, listen: false).defaultApartment;
     final aprtmentId = apartment != null ? apartment.id : '';
-    final currentDate = FormatDate.getRequestFormatDate(DateTime.now());
+    final currentDate = DateTime.now().getRequestFormatDate();
     fetchDeliveryData(aprtmentId, currentDate);
   }
 
@@ -211,17 +211,14 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                             Navigator.of(context).pop();
                                             setState(() {
                                               apartment = _apartment;
-                                              slectedDate = FormatDate
-                                                  .getTodayOrSelectedDate(
-                                                      DateTime.now());
+                                              selectedDate = DateTime.now();
                                               selectedDateForRequest =
                                                   DateTime.now();
                                             });
                                             final date = DateTime.now();
 
                                             final reqDate =
-                                                FormatDate.getRequestFormatDate(
-                                                    date);
+                                                date.getRequestFormatDate();
                                             fetchDeliveryData(
                                                 apartment.id, reqDate);
                                           });
@@ -407,10 +404,10 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                                 child: SafeArea(
                                                   child: TableCalendar(
                                                     initialSelectedDay:
-                                                        FormatDate
-                                                            .convertStringToDate(
-                                                                slectedDate),
-                                                    startDay: DateTime.now(),
+                                                        selectedDate,
+                                                    startDay: DateTime.now()
+                                                        .subtract(
+                                                            Duration(days: 15)),
                                                     availableCalendarFormats: const {
                                                       CalendarFormat.month:
                                                           'Month',
@@ -445,17 +442,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                                       Navigator.of(context)
                                                           .pop();
                                                       setState(() {
-                                                        slectedDate = FormatDate
-                                                            .getTodayOrSelectedDate(
-                                                                date);
+                                                        selectedDate = date;
                                                         selectedDateForRequest =
                                                             date;
                                                       });
                                                       fetchDeliveryData(
                                                           apartment.id,
-                                                          FormatDate
-                                                              .getRequestFormatDate(
-                                                                  date));
+                                                          date.getRequestFormatDate());
                                                     },
                                                     calendarController:
                                                         _calendarController,
@@ -468,7 +461,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                             children: <Widget>[
                                               Flexible(
                                                 child: Text(
-                                                    '${FormatDate.getShortDateFromDate(slectedDate)}',
+                                                    '${selectedDate.getTodayOrSelectedDate()}',
                                                     style: Theme.of(context)
                                                         .textTheme
                                                         .subtitle1),
@@ -566,7 +559,7 @@ class DeliveryRow extends StatelessWidget {
             'orderId': delivery.id,
             'apartmentName': apartmentName,
             'apartmentId': apartmentId,
-            'selectedDateForRequest': FormatDate.getRequestFormatDate(date)
+            'selectedDateForRequest': date.getRequestFormatDate()
           },
         );
       },

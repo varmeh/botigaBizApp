@@ -19,7 +19,7 @@ class _OrderListState extends State<OrderList> {
   var _isError = false;
   var _error;
   var _isInit = false;
-  var slectedDate = 'TODAY';
+  DateTime selectedDate = DateTime.now();
   var selectedDateForRequest;
   CalendarController _calendarController;
 
@@ -71,7 +71,7 @@ class _OrderListState extends State<OrderList> {
       fetchData(currentDate);
       setState(() {
         selectedDateForRequest = date;
-        slectedDate = FormatDate.getTodayOrSelectedDate(date);
+        selectedDate = date;
       });
       _isInit = true;
     }
@@ -104,7 +104,7 @@ class _OrderListState extends State<OrderList> {
               ? HttpExceptionWidget(
                   exception: _error,
                   onTap: () {
-                    fetchData(FormatDate.getRequestFormatDate(DateTime.now()));
+                    fetchData(DateTime.now().getRequestFormatDate());
                   },
                 )
               : SafeArea(
@@ -139,10 +139,9 @@ class _OrderListState extends State<OrderList> {
                                       ),
                                       child: SafeArea(
                                         child: TableCalendar(
-                                          initialSelectedDay:
-                                              FormatDate.convertStringToDate(
-                                                  slectedDate),
-                                          startDay: DateTime.now(),
+                                          initialSelectedDay: selectedDate,
+                                          startDay: DateTime.now()
+                                              .subtract(Duration(days: 15)),
                                           availableCalendarFormats: const {
                                             CalendarFormat.month: 'Month',
                                           },
@@ -168,13 +167,11 @@ class _OrderListState extends State<OrderList> {
                                           onDaySelected: (date, events, _) {
                                             Navigator.of(context).pop();
                                             setState(() {
-                                              slectedDate = FormatDate
-                                                  .getTodayOrSelectedDate(date);
+                                              selectedDate = date;
                                               selectedDateForRequest = date;
                                             });
                                             fetchData(
-                                                FormatDate.getRequestFormatDate(
-                                                    date));
+                                                date.getRequestFormatDate());
                                           },
                                           calendarController:
                                               _calendarController,
@@ -186,7 +183,7 @@ class _OrderListState extends State<OrderList> {
                                 child: Row(
                                   children: <Widget>[
                                     Text(
-                                        '${FormatDate.getShortDateFromDate(slectedDate)}',
+                                        '${selectedDate.getTodayOrSelectedDate()}',
                                         style: AppTheme.textStyle.color100.w500
                                             .size(15)),
                                     SizedBox(
@@ -224,10 +221,10 @@ class _OrderListState extends State<OrderList> {
                                       'apartmentId': apartmentId,
                                       'selectedDateForRequest':
                                           selectedDateForRequest == null
-                                              ? FormatDate.getRequestFormatDate(
-                                                  DateTime.now())
-                                              : FormatDate.getRequestFormatDate(
-                                                  selectedDateForRequest)
+                                              ? DateTime.now()
+                                                  .getRequestFormatDate()
+                                              : selectedDateForRequest
+                                                  .getRequestFormatDate()
                                     },
                                   );
                                 },

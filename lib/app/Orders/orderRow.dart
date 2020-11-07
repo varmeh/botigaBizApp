@@ -69,7 +69,7 @@ class OrderRow extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('${FormatDate.getLongformatDateWithTime(orderDate)}',
+                    Text('${orderDate.getLongformatDateWithTime()}',
                         style: AppTheme.textStyle.color50.w500
                             .size(12)
                             .letterSpace(1)),

@@ -40,11 +40,11 @@ class _OrderDetailsState extends State<OrderDetails> {
     try {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
-      final deliveryDelayedDate = FormatDate.getRequestFormatDate(date);
+      final deliveryDelayedDate = date.getRequestFormatDate();
       await ordersProvider.setDeliveryDelayed(orderId, deliveryDelayedDate);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
-      final newDateforDelivery = FormatDate.getDate(date);
+      final newDateforDelivery = date.getDate();
       Toast(
               message: 'Delivery date changed to $newDateforDelivery',
               iconData: BotigaIcons.truck)

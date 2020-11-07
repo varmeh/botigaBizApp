@@ -43,7 +43,7 @@ class OrderSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '${FormatDate.getLongformatDateWithTime(orderDetail.order.orderDate)}',
+                  '${orderDetail.order.orderDate.getLongformatDateWithTime()}',
                   style: AppTheme.textStyle.color100.w500.size(13),
                 ),
               )
@@ -82,12 +82,12 @@ class OrderSummary extends StatelessWidget {
               Flexible(
                 child: isOrderOpen(orderDetail.order.status)
                     ? Text(
-                        'Expected delivery ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
+                        'Expected delivery ${orderDetail.order.expectedDeliveryDate.getDate()}',
                         style: AppTheme.textStyle.color100.w500.size(13),
                       )
                     : isOrderClosed(orderDetail.order.status)
                         ? Text(
-                            'Delivered on ${FormatDate.getDate(orderDetail.order.expectedDeliveryDate)}',
+                            'Delivered on ${orderDetail.order.expectedDeliveryDate.getDate()}',
                             style: AppTheme.textStyle.color100.w500.size(13),
                           )
                         : Text(
