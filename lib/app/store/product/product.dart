@@ -18,10 +18,16 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> {
   bool _isApiInProgress = false;
+  String _query = '';
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   _setApiInProgressStatus(bool status) {
@@ -48,12 +54,46 @@ class _ProductsState extends State<Products> {
             left: 20,
             right: 20,
           ),
-          child: ListView(
-            children: <Widget>[
-              ..._products.map((productWithCategory) {
-                return getTile(
-                    context, productWithCategory, this._setApiInProgressStatus);
-              })
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 12),
+                child: SearchBar(
+                  placeholder: 'Search...',
+                  onClear: () {
+                    setState(() {
+                      _query = '';
+                    });
+                  },
+                  onChange: (value) {
+                    setState(() {
+                      _query = value;
+                    });
+                  },
+                  onSubmit: (_) {},
+                ),
+              ),
+              (_query != '' && _query != null)
+                  ? Expanded(
+                      child: ListView(
+                        children: <Widget>[
+                          ..._products.map((productWithCategory) {
+                            return getProductTile(context, productWithCategory,
+                                this._setApiInProgressStatus, _query);
+                          })
+                        ],
+                      ),
+                    )
+                  : Expanded(
+                      child: ListView(
+                        children: <Widget>[
+                          ..._products.map((productWithCategory) {
+                            return getTile(context, productWithCategory,
+                                this._setApiInProgressStatus);
+                          })
+                        ],
+                      ),
+                    ),
             ],
           ),
         ),
@@ -312,4 +352,50 @@ class _ProductItemRowState extends State<ProductItemRow> {
       ),
     );
   }
+}
+
+Widget getProductTile(
+    BuildContext context,
+    ProductByCategory productWithCategory,
+    Function setApiStatus,
+    String _query) {
+  void setProductAvilablity(
+      Product product, bool availabelStatus, Function onFail) async {
+    try {
+      setApiStatus(true);
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.updateProductStatus(
+          productWithCategory.categoryId, product, availabelStatus);
+      await productProvider.fetchProducts();
+      Toast(message: "Product status updated", iconData: Icons.check_circle)
+          .show(context);
+    } catch (error) {
+      onFail();
+      Toast(message: Http.message(error)).show(context);
+    } finally {
+      setApiStatus(false);
+    }
+  }
+
+  return Column(
+    children: [
+      ...productWithCategory.products
+          .where((product) =>
+              product.name.toLowerCase().startsWith(_query.toLowerCase()))
+          .map((product) {
+        return OpenContainer(
+          closedElevation: 0.0,
+          transitionDuration: Duration(milliseconds: 500),
+          closedBuilder: (context, openContainer) =>
+              ProductItemRow(product, setProductAvilablity, openContainer),
+          openBuilder: (_, __) => EditProduct(
+            productId: product.id,
+            categoryId: productWithCategory.categoryId,
+            categoryName: productWithCategory.name,
+          ),
+        );
+      })
+    ],
+  );
 }
