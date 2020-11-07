@@ -34,7 +34,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   bool _isProcessing;
   String selectedStatus;
   DateTime selectedDate;
-  var selectedDateForRequest;
+  DateTime selectedDateForRequest;
   bool fabIsVisible;
   Apartment apartment;
   GlobalKey<ScaffoldState> _scaffoldKey;
@@ -75,7 +75,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     selectedStatus = 'All';
     apartment = deafaultApartment;
     selectedDate = DateTime.now();
-    selectedDateForRequest = null;
+    selectedDateForRequest = DateTime.now();
     _error = null;
   }
 
@@ -496,7 +496,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                           ? deliveryByDateDetails
                                           : deliveryByDateDetails
                                               .where((deliveryRow) {
-                                              print(deliveryRow.order.status);
                                               return deliveryRow.order.status ==
                                                   statusMap[selectedStatus];
                                             });
@@ -538,7 +537,7 @@ class DeliveryRow extends StatelessWidget {
   final String apartmentName;
   final String apartmentId;
   final Function handleOutForDelivery;
-  final selectedDateForRequest;
+  final DateTime selectedDateForRequest;
   DeliveryRow(this.delivery, this.apartmentName, this.apartmentId,
       this.handleOutForDelivery, this.selectedDateForRequest);
 

@@ -20,7 +20,7 @@ class _OrderListState extends State<OrderList> {
   var _error;
   var _isInit = false;
   DateTime selectedDate = DateTime.now();
-  var selectedDateForRequest;
+  DateTime selectedDateForRequest;
   CalendarController _calendarController;
 
   @override
