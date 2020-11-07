@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import '../util/index.dart' show Http, Token;
-import '../models/profile/profile.dart';
+import '../models/profile/index.dart';
 
 class ProfileProvider with ChangeNotifier {
   Profile _profile;

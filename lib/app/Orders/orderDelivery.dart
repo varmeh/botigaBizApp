@@ -5,7 +5,7 @@ import '../../providers/index.dart' show OrdersProvider;
 import '../../theme/index.dart';
 import '../../widget/index.dart' show BotigaAppBar, LoaderOverlay, Toast;
 import '../../util/index.dart';
-import '../../models/orders/orderByDateDetail.dart';
+import '../../models/orders/index.dart';
 
 class OrderDelivery extends StatefulWidget {
   static const routeName = 'order-delivery';

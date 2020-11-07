@@ -5,7 +5,7 @@ import '../../../widget/index.dart';
 import '../../../providers/index.dart' show ProfileProvider;
 import './index.dart' show AddContactDetails;
 import '../../../util/index.dart' show Http;
-import '../../../models/apartment/apartmentModel.dart';
+import '../../../models/apartment/index.dart';
 
 class SelectArea extends StatefulWidget {
   static const routeName = 'select-area';

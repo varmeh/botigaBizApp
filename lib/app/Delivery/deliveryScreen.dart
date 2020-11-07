@@ -8,9 +8,8 @@ import '../../theme/index.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';
 import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
-
-import '../../models/profile/profile.dart';
-import '../../models/orders/orderByDateDetail.dart';
+import '../../models/profile/index.dart';
+import '../../models/orders/index.dart';
 
 const rupeeSymbol = '\u20B9';
 

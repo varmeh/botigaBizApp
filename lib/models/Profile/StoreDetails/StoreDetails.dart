@@ -14,25 +14,3 @@ class StoreDetails {
 
   Map<String, dynamic> toJson() => _$StoreDetailsToJson(this);
 }
-
-@JsonSerializable()
-class Address {
-  String area;
-  String pincode;
-  String city;
-  String building;
-  String state;
-  String street;
-  Address(
-      {this.area,
-      this.pincode,
-      this.city,
-      this.building,
-      this.state,
-      this.street});
-
-  factory Address.fromJson(Map<String, dynamic> json) =>
-      _$AddressFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AddressToJson(this);
-}

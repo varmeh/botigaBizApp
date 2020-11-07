@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
-import '../models/orders/aggregatedOrders.dart';
-import '../models/orders/orderByDateDetail.dart';
+import '../models/orders/index.dart';
 import '../util/index.dart' show Http;
 
 class OrdersProvider with ChangeNotifier {
