@@ -1,7 +1,6 @@
-import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../theme/botigaIcons.dart';
+import '../theme/index.dart';
 
 class ContactWidget extends StatelessWidget {
   final String phone;

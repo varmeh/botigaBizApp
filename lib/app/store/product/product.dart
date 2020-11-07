@@ -1,5 +1,3 @@
-import 'package:botiga_biz/theme/index.dart';
-import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +6,8 @@ import './index.dart' show EditProduct;
 import '../../../widget/index.dart';
 import '../../../providers/index.dart' show ProductProvider;
 import '../../../models/store/index.dart';
+import '../../../theme/index.dart';
+import '../../../util/index.dart' show Http;
 
 const rupeeSymbol = '\u20B9';
 

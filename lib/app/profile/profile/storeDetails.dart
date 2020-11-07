@@ -1,8 +1,8 @@
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../widget/index.dart';
+import '../../../theme/index.dart';
 import '../../../util/index.dart';
 import '../../../providers/index.dart' show ServicesProvider, ProfileProvider;
 

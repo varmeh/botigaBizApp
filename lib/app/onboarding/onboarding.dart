@@ -1,8 +1,8 @@
-import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 import '../auth/index.dart' show SignupWelcome;
+import '../../theme/index.dart';
 
 class IntroScreen extends StatelessWidget {
   static const routeName = 'intro';

@@ -1,8 +1,8 @@
-import 'package:botiga_biz/theme/index.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../util/index.dart' show Http;
+import '../../theme/index.dart';
 import '../auth/index.dart' show Login;
 import '../../providers/index.dart' show ProfileProvider;
 import './index.dart' show IntroScreen;

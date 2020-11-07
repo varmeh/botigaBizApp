@@ -1,4 +1,3 @@
-import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../util/index.dart' show Http;
@@ -6,6 +5,7 @@ import '../../home/index.dart' show HomeScreen;
 import './index.dart' show LoginForgotPin;
 import '../../../providers/index.dart' show ProfileProvider;
 import '../widgets/index.dart';
+import '../../../theme/index.dart';
 import '../../../widget/index.dart' show Toast, PinTextField, LoaderOverlay;
 
 class EnterPin extends StatefulWidget {

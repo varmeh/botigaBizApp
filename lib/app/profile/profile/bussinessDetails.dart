@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../widget/index.dart';
+import '../../../theme/index.dart';
 import '../../../util/index.dart';
 import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
 

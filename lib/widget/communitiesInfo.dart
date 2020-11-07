@@ -1,5 +1,5 @@
-import 'package:botiga_biz/theme/index.dart';
 import 'package:flutter/material.dart';
+import '../theme/index.dart';
 
 class CommunitiesInfo extends StatelessWidget {
   final String info;

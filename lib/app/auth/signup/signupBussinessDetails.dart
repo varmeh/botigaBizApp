@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:botiga_biz/theme/index.dart';
+import '../../../theme/index.dart';
 import '../../../widget/index.dart'
     show
         LoaderOverlay,

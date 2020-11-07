@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:botiga_biz/theme/index.dart';
 import '../widgets/index.dart' show Background;
 import './index.dart' show SignupBuissnessDetails;
 import '../../Home/homeScreen.dart';
 import '../../../widget/index.dart';
+import '../../../theme/index.dart';
 import '../../../util/index.dart' show Http;
 import '../../../providers/index.dart' show ProfileProvider;
 

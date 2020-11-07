@@ -1,9 +1,9 @@
-import 'package:botiga_biz/util/httpService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
+import '../../../util/index.dart' show Http;
 import '../../../providers/index.dart' show ProfileProvider;
 import '../../home/index.dart' show HomeScreen;
 import '../../profile/index.dart' show AddContactDetails;

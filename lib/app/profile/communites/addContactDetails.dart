@@ -1,9 +1,9 @@
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:botiga_biz/theme/index.dart';
 import './index.dart' show AddCommunitesSuccess;
 import '../../../util/index.dart';
+import '../../../theme/index.dart';
 import '../../../widget/index.dart';
 import '../../../providers/index.dart' show ProfileProvider;
 
