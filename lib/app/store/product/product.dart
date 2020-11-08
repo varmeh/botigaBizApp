@@ -17,12 +17,14 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  bool _isApiInProgress = false;
-  String _query = '';
+  bool _isApiInProgress;
+  String _query;
 
   @override
   void initState() {
     super.initState();
+    _query = '';
+    _isApiInProgress = false;
   }
 
   @override
@@ -384,16 +386,24 @@ Widget getProductTile(
           .where((product) =>
               product.name.toLowerCase().startsWith(_query.toLowerCase()))
           .map((product) {
-        return OpenContainer(
-          closedElevation: 0.0,
-          transitionDuration: Duration(milliseconds: 500),
-          closedBuilder: (context, openContainer) =>
-              ProductItemRow(product, setProductAvilablity, openContainer),
-          openBuilder: (_, __) => EditProduct(
-            productId: product.id,
-            categoryId: productWithCategory.categoryId,
-            categoryName: productWithCategory.name,
-          ),
+        return Column(
+          children: [
+            OpenContainer(
+              closedElevation: 0.0,
+              transitionDuration: Duration(milliseconds: 500),
+              closedBuilder: (context, openContainer) =>
+                  ProductItemRow(product, setProductAvilablity, openContainer),
+              openBuilder: (_, __) => EditProduct(
+                productId: product.id,
+                categoryId: productWithCategory.categoryId,
+                categoryName: productWithCategory.name,
+              ),
+            ),
+            Divider(
+              color: AppTheme.dividerColor,
+              thickness: 1.2,
+            ),
+          ],
         );
       })
     ],
