@@ -126,9 +126,12 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
   }
 
   final theme = Theme.of(context).copyWith(
-      dividerColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      splashColor: Colors.transparent);
+    accentColor: AppTheme.color100,
+    dividerColor: Colors.transparent,
+    unselectedWidgetColor: AppTheme.color100,
+    highlightColor: Colors.transparent,
+    splashColor: Colors.transparent,
+  );
   final totalProducts = productWithCategory.products.length < 10
       ? '0${productWithCategory.products.length}'
       : '${productWithCategory.products.length}';

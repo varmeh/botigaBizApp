@@ -80,24 +80,29 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   }
 
   void fetchDeliveryData(String aprtmentId, String currentDate) async {
-    final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
-    setState(() {
-      _isError = false;
-      _isLoading = true;
-      _error = null;
-    });
-    try {
-      await orderProvider.fetchOrderByDateApartment(aprtmentId, currentDate);
-    } catch (err) {
+    if (aprtmentId != null &&
+        aprtmentId != '' &&
+        currentDate != null &&
+        currentDate != '') {
+      final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
       setState(() {
-        _isError = true;
-        _isLoading = false;
-        _error = err;
+        _isError = false;
+        _isLoading = true;
+        _error = null;
       });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      try {
+        await orderProvider.fetchOrderByDateApartment(aprtmentId, currentDate);
+      } catch (err) {
+        setState(() {
+          _isError = true;
+          _isLoading = false;
+          _error = err;
+        });
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -129,7 +134,9 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         Provider.of<ProfileProvider>(context, listen: false).defaultApartment;
     final aprtmentId = apartment != null ? apartment.id : '';
     final currentDate = DateTime.now().getRequestFormatDate();
-    fetchDeliveryData(aprtmentId, currentDate);
+    if (aprtmentId != null && aprtmentId != '') {
+      fetchDeliveryData(aprtmentId, currentDate);
+    }
   }
 
   @override
