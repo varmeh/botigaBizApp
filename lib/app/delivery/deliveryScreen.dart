@@ -21,12 +21,12 @@ class DeliveryScreen extends StatefulWidget {
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
   Map<String, String> statusMap = {
-    "All": 'All',
-    "Open": "open",
-    "Out for delivery": "out",
-    "Deliverd": "delivered",
-    "Delayed": "delayed",
-    "Cancelled": "cancelled"
+    'All': 'All',
+    'Open': 'open',
+    'Out for delivery': 'out',
+    'Deliverd': 'delivered',
+    'Delayed': 'delayed',
+    'Cancelled': 'cancelled'
   };
   bool _isLoading;
   bool _isError;
@@ -279,7 +279,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                       padding: const EdgeInsets.only(
                                           left: 20, right: 20),
                                       child: Text(
-                                        "Order to be sent out today",
+                                        'Order to be sent out today',
                                         style: AppTheme.textStyle.color50.w500
                                             .size(15),
                                       ),
@@ -522,8 +522,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                         ),
                       )
                     : !hasApt
-                        ? CommunitiesInfo("No Communities Added")
-                        : CommunitiesInfo("No Communities enabled"));
+                        ? CommunitiesInfo('No Communities Added')
+                        : CommunitiesInfo('No Communities enabled'));
   }
 }
 
@@ -593,7 +593,7 @@ class DeliveryRow extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "${delivery.buyer.house}, ${delivery.buyer.name}",
+                              '${delivery.buyer.house}, ${delivery.buyer.name}',
                               style: AppTheme.textStyle.color100.w600
                                   .size(15)
                                   .letterSpace(0.5),
@@ -602,7 +602,7 @@ class DeliveryRow extends StatelessWidget {
                               height: 4,
                             ),
                             Text(
-                              "#${delivery.order.number} • ${delivery.order.products.length} ITEMS",
+                              '#${delivery.order.number} • ${delivery.order.products.length} ITEMS',
                               style: AppTheme.textStyle.color50.w500.size(13),
                             ),
                             SizedBox(
@@ -627,7 +627,7 @@ class DeliveryRow extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                       left: 6, right: 6, top: 4, bottom: 4),
                                   child: Text(
-                                    "${delivery.order.status.toUpperCase()}",
+                                    '${delivery.order.status.toUpperCase()}',
                                     style: AppTheme.textStyle
                                         .colored(AppTheme.backgroundColor)
                                         .w500
@@ -679,7 +679,7 @@ class DeliveryRow extends StatelessWidget {
                                         width: 70,
                                         height: 32,
                                         child: Text(
-                                          "Out for delivery",
+                                          'Out for delivery',
                                           textAlign: TextAlign.center,
                                           style: AppTheme
                                               .textStyle.color100.w500

@@ -70,7 +70,7 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
       final phone = routesArgs['phone'];
       final value = await profileProvider.verifyOtp(phone, sessionId, pinValue);
       String message = value['message'];
-      if (message == "createSeller") {
+      if (message == 'createSeller') {
         Toast(iconData: Icons.info_outline, message: 'You Are Not Registerd !')
             .show(context);
       } else {

@@ -17,7 +17,7 @@ class Flavor {
     if (_flavor == null) {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
       switch (packageInfo.packageName) {
-        case "app.botiga.botiga.biz.dev":
+        case 'app.botiga.botiga.biz.dev':
           _flavor = _Flavor.dev;
           break;
 

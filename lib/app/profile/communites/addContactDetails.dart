@@ -71,12 +71,12 @@ class _AddContactDetailsState extends State<AddContactDetails> {
     });
     _phoneMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
-        filter: {"#": RegExp(r'[0-9]')},
+        filter: {'#': RegExp(r'[0-9]')},
         initialText: '91${widget.phoneNumber}');
 
     _whatsappMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
-        filter: {"#": RegExp(r'[0-9]')},
+        filter: {'#': RegExp(r'[0-9]')},
         initialText: '91${widget.whatsappNumber}');
   }
 
@@ -328,7 +328,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                           SizedBox(width: 10),
                           Flexible(
                             child: Text(
-                                "Whatsapp number same as phone number above",
+                                'Whatsapp number same as phone number above',
                                 style: AppTheme.textStyle.color100
                                     .size(14)
                                     .w500

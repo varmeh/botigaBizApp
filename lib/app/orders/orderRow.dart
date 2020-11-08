@@ -39,7 +39,7 @@ class OrderRow extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("#$number .$productsLength ITEMS",
+                    Text('#$number .$productsLength ITEMS',
                         style: AppTheme.textStyle.color100.w600
                             .size(15)
                             .letterSpace(1)),

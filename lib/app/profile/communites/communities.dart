@@ -26,7 +26,7 @@ class _CommunitiesState extends State<Communities> {
           Provider.of<ProfileProvider>(context, listen: false);
       await profileProvider.setApartmentStatus(aptId, value);
       await profileProvider.fetchProfile();
-      Toast(message: "Community status updated", iconData: Icons.check_circle)
+      Toast(message: 'Community status updated', iconData: Icons.check_circle)
           .show(context);
     } catch (err) {
       onFail();
@@ -50,7 +50,7 @@ class _CommunitiesState extends State<Communities> {
       await profileProvider.updateApartmentDeliveryScheduled(
           _apartmentId, _deliveryType, _day);
       await profileProvider.fetchProfile();
-      Toast(message: "Delivery scheduled updated", iconData: Icons.check_circle)
+      Toast(message: 'Delivery scheduled updated', iconData: Icons.check_circle)
           .show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
@@ -138,7 +138,7 @@ class _CommunityTileState extends State<CommunityTile> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("How do you deliver?",
+          Text('How do you deliver?',
               style: AppTheme.textStyle.color100.size(22).w700),
           SizedBox(
             height: 24,
@@ -176,7 +176,7 @@ class _CommunityTileState extends State<CommunityTile> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Deliver order in",
+                      Text('Deliver order in',
                           style: AppTheme.textStyle.color100.size(17).w700),
                       SizedBox(
                         height: 20,
@@ -226,7 +226,7 @@ class _CommunityTileState extends State<CommunityTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Fixed Duration",
+                    Text('Fixed Duration',
                         style: AppTheme.textStyle.color100.size(15).w700),
                     Text(
                         'Deliver orders within specific days of order placement. ex: 2 days from order',
@@ -272,7 +272,7 @@ class _CommunityTileState extends State<CommunityTile> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Deliver order every",
+                      Text('Deliver order every',
                           style: AppTheme.textStyle.color100.size(17).w700),
                       SizedBox(
                         height: 20,
@@ -322,7 +322,7 @@ class _CommunityTileState extends State<CommunityTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Fixed Day",
+                    Text('Fixed Day',
                         style: AppTheme.textStyle.color100.size(15).w700),
                     Text(
                       'Deliver orders on a specific day of the week. ex: every Sunday',
@@ -455,7 +455,7 @@ class _CommunityTileState extends State<CommunityTile> {
                       ).show(context);
                     },
                     child: Text(
-                      "EDIT",
+                      'EDIT',
                       style: AppTheme.textStyle
                           .size(15)
                           .w600

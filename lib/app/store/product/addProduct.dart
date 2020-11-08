@@ -213,7 +213,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Select category",
+                Text('Select category',
                     style: AppTheme.textStyle.color100.w700.size(22)),
                 SizedBox(
                   height: 20,
@@ -253,7 +253,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text("Add image",
+              Text('Add image',
                   style: AppTheme.textStyle.color100.w700.size(22)),
               SizedBox(
                 height: 24,
@@ -499,7 +499,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                         padding: const EdgeInsets.only(
                                             left: 55, right: 55, top: 16),
                                         child: Text(
-                                          "Adding image will increase people interest in your product",
+                                          'Adding image will increase people interest in your product',
                                           textAlign: TextAlign.center,
                                           style: AppTheme.textStyle.color50.w400
                                               .size(12)
@@ -514,7 +514,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                           ),
                           BotigaTextFieldForm(
                               focusNode: _nameFocusNode,
-                              labelText: "Product name",
+                              labelText: 'Product name',
                               onSave: (value) => _name = value,
                               validator: nameValidator,
                               nextFocusNode: _priceFocusNode),
@@ -558,7 +558,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                               icon: BotigaIcons.rupee,
                               iconSize: 14.0,
                               focusNode: _priceFocusNode,
-                              labelText: "Price",
+                              labelText: 'Price',
                               keyboardType: TextInputType.number,
                               onSave: (value) => _price = double.parse(value),
                               validator: (value) {
@@ -575,7 +575,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                           ),
                           BotigaTextFieldForm(
                             focusNode: _quantityFocusNode,
-                            labelText: "Quantity",
+                            labelText: 'Quantity',
                             keyboardType: TextInputType.number,
                             onSave: (value) => _quantity = int.parse(value),
                             validator: (value) {
@@ -598,7 +598,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: <Widget>[
-                            ...["kg", "gms", "lt", "ml", "piece", "pieces"].map(
+                            ...['kg', 'gms', 'lt', 'ml', 'piece', 'pieces'].map(
                               (val) {
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 12),
@@ -646,7 +646,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Add description",
+                              'Add description',
                               style: AppTheme.textStyle.size(15).w500.color100,
                             ),
                             Transform.scale(

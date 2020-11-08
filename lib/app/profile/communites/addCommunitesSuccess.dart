@@ -103,7 +103,7 @@ class _AddCommunitesSuccessState extends State<AddCommunitesSuccess>
                   Container(
                     width: 242,
                     child: Text(
-                      "You are Servicing ${widget._businessName}",
+                      'You are Servicing ${widget._businessName}',
                       textAlign: TextAlign.center,
                       style: AppTheme.textStyle.w700.color100
                           .size(25)
@@ -114,18 +114,18 @@ class _AddCommunitesSuccessState extends State<AddCommunitesSuccess>
                     height: 16,
                   ),
                   !widget.isSave
-                      ? Text("${widget._deliveryMsg}",
+                      ? Text('${widget._deliveryMsg}',
                           textAlign: TextAlign.center,
                           style: AppTheme.textStyle.w500.color50
                               .size(13)
                               .lineHeight(1.0))
-                      : widget._deliveryType == "duration"
-                          ? Text("Delivering orders in ${widget._day} days",
+                      : widget._deliveryType == 'duration'
+                          ? Text('Delivering orders in ${widget._day} days',
                               textAlign: TextAlign.center,
                               style: AppTheme.textStyle.w500.color50
                                   .size(13)
                                   .lineHeight(1.0))
-                          : Text("Delivering orders on ${daymap[widget._day]}",
+                          : Text('Delivering orders on ${daymap[widget._day]}',
                               textAlign: TextAlign.center,
                               style: AppTheme.textStyle.w500.color50
                                   .size(13)

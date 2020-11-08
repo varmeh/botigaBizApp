@@ -193,7 +193,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5, bottom: 5),
                     child: Text(
-                      "We collect these details for future communication and to create your store.",
+                      'We collect these details for future communication and to create your store.',
                       style: AppTheme.textStyle.size(13).w500.color50,
                     ),
                   ),
@@ -313,7 +313,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Text(
-                            "Business category",
+                            'Business category',
                             style: AppTheme.textStyle.color100.size(22).w700,
                           ),
                           SizedBox(
@@ -321,7 +321,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                           ),
                           BotigaTextFieldForm(
                             focusNode: _bsCategoryNameFocusNode,
-                            labelText: "Write your business category",
+                            labelText: 'Write your business category',
                             onSave: (value) => _bsCategoryName = value,
                             validator: nameValidator,
                           ),
@@ -491,7 +491,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Text(
-                  "Select category",
+                  'Select category',
                   style: AppTheme.textStyle.color100.size(22).w700,
                 ),
                 SizedBox(
@@ -505,7 +505,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                         ...bsCategory.map((bsCat) {
                           return categoryItem(bsCat, false);
                         }),
-                        categoryItem("Other", true),
+                        categoryItem('Other', true),
                       ],
                     ),
                   ),
@@ -524,7 +524,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text("Add image", style: AppTheme.textStyle.color100.size(22).w700),
+            Text('Add image', style: AppTheme.textStyle.color100.size(22).w700),
             SizedBox(
               height: 24,
             ),

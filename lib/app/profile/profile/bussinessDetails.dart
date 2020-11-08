@@ -142,7 +142,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text("Add image",
+              Text('Add image',
                   style: AppTheme.textStyle.color100.size(22).w700),
               SizedBox(
                 height: 24,
@@ -340,7 +340,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(13.0),
                                     child: Text(
-                                      "Change logo",
+                                      'Change logo',
                                       style: AppTheme.textStyle.color100.w600
                                           .size(15),
                                     ),
@@ -354,7 +354,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                       BotigaTextFieldForm(
                         initialValue: _brandName,
                         focusNode: _brandNameFocusNode,
-                        labelText: "Brand name",
+                        labelText: 'Brand name',
                         onSave: (value) => _brandName = value,
                         validator: nameValidator,
                         nextFocusNode: _taglineFocusNode,
@@ -365,7 +365,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                       BotigaTextFieldForm(
                         initialValue: _tagline,
                         focusNode: _taglineFocusNode,
-                        labelText: "Tagline",
+                        labelText: 'Tagline',
                         onSave: (value) => _tagline = value,
                         validator: nameValidator,
                       ),

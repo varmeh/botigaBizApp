@@ -115,7 +115,7 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
       await productProvider.updateProductStatus(
           productWithCategory.categoryId, product, availabelStatus);
       await productProvider.fetchProducts();
-      Toast(message: "Product status updated", iconData: Icons.check_circle)
+      Toast(message: 'Product status updated', iconData: Icons.check_circle)
           .show(context);
     } catch (error) {
       onFail();
@@ -293,14 +293,14 @@ class _ProductItemRowState extends State<ProductItemRow> {
                             children: <Widget>[
                               _switchValue
                                   ? Text(
-                                      "Available",
+                                      'Available',
                                       style: AppTheme.textStyle.color100
                                           .size(12)
                                           .w500
                                           .letterSpace(0.2),
                                     )
                                   : Text(
-                                      "Not Available",
+                                      'Not Available',
                                       style: AppTheme.textStyle.color100
                                           .size(12)
                                           .w500
@@ -370,7 +370,7 @@ Widget getProductTile(
       await productProvider.updateProductStatus(
           productWithCategory.categoryId, product, availabelStatus);
       await productProvider.fetchProducts();
-      Toast(message: "Product status updated", iconData: Icons.check_circle)
+      Toast(message: 'Product status updated', iconData: Icons.check_circle)
           .show(context);
     } catch (error) {
       onFail();

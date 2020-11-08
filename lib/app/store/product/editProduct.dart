@@ -82,7 +82,7 @@ class _EditProductState extends State<EditProduct>
     Product product = Provider.of<ProductProvider>(context, listen: false)
         .getProductById(widget.categoryId, widget.productId);
     if (product != null) {
-      List productSpec = product.size.split(" ");
+      List productSpec = product.size.split(' ');
       setState(() {
         _productId = widget.productId;
         _seletedCategory = widget.categoryName;
@@ -227,7 +227,7 @@ class _EditProductState extends State<EditProduct>
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text("Add image",
+              Text('Add image',
                   style: AppTheme.textStyle.color100.w700.size(22)),
               SizedBox(
                 height: 24,
@@ -356,13 +356,13 @@ class _EditProductState extends State<EditProduct>
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text(
-                            "Delete product",
+                            'Delete product',
                             style: AppTheme.textStyle.color100.w600
                                 .size(14)
                                 .letterSpace(.02),
                           ),
                           content: Text(
-                            "Are you sure you want to delete this product ?",
+                            'Are you sure you want to delete this product ?',
                             style: AppTheme.textStyle.color100.w500
                                 .size(13)
                                 .letterSpace(.02),
@@ -370,7 +370,7 @@ class _EditProductState extends State<EditProduct>
                           actions: [
                             FlatButton(
                               child: Text(
-                                "Yes",
+                                'Yes',
                                 style: AppTheme.textStyle.color100.w500
                                     .size(13)
                                     .letterSpace(.02),
@@ -382,7 +382,7 @@ class _EditProductState extends State<EditProduct>
                             ),
                             FlatButton(
                               child: Text(
-                                "No",
+                                'No',
                                 style: AppTheme.textStyle.color100.w500
                                     .size(13)
                                     .letterSpace(.02),
@@ -547,7 +547,7 @@ class _EditProductState extends State<EditProduct>
                           BotigaTextFieldForm(
                               initialValue: _name,
                               focusNode: _nameFocusNode,
-                              labelText: "Product name",
+                              labelText: 'Product name',
                               onSave: (value) => _name = value,
                               validator: nameValidator,
                               nextFocusNode: _priceFocusNode),
@@ -584,7 +584,7 @@ class _EditProductState extends State<EditProduct>
                               icon: BotigaIcons.rupee,
                               iconSize: 14.0,
                               focusNode: _priceFocusNode,
-                              labelText: "Price",
+                              labelText: 'Price',
                               keyboardType: TextInputType.number,
                               onSave: (value) => _price = double.parse(value),
                               validator: (value) {
@@ -602,7 +602,7 @@ class _EditProductState extends State<EditProduct>
                           BotigaTextFieldForm(
                             initialValue: _quantity.toString(),
                             focusNode: _quantityFocusNode,
-                            labelText: "Quantity",
+                            labelText: 'Quantity',
                             keyboardType: TextInputType.number,
                             onSave: (value) => _quantity = int.parse(value),
                             validator: (value) {
@@ -625,7 +625,7 @@ class _EditProductState extends State<EditProduct>
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: <Widget>[
-                            ...["kg", "gms", "lt", "ml", "piece", "pieces"].map(
+                            ...['kg', 'gms', 'lt', 'ml', 'piece', 'pieces'].map(
                               (val) {
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 12),
@@ -673,7 +673,7 @@ class _EditProductState extends State<EditProduct>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              "Add description",
+                              'Add description',
                               style: AppTheme.textStyle.size(15).w500.color100,
                             ),
                             Transform.scale(

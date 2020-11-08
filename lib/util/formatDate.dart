@@ -4,11 +4,11 @@ const TODAY = 'TODAY';
 
 extension DateFormatter on DateTime {
   String getLongformatDateWithTime() {
-    return DateFormat("d MMM, y hh:mm a").format(this);
+    return DateFormat('d MMM, y hh:mm a').format(this);
   }
 
   String getDate() {
-    return DateFormat("d MMM").format(this);
+    return DateFormat('d MMM').format(this);
   }
 
   String getTodayOrSelectedDate() {

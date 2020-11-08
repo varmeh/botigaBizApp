@@ -28,7 +28,7 @@ class OrderSummary extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          "${orderDetail.buyer.name}",
+          '${orderDetail.buyer.name}',
           style: AppTheme.textStyle.color100.w600.size(22),
         ),
         Padding(

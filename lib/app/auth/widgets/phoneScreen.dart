@@ -20,7 +20,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
   FocusNode _phoneFocusNode;
   final _phoneMaskFormatter = new MaskTextInputFormatter(
     mask: '+91 #####-#####',
-    filter: {"#": RegExp(r'[0-9]')},
+    filter: {'#': RegExp(r'[0-9]')},
   );
 
   @override

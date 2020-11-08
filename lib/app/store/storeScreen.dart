@@ -176,7 +176,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                             mainAxisSize: MainAxisSize.min,
                                             children: <Widget>[
                                               Text(
-                                                "Add category",
+                                                'Add category',
                                                 style: AppTheme
                                                     .textStyle.color100.w700
                                                     .size(22),
@@ -187,7 +187,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                               BotigaTextFieldForm(
                                                 focusNode:
                                                     _categoryNameFocusNode,
-                                                labelText: "Category name",
+                                                labelText: 'Category name',
                                                 onSave: (value) =>
                                                     _categoryName = value,
                                                 validator: nameValidator,

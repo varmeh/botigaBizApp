@@ -109,13 +109,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text(
-                                "Cancel Order",
+                                'Cancel Order',
                                 style: AppTheme.textStyle.color100.w600
                                     .size(14)
                                     .letterSpace(.02),
                               ),
                               content: Text(
-                                "Are you sure you want to cancel this order ?",
+                                'Are you sure you want to cancel this order ?',
                                 style: AppTheme.textStyle.color100.w500
                                     .size(13)
                                     .letterSpace(.02),
@@ -123,7 +123,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                               actions: [
                                 FlatButton(
                                   child: Text(
-                                    "Yes",
+                                    'Yes',
                                     style: AppTheme.textStyle.color100.w500
                                         .size(13)
                                         .letterSpace(.02),
@@ -136,7 +136,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 ),
                                 FlatButton(
                                   child: Text(
-                                    "No",
+                                    'No',
                                     style: AppTheme.textStyle.color100.w500
                                         .size(13)
                                         .letterSpace(.02),

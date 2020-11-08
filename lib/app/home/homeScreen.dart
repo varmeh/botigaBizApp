@@ -162,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     BottomNavigationBarItem(
                       icon: const Icon(BotigaIcons.profile),
-                      label: "Profile",
+                      label: 'Profile',
                     ),
                   ],
                 )

@@ -119,7 +119,7 @@ class _CategoryState extends State<Category> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         Text(
-                          "Edit category",
+                          'Edit category',
                           style: AppTheme.textStyle.color100.w700.size(22),
                         ),
                         SizedBox(
@@ -128,7 +128,7 @@ class _CategoryState extends State<Category> {
                         BotigaTextFieldForm(
                           initialValue: _categoryName,
                           focusNode: _categoryNameFocusNode,
-                          labelText: "Category name",
+                          labelText: 'Category name',
                           onSave: (value) => _categoryName = value,
                           validator: nameValidator,
                         ),

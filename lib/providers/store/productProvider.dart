@@ -50,30 +50,30 @@ class ProductProvider with ChangeNotifier {
   Future saveProduct(String categoryId, String name, double price, int quantity,
       String unit, String imageUrl, String description) async {
     return Http.post('/api/seller/products', body: {
-      "categoryId": categoryId,
-      "name": name,
-      "price": price,
-      "size": {"quantity": '$quantity', "unit": unit},
-      "imageUrl": imageUrl,
-      "description": description,
-      "available": true
+      'categoryId': categoryId,
+      'name': name,
+      'price': price,
+      'size': {'quantity': '$quantity', 'unit': unit},
+      'imageUrl': imageUrl,
+      'description': description,
+      'available': true
     });
   }
 
   Future updateProductStatus(
       String categoryId, Product product, bool availableStatus) async {
-    List productSpec = product.size.split(" ");
+    List productSpec = product.size.split(' ');
     return Http.patch('/api/seller/products', body: {
-      "categoryId": categoryId,
-      "productId": product.id,
-      "name": product.name,
-      "price": product.price,
-      "unit": productSpec.elementAt(1),
-      "quantity": productSpec.elementAt(0),
-      "available": availableStatus,
-      "updateImage": false,
-      "imageUrl": product.imageUrl,
-      "description": product.description,
+      'categoryId': categoryId,
+      'productId': product.id,
+      'name': product.name,
+      'price': product.price,
+      'unit': productSpec.elementAt(1),
+      'quantity': productSpec.elementAt(0),
+      'available': availableStatus,
+      'updateImage': false,
+      'imageUrl': product.imageUrl,
+      'description': product.description,
     });
   }
 
@@ -89,16 +89,16 @@ class ProductProvider with ChangeNotifier {
       bool availableStatus,
       bool updateImagurl) async {
     return Http.patch('/api/seller/products', body: {
-      "categoryId": categoryId,
-      "productId": productId,
-      "name": name,
-      "price": price,
-      "unit": unit,
-      "quantity": quantity,
-      "available": availableStatus,
-      "updateImage": updateImagurl,
-      "imageUrl": imageUrl,
-      "description": description,
+      'categoryId': categoryId,
+      'productId': productId,
+      'name': name,
+      'price': price,
+      'unit': unit,
+      'quantity': quantity,
+      'available': availableStatus,
+      'updateImage': updateImagurl,
+      'imageUrl': imageUrl,
+      'description': description,
     });
   }
 

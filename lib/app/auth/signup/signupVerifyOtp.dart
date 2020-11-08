@@ -71,7 +71,7 @@ class _SignUpOtpState extends State<SignUpOtp> {
       final phone = routesArgs['phone'];
       final value = await profileProvider.verifyOtp(phone, sessionId, pinValue);
       String message = value['message'];
-      if (message == "createSeller") {
+      if (message == 'createSeller') {
         Navigator.pushReplacementNamed(
             context, SignupBuissnessDetails.routeName,
             arguments: {'phone': phone});

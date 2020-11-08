@@ -169,7 +169,7 @@ class _SelectAreaState extends State<SelectArea> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text("How do you deliver?",
+          Text('How do you deliver?',
               style: AppTheme.textStyle.color100.size(22).w700),
           SizedBox(
             height: 24,
@@ -207,7 +207,7 @@ class _SelectAreaState extends State<SelectArea> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Deliver order in",
+                      Text('Deliver order in',
                           style: AppTheme.textStyle.color100.size(17).w700),
                       SizedBox(
                         height: 20,
@@ -289,7 +289,7 @@ class _SelectAreaState extends State<SelectArea> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Fixed Duration",
+                    Text('Fixed Duration',
                         style: AppTheme.textStyle.color100.size(15).w700),
                     Text(
                         'Deliver orders within specific days of order placement. ex: 2 days from order',
@@ -334,7 +334,7 @@ class _SelectAreaState extends State<SelectArea> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text("Deliver order every",
+                      Text('Deliver order every',
                           style: AppTheme.textStyle.color100.size(17).w700),
                       SizedBox(
                         height: 20,
@@ -416,7 +416,7 @@ class _SelectAreaState extends State<SelectArea> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("Fixed Day",
+                    Text('Fixed Day',
                         style: AppTheme.textStyle.color100.size(15).w700),
                     Text(
                       'Deliver orders on a specific day of the week. ex: every Sunday',

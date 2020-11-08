@@ -88,12 +88,12 @@ class _StoreDeatilsState extends State<StoreDeatils> {
     });
     _phoneMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
-        filter: {"#": RegExp(r'[0-9]')},
+        filter: {'#': RegExp(r'[0-9]')},
         initialText: '91${contactInfo.phone}');
 
     _whatsappMaskFormatter = MaskTextInputFormatter(
         mask: '+91 #####-#####',
-        filter: {"#": RegExp(r'[0-9]')},
+        filter: {'#': RegExp(r'[0-9]')},
         initialText: '91${contactInfo.whatsapp}');
   }
 
@@ -283,7 +283,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                           SizedBox(width: 10),
                           Flexible(
                             child: Text(
-                                "Whatsapp number same as phone number above",
+                                'Whatsapp number same as phone number above',
                                 style: AppTheme.textStyle.color100
                                     .size(14)
                                     .w500
@@ -300,7 +300,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "Store Address",
+                              'Store Address',
                               style: AppTheme.textStyle.color100.size(15).w500,
                             ),
                             SizedBox(

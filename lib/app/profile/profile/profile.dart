@@ -58,7 +58,7 @@ class _ProfileState extends State<Profile> {
                 contentPadding: EdgeInsets.only(left: 0, right: 0),
                 title: Align(
                   alignment: Alignment(-1.2, 0),
-                  child: Text("Business details",
+                  child: Text('Business details',
                       style: AppTheme.textStyle.color100.size(15).w500),
                 ),
                 trailing: Icon(
@@ -71,11 +71,11 @@ class _ProfileState extends State<Profile> {
                 onTap: () {
                   Navigator.of(context).pushNamed(StoreDeatils.routeName);
                 },
-                leading: Image.asset("assets/images/store_details.png"),
+                leading: Image.asset('assets/images/store_details.png'),
                 contentPadding: EdgeInsets.only(left: 0, right: 0),
                 title: Align(
                   alignment: Alignment(-1.2, 0),
-                  child: Text("Store details",
+                  child: Text('Store details',
                       style: AppTheme.textStyle.color100.size(15).w500),
                 ),
                 trailing: Icon(
@@ -93,7 +93,7 @@ class _ProfileState extends State<Profile> {
                 title: Align(
                   alignment: Alignment(-1.3, 0),
                   child: Text(
-                    "Payment Information",
+                    'Payment Information',
                     style: AppTheme.textStyle.color100.size(15).w500,
                   ),
                 ),
@@ -114,7 +114,7 @@ class _ProfileState extends State<Profile> {
                 contentPadding: EdgeInsets.only(left: 0, right: 0),
                 title: Align(
                   alignment: Alignment(-1.2, 0),
-                  child: Text("Logout",
+                  child: Text('Logout',
                       style: AppTheme.textStyle.color100.size(15).w500),
                 ),
                 trailing: Icon(

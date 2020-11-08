@@ -25,7 +25,7 @@ Widget inviteShare(BuildContext context) {
         ),
         child: Center(
           child: Text(
-            "SHARE WITH YOUR CUSTOMERS",
+            'SHARE WITH YOUR CUSTOMERS',
             style: AppTheme.textStyle.w700
                 .size(12)
                 .lineHeight(1.4)
@@ -37,7 +37,7 @@ Widget inviteShare(BuildContext context) {
         height: 150,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/coupan.png"),
+            image: AssetImage('assets/images/coupan.png'),
             fit: BoxFit.fill,
           ),
         ),

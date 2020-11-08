@@ -24,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   backgroundColor: AppTheme.backgroundColor,
                   elevation: 4.0,
                   icon: const Icon(Icons.add, color: Color(0xff179F57)),
-                  label: Text("NEW COMMUNITY",
+                  label: Text('NEW COMMUNITY',
                       style: AppTheme.textStyle
                           .size(12)
                           .w700
@@ -63,7 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     isScrollable: true,
                     labelPadding: EdgeInsets.only(left: 0, right: 0),
                     indicatorColor: Colors.transparent,
-                    tabs: ["Profile", "Communities"]
+                    tabs: ['Profile', 'Communities']
                         .map(
                           (label) => Padding(
                             padding: const EdgeInsets.only(right: 24),

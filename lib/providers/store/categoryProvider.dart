@@ -31,14 +31,14 @@ class CategoryProvider with ChangeNotifier {
 
   Future saveCategory(String name) async {
     return Http.post('/api/seller/categories', body: {
-      "name": name,
+      'name': name,
     });
   }
 
   Future editCategory(String categoryId, String name) async {
     return Http.patch('/api/seller/categories', body: {
-      "categoryId": categoryId,
-      "name": name,
+      'categoryId': categoryId,
+      'name': name,
     });
   }
 

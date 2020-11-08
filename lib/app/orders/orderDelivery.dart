@@ -59,7 +59,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
       await ordersProvider.setDeliveryStatus(orderId);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
-      Toast(message: "Order marked as deliverd", iconData: BotigaIcons.truck)
+      Toast(message: 'Order marked as deliverd', iconData: BotigaIcons.truck)
           .show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
@@ -97,13 +97,13 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text(
-                                "Cancel Order",
+                                'Cancel Order',
                                 style: AppTheme.textStyle.color100.w600
                                     .size(14)
                                     .letterSpace(.02),
                               ),
                               content: Text(
-                                "Are you sure you want to cancel this order ?",
+                                'Are you sure you want to cancel this order ?',
                                 style: AppTheme.textStyle.color100.w500
                                     .size(13)
                                     .letterSpace(.02),
@@ -111,7 +111,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                               actions: [
                                 FlatButton(
                                   child: Text(
-                                    "Yes",
+                                    'Yes',
                                     style: AppTheme.textStyle.color100.w500
                                         .size(13)
                                         .letterSpace(.02),
@@ -124,7 +124,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
                                 ),
                                 FlatButton(
                                   child: Text(
-                                    "No",
+                                    'No',
                                     style: AppTheme.textStyle.color100.w500
                                         .size(13)
                                         .letterSpace(.02),

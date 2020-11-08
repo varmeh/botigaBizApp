@@ -41,21 +41,21 @@ class OrdersProvider with ChangeNotifier {
 
   Future setDeliveryDelayed(String orderId, String newDate) async {
     return Http.patch('/api/seller/orders/delivery/delayed',
-        body: {"orderId": orderId, "newDate": newDate});
+        body: {'orderId': orderId, 'newDate': newDate});
   }
 
   Future setDeliveryStatus(String orderId) async {
     return Http.patch('/api/seller/orders/delivery/status',
-        body: {"orderId": orderId, "status": "delivered"});
+        body: {'orderId': orderId, 'status': 'delivered'});
   }
 
   Future setStatusOutForDelivery(String orderId) async {
     return Http.patch('/api/seller/orders/delivery/status',
-        body: {"orderId": orderId, "status": "out"});
+        body: {'orderId': orderId, 'status': 'out'});
   }
 
   Future cancelOrder(String orderId) async {
-    return Http.post('/api/seller/orders/cancel', body: {"orderId": orderId});
+    return Http.post('/api/seller/orders/cancel', body: {'orderId': orderId});
   }
 
   Future resetOrder() async {
