@@ -195,33 +195,28 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   children: <Widget>[
                                     ...apartments.map((_apartment) {
                                       return ListTile(
-                                          title: Text(
-                                            '${_apartment.apartmentName}',
-                                            style: apartment.id == _apartment.id
-                                                ? AppTheme.textStyle
-                                                    .colored(
-                                                        AppTheme.primaryColor)
-                                                    .w500
-                                                    .size(15)
-                                                : AppTheme
-                                                    .textStyle.color100.w500
-                                                    .size(15),
-                                          ),
-                                          onTap: () {
-                                            Navigator.of(context).pop();
-                                            setState(() {
-                                              apartment = _apartment;
-                                              selectedDate = DateTime.now();
-                                              selectedDateForRequest =
-                                                  DateTime.now();
-                                            });
-                                            final date = DateTime.now();
-
-                                            final reqDate =
-                                                date.getRequestFormatDate();
-                                            fetchDeliveryData(
-                                                apartment.id, reqDate);
+                                        title: Text(
+                                          '${_apartment.apartmentName}',
+                                          style: apartment.id == _apartment.id
+                                              ? AppTheme.textStyle
+                                                  .colored(
+                                                      AppTheme.primaryColor)
+                                                  .w500
+                                                  .size(15)
+                                              : AppTheme.textStyle.color100.w500
+                                                  .size(15),
+                                        ),
+                                        onTap: () {
+                                          Navigator.of(context).pop();
+                                          setState(() {
+                                            apartment = _apartment;
                                           });
+                                          fetchDeliveryData(
+                                              apartment.id,
+                                              selectedDate
+                                                  .getRequestFormatDate());
+                                        },
+                                      );
                                     }),
                                   ],
                                 ),
