@@ -17,15 +17,15 @@ bool isOrderOpen(String status) {
   return false;
 }
 
-bool isOrderClosed(String status) {
-  if (status == 'out' || status == 'delivered') {
+bool isOutForDelivery(String status) {
+  if (status == 'out') {
     return true;
   }
   return false;
 }
 
-bool isOrderCancelled(String status) {
-  if (status == 'cancelled') {
+bool isOrderDelivered(String status) {
+  if (status == 'delivered') {
     return true;
   }
   return false;

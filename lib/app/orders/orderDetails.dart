@@ -184,7 +184,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                       SizedBox(
                         height: 87,
                       ),
-                      isOrderOpen(orderDetail.order.status)
+                      (isOrderOpen(orderDetail.order.status) ||
+                              isOutForDelivery(orderDetail.order.status))
                           ? Padding(
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
@@ -199,7 +200,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       borderRadius: BorderRadius.circular(12),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Color(0xff121714)
+                                          color: AppTheme.color100
                                               .withOpacity(0.12),
                                           blurRadius: 40.0, // soften the shadow
                                           spreadRadius: 0.0, //extend the shadow

@@ -110,7 +110,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       final date = selectedDateForRequest == null
           ? DateTime.now()
           : selectedDateForRequest;
-      await orderProvider.setDeliveryStatus(orderId);
+      await orderProvider.setStatusOutForDelivery(orderId);
       await orderProvider.fetchOrderByDateApartment(
           apartment.id, date.getRequestFormatDate());
       Toast(message: 'Order deliverd', iconData: BotigaIcons.truck)
@@ -638,54 +638,60 @@ class DeliveryRow extends StatelessWidget {
                             )
                           ],
                         ),
-                        Container(
-                          padding: EdgeInsets.only(left: 20),
-                          decoration: BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                  width: 1.2, color: AppTheme.dividerColor),
-                            ),
-                            color: Theme.of(context).colorScheme.surface,
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              this._handleOutForDelivery(delivery.id);
-                            },
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  child: Center(
-                                    child: Icon(
-                                      BotigaIcons.truck,
-                                      size: 30,
-                                    ),
+                        isOrderOpen(delivery.order.status)
+                            ? Container(
+                                padding: EdgeInsets.only(left: 20),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    left: BorderSide(
+                                        width: 1.2,
+                                        color: AppTheme.dividerColor),
                                   ),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: AppTheme.dividerColor),
+                                  color: Theme.of(context).colorScheme.surface,
                                 ),
-                                SizedBox(
-                                  height: 4,
-                                ),
-                                Container(
-                                  width: 70,
-                                  height: 32,
-                                  child: Text(
-                                    "Out for delivery",
-                                    textAlign: TextAlign.center,
-                                    style: AppTheme.textStyle.color100.w500
-                                        .size(12)
-                                        .letterSpace(0.2),
+                                child: InkWell(
+                                  onTap: () {
+                                    this._handleOutForDelivery(delivery.id);
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        width: 50,
+                                        height: 50,
+                                        child: Center(
+                                          child: Icon(
+                                            BotigaIcons.truck,
+                                            size: 30,
+                                          ),
+                                        ),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: AppTheme.dividerColor),
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Container(
+                                        width: 70,
+                                        height: 32,
+                                        child: Text(
+                                          "Out for delivery",
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme
+                                              .textStyle.color100.w500
+                                              .size(12)
+                                              .letterSpace(0.2),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
+                                ),
+                              )
+                            : SizedBox.shrink()
                       ],
                     ),
                   ],

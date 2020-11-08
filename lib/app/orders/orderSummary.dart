@@ -11,6 +11,19 @@ class OrderSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String deliveryMsg = '';
+    if (isOrderOpen(orderDetail.order.status)) {
+      deliveryMsg =
+          'Expected delivery ${orderDetail.order.expectedDeliveryDate.getDate()}';
+    } else if (isOutForDelivery(orderDetail.order.status)) {
+      deliveryMsg = 'Out for delivery';
+    } else if (isOrderDelivered(orderDetail.order.status)) {
+      deliveryMsg =
+          'Delivered on ${orderDetail.order.expectedDeliveryDate.getDate()}';
+    } else {
+      deliveryMsg = orderDetail.order.status.toUpperCase();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -80,25 +93,15 @@ class OrderSummary extends StatelessWidget {
                 width: 15,
               ),
               Flexible(
-                child: isOrderOpen(orderDetail.order.status)
-                    ? Text(
-                        'Expected delivery ${orderDetail.order.expectedDeliveryDate.getDate()}',
-                        style: AppTheme.textStyle.color100.w500.size(13),
-                      )
-                    : isOrderClosed(orderDetail.order.status)
-                        ? Text(
-                            'Delivered on ${orderDetail.order.expectedDeliveryDate.getDate()}',
-                            style: AppTheme.textStyle.color100.w500.size(13),
-                          )
-                        : Text(
-                            '${orderDetail.order.status.toUpperCase()}',
-                            style: AppTheme.textStyle.color100.w500.size(13),
-                          ),
-              )
+                  child: Text(
+                '$deliveryMsg',
+                style: AppTheme.textStyle.color100.w500.size(13),
+              ))
             ],
           ),
         ),
-        isOrderOpen(orderDetail.order.status)
+        (isOrderOpen(orderDetail.order.status) ||
+                isOutForDelivery(orderDetail.order.status))
             ? Padding(
                 padding: const EdgeInsets.only(top: 27, bottom: 24),
                 child: ContactWidget(

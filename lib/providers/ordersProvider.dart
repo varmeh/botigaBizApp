@@ -49,6 +49,11 @@ class OrdersProvider with ChangeNotifier {
         body: {"orderId": orderId, "status": "delivered"});
   }
 
+  Future setStatusOutForDelivery(String orderId) async {
+    return Http.patch('/api/seller/orders/delivery/status',
+        body: {"orderId": orderId, "status": "out"});
+  }
+
   Future cancelOrder(String orderId) async {
     return Http.post('/api/seller/orders/cancel', body: {"orderId": orderId});
   }

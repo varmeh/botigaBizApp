@@ -146,7 +146,8 @@ class _OrderDeliveryState extends State<OrderDelivery> {
         ],
       ),
       backgroundColor: AppTheme.backgroundColor,
-      bottomNavigationBar: isOrderOpen(orderDetail.order.status)
+      bottomNavigationBar: (isOrderOpen(orderDetail.order.status) ||
+              isOutForDelivery(orderDetail.order.status))
           ? SafeArea(
               child: Container(
                   padding: EdgeInsets.all(10),
