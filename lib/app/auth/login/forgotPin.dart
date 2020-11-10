@@ -71,8 +71,14 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
       final value = await profileProvider.verifyOtp(phone, sessionId, pinValue);
       String message = value['message'];
       if (message == 'createSeller') {
-        Toast(iconData: Icons.info_outline, message: 'You Are Not Registerd !')
-            .show(context);
+        Toast(
+          icon: Icon(
+            Icons.info_outline,
+            size: 24,
+            color: AppTheme.backgroundColor,
+          ),
+          message: 'You Are Not Registerd !',
+        ).show(context);
       } else {
         Navigator.pushNamed(context, SetPin.routeName,
             arguments: {'phone': phone});

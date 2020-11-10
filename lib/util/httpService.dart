@@ -82,6 +82,7 @@ class Http {
   }
 
   static dynamic parse(http.Response response) {
+    print(json.decode(response.body));
     if (response.statusCode == 204) {
       return;
     }

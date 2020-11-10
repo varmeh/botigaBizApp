@@ -18,6 +18,8 @@ extension TextStyleHelpers on TextStyle {
 
   TextStyle size(double value) => copyWith(fontSize: value);
 
+  TextStyle weight(FontWeight value) => copyWith(fontWeight: value);
+
   TextStyle lineHeight(double value) => copyWith(height: value);
 
   TextStyle letterSpace(double value) => copyWith(letterSpacing: value);

@@ -191,8 +191,14 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       await profileProvider.updateBusinessInfromation(
           _brandName, _tagline, downloadUrl, _seletedCategory, updateImage);
       await profileProvider.fetchProfile();
-      Toast(message: 'Business details updated', iconData: Icons.check_circle)
-          .show(context);
+      Toast(
+        message: 'Business details updated',
+        icon: Icon(
+          Icons.check_circle,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {

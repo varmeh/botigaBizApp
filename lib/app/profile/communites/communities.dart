@@ -26,8 +26,14 @@ class _CommunitiesState extends State<Communities> {
           Provider.of<ProfileProvider>(context, listen: false);
       await profileProvider.setApartmentStatus(aptId, value);
       await profileProvider.fetchProfile();
-      Toast(message: 'Community status updated', iconData: Icons.check_circle)
-          .show(context);
+      Toast(
+        message: 'Community status updated',
+        icon: Icon(
+          Icons.check_circle,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
     } catch (err) {
       onFail();
       Toast(message: Http.message(err)).show(context);
@@ -50,8 +56,14 @@ class _CommunitiesState extends State<Communities> {
       await profileProvider.updateApartmentDeliveryScheduled(
           _apartmentId, _deliveryType, _day);
       await profileProvider.fetchProfile();
-      Toast(message: 'Delivery scheduled updated', iconData: Icons.check_circle)
-          .show(context);
+      Toast(
+        message: 'Delivery scheduled updated',
+        icon: Icon(
+          Icons.check_circle,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {

@@ -46,9 +46,13 @@ class _OrderDetailsState extends State<OrderDetails> {
           apartmentId, selectedDateForRequest);
       final newDateforDelivery = date.getDate();
       Toast(
-              message: 'Delivery date changed to $newDateforDelivery',
-              iconData: BotigaIcons.truck)
-          .show(context);
+        message: 'Delivery date changed to $newDateforDelivery',
+        icon: Icon(
+          BotigaIcons.truck,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
@@ -69,8 +73,14 @@ class _OrderDetailsState extends State<OrderDetails> {
       await ordersProvider.cancelOrder(orderId);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
-      Toast(message: 'Order canceled', iconData: BotigaIcons.truck)
-          .show(context);
+      Toast(
+        message: 'Order canceled',
+        icon: Icon(
+          BotigaIcons.truck,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {

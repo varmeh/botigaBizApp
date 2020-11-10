@@ -131,8 +131,14 @@ class _StoreDeatilsState extends State<StoreDeatils> {
       await profileProvider.updateStoreDetails(_phoneNumber, whatsapp, _email,
           _buildingNumber, _streetName, _area, _city, _state, _pincode);
       await profileProvider.fetchProfile();
-      Toast(message: 'Store details updated', iconData: Icons.check_circle)
-          .show(context);
+      Toast(
+        message: 'Store details updated',
+        icon: Icon(
+          Icons.check_circle,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {

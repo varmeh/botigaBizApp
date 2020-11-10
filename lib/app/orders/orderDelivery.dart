@@ -37,8 +37,14 @@ class _OrderDeliveryState extends State<OrderDelivery> {
       await ordersProvider.cancelOrder(orderId);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
-      Toast(message: 'Order canceled', iconData: BotigaIcons.truck)
-          .show(context);
+      Toast(
+        message: 'Order canceled',
+        icon: Icon(
+          BotigaIcons.truck,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
@@ -59,8 +65,14 @@ class _OrderDeliveryState extends State<OrderDelivery> {
       await ordersProvider.setDeliveryStatus(orderId);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
-      Toast(message: 'Order marked as deliverd', iconData: BotigaIcons.truck)
-          .show(context);
+      Toast(
+        message: 'Order marked as deliverd',
+        icon: Icon(
+          BotigaIcons.truck,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {

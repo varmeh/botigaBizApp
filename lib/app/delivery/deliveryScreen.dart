@@ -118,8 +118,14 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       await orderProvider.setStatusOutForDelivery(orderId);
       await orderProvider.fetchOrderByDateApartment(
           apartment.id, date.getRequestFormatDate());
-      Toast(message: 'Order deliverd', iconData: BotigaIcons.truck)
-          .show(context);
+      Toast(
+        message: 'Order deliverd',
+        icon: Icon(
+          BotigaIcons.truck,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
