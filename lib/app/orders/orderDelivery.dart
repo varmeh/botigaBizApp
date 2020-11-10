@@ -98,7 +98,7 @@ class _OrderDeliveryState extends State<OrderDelivery> {
       appBar: BotigaAppBar(
         '',
         actions: [
-          ...isOrderOpen(orderDetail.order.status)
+          ...(orderDetail.order.isOpen || orderDetail.order.isDelayed)
               ? [
                   FlatButton(
                     highlightColor: Colors.transparent,
@@ -158,8 +158,9 @@ class _OrderDeliveryState extends State<OrderDelivery> {
         ],
       ),
       backgroundColor: AppTheme.backgroundColor,
-      bottomNavigationBar: (isOrderOpen(orderDetail.order.status) ||
-              isOutForDelivery(orderDetail.order.status))
+      bottomNavigationBar: (orderDetail.order.isOpen ||
+              orderDetail.order.isDelayed ||
+              orderDetail.order.isOutForDelivery)
           ? SafeArea(
               child: Container(
                   padding: EdgeInsets.all(10),

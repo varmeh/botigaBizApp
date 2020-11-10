@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'orderByDateDetail.g.dart';
 
@@ -40,6 +41,38 @@ class Order {
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
   Map<String, dynamic> toJson() => _$OrderToJson(this);
+
+  bool get isOpen => status == 'open';
+  bool get isDelayed => status == 'delayed';
+  bool get isOutForDelivery => status == 'out';
+  bool get isDelivered => status == 'delivered';
+  bool get isCancelled => status == 'cancelled';
+
+  String get statusMessage {
+    if (isOpen) {
+      return 'Order Placed';
+    } else if (isOutForDelivery) {
+      return 'Out For Delivery';
+    } else if (isDelivered) {
+      return 'Delivered';
+    } else if (isDelayed) {
+      return 'Delayed';
+    } else if (isCancelled) {
+      return 'Cancelled';
+    } else {
+      return status;
+    }
+  }
+
+  Color get statusColor {
+    if (isOpen || isDelayed) {
+      return Color.fromRGBO(233, 161, 54, 1);
+    } else if (isCancelled) {
+      return Color.fromRGBO(233, 86, 54, 1);
+    } else {
+      return Color.fromRGBO(23, 159, 87, 1);
+    }
+  }
 }
 
 @JsonSerializable()

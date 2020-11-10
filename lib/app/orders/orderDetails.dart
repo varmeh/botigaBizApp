@@ -108,7 +108,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       appBar: BotigaAppBar(
         '',
         actions: [
-          ...isOrderOpen(orderDetail.order.status)
+          ...(orderDetail.order.isOpen || orderDetail.order.isDelayed)
               ? [
                   FlatButton(
                     highlightColor: Colors.transparent,
@@ -194,8 +194,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                       SizedBox(
                         height: 87,
                       ),
-                      (isOrderOpen(orderDetail.order.status) ||
-                              isOutForDelivery(orderDetail.order.status))
+                      (orderDetail.order.isOpen ||
+                              orderDetail.order.isDelayed ||
+                              orderDetail.order.isOutForDelivery)
                           ? Padding(
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),

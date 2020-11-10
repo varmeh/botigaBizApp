@@ -12,16 +12,14 @@ class OrderSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String deliveryMsg = '';
-    if (isOrderOpen(orderDetail.order.status)) {
+    if (orderDetail.order.isOpen || orderDetail.order.isDelayed) {
       deliveryMsg =
           'Expected delivery ${orderDetail.order.expectedDeliveryDate.getDate()}';
-    } else if (isOutForDelivery(orderDetail.order.status)) {
-      deliveryMsg = 'Out for delivery';
-    } else if (isOrderDelivered(orderDetail.order.status)) {
+    } else if (orderDetail.order.isDelivered) {
       deliveryMsg =
           'Delivered on ${orderDetail.order.expectedDeliveryDate.getDate()}';
     } else {
-      deliveryMsg = orderDetail.order.status.toUpperCase();
+      deliveryMsg = orderDetail.order.statusMessage;
     }
 
     return Column(
@@ -100,8 +98,9 @@ class OrderSummary extends StatelessWidget {
             ],
           ),
         ),
-        (isOrderOpen(orderDetail.order.status) ||
-                isOutForDelivery(orderDetail.order.status))
+        (orderDetail.order.isOpen ||
+                orderDetail.order.isDelayed ||
+                orderDetail.order.isOutForDelivery)
             ? Padding(
                 padding: const EdgeInsets.only(top: 27, bottom: 24),
                 child: ContactWidget(

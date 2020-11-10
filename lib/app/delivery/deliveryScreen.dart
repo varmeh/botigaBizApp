@@ -634,7 +634,7 @@ class DeliveryRow extends StatelessWidget {
                                 ),
                                 Container(
                                   decoration: BoxDecoration(
-                                      color: statusColor(delivery.order.status),
+                                      color: delivery.order.statusColor,
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(2))),
                                   padding: EdgeInsets.only(
@@ -651,7 +651,7 @@ class DeliveryRow extends StatelessWidget {
                             )
                           ],
                         ),
-                        isOrderOpen(delivery.order.status)
+                        (delivery.order.isOpen || delivery.order.isDelayed)
                             ? Container(
                                 padding: EdgeInsets.only(left: 20),
                                 decoration: BoxDecoration(

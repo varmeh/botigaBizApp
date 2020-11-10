@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import '../../util/index.dart';
 import '../../theme/index.dart';
+import '../../models/orders/index.dart' show Order;
 
 const rupeeSymbol = '\u20B9';
 
 class OrderRow extends StatelessWidget {
   final Function tapHandler;
-  final String number;
-  final DateTime orderDate;
-  final String status;
-  final int totalAmount;
-  final int productsLength;
-  OrderRow(this.tapHandler, this.number, this.productsLength, this.orderDate,
-      this.status, this.totalAmount);
+  final Order order;
+  OrderRow(this.tapHandler, this.order);
 
   @override
   Widget build(BuildContext context) {
+    String number = order.number;
+    DateTime orderDate = order.orderDate;
+    String status = order.status;
+    int totalAmount = order.totalAmount;
+    int productsLength = order.products.length;
+
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
@@ -45,7 +47,7 @@ class OrderRow extends StatelessWidget {
                             .letterSpace(1)),
                     Container(
                       decoration: BoxDecoration(
-                        color: statusColor(status),
+                        color: order.statusColor,
                         borderRadius: BorderRadius.all(
                           Radius.circular(2),
                         ),
