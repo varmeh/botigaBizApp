@@ -18,6 +18,7 @@ class _SelectAreaState extends State<SelectArea> {
   String _query = '';
   String _deliveryType, _apartmentId;
   int _day;
+  bool _loadApartment = true;
 
   @override
   void initState() {
@@ -54,6 +55,7 @@ class _SelectAreaState extends State<SelectArea> {
                 onSubmit: (value) {
                   setState(() {
                     _query = value;
+                    _loadApartment = true;
                   });
                 },
               ),
@@ -433,14 +435,18 @@ class _SelectAreaState extends State<SelectArea> {
   }
 
   Future<void> getApartments() async {
-    try {
-      final json =
-          await Http.get('/api/services/apartments/search?text=$_query');
-      _apartments.clear();
-      json.forEach(
-          (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
-    } catch (error) {
-      Toast(message: Http.message(error)).show(context);
+    if (_loadApartment == true) {
+      try {
+        final json =
+            await Http.get('/api/services/apartments/search?text=$_query');
+        _apartments.clear();
+        json.forEach(
+            (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
+      } catch (error) {
+        Toast(message: Http.message(error)).show(context);
+      } finally {
+        setState(() => _loadApartment = false);
+      }
     }
   }
 }

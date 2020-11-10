@@ -43,7 +43,7 @@ class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width - 40.0,
+      width: MediaQuery.of(context).size.width,
       height: _height,
       decoration: BoxDecoration(
         color: AppTheme.color05,

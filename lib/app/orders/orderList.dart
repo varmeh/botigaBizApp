@@ -15,10 +15,12 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
-  var _isLoading = false;
-  var _isError = false;
+  bool _isLoading = false;
+  bool _isError = false;
   var _error;
-  var _isInit = false;
+  bool _isInit = false;
+  bool _showSearch = false;
+  String _query = '';
   DateTime selectedDate = DateTime.now();
   DateTime selectedDateForRequest;
   CalendarController _calendarController;
@@ -88,15 +90,38 @@ class _OrderListState extends State<OrderList> {
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar(
         aprtmentName,
-        actions: [
-          IconButton(
-            icon: Icon(
-              BotigaIcons.search,
-              color: AppTheme.color100,
-            ),
-            onPressed: () {},
-          )
-        ],
+        actions: !_showSearch
+            ? [
+                IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  icon: Icon(
+                    BotigaIcons.search,
+                    color: AppTheme.color100,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _showSearch = true;
+                    });
+                  },
+                )
+              ]
+            : [
+                IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  icon: Icon(
+                    Icons.close,
+                    color: AppTheme.color100,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _showSearch = false;
+                      _query = '';
+                    });
+                  },
+                )
+              ],
       ),
       body: _isLoading
           ? Loader()
@@ -110,16 +135,33 @@ class _OrderListState extends State<OrderList> {
               : SafeArea(
                   child: Container(
                     color: AppTheme.backgroundColor,
-                    child: ListView(
-                      children: <Widget>[
+                    child: Column(
+                      children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
+                          padding: const EdgeInsets.only(
+                              top: 4, bottom: 8, left: 20, right: 20),
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                height: 10,
-                              ),
+                            children: [
+                              _showSearch
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
+                                      child: SearchBar(
+                                        placeholder: "Search...",
+                                        onClear: () {
+                                          setState(() {
+                                            _query = '';
+                                          });
+                                        },
+                                        onChange: (value) {
+                                          setState(() {
+                                            _query = value;
+                                          });
+                                        },
+                                        onSubmit: (_) {},
+                                      ),
+                                    )
+                                  : SizedBox.shrink(),
                               GestureDetector(
                                 onTap: () {
                                   showModalBottomSheet(
@@ -193,52 +235,65 @@ class _OrderListState extends State<OrderList> {
                                         size: 25, color: AppTheme.color100),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Consumer<OrdersProvider>(
-                            builder: (ctx, ordersprovider, _) {
-                          final orderByDateApartment =
-                              ordersprovider.orderByDateApartment;
-                          if (orderByDateApartment == null ||
-                              orderByDateApartment.length == 0) {
-                            return EmptyOrders();
-                          }
+                        Expanded(
+                          child: ListView(
+                            children: <Widget>[
+                              Consumer<OrdersProvider>(
+                                  builder: (ctx, ordersprovider, _) {
+                                final orderByDateApartment =
+                                    ordersprovider.orderByDateApartment;
+                                if (orderByDateApartment == null ||
+                                    orderByDateApartment.length == 0) {
+                                  return EmptyOrders();
+                                }
 
-                          return Column(
-                            children: [
-                              ...orderByDateApartment.map((orderRow) {
-                                return OrderRow(() {
-                                  Navigator.of(context).pushNamed(
-                                    OrderDetails.routeName,
-                                    arguments: {
-                                      'orderId': orderRow.id,
-                                      'apartmentName': aprtmentName,
-                                      'apartmentId': apartmentId,
-                                      'selectedDateForRequest':
-                                          selectedDateForRequest == null
-                                              ? DateTime.now()
-                                                  .getRequestFormatDate()
-                                              : selectedDateForRequest
-                                                  .getRequestFormatDate()
+                                var orders = orderByDateApartment;
+                                if (_query != '' && _query != null) {
+                                  orders = orders.where(
+                                    (_order) {
+                                      return _order.order.number
+                                              .startsWith(_query) ==
+                                          true;
                                     },
                                   );
-                                },
-                                    orderRow.order.number,
-                                    orderRow.order.products.length,
-                                    orderRow.order.orderDate,
-                                    orderRow.order.status,
-                                    orderRow.order.totalAmount);
-                              })
+                                }
+                                return Column(
+                                  children: [
+                                    ...orders.map((orderRow) {
+                                      return OrderRow(() {
+                                        Navigator.of(context).pushNamed(
+                                          OrderDetails.routeName,
+                                          arguments: {
+                                            'orderId': orderRow.id,
+                                            'apartmentName': aprtmentName,
+                                            'apartmentId': apartmentId,
+                                            'selectedDateForRequest':
+                                                selectedDateForRequest == null
+                                                    ? DateTime.now()
+                                                        .getRequestFormatDate()
+                                                    : selectedDateForRequest
+                                                        .getRequestFormatDate()
+                                          },
+                                        );
+                                      },
+                                          orderRow.order.number,
+                                          orderRow.order.products.length,
+                                          orderRow.order.orderDate,
+                                          orderRow.order.status,
+                                          orderRow.order.totalAmount);
+                                    })
+                                  ],
+                                );
+                              }),
+                              SizedBox(
+                                height: 61,
+                              ),
                             ],
-                          );
-                        }),
-                        SizedBox(
-                          height: 61,
+                          ),
                         ),
                       ],
                     ),
