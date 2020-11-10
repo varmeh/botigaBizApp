@@ -143,133 +143,125 @@ class _StoreScreenState extends State<StoreScreen> {
                                 if (slelectedTab == 1) {
                                   final _formKey = GlobalKey<FormState>();
                                   String _categoryName = '';
-                                  showModalBottomSheet(
+                                  BotigaBottomModal(
                                     isDismissible: false,
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (context) => Padding(
-                                      padding:
-                                          MediaQuery.of(context).viewInsets,
-                                      child: Form(
-                                        key: _formKey,
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.backgroundColor,
-                                            borderRadius: BorderRadius.only(
-                                              topLeft:
-                                                  const Radius.circular(16.0),
-                                              topRight:
-                                                  const Radius.circular(16.0),
+                                    child: Column(
+                                      children: [
+                                        Form(
+                                          key: _formKey,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.backgroundColor,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft:
+                                                    const Radius.circular(16.0),
+                                                topRight:
+                                                    const Radius.circular(16.0),
+                                              ),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: <Widget>[
+                                                Text(
+                                                  'Add category',
+                                                  style: AppTheme
+                                                      .textStyle.color100.w700
+                                                      .size(22),
+                                                ),
+                                                SizedBox(
+                                                  height: 24,
+                                                ),
+                                                BotigaTextFieldForm(
+                                                  focusNode:
+                                                      _categoryNameFocusNode,
+                                                  labelText: 'Category name',
+                                                  onSave: (value) =>
+                                                      _categoryName = value,
+                                                  validator: nameValidator,
+                                                ),
+                                                SizedBox(
+                                                  height: 40,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: <Widget>[
+                                                    FlatButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 14,
+                                                                bottom: 14),
+                                                        child: Text('Cancel',
+                                                            style: AppTheme
+                                                                .textStyle
+                                                                .color50
+                                                                .w600
+                                                                .size(15)),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    ),
+                                                    FlatButton(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      onPressed: () {
+                                                        if (_formKey
+                                                            .currentState
+                                                            .validate()) {
+                                                          _formKey.currentState
+                                                              .save();
+                                                          _handleCategorySave(
+                                                              _categoryName);
+                                                        }
+                                                      },
+                                                      color:
+                                                          AppTheme.primaryColor,
+                                                      highlightColor: AppTheme
+                                                          .primaryColorVariant,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                top: 14,
+                                                                bottom: 14),
+                                                        child: Text(
+                                                            'Save category',
+                                                            style: AppTheme
+                                                                .textStyle
+                                                                .colored(AppTheme
+                                                                    .backgroundColor)
+                                                                .w600
+                                                                .size(15)),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          padding: EdgeInsets.only(
-                                              left: 20,
-                                              right: 20,
-                                              bottom: 20,
-                                              top: 32),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: <Widget>[
-                                              Text(
-                                                'Add category',
-                                                style: AppTheme
-                                                    .textStyle.color100.w700
-                                                    .size(22),
-                                              ),
-                                              SizedBox(
-                                                height: 24,
-                                              ),
-                                              BotigaTextFieldForm(
-                                                focusNode:
-                                                    _categoryNameFocusNode,
-                                                labelText: 'Category name',
-                                                onSave: (value) =>
-                                                    _categoryName = value,
-                                                validator: nameValidator,
-                                              ),
-                                              SizedBox(
-                                                height: 40,
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: <Widget>[
-                                                  FlatButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 14,
-                                                              bottom: 14),
-                                                      child: Text('Cancel',
-                                                          style: AppTheme
-                                                              .textStyle
-                                                              .color50
-                                                              .w600
-                                                              .size(15)),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 15,
-                                                  ),
-                                                  FlatButton(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                    ),
-                                                    onPressed: () {
-                                                      if (_formKey.currentState
-                                                          .validate()) {
-                                                        _formKey.currentState
-                                                            .save();
-                                                        _handleCategorySave(
-                                                            _categoryName);
-                                                      }
-                                                    },
-                                                    color:
-                                                        AppTheme.primaryColor,
-                                                    highlightColor: AppTheme
-                                                        .primaryColorVariant,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 14,
-                                                              bottom: 14),
-                                                      child: Text(
-                                                          'Save category',
-                                                          style: AppTheme
-                                                              .textStyle
-                                                              .colored(AppTheme
-                                                                  .backgroundColor)
-                                                              .w600
-                                                              .size(15)),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 40,
-                                              ),
-                                            ],
-                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  );
+                                  ).show(context);
                                 } else {
                                   Navigator.of(context)
                                       .pushNamed(AddProduct.routeName);
