@@ -29,8 +29,8 @@ class ProductNetworkAvatar extends StatelessWidget {
       borderRadius: BorderRadius.circular(this.radius),
       child: CachedNetworkImage(
         fit: BoxFit.fill,
-        width: 48.0,
-        height: 48.0,
+        width: 120.0,
+        height: 90.0,
         placeholder: (_, __) => _placeholderImage(),
         imageUrl: this.imageUrl,
       ),
@@ -39,8 +39,8 @@ class ProductNetworkAvatar extends StatelessWidget {
 
   Widget _placeholderImage() {
     return Container(
-      width: 48.0,
-      height: 48.0,
+      width: 120.0,
+      height: 90.0,
       decoration: BoxDecoration(
         image: DecorationImage(
             fit: BoxFit.fill, image: AssetImage(this.imagePlaceholder)),

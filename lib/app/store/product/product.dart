@@ -244,95 +244,117 @@ class _ProductItemRowState extends State<ProductItemRow> {
   @override
   Widget build(BuildContext context) {
     Product product = widget.product;
-
+    String statusText = _switchValue ? "Available" : "Not Available";
     return GestureDetector(
       onTap: () {
         widget.onOpen();
       },
       child: Container(
-        height: 100,
+        height: 178,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                ProductNetworkAvatar(imageUrl: '${product.imageUrl}'),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(left: 12),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                '${product.name}',
-                                style:
-                                    AppTheme.textStyle.color100.size(15).w500,
-                              ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                '${product.size} .$rupeeSymbol${product.price}',
-                                style: AppTheme.textStyle.color50
-                                    .size(13)
-                                    .w500
-                                    .letterSpace(0.5),
-                              ),
-                            ],
+                ColorFiltered(
+                    colorFilter: _switchValue
+                        ? ColorFilter.mode(
+                            Colors.transparent,
+                            BlendMode.multiply,
+                          )
+                        : ColorFilter.mode(
+                            Colors.grey,
+                            BlendMode.saturation,
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              _switchValue
-                                  ? Text(
-                                      'Available',
-                                      style: AppTheme.textStyle.color100
+                    child:
+                        ProductNetworkAvatar(imageUrl: '${product.imageUrl}')),
+                Expanded(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: 90,
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.only(left: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            '${product.name}',
+                            style: AppTheme.textStyle.color100
+                                .size(15)
+                                .lineHeight(1.33)
+                                .w500,
+                          ),
+                          Text(
+                            '${product.size}',
+                            style: AppTheme.textStyle.color50
+                                .size(13)
+                                .lineHeight(1.33)
+                                .w500
+                                .letterSpace(0.5),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth: 70,
+                                ),
+                                child: Flexible(
+                                  child: Text(
+                                    '$rupeeSymbol${product.price}',
+                                    style: AppTheme.textStyle.color100
+                                        .size(13)
+                                        .lineHeight(1.33)
+                                        .w500
+                                        .letterSpace(0.5),
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxWidth: 60,
+                                    ),
+                                    child: Text(
+                                      statusText,
+                                      textAlign: TextAlign.center,
+                                      style: AppTheme.textStyle.color50
                                           .size(12)
-                                          .w500
-                                          .letterSpace(0.2),
-                                    )
-                                  : Text(
-                                      'Not Available',
-                                      style: AppTheme.textStyle.color100
-                                          .size(12)
+                                          .lineHeight(1.33)
                                           .w500
                                           .letterSpace(0.2),
                                     ),
-                              Transform.scale(
-                                alignment: Alignment.topRight,
-                                scale: 0.75,
-                                child: CupertinoSwitch(
-                                  value: _switchValue,
-                                  onChanged: (bool value) {
-                                    setState(
-                                      () {
-                                        _switchValue = value;
+                                  ),
+                                  Transform.scale(
+                                    alignment: Alignment.centerRight,
+                                    scale: 0.75,
+                                    child: CupertinoSwitch(
+                                      value: _switchValue,
+                                      onChanged: (bool value) {
+                                        setState(
+                                          () {
+                                            _switchValue = value;
+                                          },
+                                        );
+                                        widget.setProductAvilablity(
+                                            widget.product, value, () {
+                                          setState(() {
+                                            _switchValue = !value;
+                                          });
+                                        });
                                       },
-                                    );
-                                    widget.setProductAvilablity(
-                                        widget.product, value, () {
-                                      setState(() {
-                                        _switchValue = !value;
-                                      });
-                                    });
-                                  },
-                                ),
+                                    ),
+                                  )
+                                ],
                               )
                             ],
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 )
@@ -344,8 +366,9 @@ class _ProductItemRowState extends State<ProductItemRow> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         '${product.description}',
-                        style: AppTheme.textStyle.color100
+                        style: AppTheme.textStyle.color50
                             .size(12)
+                            .lineHeight(1.5)
                             .w500
                             .letterSpace(0.2),
                       ),

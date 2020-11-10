@@ -517,8 +517,19 @@ class _EditProductState extends State<EditProduct>
                                   child: Stack(
                                     alignment: AlignmentDirectional.center,
                                     children: <Widget>[
-                                      EditProductNetworkAvatar(
-                                          imageUrl: _imageUrl),
+                                      ColorFiltered(
+                                        colorFilter: _available
+                                            ? ColorFilter.mode(
+                                                Colors.transparent,
+                                                BlendMode.multiply,
+                                              )
+                                            : ColorFilter.mode(
+                                                Colors.grey,
+                                                BlendMode.saturation,
+                                              ),
+                                        child: EditProductNetworkAvatar(
+                                            imageUrl: _imageUrl),
+                                      ),
                                       Positioned(
                                         bottom: 12,
                                         right: 12,
