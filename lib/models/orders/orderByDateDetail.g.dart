@@ -12,9 +12,16 @@ OrderByDateDetail _$OrderByDateDetailFromJson(Map<String, dynamic> json) {
     order: json['order'] == null
         ? null
         : Order.fromJson(json['order'] as Map<String, dynamic>),
-  )..buyer = json['buyer'] == null
-      ? null
-      : Buyer.fromJson(json['buyer'] as Map<String, dynamic>);
+  )
+    ..buyer = json['buyer'] == null
+        ? null
+        : Buyer.fromJson(json['buyer'] as Map<String, dynamic>)
+    ..payment = json['payment'] == null
+        ? null
+        : PaymentModel.fromJson(json['payment'] as Map<String, dynamic>)
+    ..refund = json['refund'] == null
+        ? null
+        : RefundModel.fromJson(json['refund'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$OrderByDateDetailToJson(OrderByDateDetail instance) =>
@@ -22,6 +29,8 @@ Map<String, dynamic> _$OrderByDateDetailToJson(OrderByDateDetail instance) =>
       'id': instance.id,
       'order': instance.order,
       'buyer': instance.buyer,
+      'payment': instance.payment,
+      'refund': instance.refund,
     };
 
 Order _$OrderFromJson(Map<String, dynamic> json) {
@@ -85,4 +94,42 @@ Map<String, dynamic> _$BuyerToJson(Buyer instance) => <String, dynamic>{
       'name': instance.name,
       'phone': instance.phone,
       'whatsapp': instance.whatsapp,
+    };
+
+PaymentModel _$PaymentModelFromJson(Map<String, dynamic> json) {
+  return PaymentModel(
+    id: json['paymentId'] as String,
+    status: json['status'] as String,
+    txnId: json['txnId'] as String,
+    txnDate: json['txnDate'] == null
+        ? null
+        : DateTime.parse(json['txnDate'] as String),
+    paymentMode: json['paymentMode'] as String,
+  );
+}
+
+Map<String, dynamic> _$PaymentModelToJson(PaymentModel instance) =>
+    <String, dynamic>{
+      'paymentId': instance.id,
+      'status': instance.status,
+      'txnId': instance.txnId,
+      'txnDate': instance.txnDate?.toIso8601String(),
+      'paymentMode': instance.paymentMode,
+    };
+
+RefundModel _$RefundModelFromJson(Map<String, dynamic> json) {
+  return RefundModel(
+    id: json['id'] as String,
+    amount: json['amount'] as String,
+    status: json['status'] as String,
+    date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
+  );
+}
+
+Map<String, dynamic> _$RefundModelToJson(RefundModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'amount': instance.amount,
+      'status': instance.status,
+      'date': instance.date?.toIso8601String(),
     };

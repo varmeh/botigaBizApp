@@ -6,6 +6,8 @@ class OrderByDateDetail {
   String id;
   Order order;
   Buyer buyer;
+  PaymentModel payment;
+  RefundModel refund;
 
   OrderByDateDetail({
     this.id,
@@ -70,4 +72,57 @@ class Buyer {
   factory Buyer.fromJson(Map<String, dynamic> json) => _$BuyerFromJson(json);
 
   Map<String, dynamic> toJson() => _$BuyerToJson(this);
+}
+
+@JsonSerializable()
+class PaymentModel {
+  @JsonKey(name: 'paymentId')
+  final String id;
+  final String status;
+  final String txnId;
+  final DateTime txnDate;
+  final String paymentMode;
+
+  PaymentModel({
+    this.id,
+    this.status,
+    this.txnId,
+    this.txnDate,
+    this.paymentMode,
+  });
+
+  bool get isInitiated => status == 'initiated';
+  bool get isPending => status == 'pending';
+  bool get isSuccess => status == 'success';
+  bool get isFailure => status == 'failure';
+
+  factory PaymentModel.fromJson(Map<String, dynamic> json) =>
+      _$PaymentModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PaymentModelToJson(this);
+}
+
+@JsonSerializable()
+class RefundModel {
+  final String id;
+  final String amount;
+  final String status;
+  final DateTime date;
+
+  RefundModel({
+    this.id,
+    this.amount,
+    this.status,
+    this.date,
+  });
+
+  bool get isInitiated => status == 'initiated';
+  bool get isPending => status == 'pending';
+  bool get isSuccess => status == 'success';
+  bool get isFailure => status == 'failure';
+
+  factory RefundModel.fromJson(Map<String, dynamic> json) =>
+      _$RefundModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RefundModelToJson(this);
 }
