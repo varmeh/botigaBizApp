@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/gestures.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart'
     show
@@ -163,7 +165,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
             top: 10.0,
             left: 10.0,
             right: 10.0,
-            bottom: 32.0,
+            bottom: 10.0,
           ),
           child: FullWidthButton(
             title: 'Save and continue',
@@ -265,6 +267,37 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                             ),
                     ),
                   ),
+                  _sizedBox24,
+                  Text.rich(
+                    TextSpan(
+                      text: 'By signing up, you agree to all ',
+                      style: AppTheme.textStyle
+                          .size(13)
+                          .lineHeight(1.5)
+                          .w500
+                          .color50,
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: 'Terms & Conditions',
+                            style: AppTheme.textStyle
+                                .size(13)
+                                .lineHeight(1.5)
+                                .w500
+                                .colored(AppTheme.primaryColor),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                const url =
+                                    'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+                                if (await canLaunch(url)) {
+                                  await launch(url);
+                                } else {
+                                  throw 'Could not launch $url';
+                                }
+                              }),
+                      ],
+                    ),
+                  ),
+                  _sizedBox24,
                 ],
               ),
             ),

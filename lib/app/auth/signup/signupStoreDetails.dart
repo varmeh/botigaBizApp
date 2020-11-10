@@ -137,7 +137,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
             top: 10.0,
             left: 10.0,
             right: 10.0,
-            bottom: 32.0,
+            bottom: 10.0,
           ),
           child: FullWidthButton(
             title: 'Save and continue',
