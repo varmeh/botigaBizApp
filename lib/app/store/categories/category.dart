@@ -200,11 +200,23 @@ class _CategoryState extends State<Category> {
                   text: ' ',
                   style: AppTheme.textStyle.letterSpace(20),
                 ),
-                TextSpan(
-                  text: '${category.name.toUpperCase()}',
-                  style:
-                      AppTheme.textStyle.color100.w600.size(12).letterSpace(1),
-                ),
+                ...productCount != 0
+                    ? [
+                        TextSpan(
+                          text: '${category.name.toUpperCase()}',
+                          style: AppTheme.textStyle.color50.w600
+                              .size(12)
+                              .letterSpace(1),
+                        )
+                      ]
+                    : [
+                        TextSpan(
+                          text: '${category.name.toUpperCase()}',
+                          style: AppTheme.textStyle.color100.w600
+                              .size(12)
+                              .letterSpace(1),
+                        )
+                      ],
               ],
             ),
           ),
