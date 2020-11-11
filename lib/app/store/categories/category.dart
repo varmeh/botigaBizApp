@@ -57,6 +57,23 @@ class _CategoryState extends State<Category> {
     }
   }
 
+  _handleCategoryDelete(StoreCategory category) async {
+    try {
+      setStatus(true);
+      final categoryProvider =
+          Provider.of<CategoryProvider>(context, listen: false);
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await categoryProvider.deleteCategory(category.id);
+      await productProvider.fetchProducts();
+      await categoryProvider.fetchCategories();
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
+      setStatus(false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<StoreCategory> categories =
@@ -95,100 +112,94 @@ class _CategoryState extends State<Category> {
           onTap: () {
             final _formKey = GlobalKey<FormState>();
             String _categoryName = category.name;
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              backgroundColor: Colors.transparent,
-              builder: (context) => Padding(
-                padding: MediaQuery.of(context).viewInsets,
-                child: Form(
-                  key: _formKey,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppTheme.backgroundColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(16.0),
-                        topRight: const Radius.circular(16.0),
+            BotigaBottomModal(
+              isDismissible: true,
+              child: Column(
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppTheme.backgroundColor,
+                        borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(16.0),
+                          topRight: const Radius.circular(16.0),
+                        ),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(
+                            'Edit category',
+                            style: AppTheme.textStyle.color100.w700.size(22),
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          BotigaTextFieldForm(
+                            initialValue: _categoryName,
+                            focusNode: _categoryNameFocusNode,
+                            labelText: 'Category name',
+                            onSave: (value) => _categoryName = value,
+                            validator: nameValidator,
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                highlightColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 14, bottom: 14),
+                                  child: Text('Cancel',
+                                      style: AppTheme.textStyle.color50.w600
+                                          .size(15)),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              FlatButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                    handleCategoryEdit(
+                                        category.id, _categoryName);
+                                  }
+                                },
+                                color: AppTheme.primaryColor,
+                                highlightColor: AppTheme.primaryColorVariant,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 14, bottom: 14),
+                                  child: Text('Edit category',
+                                      style: AppTheme.textStyle
+                                          .colored(AppTheme.backgroundColor)
+                                          .w600
+                                          .size(15)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    padding: EdgeInsets.only(
-                        left: 20, right: 20, bottom: 20, top: 32),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          'Edit category',
-                          style: AppTheme.textStyle.color100.w700.size(22),
-                        ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        BotigaTextFieldForm(
-                          initialValue: _categoryName,
-                          focusNode: _categoryNameFocusNode,
-                          labelText: 'Category name',
-                          onSave: (value) => _categoryName = value,
-                          validator: nameValidator,
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              highlightColor: Colors.transparent,
-                              splashColor: Colors.transparent,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 14, bottom: 14),
-                                child: Text('Cancel',
-                                    style: AppTheme.textStyle.color50.w600
-                                        .size(15)),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  _formKey.currentState.save();
-                                  handleCategoryEdit(
-                                      category.id, _categoryName);
-                                }
-                              },
-                              color: AppTheme.primaryColor,
-                              highlightColor: AppTheme.primaryColorVariant,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 14, bottom: 14),
-                                child: Text('Edit category',
-                                    style: AppTheme.textStyle
-                                        .colored(AppTheme.backgroundColor)
-                                        .w600
-                                        .size(15)),
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                      ],
-                    ),
                   ),
-                ),
+                ],
               ),
-            );
+            ).show(context);
           },
           contentPadding: EdgeInsets.only(left: 0, right: 0),
           title: RichText(
@@ -230,21 +241,44 @@ class _CategoryState extends State<Category> {
                     Icons.delete_sharp,
                     color: AppTheme.color100,
                   ),
-                  onTap: () async {
-                    try {
-                      setStatus(true);
-                      final categoryProvider =
-                          Provider.of<CategoryProvider>(context, listen: false);
-                      final productProvider =
-                          Provider.of<ProductProvider>(context, listen: false);
-                      await categoryProvider.deleteCategory(category.id);
-                      await productProvider.fetchProducts();
-                      await categoryProvider.fetchCategories();
-                    } catch (err) {
-                      Toast(message: Http.message(err)).show(context);
-                    } finally {
-                      setStatus(false);
-                    }
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(
+                            'Delete category',
+                            style: AppTheme.textStyle.w500.color100,
+                          ),
+                          content: Text(
+                            'Are you sure you want to delete this category ?',
+                            style: AppTheme.textStyle.w400.color100,
+                          ),
+                          actions: [
+                            FlatButton(
+                              child: Text(
+                                'Don\'t Delete',
+                                style: AppTheme.textStyle.w600.color50,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            FlatButton(
+                              child: Text(
+                                'Confirm',
+                                style: AppTheme.textStyle.w600
+                                    .colored(AppTheme.errorColor),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                this._handleCategoryDelete(category);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
         ),

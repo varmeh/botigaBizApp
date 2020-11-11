@@ -120,41 +120,34 @@ class _OrderDetailsState extends State<OrderDetails> {
                             return AlertDialog(
                               title: Text(
                                 'Cancel Order',
-                                style: AppTheme.textStyle.color100.w600
-                                    .size(14)
-                                    .letterSpace(.02),
+                                style: AppTheme.textStyle.w500.color100,
                               ),
                               content: Text(
-                                'Are you sure you want to cancel this order ?',
-                                style: AppTheme.textStyle.color100.w500
-                                    .size(13)
-                                    .letterSpace(.02),
+                                'Are you sure you want to cancel this order?',
+                                style: AppTheme.textStyle.w400.color100,
                               ),
                               actions: [
                                 FlatButton(
                                   child: Text(
-                                    'Yes',
-                                    style: AppTheme.textStyle.color100.w500
-                                        .size(13)
-                                        .letterSpace(.02),
+                                    'Don\'t Cancel',
+                                    style: AppTheme.textStyle.w600.color50,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text(
+                                    'Confirm',
+                                    style: AppTheme.textStyle.w600
+                                        .colored(AppTheme.errorColor),
                                   ),
                                   onPressed: () async {
                                     Navigator.of(context).pop();
                                     handleCancelOrder(orderId, apartmentId,
                                         selectedDateForRequest);
                                   },
-                                ),
-                                FlatButton(
-                                  child: Text(
-                                    'No',
-                                    style: AppTheme.textStyle.color100.w500
-                                        .size(13)
-                                        .letterSpace(.02),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
+                                )
                               ],
                             );
                           });

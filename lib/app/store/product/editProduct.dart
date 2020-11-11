@@ -352,48 +352,42 @@ class _EditProductState extends State<EditProduct>
                 splashColor: Colors.transparent,
                 onPressed: () {
                   showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(
-                            'Delete product',
-                            style: AppTheme.textStyle.color100.w600
-                                .size(14)
-                                .letterSpace(.02),
-                          ),
-                          content: Text(
-                            'Are you sure you want to delete this product ?',
-                            style: AppTheme.textStyle.color100.w500
-                                .size(13)
-                                .letterSpace(.02),
-                          ),
-                          actions: [
-                            FlatButton(
-                              child: Text(
-                                'Yes',
-                                style: AppTheme.textStyle.color100.w500
-                                    .size(13)
-                                    .letterSpace(.02),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                _handleDelete();
-                              },
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          'Delete product',
+                          style: AppTheme.textStyle.w500.color100,
+                        ),
+                        content: Text(
+                          'Are you sure you want to delete this product ?',
+                          style: AppTheme.textStyle.w400.color100,
+                        ),
+                        actions: [
+                          FlatButton(
+                            child: Text(
+                              'Don\'t Delete',
+                              style: AppTheme.textStyle.w600.color50,
                             ),
-                            FlatButton(
-                              child: Text(
-                                'No',
-                                style: AppTheme.textStyle.color100.w500
-                                    .size(13)
-                                    .letterSpace(.02),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          FlatButton(
+                            child: Text(
+                              'Confirm',
+                              style: AppTheme.textStyle.w600
+                                  .colored(AppTheme.errorColor),
                             ),
-                          ],
-                        );
-                      });
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              _handleDelete();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
                 child: Text('Delete',
                     style: Theme.of(context)
