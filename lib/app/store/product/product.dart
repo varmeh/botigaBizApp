@@ -270,7 +270,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                             BlendMode.multiply,
                           )
                         : ColorFilter.mode(
-                            Colors.grey,
+                            AppTheme.backgroundColor,
                             BlendMode.saturation,
                           ),
                     child:

@@ -518,7 +518,7 @@ class _EditProductState extends State<EditProduct>
                                                 BlendMode.multiply,
                                               )
                                             : ColorFilter.mode(
-                                                Colors.grey,
+                                                AppTheme.backgroundColor,
                                                 BlendMode.saturation,
                                               ),
                                         child: EditProductNetworkAvatar(
