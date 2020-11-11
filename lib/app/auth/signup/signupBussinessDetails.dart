@@ -286,12 +286,16 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                                 .colored(AppTheme.primaryColor),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () async {
+                                // TODO: update Terms & Conditions Url
                                 const url =
                                     'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
                                 if (await canLaunch(url)) {
                                   await launch(url);
                                 } else {
-                                  throw 'Could not launch $url';
+                                  Toast(
+                                    message:
+                                        'Failed to open Terms & Conditions in browser',
+                                  ).show(context);
                                 }
                               }),
                       ],
