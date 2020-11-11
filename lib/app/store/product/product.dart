@@ -308,15 +308,13 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                 constraints: BoxConstraints(
                                   maxWidth: 70,
                                 ),
-                                child: Flexible(
-                                  child: Text(
-                                    '$rupeeSymbol${product.price}',
-                                    style: AppTheme.textStyle.color100
-                                        .size(13)
-                                        .lineHeight(1.33)
-                                        .w500
-                                        .letterSpace(0.5),
-                                  ),
+                                child: Text(
+                                  '$rupeeSymbol${product.price}',
+                                  style: AppTheme.textStyle.color100
+                                      .size(13)
+                                      .lineHeight(1.33)
+                                      .w500
+                                      .letterSpace(0.5),
                                 ),
                               ),
                               Row(
