@@ -109,7 +109,7 @@ class OrderSummary extends StatelessWidget {
               )
             : SizedBox(
                 height: 27,
-              )
+              ),
       ],
     );
   }
@@ -125,13 +125,9 @@ class OrderListSummary extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Divider(
-          color: AppTheme.dividerColor,
-          thickness: 1.2,
-        ),
         Padding(
           padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 4, bottom: 4),
+              const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
           child: Text(
             '${orderDetail.order.products.length} Items',
             style: AppTheme.textStyle.color100.w500.size(12).letterSpace(.02),

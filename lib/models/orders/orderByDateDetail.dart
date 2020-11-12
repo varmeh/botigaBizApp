@@ -24,6 +24,7 @@ class OrderByDateDetail {
 @JsonSerializable()
 class Order {
   DateTime expectedDeliveryDate;
+  DateTime completionDate;
   String number;
   DateTime orderDate;
   String status;

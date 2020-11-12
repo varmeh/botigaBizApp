@@ -48,11 +48,14 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
         ?.toList(),
     status: json['status'] as String,
     totalAmount: json['totalAmount'] as int,
-  );
+  )..completionDate = json['completionDate'] == null
+      ? null
+      : DateTime.parse(json['completionDate'] as String);
 }
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'expectedDeliveryDate': instance.expectedDeliveryDate?.toIso8601String(),
+      'completionDate': instance.completionDate?.toIso8601String(),
       'number': instance.number,
       'orderDate': instance.orderDate?.toIso8601String(),
       'status': instance.status,

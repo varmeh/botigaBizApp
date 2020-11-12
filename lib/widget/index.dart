@@ -15,3 +15,6 @@ export 'contactWidget.dart';
 export 'communitiesInfo.dart';
 export 'fullWidthButton.dart';
 export 'botigaAppBar.dart';
+export 'statusImageWidget.dart';
+export 'orderStatusWidget.dart';
+export 'buttons/index.dart';

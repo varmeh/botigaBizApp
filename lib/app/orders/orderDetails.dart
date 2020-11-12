@@ -179,6 +179,15 @@ class _OrderDetailsState extends State<OrderDetails> {
                     ],
                   ),
                 ),
+                Divider(
+                  color: AppTheme.dividerColor,
+                  thickness: 4,
+                ),
+                OrderStatusWidget(orderDetails: orderDetail),
+                Divider(
+                  color: AppTheme.dividerColor,
+                  thickness: 4,
+                ),
                 Container(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
