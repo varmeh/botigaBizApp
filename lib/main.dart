@@ -22,8 +22,7 @@ import 'app/auth/index.dart'
         LoginForgotPin,
         EnterPin;
 import 'app/home/index.dart' show HomeScreen;
-import 'app/orders/index.dart'
-    show OrderDetails, OrdersHome, OrderList, OrderDelivery;
+import 'app/orders/index.dart' show OrderDetails, OrdersHome, OrderList;
 import 'app/store/index.dart' show StoreScreen, AddProduct, EditProduct;
 import 'app/profile/index.dart' show SelectArea, BussinessDetails, StoreDeatils;
 import 'app/delivery/index.dart' show DeliveryScreen;
@@ -107,7 +106,6 @@ class BotigaBizApp extends StatelessWidget {
         OrdersHome.routeName: (ctx) => OrdersHome(),
         OrderList.routeName: (ctx) => OrderList(),
         OrderDetails.routeName: (ctx) => OrderDetails(),
-        OrderDelivery.routeName: (ctx) => OrderDelivery(),
         StoreScreen.routeName: (ctx) => StoreScreen(),
         AddProduct.routeName: (ctx) => AddProduct(),
         EditProduct.routeName: (ctx) => EditProduct(),

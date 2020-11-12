@@ -98,9 +98,10 @@ class OrderSummary extends StatelessWidget {
             ],
           ),
         ),
-        (orderDetail.order.isOpen ||
-                orderDetail.order.isDelayed ||
-                orderDetail.order.isOutForDelivery)
+        (orderDetail.order.isDelivered == false ||
+                orderDetail.payment.isSuccess == false ||
+                (orderDetail.refund != null &&
+                    orderDetail.refund.isSuccess == false))
             ? Padding(
                 padding: const EdgeInsets.only(top: 27, bottom: 24),
                 child: ContactWidget(

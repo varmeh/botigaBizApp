@@ -62,6 +62,34 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
   }
 
+  void handleMarkAsDeliverd(String orderId, String apartmentName,
+      String apartmentId, String selectedDateForRequest) async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final ordersProvider =
+          Provider.of<OrdersProvider>(context, listen: false);
+      await ordersProvider.setDeliveryStatus(orderId);
+      await ordersProvider.fetchOrderByDateApartment(
+          apartmentId, selectedDateForRequest);
+      Toast(
+        message: 'Order marked as deliverd',
+        icon: Icon(
+          BotigaIcons.truck,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   void handleCancelOrder(
       String orderId, String apartmentId, String selectedDateForRequest) async {
     setState(() {
@@ -90,6 +118,55 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
   }
 
+  Widget getBottomNavbar(OrderByDateDetail orderDetail, String orderId,
+      String apartmentName, String apartmentId, String selectedDateForRequest) {
+    Function fn;
+    String btnText;
+
+    if (orderDetail.order.isOutForDelivery == true) {
+      fn = handleMarkAsDeliverd;
+      btnText = 'Mark as delivered';
+    } else if (orderDetail.payment.isSuccess == true &&
+        orderDetail.refund != null &&
+        orderDetail.refund.isSuccess == false) {
+      fn = handleMarkAsDeliverd;
+      btnText = 'Mark as Refunded';
+    } else {
+      return SizedBox.shrink();
+    }
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: SizedBox(
+                height: 52,
+                child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  onPressed: () {
+                    fn(orderId, apartmentName, apartmentId,
+                        selectedDateForRequest);
+                  },
+                  color: AppTheme.primaryColor,
+                  child: Text(
+                    btnText,
+                    style: AppTheme.textStyle
+                        .colored(AppTheme.backgroundColor)
+                        .w500
+                        .size(15),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> routeArgs =
@@ -108,7 +185,8 @@ class _OrderDetailsState extends State<OrderDetails> {
       appBar: BotigaAppBar(
         '',
         actions: [
-          ...(orderDetail.order.isOpen || orderDetail.order.isDelayed)
+          ...(orderDetail.order.isOpen == true ||
+                  orderDetail.order.isDelayed == true)
               ? [
                   FlatButton(
                     highlightColor: Colors.transparent,
@@ -160,6 +238,8 @@ class _OrderDetailsState extends State<OrderDetails> {
               : []
         ],
       ),
+      bottomNavigationBar: getBottomNavbar(orderDetail, orderId, apartmentName,
+          apartmentId, selectedDateForRequest),
       body: SafeArea(
         child: LoaderOverlay(
           isLoading: _isLoading,
@@ -196,9 +276,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                       SizedBox(
                         height: 87,
                       ),
-                      (orderDetail.order.isOpen ||
-                              orderDetail.order.isDelayed ||
-                              orderDetail.order.isOutForDelivery)
+                      (orderDetail.order.isOpen == true ||
+                              orderDetail.order.isDelayed == true)
                           ? Padding(
                               padding:
                                   const EdgeInsets.only(left: 20, right: 20),
@@ -334,15 +413,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     ),
                                     child: InkWell(
                                       onTap: () {
-                                        Navigator.of(context).pushNamed(
-                                            OrderDelivery.routeName,
-                                            arguments: {
-                                              'orderId': orderDetail.id,
-                                              'apartmentName': apartmentName,
-                                              'apartmentId': apartmentId,
-                                              'selectedDateForRequest':
-                                                  selectedDateForRequest
-                                            });
+                                        //todomake out api call
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
