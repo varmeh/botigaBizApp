@@ -88,10 +88,10 @@ class _OrderListState extends State<OrderList> {
     final apartmentId = routesArgs['apartmentId'];
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      appBar: BotigaAppBar(
-        aprtmentName,
-        actions: !_showSearch
-            ? [
+      appBar: !_showSearch
+          ? BotigaAppBar(
+              aprtmentName,
+              actions: [
                 IconButton(
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
@@ -105,24 +105,9 @@ class _OrderListState extends State<OrderList> {
                     });
                   },
                 )
-              ]
-            : [
-                IconButton(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  icon: Icon(
-                    Icons.close,
-                    color: AppTheme.color100,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _showSearch = false;
-                      _query = '';
-                    });
-                  },
-                )
               ],
-      ),
+            )
+          : null,
       body: _isLoading
           ? Loader()
           : _isError
@@ -137,106 +122,130 @@ class _OrderListState extends State<OrderList> {
                     color: AppTheme.backgroundColor,
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 4, bottom: 8, left: 20, right: 20),
-                          child: Column(
-                            children: [
-                              _showSearch
-                                  ? Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
-                                      child: SearchBar(
-                                        placeholder: "Search...",
-                                        onClear: () {
+                        _showSearch
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 8, bottom: 8),
+                                child: Container(
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        icon: Icon(
+                                          Icons.arrow_back,
+                                          color: AppTheme.color100,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      Expanded(
+                                        child: SearchBar(
+                                          placeholder: "Search...",
+                                          onClear: () {
+                                            setState(() {
+                                              _query = '';
+                                            });
+                                          },
+                                          onChange: (value) {
+                                            setState(() {
+                                              _query = value;
+                                            });
+                                          },
+                                          onSubmit: (_) {},
+                                        ),
+                                      ),
+                                      IconButton(
+                                        splashColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        icon: Icon(
+                                          Icons.close,
+                                          color: AppTheme.color100,
+                                        ),
+                                        onPressed: () {
                                           setState(() {
+                                            _showSearch = false;
                                             _query = '';
                                           });
                                         },
-                                        onChange: (value) {
-                                          setState(() {
-                                            _query = value;
-                                          });
-                                        },
-                                        onSubmit: (_) {},
-                                      ),
-                                    )
-                                  : SizedBox.shrink(),
-                              GestureDetector(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (context) => Container(
-                                      padding: EdgeInsets.only(bottom: 24),
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: const Radius.circular(16.0),
-                                          topRight: const Radius.circular(16.0),
-                                        ),
-                                      ),
-                                      child: SafeArea(
-                                        child: TableCalendar(
-                                          initialSelectedDay: selectedDate,
-                                          startDay: DateTime.now()
-                                              .subtract(Duration(days: 15)),
-                                          availableCalendarFormats: const {
-                                            CalendarFormat.month: 'Month',
-                                          },
-                                          calendarStyle: CalendarStyle(
-                                              todayColor: AppTheme
-                                                  .primaryColorVariant
-                                                  .withOpacity(0.5),
-                                              selectedColor:
-                                                  AppTheme.primaryColor,
-                                              outsideDaysVisible: true,
-                                              weekendStyle:
-                                                  AppTheme.textStyle.color100,
-                                              outsideWeekendStyle:
-                                                  AppTheme.textStyle.color50),
-                                          daysOfWeekStyle: DaysOfWeekStyle(
-                                            weekendStyle: AppTheme.textStyle
-                                                .colored(AppTheme.color100),
-                                          ),
-                                          headerStyle: HeaderStyle(
-                                            centerHeaderTitle: false,
-                                            formatButtonVisible: false,
-                                          ),
-                                          onDaySelected: (date, events, _) {
-                                            Navigator.of(context).pop();
-                                            setState(() {
-                                              selectedDate = date;
-                                              selectedDateForRequest = date;
-                                            });
-                                            fetchData(
-                                                date.getRequestFormatDate());
-                                          },
-                                          calendarController:
-                                              _calendarController,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Row(
-                                  children: <Widget>[
-                                    Text(
-                                        '${selectedDate.getTodayOrSelectedDate()}',
-                                        style: AppTheme.textStyle.color100.w500
-                                            .size(15)),
-                                    SizedBox(
-                                      width: 9,
-                                    ),
-                                    Icon(Icons.expand_more_sharp,
-                                        size: 25, color: AppTheme.color100),
-                                  ],
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              )
+                            : SizedBox.shrink(),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              top: 8, bottom: 8, left: 20, right: 20),
+                          child: GestureDetector(
+                            onTap: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (context) => Container(
+                                  padding: EdgeInsets.only(bottom: 24),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: const Radius.circular(16.0),
+                                      topRight: const Radius.circular(16.0),
+                                    ),
+                                  ),
+                                  child: SafeArea(
+                                    child: TableCalendar(
+                                      initialSelectedDay: selectedDate,
+                                      startDay: DateTime.now()
+                                          .subtract(Duration(days: 15)),
+                                      availableCalendarFormats: const {
+                                        CalendarFormat.month: 'Month',
+                                      },
+                                      calendarStyle: CalendarStyle(
+                                          todayColor: AppTheme
+                                              .primaryColorVariant
+                                              .withOpacity(0.5),
+                                          selectedColor: AppTheme.primaryColor,
+                                          outsideDaysVisible: true,
+                                          weekendStyle:
+                                              AppTheme.textStyle.color100,
+                                          outsideWeekendStyle:
+                                              AppTheme.textStyle.color50),
+                                      daysOfWeekStyle: DaysOfWeekStyle(
+                                        weekendStyle: AppTheme.textStyle
+                                            .colored(AppTheme.color100),
+                                      ),
+                                      headerStyle: HeaderStyle(
+                                        centerHeaderTitle: false,
+                                        formatButtonVisible: false,
+                                      ),
+                                      onDaySelected: (date, events, _) {
+                                        Navigator.of(context).pop();
+                                        setState(() {
+                                          selectedDate = date;
+                                          selectedDateForRequest = date;
+                                        });
+                                        fetchData(date.getRequestFormatDate());
+                                      },
+                                      calendarController: _calendarController,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                Text('${selectedDate.getTodayOrSelectedDate()}',
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(15)),
+                                SizedBox(
+                                  width: 9,
+                                ),
+                                Icon(Icons.expand_more_sharp,
+                                    size: 25, color: AppTheme.color100),
+                              ],
+                            ),
                           ),
                         ),
                         Expanded(
