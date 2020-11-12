@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart' show kReleaseMode;
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'util/index.dart' show Flavor, Http;
+import 'util/index.dart' show Flavor, Http, KeyStore;
 
 import 'app/auth/index.dart'
     show
@@ -51,14 +51,14 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await Flavor.shared.init();
   await Http.fetchToken();
+  await KeyStore.initialize();
 
-  // Pass all uncaught errors to Crashlytics.
-  if (kReleaseMode) {
-    // Enable crashlytics only in release mode
+  if (kDebugMode) {
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  } else {
     Function originalOnError = FlutterError.onError;
     FlutterError.onError = (FlutterErrorDetails errorDetails) async {
       await FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
-      // Forward to original handler.
       originalOnError(errorDetails);
     };
   }

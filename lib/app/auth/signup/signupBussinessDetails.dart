@@ -607,6 +607,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       });
       await profileProvider.signup(_businessName, _seletedCategory, _firstName,
           _lastName, _brandName, phone, _tagline, downloadUrl);
+      await KeyStore.setFirstRun();
       Navigator.of(context).pushNamed(SignUpStoreDetails.routeName);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);

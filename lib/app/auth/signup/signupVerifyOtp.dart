@@ -6,7 +6,7 @@ import './index.dart' show SignupBuissnessDetails;
 import '../../Home/homeScreen.dart';
 import '../../../widget/index.dart';
 import '../../../theme/index.dart';
-import '../../../util/index.dart' show Http;
+import '../../../util/index.dart' show Http, KeyStore;
 import '../../../providers/index.dart' show ProfileProvider;
 
 class SignUpOtp extends StatefulWidget {
@@ -76,7 +76,8 @@ class _SignUpOtpState extends State<SignUpOtp> {
             context, SignupBuissnessDetails.routeName,
             arguments: {'phone': phone});
       } else {
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        KeyStore.setFirstRun().whenComplete(
+            () => Navigator.pushNamed(context, HomeScreen.routeName));
       }
     } catch (err) {
       Toast(message: Http.message(err)).show(context);

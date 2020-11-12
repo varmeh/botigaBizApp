@@ -1,7 +1,7 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import '../../util/index.dart' show Http;
+import '../../util/index.dart' show KeyStore;
 import '../../theme/index.dart';
 import '../auth/index.dart' show Login;
 import '../../providers/index.dart' show ProfileProvider;
@@ -43,10 +43,10 @@ class _SplashScreenState extends State<SplashScreen>
         if (snapshot.connectionState == ConnectionState.done &&
             _animationCompleted) {
           String next;
-          if (snapshot.hasError) {
-            next = Http.tokenExists ? Login.routeName : IntroScreen.routeName;
+          if (KeyStore.firstRun()) {
+            next = IntroScreen.routeName;
           } else {
-            next = HomeScreen.routeName;
+            next = snapshot.hasError ? Login.routeName : HomeScreen.routeName;
           }
           Future.delayed(Duration.zero,
               () => Navigator.of(context).pushReplacementNamed(next));
