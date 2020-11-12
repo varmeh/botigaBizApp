@@ -90,6 +90,34 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
   }
 
+  void handleOutForDelivery(String orderId, String apartmentName,
+      String apartmentId, String selectedDateForRequest) async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final ordersProvider =
+          Provider.of<OrdersProvider>(context, listen: false);
+      await ordersProvider.setStatusOutForDelivery(orderId);
+      await ordersProvider.fetchOrderByDateApartment(
+          apartmentId, selectedDateForRequest);
+      Toast(
+        message: 'Out for delivery',
+        icon: Icon(
+          BotigaIcons.truck,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   void handleCancelOrder(
       String orderId, String apartmentId, String selectedDateForRequest) async {
     setState(() {
@@ -193,46 +221,51 @@ class _OrderDetailsState extends State<OrderDetails> {
                     splashColor: Colors.transparent,
                     onPressed: () {
                       showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(
-                                'Cancel Order',
-                                style: AppTheme.textStyle.w500.color100,
-                              ),
-                              content: Text(
-                                'Are you sure you want to cancel this order?',
-                                style: AppTheme.textStyle.w400.color100,
-                              ),
-                              actions: [
-                                FlatButton(
-                                  child: Text(
-                                    'Don\'t Cancel',
-                                    style: AppTheme.textStyle.w600.color50,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                              'Cancel Order',
+                              style: AppTheme.textStyle.w500.color100,
+                            ),
+                            content: Text(
+                              'Are you sure you want to cancel this order?',
+                              style: AppTheme.textStyle.w400.color100,
+                            ),
+                            actions: [
+                              FlatButton(
+                                child: Text(
+                                  'Don\'t Cancel',
+                                  style: AppTheme.textStyle.w600.color50,
                                 ),
-                                FlatButton(
-                                  child: Text(
-                                    'Confirm',
-                                    style: AppTheme.textStyle.w600
-                                        .colored(AppTheme.errorColor),
-                                  ),
-                                  onPressed: () async {
-                                    Navigator.of(context).pop();
-                                    handleCancelOrder(orderId, apartmentId,
-                                        selectedDateForRequest);
-                                  },
-                                )
-                              ],
-                            );
-                          });
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              FlatButton(
+                                child: Text(
+                                  'Confirm',
+                                  style: AppTheme.textStyle.w600
+                                      .colored(AppTheme.errorColor),
+                                ),
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                  handleCancelOrder(orderId, apartmentId,
+                                      selectedDateForRequest);
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      );
                     },
-                    child: Text('Cancel Order',
-                        style: Theme.of(context).textTheme.subtitle1.copyWith(
-                            color: Theme.of(context).colorScheme.error)),
+                    child: Text(
+                      'Cancel Order',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(color: Theme.of(context).colorScheme.error),
+                    ),
                   )
                 ]
               : []
@@ -400,7 +433,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                       borderRadius: BorderRadius.circular(12),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Color(0xff121714)
+                                          color: AppTheme.color100
                                               .withOpacity(0.12),
                                           blurRadius: 40.0, // soften the shadow
                                           spreadRadius: 0.0, //extend the shadow
@@ -413,7 +446,11 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     ),
                                     child: InkWell(
                                       onTap: () {
-                                        //todomake out api call
+                                        handleOutForDelivery(
+                                            orderId,
+                                            apartmentName,
+                                            apartmentId,
+                                            selectedDateForRequest);
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),

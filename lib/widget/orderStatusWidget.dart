@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/index.dart';
 import '../models/orders/index.dart' show OrderByDateDetail;
 import './index.dart'
@@ -7,7 +8,8 @@ import './index.dart'
         ImageStatus,
         PassiveButton,
         BotigaBottomModal,
-        WhatsappButton;
+        WhatsappButton,
+        Toast;
 
 class OrderStatusWidget extends StatelessWidget {
   final OrderByDateDetail orderDetails;
@@ -58,20 +60,23 @@ class OrderStatusWidget extends StatelessWidget {
               title: paymentTitle,
               subTitle: paymentSubtitle,
               button: button,
-              refundAmount: refundAmount),
+              refundAmount: refundAmount,
+              phone: orderDetails.buyer.phone,
+              context: context),
         ],
       ),
     );
   }
 
-  Widget _tile({
-    String baseImage,
-    ImageStatus status,
-    String title,
-    String subTitle,
-    String refundAmount,
-    Widget button,
-  }) {
+  Widget _tile(
+      {String baseImage,
+      ImageStatus status,
+      String title,
+      String subTitle,
+      String refundAmount,
+      Widget button,
+      String phone,
+      BuildContext context}) {
     return Container(
       child: Column(
         children: [
@@ -79,20 +84,60 @@ class OrderStatusWidget extends StatelessWidget {
             padding:
                 const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                StatusImageWidget(
-                  baseImage: baseImage,
-                  status: status,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StatusImageWidget(
+                      baseImage: baseImage,
+                      status: status,
+                    ),
+                    SizedBox(width: 24),
+                    Text(
+                      title,
+                      style: AppTheme.textStyle.color100.w500
+                          .size(13)
+                          .lineHeight(1.38),
+                    ),
+                  ],
                 ),
-                SizedBox(width: 24),
-                Text(
-                  title,
-                  style: AppTheme.textStyle.color100.w500
-                      .size(13)
-                      .lineHeight(1.38),
-                )
+                status == ImageStatus.failure
+                    ? GestureDetector(
+                        onTap: () async {
+                          String url =
+                              'whatsapp://send?phone=91$phone&text=${Uri.encodeComponent("some dummy")}';
+                          if (await canLaunch(url)) {
+                            Future.delayed(Duration(milliseconds: 300),
+                                () async {
+                              await launch(url);
+                            });
+                          } else {
+                            Toast(
+                              message:
+                                  'Please download whatsapp to use this feature',
+                              icon: Image.asset(
+                                'assets/images/watsapp.png',
+                                width: 28.0,
+                                height: 28.0,
+                                color: AppTheme.backgroundColor,
+                              ),
+                            ).show(context);
+                          }
+                        },
+                        child: Text(
+                          'Remind Customer',
+                          textAlign: TextAlign.right,
+                          style: AppTheme.textStyle
+                              .size(13)
+                              .lineHeight(1.3)
+                              .w600
+                              .colored(AppTheme.primaryColor),
+                        ),
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           ),
