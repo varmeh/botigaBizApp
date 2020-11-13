@@ -256,7 +256,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                                 labelText: 'Pincode',
                                 onSave: (value) => _pincode = value,
                                 nextFocusNode: _areaFocusNode,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.datetime,
                                 onChange: (value) {
                                   if (value.length == 6) {
                                     FocusScope.of(context)

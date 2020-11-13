@@ -559,7 +559,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                               iconSize: 14.0,
                               focusNode: _priceFocusNode,
                               labelText: 'Price',
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.datetime,
                               onSave: (value) => _price = double.parse(value),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -576,7 +576,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                           BotigaTextFieldForm(
                             focusNode: _quantityFocusNode,
                             labelText: 'Quantity',
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.datetime,
                             onSave: (value) => _quantity = int.parse(value),
                             validator: (value) {
                               if (value.isEmpty) {

@@ -227,7 +227,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                                     focusNode: _phoneNumberFocusNode,
                                     readOnly: true,
                                     labelText: 'Phone number',
-                                    keyboardType: TextInputType.number,
+                                    keyboardType: TextInputType.datetime,
                                     onSave: (_) => null,
                                   )
                                 : SizedBox.shrink(),
@@ -238,7 +238,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                                     focusNode: _phoneNumberFocusNode,
                                     nextFocusNode: _whatsappFocusNode,
                                     labelText: 'Phone number',
-                                    keyboardType: TextInputType.number,
+                                    keyboardType: TextInputType.datetime,
                                     onSave: (_) => _phoneNumber =
                                         _phoneMaskFormatter.getUnmaskedText(),
                                     maskFormatter: _phoneMaskFormatter,
@@ -267,7 +267,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                                     focusNode: _phoneNumberFocusNode,
                                     readOnly: true,
                                     labelText: 'Whatsapp number',
-                                    keyboardType: TextInputType.number,
+                                    keyboardType: TextInputType.datetime,
                                     onSave: (_) => null,
                                   )
                                 : SizedBox.shrink(),
@@ -277,7 +277,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                                         _whatsappMaskFormatter.getMaskedText(),
                                     focusNode: _whatsappFocusNode,
                                     labelText: 'Whatsapp number',
-                                    keyboardType: TextInputType.number,
+                                    keyboardType: TextInputType.datetime,
                                     onSave: (_) => _watsappNumber =
                                         _whatsappMaskFormatter
                                             .getUnmaskedText(),

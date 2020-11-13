@@ -590,7 +590,7 @@ class _EditProductState extends State<EditProduct>
                               iconSize: 14.0,
                               focusNode: _priceFocusNode,
                               labelText: 'Price',
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.datetime,
                               onSave: (value) => _price = double.parse(value),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -608,7 +608,7 @@ class _EditProductState extends State<EditProduct>
                             initialValue: _quantity.toString(),
                             focusNode: _quantityFocusNode,
                             labelText: 'Quantity',
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.datetime,
                             onSave: (value) => _quantity = int.parse(value),
                             validator: (value) {
                               if (value.isEmpty) {

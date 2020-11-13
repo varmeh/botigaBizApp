@@ -39,94 +39,143 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget build(BuildContext context) {
+    final contact = Provider.of<ProfileProvider>(context, listen: false)
+        .profileInfo
+        .contact;
     return LoaderOverlay(
       isLoading: isProcessing,
       child: SafeArea(
-        child: Container(
-          padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 10),
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pushNamed(BussinessDetails.routeName);
-                },
-                leading: Icon(
-                  BotigaIcons.suitcase,
-                  color: AppTheme.color100,
-                ),
-                contentPadding: EdgeInsets.only(left: 0, right: 0),
-                title: Align(
-                  alignment: Alignment(-1.2, 0),
-                  child: Text('Business details',
-                      style: AppTheme.textStyle.color100.size(15).w500),
-                ),
-                trailing: Icon(
-                  Icons.chevron_right,
-                  color: AppTheme.color100,
-                  size: 20,
-                ),
-              ),
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pushNamed(StoreDeatils.routeName);
-                },
-                leading: Image.asset('assets/images/store_details.png'),
-                contentPadding: EdgeInsets.only(left: 0, right: 0),
-                title: Align(
-                  alignment: Alignment(-1.2, 0),
-                  child: Text('Store details',
-                      style: AppTheme.textStyle.color100.size(15).w500),
-                ),
-                trailing: Icon(
-                  Icons.chevron_right,
-                  color: AppTheme.color100,
-                  size: 20,
-                ),
-              ),
-              ListTile(
-                leading: Icon(
-                  BotigaIcons.money,
-                  color: AppTheme.color100,
-                ),
-                contentPadding: EdgeInsets.only(left: 0, right: 0),
-                title: Align(
-                  alignment: Alignment(-1.3, 0),
-                  child: Text(
-                    'Payment Information',
-                    style: AppTheme.textStyle.color100.size(15).w500,
+        child: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(
+                      left: 20, right: 20, top: 15, bottom: 10),
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(BussinessDetails.routeName);
+                        },
+                        leading: Icon(
+                          BotigaIcons.suitcase,
+                          color: AppTheme.color100,
+                        ),
+                        contentPadding: EdgeInsets.only(left: 0, right: 0),
+                        title: Align(
+                          alignment: Alignment(-1.2, 0),
+                          child: Text('Business details',
+                              style: AppTheme.textStyle.color100.size(15).w500),
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right,
+                          color: AppTheme.color100,
+                          size: 20,
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(StoreDeatils.routeName);
+                        },
+                        leading: Image.asset('assets/images/store_details.png'),
+                        contentPadding: EdgeInsets.only(left: 0, right: 0),
+                        title: Align(
+                          alignment: Alignment(-1.2, 0),
+                          child: Text('Store details',
+                              style: AppTheme.textStyle.color100.size(15).w500),
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right,
+                          color: AppTheme.color100,
+                          size: 20,
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          BotigaIcons.money,
+                          color: AppTheme.color100,
+                        ),
+                        contentPadding: EdgeInsets.only(left: 0, right: 0),
+                        title: Align(
+                          alignment: Alignment(-1.3, 0),
+                          child: Text(
+                            'Payment Information',
+                            style: AppTheme.textStyle.color100.size(15).w500,
+                          ),
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right,
+                          color: AppTheme.color100,
+                          size: 20,
+                        ),
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed(BankDetails.routeName);
+                        },
+                      ),
+                      ListTile(
+                        onTap: () {
+                          this._handleLogout();
+                        },
+                        leading: Icon(
+                          BotigaIcons.exit,
+                          color: AppTheme.color100,
+                        ),
+                        contentPadding: EdgeInsets.only(left: 0, right: 0),
+                        title: Align(
+                          alignment: Alignment(-1.2, 0),
+                          child: Text('Logout',
+                              style: AppTheme.textStyle.color100.size(15).w500),
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right,
+                          color: AppTheme.color100,
+                          size: 20,
+                        ),
+                      )
+                    ],
                   ),
                 ),
-                trailing: Icon(
-                  Icons.chevron_right,
-                  color: AppTheme.color100,
-                  size: 20,
+                SizedBox(
+                  height: 20,
                 ),
-                onTap: () {
-                  Navigator.of(context).pushNamed(BankDetails.routeName);
-                },
-              ),
-              ListTile(
-                onTap: () {
-                  this._handleLogout();
-                },
-                leading: Icon(
-                  BotigaIcons.exit,
-                  color: AppTheme.color100,
+                Divider(
+                  color: AppTheme.dividerColor,
+                  thickness: 4,
                 ),
-                contentPadding: EdgeInsets.only(left: 0, right: 0),
-                title: Align(
-                  alignment: Alignment(-1.2, 0),
-                  child: Text('Logout',
-                      style: AppTheme.textStyle.color100.size(15).w500),
-                ),
-                trailing: Icon(
-                  Icons.chevron_right,
-                  color: AppTheme.color100,
-                  size: 20,
-                ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Need help?",
+                        style: AppTheme.textStyle.w700.color100
+                            .size(17)
+                            .lineHeight(1.5),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        "Any queries or concerns. We are always available to help you out.",
+                        style: AppTheme.textStyle.w500.color50
+                            .size(13)
+                            .lineHeight(1.3),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      ContactWidget(
+                          phone: contact.phone, whatsapp: contact.whatsapp)
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

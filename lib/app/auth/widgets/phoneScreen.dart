@@ -64,7 +64,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
           onSave: (val) => null,
           focusNode: _phoneFocusNode,
           labelText: 'Phone Number',
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.datetime,
           onChange: (val) {
             if (_phoneMaskFormatter.getUnmaskedText().length == 10) {
               // hide keyboard as there is no done button on number keyboard

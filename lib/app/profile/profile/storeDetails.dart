@@ -238,7 +238,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                                     focusNode: _whatsappFocusNode,
                                     nextFocusNode: _buildingNumberFocusNode,
                                     labelText: 'Whatsapp number',
-                                    keyboardType: TextInputType.number,
+                                    keyboardType: TextInputType.datetime,
                                     onSave: (_) => _watsappNumber =
                                         _whatsappMaskFormatter
                                             .getUnmaskedText(),
@@ -347,7 +347,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                                 labelText: 'Pincode',
                                 onSave: (value) => _pincode = value,
                                 nextFocusNode: _areaFocusNode,
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.datetime,
                                 onChange: (value) {
                                   _handlePinCodeChange(value);
                                 },
