@@ -102,6 +102,9 @@ class _ProfileState extends State<Profile> {
                   color: AppTheme.color100,
                   size: 20,
                 ),
+                onTap: () {
+                  Navigator.of(context).pushNamed(BankDetails.routeName);
+                },
               ),
               ListTile(
                 onTap: () {
