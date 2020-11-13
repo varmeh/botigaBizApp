@@ -38,7 +38,7 @@ class OrderStatusWidget extends StatelessWidget {
       paymentStatus = ImageStatus.failure;
       paymentTitle = 'Payment Failed';
     }
-    if (orderDetails.refund.status != null) {
+    if (orderDetails.refund.isRefund) {
       if (orderDetails.refund.isSuccess) {
         isRefundSuccess = true;
         refundAmount = orderDetails.refund.amount;
@@ -67,6 +67,7 @@ class OrderStatusWidget extends StatelessWidget {
               refundAmount: refundAmount,
               phone: orderDetails.buyer.phone,
               isRefundSuccess: isRefundSuccess,
+              isOrderCancelled: orderDetails.order.isCancelled,
               context: context),
         ],
       ),
@@ -82,6 +83,7 @@ class OrderStatusWidget extends StatelessWidget {
       Widget button,
       String phone,
       bool isRefundSuccess,
+      bool isOrderCancelled,
       BuildContext context}) {
     return Container(
       child: Column(
@@ -111,38 +113,40 @@ class OrderStatusWidget extends StatelessWidget {
                   ],
                 ),
                 status == ImageStatus.failure
-                    ? GestureDetector(
-                        onTap: () async {
-                          String url =
-                              'whatsapp://send?phone=91$phone&text=${Uri.encodeComponent("some dummy")}';
-                          if (await canLaunch(url)) {
-                            Future.delayed(Duration(milliseconds: 300),
-                                () async {
-                              await launch(url);
-                            });
-                          } else {
-                            Toast(
-                              message:
-                                  'Please download whatsapp to use this feature',
-                              icon: Image.asset(
-                                'assets/images/watsapp.png',
-                                width: 28.0,
-                                height: 28.0,
-                                color: AppTheme.backgroundColor,
-                              ),
-                            ).show(context);
-                          }
-                        },
-                        child: Text(
-                          'Remind Customer',
-                          textAlign: TextAlign.right,
-                          style: AppTheme.textStyle
-                              .size(13)
-                              .lineHeight(1.3)
-                              .w600
-                              .colored(AppTheme.primaryColor),
-                        ),
-                      )
+                    ? !isOrderCancelled
+                        ? GestureDetector(
+                            onTap: () async {
+                              String url =
+                                  'whatsapp://send?phone=91$phone&text=${Uri.encodeComponent("some dummy")}';
+                              if (await canLaunch(url)) {
+                                Future.delayed(Duration(milliseconds: 300),
+                                    () async {
+                                  await launch(url);
+                                });
+                              } else {
+                                Toast(
+                                  message:
+                                      'Please download whatsapp to use this feature',
+                                  icon: Image.asset(
+                                    'assets/images/watsapp.png',
+                                    width: 28.0,
+                                    height: 28.0,
+                                    color: AppTheme.backgroundColor,
+                                  ),
+                                ).show(context);
+                              }
+                            },
+                            child: Text(
+                              'Remind Customer',
+                              textAlign: TextAlign.right,
+                              style: AppTheme.textStyle
+                                  .size(13)
+                                  .lineHeight(1.3)
+                                  .w600
+                                  .colored(AppTheme.primaryColor),
+                            ),
+                          )
+                        : SizedBox.shrink()
                     : SizedBox.shrink(),
               ],
             ),

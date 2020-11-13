@@ -155,6 +155,10 @@ class RefundModel {
   bool get isSuccess => status == 'success';
   bool get isFailure => status == 'failure';
 
+  bool get isRefund => status != null;
+
+  bool get isRefundDue => status != null && !isSuccess;
+
   factory RefundModel.fromJson(Map<String, dynamic> json) =>
       _$RefundModelFromJson(json);
 

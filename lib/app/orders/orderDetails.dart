@@ -182,9 +182,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     if (orderDetail.order.isOutForDelivery == true) {
       fn = handleMarkAsDeliverd;
       btnText = 'Mark as delivered';
-    } else if (orderDetail.order.isCancelled == true &&
-        orderDetail.refund != null &&
-        orderDetail.refund.isSuccess == false) {
+    } else if (orderDetail.refund.isRefundDue) {
       fn = handleRefundComplete;
       btnText = 'Mark as Refunded';
     } else {
