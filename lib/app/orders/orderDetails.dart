@@ -146,6 +146,34 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
   }
 
+  void handleRefundComplete(String orderId, String apartmentName,
+      String apartmentId, String selectedDateForRequest) async {
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      final ordersProvider =
+          Provider.of<OrdersProvider>(context, listen: false);
+      await ordersProvider.setRefundCompleted(orderId);
+      await ordersProvider.fetchOrderByDateApartment(
+          apartmentId, selectedDateForRequest);
+      Toast(
+        message: 'Refund success',
+        icon: Icon(
+          BotigaIcons.truck,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   Widget getBottomNavbar(OrderByDateDetail orderDetail, String orderId,
       String apartmentName, String apartmentId, String selectedDateForRequest) {
     Function fn;
@@ -157,7 +185,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     } else if (orderDetail.payment.isSuccess == true &&
         orderDetail.refund != null &&
         orderDetail.refund.isSuccess == false) {
-      fn = handleMarkAsDeliverd;
+      fn = handleRefundComplete;
       btnText = 'Mark as Refunded';
     } else {
       return SizedBox.shrink();

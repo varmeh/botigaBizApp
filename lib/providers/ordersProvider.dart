@@ -58,6 +58,11 @@ class OrdersProvider with ChangeNotifier {
     return Http.post('/api/seller/orders/cancel', body: {'orderId': orderId});
   }
 
+  Future setRefundCompleted(String orderId) async {
+    return Http.patch('/api/seller/orders/refund/completed',
+        body: {'orderId': orderId});
+  }
+
   Future resetOrder() async {
     this._aggregatedOrders = null;
     this._orderByDateApartment = [];
