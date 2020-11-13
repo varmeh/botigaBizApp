@@ -152,9 +152,12 @@ class OrderStatusWidget extends StatelessWidget {
             ),
           ),
           refundAmount != null
-              ? Divider(
-                  color: AppTheme.dividerColor,
-                  thickness: 4,
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Divider(
+                    color: AppTheme.dividerColor,
+                    thickness: 1.2,
+                  ),
                 )
               : SizedBox.shrink(),
           refundAmount != null
@@ -172,7 +175,7 @@ class OrderStatusWidget extends StatelessWidget {
                           ),
                           SizedBox(width: 24),
                           Text(
-                            "Refund success",
+                            "Refund Completed.",
                             style: AppTheme.textStyle.color100.w500
                                 .size(13)
                                 .lineHeight(1.38),
