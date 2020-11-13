@@ -17,6 +17,7 @@ import 'app/auth/index.dart'
         SignUpStoreDetails,
         SetPin,
         SignUpOtp,
+        SignUpBankeDetails,
         //Login
         Login,
         LoginForgotPin,
@@ -117,6 +118,7 @@ class BotigaBizApp extends StatelessWidget {
         SignUpOtp.routeName: (ctx) => SignUpOtp(),
         SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
         SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
+        SignUpBankeDetails.routeName: (ctx) => SignUpBankeDetails(),
         SetPin.routeName: (ctx) => SetPin(),
         EnterPin.routeName: (ctx) => EnterPin(),
         LoginForgotPin.routeName: (ctx) => LoginForgotPin()

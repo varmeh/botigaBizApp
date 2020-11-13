@@ -115,8 +115,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
           Provider.of<ProfileProvider>(context, listen: false);
       await profileProvider.updateStoreDetails(null, _watsappNumber, _email,
           _buildingNumber, _streetName, _area, _city, _state, _pincode);
-      Navigator.of(context)
-          .pushNamed(SetPin.routeName, arguments: {'phone': _watsappNumber});
+      Navigator.of(context).pushNamed(SignUpBankeDetails.routeName,
+          arguments: {'phone': _watsappNumber});
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
