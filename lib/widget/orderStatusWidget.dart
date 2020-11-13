@@ -202,7 +202,7 @@ class OrderStatusWidget extends StatelessWidget {
           Padding(
             padding: _padding,
             child: Text(
-              '1. Message customer for thier preferred UPI / refund method.',
+              '1. Message customer for their preferred UPI / refund method',
               style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
             ),
           ),
@@ -210,7 +210,7 @@ class OrderStatusWidget extends StatelessWidget {
           Padding(
             padding: _padding,
             child: Text(
-              '2. Transfer the money to customer as per your convenience',
+              '2. Transfer the money to customer at the earliest possible',
               style: AppTheme.textStyle.w500.color50.size(13.0).lineHeight(1.5),
             ),
           ),
