@@ -188,6 +188,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                   style: AppTheme.textStyle.color100.w500.size(17),
                 ),
                 Radio(
+                  activeColor: AppTheme.primaryColor,
                   value: category.name,
                   groupValue: _seletedCategory,
                   onChanged: (_) {
@@ -260,7 +261,8 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
               ),
               ListTile(
                 onTap: () {
-                  _onImageButtonPressed(ImageSource.camera, context: context);
+                  Navigator.of(context).pop();
+                  _onImageButtonPressed(ImageSource.camera);
                 },
                 contentPadding: EdgeInsets.only(left: 0.0),
                 leading: Icon(Icons.camera_alt, color: AppTheme.color100),
@@ -271,7 +273,8 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
               ),
               ListTile(
                 onTap: () {
-                  _onImageButtonPressed(ImageSource.gallery, context: context);
+                  Navigator.of(context).pop();
+                  _onImageButtonPressed(ImageSource.gallery);
                 },
                 contentPadding: EdgeInsets.only(left: 0.0),
                 leading: Icon(
@@ -293,7 +296,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     );
   }
 
-  void _onImageButtonPressed(ImageSource source, {BuildContext context}) async {
+  void _onImageButtonPressed(ImageSource source) async {
     try {
       final pickedFile = await _picker.getImage(
         source: source,
@@ -306,9 +309,43 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
       });
       this._handleImageUpload(pickedFile);
     } catch (e) {
-      Toast(message: Http.message(e)).show(context);
+      if (e.code != null &&
+          (e.code == 'photo_access_denied' ||
+              e.code == 'camera_access_denied')) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              'Access denied',
+              style: AppTheme.textStyle.w500.color100,
+            ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    '${e.message} Please enable it in app setting.',
+                    style: AppTheme.textStyle.w400.color100,
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text(
+                  'Ok',
+                  style: AppTheme.textStyle.w600.color50,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      } else {
+        Toast(message: "Unexpected error").show(context);
+      }
     }
-    Navigator.of(context).pop();
   }
 
   void _handleProductSave() async {
