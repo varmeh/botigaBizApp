@@ -25,6 +25,7 @@ class OrderStatusWidget extends StatelessWidget {
     ImageStatus paymentStatus;
     String paymentSubtitle;
     String refundAmount;
+    bool isRefundSuccess;
 
     // Order Payment Message
     if (orderDetails.payment.isSuccess) {
@@ -37,10 +38,13 @@ class OrderStatusWidget extends StatelessWidget {
       paymentStatus = ImageStatus.failure;
       paymentTitle = 'Payment Failed';
     }
-
     if (orderDetails.refund.status != null) {
-      if (!orderDetails.refund.isSuccess) {
+      if (orderDetails.refund.isSuccess) {
+        isRefundSuccess = true;
         refundAmount = orderDetails.refund.amount;
+      } else {
+        refundAmount = orderDetails.refund.amount;
+        isRefundSuccess = false;
         paymentSubtitle = 'You need to Refund';
         button = PassiveButton(
           width: 157,
@@ -62,6 +66,7 @@ class OrderStatusWidget extends StatelessWidget {
               button: button,
               refundAmount: refundAmount,
               phone: orderDetails.buyer.phone,
+              isRefundSuccess: isRefundSuccess,
               context: context),
         ],
       ),
@@ -76,6 +81,7 @@ class OrderStatusWidget extends StatelessWidget {
       String refundAmount,
       Widget button,
       String phone,
+      bool isRefundSuccess,
       BuildContext context}) {
     return Container(
       child: Column(
@@ -148,33 +154,55 @@ class OrderStatusWidget extends StatelessWidget {
                 )
               : SizedBox.shrink(),
           refundAmount != null
-              ? Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, bottom: 10, left: 20, right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
+              ? isRefundSuccess
+                  ? Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10, bottom: 10, left: 20, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            subTitle,
-                            style: AppTheme.textStyle.color50.w500
-                                .size(13)
-                                .lineHeight(1.38),
+                          StatusImageWidget(
+                            baseImage: baseImage,
+                            status: ImageStatus.success,
                           ),
+                          SizedBox(width: 24),
                           Text(
-                            "\u20B9 $refundAmount",
+                            "Refund success",
                             style: AppTheme.textStyle.color100.w500
                                 .size(13)
                                 .lineHeight(1.38),
-                          )
+                          ),
                         ],
                       ),
-                      button != null ? button : SizedBox.shrink()
-                    ],
-                  ),
-                )
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10, bottom: 10, left: 20, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                subTitle,
+                                style: AppTheme.textStyle.color50.w500
+                                    .size(13)
+                                    .lineHeight(1.38),
+                              ),
+                              Text(
+                                "\u20B9 $refundAmount",
+                                style: AppTheme.textStyle.color100.w500
+                                    .size(13)
+                                    .lineHeight(1.38),
+                              )
+                            ],
+                          ),
+                          button != null ? button : SizedBox.shrink()
+                        ],
+                      ),
+                    )
               : SizedBox.shrink()
         ],
       ),
