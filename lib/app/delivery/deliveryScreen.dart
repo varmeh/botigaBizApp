@@ -119,7 +119,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       await orderProvider.fetchOrderByDateApartment(
           apartment.id, date.getRequestFormatDate());
       Toast(
-        message: 'Order deliverd',
+        message: 'Order out for delivery',
         icon: Icon(
           BotigaIcons.truck,
           size: 24,
