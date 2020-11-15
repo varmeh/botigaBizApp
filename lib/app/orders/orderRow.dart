@@ -14,7 +14,6 @@ class OrderRow extends StatelessWidget {
   Widget build(BuildContext context) {
     String number = order.number;
     DateTime orderDate = order.orderDate;
-    String status = order.status;
     int totalAmount = order.totalAmount;
     int productsLength = order.products.length;
 
@@ -45,24 +44,12 @@ class OrderRow extends StatelessWidget {
                         style: AppTheme.textStyle.color100.w600
                             .size(15)
                             .letterSpace(1)),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: order.statusColor,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(2),
-                        ),
-                      ),
-                      padding:
-                          EdgeInsets.only(left: 6, right: 6, top: 4, bottom: 4),
-                      child: Text(
-                        '${status.toUpperCase()}',
-                        style: AppTheme.textStyle
-                            .colored(AppTheme.backgroundColor)
-                            .w600
-                            .size(12)
-                            .letterSpace(1),
-                      ),
-                    )
+                    Text(
+                      '$rupeeSymbol $totalAmount',
+                      style: AppTheme.textStyle.color100.w600
+                          .size(15)
+                          .letterSpace(1),
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -75,12 +62,26 @@ class OrderRow extends StatelessWidget {
                         style: AppTheme.textStyle.color50.w500
                             .size(12)
                             .letterSpace(1)),
-                    Text(
-                      '$rupeeSymbol $totalAmount',
-                      style: AppTheme.textStyle.color100.w600
-                          .size(15)
-                          .letterSpace(1),
-                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          order.statusMessage,
+                          style: AppTheme.textStyle.w500.color50
+                              .size(12)
+                              .lineHeight(1.3),
+                        ),
+                        Container(
+                          width: 12.0,
+                          height: 12.0,
+                          margin: const EdgeInsets.only(left: 4.0),
+                          decoration: BoxDecoration(
+                            color: order.statusColor,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ],
