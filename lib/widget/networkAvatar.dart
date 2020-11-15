@@ -8,31 +8,45 @@ import '../theme/index.dart';
  * it shows placeholder image
 */
 
-class ProductNetworkAvatar extends StatelessWidget {
+class ProductNetworkAvatar extends StatefulWidget {
   final String imageUrl;
   final String imagePlaceholder;
   final double radius;
+  final Function func;
 
-  ProductNetworkAvatar({
-    @required this.imageUrl,
-    this.imagePlaceholder = 'assets/images/avatar.png',
-    this.radius = 4.0,
-  });
+  ProductNetworkAvatar(
+      {@required this.imageUrl,
+      this.imagePlaceholder = 'assets/images/avatar.png',
+      this.radius = 4.0,
+      @required this.func});
 
   @override
+  _ProductNetworkAvatarState createState() => _ProductNetworkAvatarState();
+}
+
+class _ProductNetworkAvatarState extends State<ProductNetworkAvatar> {
+  @override
   Widget build(BuildContext context) {
-    return imageUrl == null ? _placeholderImage() : _networkImage();
+    return widget.imageUrl == null ? _placeholderImage() : _networkImage();
   }
 
   Widget _networkImage() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(this.radius),
+      borderRadius: BorderRadius.circular(this.widget.radius),
       child: CachedNetworkImage(
         fit: BoxFit.fill,
         width: 120.0,
         height: 90.0,
         placeholder: (_, __) => _placeholderImage(),
-        imageUrl: this.imageUrl,
+        imageUrl: this.widget.imageUrl,
+        errorWidget: (context, url, error) {
+          Future.delayed(Duration.zero, () async {
+            if (this.widget.func != null) {
+              this.widget.func();
+            }
+          });
+          return _placeholderImage();
+        },
       ),
     );
   }
@@ -43,7 +57,7 @@ class ProductNetworkAvatar extends StatelessWidget {
       height: 90.0,
       decoration: BoxDecoration(
         image: DecorationImage(
-            fit: BoxFit.fill, image: AssetImage(this.imagePlaceholder)),
+            fit: BoxFit.fill, image: AssetImage(this.widget.imagePlaceholder)),
         borderRadius: BorderRadius.all(
           Radius.circular(4.0),
         ),
@@ -77,6 +91,9 @@ class ProfileNetworkAvatar extends StatelessWidget {
         height: 96,
         placeholder: (_, __) => _placeholderImage(),
         imageUrl: this.imageUrl,
+        errorWidget: (context, url, error) {
+          return _placeholderImage();
+        },
       ),
     );
   }
@@ -115,6 +132,9 @@ class EditProductNetworkAvatar extends StatelessWidget {
         height: 176.0,
         placeholder: (_, __) => _placeholderImage(),
         imageUrl: this.imageUrl,
+        errorWidget: (context, url, error) {
+          return _placeholderImage();
+        },
       ),
     );
   }

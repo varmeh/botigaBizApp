@@ -239,12 +239,269 @@ class ProductItemRow extends StatefulWidget {
 
 class _ProductItemRowState extends State<ProductItemRow> {
   bool _switchValue = false;
+  bool _showWithImage = true;
+
   @override
   void initState() {
     super.initState();
     setState(() {
       _switchValue = widget.product.available;
     });
+  }
+
+  Widget getRowWithProductImage(Product product, String statusText) {
+    if (_showWithImage == false) {
+      return SizedBox.shrink();
+    }
+    return Container(
+      height: 178,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              ColorFiltered(
+                  colorFilter: _switchValue
+                      ? ColorFilter.mode(
+                          Colors.transparent,
+                          BlendMode.multiply,
+                        )
+                      : ColorFilter.mode(
+                          AppTheme.backgroundColor,
+                          BlendMode.saturation,
+                        ),
+                  child: ProductNetworkAvatar(
+                    imageUrl: '${product.imageUrl}',
+                    func: () {
+                      setState(() {
+                        _showWithImage = false;
+                      });
+                    },
+                  )),
+              Expanded(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: 90,
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          '${product.name}',
+                          style: AppTheme.textStyle.color100
+                              .size(15)
+                              .lineHeight(1.33)
+                              .w500,
+                        ),
+                        Text(
+                          '${product.size}',
+                          style: AppTheme.textStyle.color50
+                              .size(13)
+                              .lineHeight(1.33)
+                              .w500
+                              .letterSpace(0.5),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth: 70,
+                              ),
+                              child: Text(
+                                '$rupeeSymbol${product.price}',
+                                style: AppTheme.textStyle.color100
+                                    .size(13)
+                                    .lineHeight(1.33)
+                                    .w500
+                                    .letterSpace(0.5),
+                              ),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxWidth: 60,
+                                  ),
+                                  child: Text(
+                                    statusText,
+                                    textAlign: TextAlign.center,
+                                    style: AppTheme.textStyle.color50
+                                        .size(12)
+                                        .lineHeight(1.33)
+                                        .w500
+                                        .letterSpace(0.2),
+                                  ),
+                                ),
+                                Transform.scale(
+                                  alignment: Alignment.centerRight,
+                                  scale: 0.75,
+                                  child: CupertinoSwitch(
+                                    value: _switchValue,
+                                    onChanged: (bool value) {
+                                      setState(
+                                        () {
+                                          _switchValue = value;
+                                        },
+                                      );
+                                      widget.setProductAvilablity(
+                                          widget.product, value, () {
+                                        setState(() {
+                                          _switchValue = !value;
+                                        });
+                                      });
+                                    },
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          (product.description != null && product.description != '')
+              ? Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      '${product.description}',
+                      style: AppTheme.textStyle.color50
+                          .size(12)
+                          .lineHeight(1.5)
+                          .w500
+                          .letterSpace(0.2),
+                    ),
+                  ),
+                )
+              : SizedBox.shrink()
+        ],
+      ),
+    );
+  }
+
+  Widget getRowWithoutProductImage(Product product, String statusText) {
+    if (_showWithImage == true) {
+      return SizedBox.shrink();
+    }
+    return Container(
+      height: 92,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 90,
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.only(left: 12),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          child: ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth: 180,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${product.name}',
+                                  style: AppTheme.textStyle.color100
+                                      .size(15)
+                                      .lineHeight(1.33)
+                                      .w500,
+                                ),
+                                Text(
+                                  '${product.size} . $rupeeSymbol${product.price}',
+                                  style: AppTheme.textStyle.color50
+                                      .size(13)
+                                      .lineHeight(1.33)
+                                      .w500
+                                      .letterSpace(0.5),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth: 60,
+                              ),
+                              child: Text(
+                                statusText,
+                                textAlign: TextAlign.center,
+                                style: AppTheme.textStyle.color50
+                                    .size(12)
+                                    .lineHeight(1.33)
+                                    .w500
+                                    .letterSpace(0.2),
+                              ),
+                            ),
+                            Transform.scale(
+                              alignment: Alignment.centerRight,
+                              scale: 0.75,
+                              child: CupertinoSwitch(
+                                value: _switchValue,
+                                onChanged: (bool value) {
+                                  setState(
+                                    () {
+                                      _switchValue = value;
+                                    },
+                                  );
+                                  widget.setProductAvilablity(
+                                      widget.product, value, () {
+                                    setState(() {
+                                      _switchValue = !value;
+                                    });
+                                  });
+                                },
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          (product.description != null && product.description != '')
+              ? Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      '${product.description}',
+                      style: AppTheme.textStyle.color50
+                          .size(12)
+                          .lineHeight(1.5)
+                          .w500
+                          .letterSpace(0.2),
+                    ),
+                  ),
+                )
+              : SizedBox.shrink()
+        ],
+      ),
+    );
   }
 
   @override
@@ -255,132 +512,11 @@ class _ProductItemRowState extends State<ProductItemRow> {
       onTap: () {
         widget.onOpen();
       },
-      child: Container(
-        height: 178,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                ColorFiltered(
-                    colorFilter: _switchValue
-                        ? ColorFilter.mode(
-                            Colors.transparent,
-                            BlendMode.multiply,
-                          )
-                        : ColorFilter.mode(
-                            AppTheme.backgroundColor,
-                            BlendMode.saturation,
-                          ),
-                    child:
-                        ProductNetworkAvatar(imageUrl: '${product.imageUrl}')),
-                Expanded(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: 90,
-                    ),
-                    child: Container(
-                      padding: EdgeInsets.only(left: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(
-                            '${product.name}',
-                            style: AppTheme.textStyle.color100
-                                .size(15)
-                                .lineHeight(1.33)
-                                .w500,
-                          ),
-                          Text(
-                            '${product.size}',
-                            style: AppTheme.textStyle.color50
-                                .size(13)
-                                .lineHeight(1.33)
-                                .w500
-                                .letterSpace(0.5),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  maxWidth: 70,
-                                ),
-                                child: Text(
-                                  '$rupeeSymbol${product.price}',
-                                  style: AppTheme.textStyle.color100
-                                      .size(13)
-                                      .lineHeight(1.33)
-                                      .w500
-                                      .letterSpace(0.5),
-                                ),
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      maxWidth: 60,
-                                    ),
-                                    child: Text(
-                                      statusText,
-                                      textAlign: TextAlign.center,
-                                      style: AppTheme.textStyle.color50
-                                          .size(12)
-                                          .lineHeight(1.33)
-                                          .w500
-                                          .letterSpace(0.2),
-                                    ),
-                                  ),
-                                  Transform.scale(
-                                    alignment: Alignment.centerRight,
-                                    scale: 0.75,
-                                    child: CupertinoSwitch(
-                                      value: _switchValue,
-                                      onChanged: (bool value) {
-                                        setState(
-                                          () {
-                                            _switchValue = value;
-                                          },
-                                        );
-                                        widget.setProductAvilablity(
-                                            widget.product, value, () {
-                                          setState(() {
-                                            _switchValue = !value;
-                                          });
-                                        });
-                                      },
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            (product.description != null && product.description != '')
-                ? Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        '${product.description}',
-                        style: AppTheme.textStyle.color50
-                            .size(12)
-                            .lineHeight(1.5)
-                            .w500
-                            .letterSpace(0.2),
-                      ),
-                    ),
-                  )
-                : SizedBox.shrink()
-          ],
-        ),
+      child: Column(
+        children: [
+          getRowWithProductImage(product, statusText),
+          getRowWithoutProductImage(product, statusText)
+        ],
       ),
     );
   }
