@@ -28,7 +28,7 @@ class IntroScreen extends StatelessWidget {
     Slide(
       title: '0% Commissions',
       description:
-          'Receive money directly to your bank account in 1 day. Absolutely 0% fee.',
+          'Receive money directly to your bank account in 1 day. Absolutely free.',
       pathImage: 'assets/images/intro_4.png',
     ),
   ];
