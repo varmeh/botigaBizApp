@@ -15,10 +15,10 @@ class OrdersProvider with ChangeNotifier {
   }
 
   OrderByDateDetail getOrderDetails(String id) {
-    return orderByDateApartment
-        .where((orderEl) => orderEl.id == id)
-        .toList()
-        .first;
+    return orderByDateApartment.firstWhere(
+      (orderEl) => orderEl.id == id,
+      orElse: () => null,
+    );
   }
 
   Future<void> fetchAggregatedOrders(String date) async {

@@ -11,9 +11,7 @@ class DeliveryProvider with ChangeNotifier {
 
   OrderByDateDetail getDeliveryDetails(String id) {
     return deliveryListByApartment
-        .where((deliveryEl) => deliveryEl.id == id)
-        .toList()
-        .first;
+        .firstWhere((deliveryEl) => deliveryEl.id == id, orElse: () => null);
   }
 
   Future<void> fetchDeliveryListByApartment(

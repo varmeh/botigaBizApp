@@ -499,6 +499,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   final deliveryListByApartment =
                                       deliveryProvider.deliveryListByApartment;
 
+                                  if (deliveryListByApartment == null ||
+                                      deliveryListByApartment.length == 0) {
+                                    return EmptyDelivery();
+                                  }
+
                                   final filterdStatusDetails =
                                       selectedStatus == 'All'
                                           ? deliveryListByApartment

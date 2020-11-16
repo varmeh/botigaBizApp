@@ -31,6 +31,23 @@ class _OrderDetailsState extends State<OrderDetails> {
     super.dispose();
   }
 
+  Future refetchScreenData(
+      String apartmentId, String selectedDateForRequest) async {
+    final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
+    final deliveryProvider =
+        Provider.of<DeliveryProvider>(context, listen: false);
+    final Map<String, dynamic> routeArgs =
+        ModalRoute.of(context).settings.arguments;
+    if (routeArgs['flowType'] == 'order') {
+      await ordersProvider.fetchOrderByDateApartment(
+          apartmentId, selectedDateForRequest);
+    } else {
+      await deliveryProvider.fetchDeliveryListByApartment(
+          apartmentId, selectedDateForRequest);
+      Navigator.of(context).pop();
+    }
+  }
+
   void handleMarkAsDelayOrders(String id, DateTime date, String apartmentId,
       String selectedDateForRequest) async {
     Navigator.of(context).pop();
@@ -38,14 +55,11 @@ class _OrderDetailsState extends State<OrderDetails> {
       _isLoading = true;
     });
     try {
-      final ordersProvider =
-          Provider.of<OrdersProvider>(context, listen: false);
       final deliveryProvider =
           Provider.of<DeliveryProvider>(context, listen: false);
       final deliveryDelayedDate = date.getRequestFormatDate();
       await deliveryProvider.setDeliveryDelayed(id, deliveryDelayedDate);
-      await ordersProvider.fetchOrderByDateApartment(
-          apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest);
       final newDateforDelivery = date.getDate();
       Toast(
         message: 'Delivery date changed to $newDateforDelivery',
@@ -70,13 +84,10 @@ class _OrderDetailsState extends State<OrderDetails> {
       _isLoading = true;
     });
     try {
-      final ordersProvider =
-          Provider.of<OrdersProvider>(context, listen: false);
       final deliveryProvider =
           Provider.of<DeliveryProvider>(context, listen: false);
       await deliveryProvider.setDeliveryStatus(id);
-      await ordersProvider.fetchOrderByDateApartment(
-          apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest);
       Toast(
         message: 'Order marked as deliverd',
         icon: Icon(
@@ -100,13 +111,10 @@ class _OrderDetailsState extends State<OrderDetails> {
       _isLoading = true;
     });
     try {
-      final ordersProvider =
-          Provider.of<OrdersProvider>(context, listen: false);
       final deliveryProvider =
           Provider.of<DeliveryProvider>(context, listen: false);
       await deliveryProvider.setStatusOutForDelivery(id);
-      await ordersProvider.fetchOrderByDateApartment(
-          apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest);
       Toast(
         message: 'Out for delivery',
         icon: Icon(
@@ -133,8 +141,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
       await ordersProvider.cancelOrder(id);
-      await ordersProvider.fetchOrderByDateApartment(
-          apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest);
       Toast(
         message: 'Order canceled',
         icon: Icon(
@@ -161,8 +168,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
       await ordersProvider.setRefundCompleted(id);
-      await ordersProvider.fetchOrderByDateApartment(
-          apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest);
       Toast(
         message: 'Refund success',
         icon: Icon(
@@ -231,13 +237,21 @@ class _OrderDetailsState extends State<OrderDetails> {
     final Map<String, dynamic> routeArgs =
         ModalRoute.of(context).settings.arguments;
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: true);
+    final deliveryProvider =
+        Provider.of<DeliveryProvider>(context, listen: true);
     final id = routeArgs['id'];
     final apartmentName = routeArgs['apartmentName'];
     final apartmentId = routeArgs['apartmentId'];
     final selectedDateForRequest = routeArgs['selectedDateForRequest'];
 
-    final OrderByDateDetail orderDetail = ordersProvider.getOrderDetails(id);
-
+    OrderByDateDetail orderDetail = (routeArgs['flowType'] == 'order')
+        ? ordersProvider.getOrderDetails(id)
+        : deliveryProvider.getDeliveryDetails(id);
+    if (orderDetail == null) {
+      return Scaffold(
+        body: SizedBox.shrink(),
+      );
+    }
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
       appBar: BotigaAppBar(
