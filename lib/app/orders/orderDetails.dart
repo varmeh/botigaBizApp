@@ -31,8 +31,8 @@ class _OrderDetailsState extends State<OrderDetails> {
     super.dispose();
   }
 
-  void handleMarkAsDelayOrders(String orderId, DateTime date,
-      String apartmentId, String selectedDateForRequest) async {
+  void handleMarkAsDelayOrders(String id, DateTime date, String apartmentId,
+      String selectedDateForRequest) async {
     Navigator.of(context).pop();
     setState(() {
       _isLoading = true;
@@ -43,7 +43,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       final deliveryProvider =
           Provider.of<DeliveryProvider>(context, listen: false);
       final deliveryDelayedDate = date.getRequestFormatDate();
-      await deliveryProvider.setDeliveryDelayed(orderId, deliveryDelayedDate);
+      await deliveryProvider.setDeliveryDelayed(id, deliveryDelayedDate);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
       final newDateforDelivery = date.getDate();
@@ -64,8 +64,8 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
   }
 
-  void handleMarkAsDeliverd(String orderId, String apartmentName,
-      String apartmentId, String selectedDateForRequest) async {
+  void handleMarkAsDeliverd(String id, String apartmentName, String apartmentId,
+      String selectedDateForRequest) async {
     setState(() {
       _isLoading = true;
     });
@@ -74,7 +74,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           Provider.of<OrdersProvider>(context, listen: false);
       final deliveryProvider =
           Provider.of<DeliveryProvider>(context, listen: false);
-      await deliveryProvider.setDeliveryStatus(orderId);
+      await deliveryProvider.setDeliveryStatus(id);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
       Toast(
@@ -94,8 +94,8 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
   }
 
-  void handleOutForDelivery(String orderId, String apartmentName,
-      String apartmentId, String selectedDateForRequest) async {
+  void handleOutForDelivery(String id, String apartmentName, String apartmentId,
+      String selectedDateForRequest) async {
     setState(() {
       _isLoading = true;
     });
@@ -104,7 +104,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           Provider.of<OrdersProvider>(context, listen: false);
       final deliveryProvider =
           Provider.of<DeliveryProvider>(context, listen: false);
-      await deliveryProvider.setStatusOutForDelivery(orderId);
+      await deliveryProvider.setStatusOutForDelivery(id);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
       Toast(
@@ -125,14 +125,14 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 
   void handleCancelOrder(
-      String orderId, String apartmentId, String selectedDateForRequest) async {
+      String id, String apartmentId, String selectedDateForRequest) async {
     setState(() {
       _isLoading = true;
     });
     try {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
-      await ordersProvider.cancelOrder(orderId);
+      await ordersProvider.cancelOrder(id);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
       Toast(
@@ -152,15 +152,15 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
   }
 
-  void handleRefundComplete(String orderId, String apartmentName,
-      String apartmentId, String selectedDateForRequest) async {
+  void handleRefundComplete(String id, String apartmentName, String apartmentId,
+      String selectedDateForRequest) async {
     setState(() {
       _isLoading = true;
     });
     try {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
-      await ordersProvider.setRefundCompleted(orderId);
+      await ordersProvider.setRefundCompleted(id);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
       Toast(
@@ -180,7 +180,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     }
   }
 
-  Widget getBottomNavbar(OrderByDateDetail orderDetail, String orderId,
+  Widget getBottomNavbar(OrderByDateDetail orderDetail, String id,
       String apartmentName, String apartmentId, String selectedDateForRequest) {
     Function fn;
     String btnText;
@@ -207,8 +207,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                     borderRadius: BorderRadius.circular(6.0),
                   ),
                   onPressed: () {
-                    fn(orderId, apartmentName, apartmentId,
-                        selectedDateForRequest);
+                    fn(id, apartmentName, apartmentId, selectedDateForRequest);
                   },
                   color: AppTheme.primaryColor,
                   child: Text(
@@ -232,13 +231,12 @@ class _OrderDetailsState extends State<OrderDetails> {
     final Map<String, dynamic> routeArgs =
         ModalRoute.of(context).settings.arguments;
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: true);
-    final orderId = routeArgs['orderId'];
+    final id = routeArgs['id'];
     final apartmentName = routeArgs['apartmentName'];
     final apartmentId = routeArgs['apartmentId'];
     final selectedDateForRequest = routeArgs['selectedDateForRequest'];
 
-    final OrderByDateDetail orderDetail =
-        ordersProvider.getOrderDetails(orderId);
+    final OrderByDateDetail orderDetail = ordersProvider.getOrderDetails(id);
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
@@ -282,8 +280,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 ),
                                 onPressed: () async {
                                   Navigator.of(context).pop();
-                                  handleCancelOrder(orderId, apartmentId,
-                                      selectedDateForRequest);
+                                  handleCancelOrder(
+                                      id, apartmentId, selectedDateForRequest);
                                 },
                               )
                             ],
@@ -303,8 +301,8 @@ class _OrderDetailsState extends State<OrderDetails> {
               : []
         ],
       ),
-      bottomNavigationBar: getBottomNavbar(orderDetail, orderId, apartmentName,
-          apartmentId, selectedDateForRequest),
+      bottomNavigationBar: getBottomNavbar(
+          orderDetail, id, apartmentName, apartmentId, selectedDateForRequest),
       body: SafeArea(
         child: LoaderOverlay(
           isLoading: _isLoading,
@@ -420,7 +418,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                                 onDaySelected:
                                                     (date, events, _) {
                                                   handleMarkAsDelayOrders(
-                                                      orderId,
+                                                      id,
                                                       date,
                                                       apartmentId,
                                                       selectedDateForRequest);
@@ -479,7 +477,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     child: InkWell(
                                       onTap: () {
                                         handleOutForDelivery(
-                                            orderId,
+                                            id,
                                             apartmentName,
                                             apartmentId,
                                             selectedDateForRequest);

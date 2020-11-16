@@ -563,7 +563,8 @@ class DeliveryRow extends StatelessWidget {
         Navigator.of(context).pushNamed(
           OrderDetails.routeName,
           arguments: {
-            'orderId': delivery.id,
+            'flowType': 'delivery',
+            'id': delivery.id,
             'apartmentName': apartmentName,
             'apartmentId': apartmentId,
             'selectedDateForRequest': date.getRequestFormatDate()

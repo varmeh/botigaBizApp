@@ -278,7 +278,8 @@ class _OrderListState extends State<OrderList> {
                                           Navigator.of(context).pushNamed(
                                             OrderDetails.routeName,
                                             arguments: {
-                                              'orderId': orderRow.id,
+                                              'flowType': 'order',
+                                              'id': orderRow.id,
                                               'apartmentName': aprtmentName,
                                               'apartmentId': apartmentId,
                                               'selectedDateForRequest':
