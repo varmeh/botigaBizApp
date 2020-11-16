@@ -7,7 +7,7 @@ import '../orders/index.dart' show OrderDetails;
 import '../../theme/index.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';
-import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
+import '../../providers/index.dart' show ProfileProvider, DeliveryProvider;
 import '../../models/profile/index.dart';
 import '../../models/orders/index.dart';
 
@@ -84,14 +84,16 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         aprtmentId != '' &&
         currentDate != null &&
         currentDate != '') {
-      final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
+      final deliveryProvider =
+          Provider.of<DeliveryProvider>(context, listen: false);
       setState(() {
         _isError = false;
         _isLoading = true;
         _error = null;
       });
       try {
-        await orderProvider.fetchOrderByDateApartment(aprtmentId, currentDate);
+        await deliveryProvider.fetchDeliveryListByApartment(
+            aprtmentId, currentDate);
       } catch (err) {
         setState(() {
           _isError = true;
@@ -111,12 +113,13 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
       _isProcessing = true;
     });
     try {
-      final orderProvider = Provider.of<OrdersProvider>(context, listen: false);
+      final deliveryProvider =
+          Provider.of<DeliveryProvider>(context, listen: false);
       final date = selectedDateForRequest == null
           ? DateTime.now()
           : selectedDateForRequest;
-      await orderProvider.setStatusOutForDelivery(orderId);
-      await orderProvider.fetchOrderByDateApartment(
+      await deliveryProvider.setStatusOutForDelivery(orderId);
+      await deliveryProvider.fetchDeliveryListByApartment(
           apartment.id, date.getRequestFormatDate());
       Toast(
         message: 'Order out for delivery',
@@ -491,18 +494,15 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Consumer<OrdersProvider>(
-                                    builder: (ctx, orderProvider, _) {
-                                  final deliveryByDateDetails =
-                                      orderProvider.orderByDateApartment;
-                                  if (orderProvider == null) {
-                                    return SizedBox();
-                                  }
+                                Consumer<DeliveryProvider>(
+                                    builder: (ctx, deliveryProvider, _) {
+                                  final deliveryListByApartment =
+                                      deliveryProvider.deliveryListByApartment;
 
                                   final filterdStatusDetails =
                                       selectedStatus == 'All'
-                                          ? deliveryByDateDetails
-                                          : deliveryByDateDetails
+                                          ? deliveryListByApartment
+                                          : deliveryListByApartment
                                               .where((deliveryRow) {
                                               return deliveryRow.order.status ==
                                                   statusMap[selectedStatus];

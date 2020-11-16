@@ -36,7 +36,8 @@ import 'providers/index.dart'
         CategoryProvider,
         ProductProvider,
         ProfileProvider,
-        ServicesProvider;
+        ServicesProvider,
+        DeliveryProvider;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -81,6 +82,9 @@ Future<void> main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => OrdersProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DeliveryProvider(),
         ),
       ],
       child: BotigaBizApp(),

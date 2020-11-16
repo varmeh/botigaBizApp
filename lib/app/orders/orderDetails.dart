@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import './index.dart';
 import '../../theme/index.dart';
-import '../../providers/index.dart' show OrdersProvider;
+import '../../providers/index.dart' show OrdersProvider, DeliveryProvider;
 import '../../util/index.dart';
 import '../../widget/index.dart';
 import '../../models/orders/index.dart';
@@ -40,8 +40,10 @@ class _OrderDetailsState extends State<OrderDetails> {
     try {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
+      final deliveryProvider =
+          Provider.of<DeliveryProvider>(context, listen: false);
       final deliveryDelayedDate = date.getRequestFormatDate();
-      await ordersProvider.setDeliveryDelayed(orderId, deliveryDelayedDate);
+      await deliveryProvider.setDeliveryDelayed(orderId, deliveryDelayedDate);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
       final newDateforDelivery = date.getDate();
@@ -70,7 +72,9 @@ class _OrderDetailsState extends State<OrderDetails> {
     try {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
-      await ordersProvider.setDeliveryStatus(orderId);
+      final deliveryProvider =
+          Provider.of<DeliveryProvider>(context, listen: false);
+      await deliveryProvider.setDeliveryStatus(orderId);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
       Toast(
@@ -98,7 +102,9 @@ class _OrderDetailsState extends State<OrderDetails> {
     try {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
-      await ordersProvider.setStatusOutForDelivery(orderId);
+      final deliveryProvider =
+          Provider.of<DeliveryProvider>(context, listen: false);
+      await deliveryProvider.setStatusOutForDelivery(orderId);
       await ordersProvider.fetchOrderByDateApartment(
           apartmentId, selectedDateForRequest);
       Toast(
