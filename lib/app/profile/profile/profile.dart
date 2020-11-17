@@ -28,21 +28,21 @@ class _ProfileState extends State<Profile> {
       await Provider.of<DeliveryProvider>(context, listen: false)
           .resetDelivery();
       await Provider.of<ProfileProvider>(context, listen: false).restProfile();
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(Login.routeName, (route) => false);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
       setState(() {
         isProcessing = false;
       });
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(Login.routeName, (route) => false);
     }
   }
 
   Widget build(BuildContext context) {
-    final contact = Provider.of<ProfileProvider>(context, listen: false)
-        .profileInfo
-        .contact;
+    final profileInfo =
+        Provider.of<ProfileProvider>(context, listen: false).profileInfo;
+
     return LoaderOverlay(
       isLoading: isProcessing,
       child: SafeArea(
@@ -147,34 +147,37 @@ class _ProfileState extends State<Profile> {
                   color: AppTheme.dividerColor,
                   thickness: 4,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Need help?",
-                        style: AppTheme.textStyle.w700.color100
-                            .size(17)
-                            .lineHeight(1.5),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        "Any queries or concerns. We are always available to help you out.",
-                        style: AppTheme.textStyle.w500.color50
-                            .size(13)
-                            .lineHeight(1.3),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      ContactWidget(
-                          phone: contact.phone, whatsapp: contact.whatsapp)
-                    ],
-                  ),
-                )
+                profileInfo != null
+                    ? Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Need help?",
+                              style: AppTheme.textStyle.w700.color100
+                                  .size(17)
+                                  .lineHeight(1.5),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              "Any queries or concerns. We are always available to help you out.",
+                              style: AppTheme.textStyle.w500.color50
+                                  .size(13)
+                                  .lineHeight(1.3),
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            ContactWidget(
+                                phone: profileInfo.contact.phone,
+                                whatsapp: profileInfo.contact.whatsapp)
+                          ],
+                        ),
+                      )
+                    : SizedBox.shrink()
               ],
             ),
           ),
