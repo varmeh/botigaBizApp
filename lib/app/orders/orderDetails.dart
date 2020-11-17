@@ -31,8 +31,8 @@ class _OrderDetailsState extends State<OrderDetails> {
     super.dispose();
   }
 
-  Future refetchScreenData(
-      String apartmentId, String selectedDateForRequest) async {
+  Future refetchScreenData(String apartmentId, String selectedDateForRequest,
+      bool shouldNavigateBack) async {
     final ordersProvider = Provider.of<OrdersProvider>(context, listen: false);
     final deliveryProvider =
         Provider.of<DeliveryProvider>(context, listen: false);
@@ -44,7 +44,9 @@ class _OrderDetailsState extends State<OrderDetails> {
     } else {
       await deliveryProvider.fetchDeliveryListByApartment(
           apartmentId, selectedDateForRequest);
-      Navigator.of(context).pop();
+      if (shouldNavigateBack == true) {
+        Navigator.of(context).pop();
+      }
     }
   }
 
@@ -59,7 +61,7 @@ class _OrderDetailsState extends State<OrderDetails> {
           Provider.of<DeliveryProvider>(context, listen: false);
       final deliveryDelayedDate = date.getRequestFormatDate();
       await deliveryProvider.setDeliveryDelayed(id, deliveryDelayedDate);
-      await refetchScreenData(apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest, true);
       final newDateforDelivery = date.getDate();
       Toast(
         message: 'Delivery date changed to $newDateforDelivery',
@@ -87,7 +89,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       final deliveryProvider =
           Provider.of<DeliveryProvider>(context, listen: false);
       await deliveryProvider.setDeliveryStatus(id);
-      await refetchScreenData(apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest, false);
       Toast(
         message: 'Order marked as deliverd',
         icon: Icon(
@@ -114,7 +116,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       final deliveryProvider =
           Provider.of<DeliveryProvider>(context, listen: false);
       await deliveryProvider.setStatusOutForDelivery(id);
-      await refetchScreenData(apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest, false);
       Toast(
         message: 'Out for delivery',
         icon: Icon(
@@ -141,7 +143,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
       await ordersProvider.cancelOrder(id);
-      await refetchScreenData(apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest, false);
       Toast(
         message: 'Order canceled',
         icon: Icon(
@@ -168,7 +170,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       final ordersProvider =
           Provider.of<OrdersProvider>(context, listen: false);
       await ordersProvider.setRefundCompleted(id);
-      await refetchScreenData(apartmentId, selectedDateForRequest);
+      await refetchScreenData(apartmentId, selectedDateForRequest, false);
       Toast(
         message: 'Refund success',
         icon: Icon(
