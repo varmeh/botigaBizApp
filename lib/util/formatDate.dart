@@ -4,17 +4,17 @@ const TODAY = 'TODAY';
 
 extension DateFormatter on DateTime {
   String getLongformatDateWithTime() {
-    return DateFormat('d MMM, y hh:mm a').format(this);
+    return DateFormat('d MMM, y hh:mm a').format(this.toLocal());
   }
 
   String getDate() {
-    return DateFormat('d MMM').format(this);
+    return DateFormat('d MMM').format(this.toLocal());
   }
 
   String getTodayOrSelectedDate() {
     final now = new DateTime.now();
-    String currentDate = DateFormat('d MMM').format(now);
-    String selectedDate = DateFormat('d MMM').format(this);
+    String currentDate = DateFormat('d MMM').format(now.toLocal());
+    String selectedDate = DateFormat('d MMM').format(this.toLocal());
     if (currentDate == selectedDate) {
       return TODAY;
     }
@@ -22,6 +22,6 @@ extension DateFormatter on DateTime {
   }
 
   String getRequestFormatDate() {
-    return DateFormat('yyyy-MM-dd').format(this);
+    return DateFormat('yyyy-MM-dd').format(this.toLocal());
   }
 }

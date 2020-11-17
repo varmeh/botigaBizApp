@@ -41,7 +41,7 @@ class DeliveryProvider with ChangeNotifier {
         body: {'orderId': orderId, 'status': 'out'});
   }
 
-  Future resetOrder() async {
+  Future resetDelivery() async {
     this._deliveryListByApartment = [];
     notifyListeners();
   }

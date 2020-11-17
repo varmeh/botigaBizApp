@@ -25,7 +25,8 @@ class _ProfileState extends State<Profile> {
       await Provider.of<CategoryProvider>(context, listen: false)
           .resetCategory();
       await Provider.of<OrdersProvider>(context, listen: false).resetOrder();
-      await new OrdersProvider().resetOrder();
+      await Provider.of<DeliveryProvider>(context, listen: false)
+          .resetDelivery();
       await Provider.of<ProfileProvider>(context, listen: false).restProfile();
       Navigator.of(context)
           .pushNamedAndRemoveUntil(Login.routeName, (route) => false);
