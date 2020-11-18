@@ -141,7 +141,7 @@ class _EditProductState extends State<EditProduct>
           fit: BoxFit.fill,
           controller: _controller,
           onLoaded: (composition) {
-            _controller.duration = composition.duration * 3;
+            _controller.duration = composition.duration * 1.5;
             _controller.reset();
             _controller.forward();
           },
@@ -166,7 +166,7 @@ class _EditProductState extends State<EditProduct>
           fit: BoxFit.fill,
           controller: _controller,
           onLoaded: (composition) {
-            _controller.duration = composition.duration * 3;
+            _controller.duration = composition.duration * 1.5;
             _controller.reset();
             _controller.forward();
           },
