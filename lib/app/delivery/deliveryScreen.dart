@@ -619,38 +619,51 @@ class DeliveryRow extends StatelessWidget {
                         SizedBox(
                           height: 4,
                         ),
-                        Text(
-                          '#${delivery.order.number} • ${delivery.order.products.length} ITEMS',
-                          style: AppTheme.textStyle.color50.w500.size(13),
+                        RichText(
+                          text: TextSpan(
+                            text:
+                                '#${delivery.order.number} • ${delivery.order.products.length} ITEMS',
+                            style: AppTheme.textStyle.color50.w500.size(13),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: [1, 2, 3, 4, 5].map((e) => ' ').join()),
+                              TextSpan(
+                                text:
+                                    '$rupeeSymbol${delivery.order.totalAmount}',
+                                style: AppTheme.textStyle.color100.w500
+                                    .size(16)
+                                    .lineHeight(1.33),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 4,
                         ),
                         Row(
-                          children: <Widget>[
-                            Text(
-                              '$rupeeSymbol ${delivery.order.totalAmount}',
-                              style: AppTheme.textStyle.color100.w500
-                                  .size(15)
-                                  .letterSpace(1),
-                            ),
-                            SizedBox(
-                              width: 14,
-                            ),
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
                             Container(
+                              width: 12.0,
+                              height: 12.0,
+                              margin: const EdgeInsets.only(right: 4.0),
                               decoration: BoxDecoration(
-                                  color: delivery.order.statusColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(2))),
-                              padding: EdgeInsets.only(
-                                  left: 6, right: 6, top: 4, bottom: 4),
-                              child: Text(
-                                '${delivery.order.status.toUpperCase()}',
-                                style: AppTheme.textStyle
-                                    .colored(AppTheme.backgroundColor)
-                                    .w500
-                                    .size(12),
+                                color: delivery.order.statusColor,
+                                shape: BoxShape.circle,
                               ),
+                              child: delivery.order.isDelivered == true
+                                  ? Icon(
+                                      Icons.check,
+                                      size: 12,
+                                      color: AppTheme.backgroundColor,
+                                    )
+                                  : SizedBox.shrink(),
+                            ),
+                            Text(
+                              delivery.order.statusMessage,
+                              style: AppTheme.textStyle.w500.color50
+                                  .size(16)
+                                  .lineHeight(1.3),
                             ),
                           ],
                         )
