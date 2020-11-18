@@ -360,31 +360,32 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Container(
-                                        width: 220,
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              child: Icon(
-                                                BotigaIcons.building,
-                                                size: 18,
+                                        child: Expanded(
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                child: Icon(
+                                                  BotigaIcons.building,
+                                                  size: 18,
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Flexible(
-                                              child: Text(
-                                                '${apartment.apartmentName}',
-                                                style: AppTheme
-                                                    .textStyle.w500.color100
-                                                    .size(15),
+                                              SizedBox(
+                                                width: 5,
                                               ),
-                                            )
-                                          ],
+                                              Flexible(
+                                                child: Text(
+                                                  '${apartment.apartmentName}',
+                                                  style: AppTheme
+                                                      .textStyle.w500.color100
+                                                      .size(15),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 3,
+                                        width: 10,
                                       ),
                                       Container(
                                         width: 100,
@@ -595,127 +596,124 @@ class DeliveryRow extends StatelessWidget {
           padding:
               const EdgeInsets.only(left: 20.0, right: 20, top: 10, bottom: 10),
           child: Card(
-              elevation: 0,
-              margin: EdgeInsets.all(0),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 20.0, right: 15, top: 16, bottom: 16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            elevation: 0,
+            margin: EdgeInsets.all(0),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: 20.0, right: 15, top: 16, bottom: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Text(
+                          '${delivery.buyer.house}, ${delivery.buyer.name}',
+                          style: AppTheme.textStyle.color100.w600
+                              .size(15)
+                              .letterSpace(0.5),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          '#${delivery.order.number} • ${delivery.order.products.length} ITEMS',
+                          style: AppTheme.textStyle.color50.w500.size(13),
+                        ),
+                        SizedBox(
+                          height: 4,
+                        ),
+                        Row(
                           children: <Widget>[
                             Text(
-                              '${delivery.buyer.house}, ${delivery.buyer.name}',
-                              style: AppTheme.textStyle.color100.w600
+                              '$rupeeSymbol ${delivery.order.totalAmount}',
+                              style: AppTheme.textStyle.color100.w500
                                   .size(15)
-                                  .letterSpace(0.5),
+                                  .letterSpace(1),
                             ),
                             SizedBox(
-                              height: 4,
+                              width: 14,
                             ),
-                            Text(
-                              '#${delivery.order.number} • ${delivery.order.products.length} ITEMS',
-                              style: AppTheme.textStyle.color50.w500.size(13),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: delivery.order.statusColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(2))),
+                              padding: EdgeInsets.only(
+                                  left: 6, right: 6, top: 4, bottom: 4),
+                              child: Text(
+                                '${delivery.order.status.toUpperCase()}',
+                                style: AppTheme.textStyle
+                                    .colored(AppTheme.backgroundColor)
+                                    .w500
+                                    .size(12),
+                              ),
                             ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  '$rupeeSymbol ${delivery.order.totalAmount}',
-                                  style: AppTheme.textStyle.color100.w500
-                                      .size(15)
-                                      .letterSpace(1),
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: delivery.order.statusColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(2))),
-                                  padding: EdgeInsets.only(
-                                      left: 6, right: 6, top: 4, bottom: 4),
-                                  child: Text(
-                                    '${delivery.order.status.toUpperCase()}',
-                                    style: AppTheme.textStyle
-                                        .colored(AppTheme.backgroundColor)
-                                        .w500
-                                        .size(12),
-                                  ),
-                                ),
-                              ],
-                            )
                           ],
-                        ),
-                        (delivery.order.isOpen || delivery.order.isDelayed)
-                            ? Container(
-                                padding: EdgeInsets.only(left: 20),
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    left: BorderSide(
-                                        width: 1.2,
-                                        color: AppTheme.dividerColor),
-                                  ),
-                                  color: Theme.of(context).colorScheme.surface,
-                                ),
-                                child: InkWell(
-                                  onTap: () {
-                                    this._handleOutForDelivery(delivery.id);
-                                  },
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        child: Center(
-                                          child: Icon(
-                                            BotigaIcons.truck,
-                                            size: 30,
-                                          ),
-                                        ),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: AppTheme.dividerColor),
-                                      ),
-                                      SizedBox(
-                                        height: 4,
-                                      ),
-                                      Container(
-                                        width: 70,
-                                        height: 32,
-                                        child: Text(
-                                          'Out for delivery',
-                                          textAlign: TextAlign.center,
-                                          style: AppTheme
-                                              .textStyle.color100.w500
-                                              .size(12)
-                                              .letterSpace(0.2),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : SizedBox.shrink()
+                        )
                       ],
                     ),
-                  ],
-                ),
-              )),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  (delivery.order.isOpen || delivery.order.isDelayed)
+                      ? Container(
+                          padding: EdgeInsets.only(left: 12, right: 10),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                  width: 1.2, color: AppTheme.dividerColor),
+                            ),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              this._handleOutForDelivery(delivery.id);
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: Center(
+                                    child: Icon(
+                                      BotigaIcons.truck,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppTheme.dividerColor),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                  width: 70,
+                                  height: 32,
+                                  child: Text(
+                                    'Out for delivery',
+                                    textAlign: TextAlign.center,
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(12)
+                                        .letterSpace(0.2),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      : SizedBox.shrink()
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

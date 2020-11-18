@@ -40,15 +40,19 @@ class OrderRow extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('#$number .$productsLength ITEMS',
+                    Flexible(
+                      child: Text('#$number .$productsLength ITEMS',
+                          style: AppTheme.textStyle.color100.w600
+                              .size(15)
+                              .letterSpace(1)),
+                    ),
+                    Flexible(
+                      child: Text(
+                        '$rupeeSymbol $totalAmount',
                         style: AppTheme.textStyle.color100.w600
                             .size(15)
-                            .letterSpace(1)),
-                    Text(
-                      '$rupeeSymbol $totalAmount',
-                      style: AppTheme.textStyle.color100.w600
-                          .size(15)
-                          .letterSpace(1),
+                            .letterSpace(1),
+                      ),
                     ),
                   ],
                 ),
@@ -58,29 +62,33 @@ class OrderRow extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('${orderDate.getLongformatDateWithTime()}',
-                        style: AppTheme.textStyle.color50.w500
-                            .size(12)
-                            .letterSpace(1)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          order.statusMessage,
-                          style: AppTheme.textStyle.w500.color50
+                    Flexible(
+                      child: Text('${orderDate.getLongformatDateWithTime()}',
+                          style: AppTheme.textStyle.color50.w500
                               .size(12)
-                              .lineHeight(1.3),
-                        ),
-                        Container(
-                          width: 12.0,
-                          height: 12.0,
-                          margin: const EdgeInsets.only(left: 4.0),
-                          decoration: BoxDecoration(
-                            color: order.statusColor,
-                            shape: BoxShape.circle,
+                              .letterSpace(1)),
+                    ),
+                    Flexible(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            order.statusMessage,
+                            style: AppTheme.textStyle.w500.color50
+                                .size(12)
+                                .lineHeight(1.3),
                           ),
-                        ),
-                      ],
+                          Container(
+                            width: 12.0,
+                            height: 12.0,
+                            margin: const EdgeInsets.only(left: 4.0),
+                            decoration: BoxDecoration(
+                              color: order.statusColor,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
