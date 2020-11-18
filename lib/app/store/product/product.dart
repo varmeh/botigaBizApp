@@ -311,7 +311,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                           children: [
                             ConstrainedBox(
                               constraints: BoxConstraints(
-                                maxWidth: 70,
+                                maxWidth: 60,
                               ),
                               child: Text(
                                 '$rupeeSymbol${product.price}',
@@ -326,7 +326,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                               children: <Widget>[
                                 ConstrainedBox(
                                   constraints: BoxConstraints(
-                                    maxWidth: 60,
+                                    maxWidth: 80,
                                   ),
                                   child: Text(
                                     statusText,
@@ -443,7 +443,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                         children: [
                           ConstrainedBox(
                             constraints: BoxConstraints(
-                              maxWidth: 60,
+                              maxWidth: 80,
                             ),
                             child: Text(
                               statusText,
