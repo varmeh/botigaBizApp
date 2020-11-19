@@ -1,23 +1,23 @@
 # Android App Distribution
 
-## For Internal Testing
+## For Testing
 
--   Create an appbundle version:
+-   Create an apk version:
 
 ```
-flutter build appbundle --flavor dev --release
+flutter build apk --flavor dev --release
 ```
 
--   Once the bundle is ready, create a sharing link using [Google Internal App Sharing](https://play.google.com/console/internal-app-sharing/)
+-   Once ready, upload it to `botiga-dev` project, `BotigaBizDev` android app in`firebase console`
 
--   You get a new link for each version. Send it to set of testers of testing
+-   Select testers group & send a new email for testing
 
 ## On Play Store
 
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
 ```
-flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaBizApp_1.0.0 --flavor prod --release
+flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaBizApp_0.1.0 --flavor prod --release
 ```
 
 The reason to use appbundle has been detailed in [article](https://developer.android.com/guide/app-bundle?authuser=1).
