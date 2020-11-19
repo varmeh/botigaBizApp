@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import '../util/index.dart' show Http, Token;
 import '../models/profile/index.dart';
 
@@ -180,5 +182,32 @@ class ProfileProvider with ChangeNotifier {
     */
     await Http.post('/api/seller/auth/signout', body: {});
     return Token.write('');
+  }
+
+  Future getBankNameFromIfsc(String ifsc) async {
+    final response =
+        await http.get('https://ifsc.razorpay.com/${ifsc.toUpperCase()}');
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load code');
+    }
+  }
+
+  Future getBankDetails() async {
+    return await Http.get('/api/seller/profile/bankdetails');
+  }
+
+  Future updateBankDetails(String beneficiaryName, String accountNumber,
+      String ifscCode, String bankName) async {
+    return Http.patch(
+      '/api/seller/profile/bankdetails',
+      body: {
+        "beneficiaryName": beneficiaryName,
+        "accountNumber": accountNumber,
+        "ifscCode": ifscCode,
+        "bankName": bankName
+      },
+    );
   }
 }
