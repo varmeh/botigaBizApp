@@ -156,7 +156,8 @@ class _EditProductState extends State<EditProduct>
         ),
         SizedBox(height: 42.0),
         Text(
-          'Product updated Successfuly',
+          'Product updated successfuly',
+          textAlign: TextAlign.center,
           style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
         ),
         SizedBox(height: 64.0),
@@ -281,9 +282,9 @@ class _EditProductState extends State<EditProduct>
     try {
       final pickedFile = await _picker.getImage(
         source: source,
-        maxWidth: 335,
-        maxHeight: 176,
-        imageQuality: 20,
+        maxWidth: 240,
+        maxHeight: 180,
+        imageQuality: 100,
       );
       setState(() {
         _imageFile = pickedFile;
@@ -459,20 +460,17 @@ class _EditProductState extends State<EditProduct>
                       padding:
                           const EdgeInsets.only(left: 20.0, right: 20, top: 10),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           _imageFile != null
                               ? ConstrainedBox(
                                   constraints: BoxConstraints.tight(
-                                    Size(double.infinity, 176),
+                                    Size(240, 180),
                                   ),
                                   child: Stack(
                                     alignment: AlignmentDirectional.center,
-                                    children: <Widget>[
+                                    children: [
                                       Container(
-                                        width: double.infinity,
-                                        height: 176,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -524,7 +522,7 @@ class _EditProductState extends State<EditProduct>
                                 )
                               : ConstrainedBox(
                                   constraints: BoxConstraints.tight(
-                                    Size(double.infinity, 176),
+                                    Size(240, 180),
                                   ),
                                   child: Stack(
                                     alignment: AlignmentDirectional.center,
@@ -540,7 +538,8 @@ class _EditProductState extends State<EditProduct>
                                                 BlendMode.saturation,
                                               ),
                                         child: EditProductNetworkAvatar(
-                                            imageUrl: _imageUrl),
+                                          imageUrl: _imageUrl,
+                                        ),
                                       ),
                                       Positioned(
                                         bottom: 12,

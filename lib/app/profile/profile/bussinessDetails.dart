@@ -100,7 +100,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
 
   void _handleImageUpload(PickedFile file) async {
     try {
-      print('upload url: $uploadurl');
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
     } catch (err) {
