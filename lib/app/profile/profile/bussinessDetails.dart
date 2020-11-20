@@ -3,7 +3,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
-import '../../../widget/index.dart';
+import '../../../widget/index.dart'
+    show
+        BotigaAppBar,
+        BotigaTextFieldForm,
+        Toast,
+        LoaderOverlay,
+        ProfileNetworkAvatar,
+        SettingsDiaglog;
 import '../../../theme/index.dart';
 import '../../../util/index.dart';
 import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
@@ -93,6 +100,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
 
   void _handleImageUpload(PickedFile file) async {
     try {
+      print('upload url: $uploadurl');
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
     } catch (err) {
@@ -107,9 +115,9 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     try {
       final pickedFile = await _picker.getImage(
         source: source,
-        maxWidth: 96,
-        maxHeight: 96,
-        imageQuality: 20,
+        maxWidth: 150,
+        maxHeight: 150,
+        imageQuality: 100,
       );
       setState(() {
         _imageFile = pickedFile;
@@ -119,35 +127,9 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       if (e.code != null &&
           (e.code == 'photo_access_denied' ||
               e.code == 'camera_access_denied')) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(
-              'Access denied',
-              style: AppTheme.textStyle.w500.color100,
-            ),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(
-                    '${e.message} Please enable it in app setting.',
-                    style: AppTheme.textStyle.w400.color100,
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  'Ok',
-                  style: AppTheme.textStyle.w600.color50,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
+        SettingsDiaglog().show(
+          context,
+          e.code == 'photo_access_denied' ? 'gallery' : 'camera',
         );
       } else {
         Toast(message: "Unexpected error").show(context);

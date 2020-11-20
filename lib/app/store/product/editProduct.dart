@@ -7,7 +7,15 @@ import 'package:lottie/lottie.dart';
 import '../../../providers/index.dart' show ProductProvider, ServicesProvider;
 import '../../../theme/index.dart';
 import '../../../util/index.dart';
-import '../../../widget/index.dart';
+import '../../../widget/index.dart'
+    show
+        Toast,
+        BotigaAppBar,
+        BotigaBottomModal,
+        BotigaTextFieldForm,
+        LoaderOverlay,
+        EditProductNetworkAvatar,
+        SettingsDiaglog;
 import '../../home/index.dart' show HomeScreen;
 import '../../../models/store/index.dart';
 
@@ -285,35 +293,9 @@ class _EditProductState extends State<EditProduct>
       if (e.code != null &&
           (e.code == 'photo_access_denied' ||
               e.code == 'camera_access_denied')) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text(
-              'Access denied',
-              style: AppTheme.textStyle.w500.color100,
-            ),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  Text(
-                    '${e.message} Please enable it in app setting.',
-                    style: AppTheme.textStyle.w400.color100,
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text(
-                  'Ok',
-                  style: AppTheme.textStyle.w600.color50,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
+        SettingsDiaglog().show(
+          context,
+          e.code == 'photo_access_denied' ? 'gallery' : 'camera',
         );
       } else {
         Toast(message: "Unexpected error").show(context);
