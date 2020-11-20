@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:clipboard/clipboard.dart';
+
+import '../providers/index.dart' show ProfileProvider;
 import 'toast.dart';
 import '../theme/index.dart';
 
@@ -10,8 +13,12 @@ Widget inviteShare(BuildContext context) {
     topRight: const Radius.circular(16.0),
   );
 
-  const text =
-      'Hi, Now you can see our entire catalog of healthynuts online. Place orders anytime and track conveniently. Download Botiga app now. https://botiga.app/xcGha';
+  final sellerBrand = Provider.of<ProfileProvider>(context, listen: false)
+      .profileInfo
+      .brand
+      .name;
+  final text =
+      'Hi, $sellerBrand is now selling its products on Botiga app. See our entire catalog, place orders anytime and track conveniently. Download Botiga app now. https://botiga.app/xcGha';
 
   return Column(
     mainAxisSize: MainAxisSize.min,
@@ -34,7 +41,6 @@ Widget inviteShare(BuildContext context) {
         ),
       ),
       Container(
-        height: 150,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/coupan.png'),
