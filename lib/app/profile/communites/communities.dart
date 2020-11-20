@@ -455,7 +455,7 @@ class _CommunityTileState extends State<CommunityTile> {
                                   size: 30,
                                 ),
                                 title: Text(
-                                  'Edit contact information',
+                                  'Update contact information',
                                   style: AppTheme.textStyle.w500.color100
                                       .lineHeight(1.33)
                                       .size(15),

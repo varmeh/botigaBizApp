@@ -363,7 +363,7 @@ class _EditProductState extends State<EditProduct>
       child: Scaffold(
           backgroundColor: AppTheme.backgroundColor,
           appBar: BotigaAppBar(
-            'Edit Product',
+            'Update Product',
             actions: [
               FlatButton(
                 highlightColor: Colors.transparent,
@@ -436,7 +436,7 @@ class _EditProductState extends State<EditProduct>
                         },
                         color: AppTheme.primaryColor,
                         child: Text(
-                          'Edit Product',
+                          'Update Product',
                           style: AppTheme.textStyle
                               .colored(AppTheme.backgroundColor)
                               .w600
