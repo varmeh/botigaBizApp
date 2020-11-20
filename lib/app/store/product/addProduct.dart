@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
+
 import '../../../providers/index.dart'
     show CategoryProvider, ProductProvider, ServicesProvider;
 import '../../../theme/index.dart';
@@ -16,7 +17,7 @@ import '../../../widget/index.dart'
         BotigaBottomModal,
         BotigaTextFieldForm,
         LoaderOverlay,
-        SettingsDiaglog;
+        ImageSelectionWidget;
 
 class AddProduct extends StatefulWidget {
   static const routeName = 'add-product';
@@ -26,7 +27,6 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   PickedFile _imageFile;
-  ImagePicker _picker;
   TextEditingController maxWidthController,
       maxHeightController,
       qualityController;
@@ -56,7 +56,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-    _picker = ImagePicker();
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
@@ -241,92 +240,17 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   }
 
   void showImageSelectOption(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppTheme.backgroundColor,
-            borderRadius: BorderRadius.only(
-              topLeft: const Radius.circular(16.0),
-              topRight: const Radius.circular(16.0),
-            ),
-          ),
-          padding: EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text('Add image',
-                  style: AppTheme.textStyle.color100.w700.size(22)),
-              SizedBox(
-                height: 24,
-              ),
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  _onImageButtonPressed(ImageSource.camera);
-                },
-                contentPadding: EdgeInsets.only(left: 0.0),
-                leading: Icon(Icons.camera_alt, color: AppTheme.color100),
-                title: Text(
-                  'Take photo',
-                  style: AppTheme.textStyle.color100.w500.size(17),
-                ),
-              ),
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  _onImageButtonPressed(ImageSource.gallery);
-                },
-                contentPadding: EdgeInsets.only(left: 0.0),
-                leading: Icon(
-                  Icons.image,
-                  color: AppTheme.color100,
-                ),
-                title: Text(
-                  'Choose from gallery',
-                  style: AppTheme.textStyle.color100.w500.size(17),
-                ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _onImageButtonPressed(ImageSource source) async {
-    try {
-      final pickedFile = await _picker.getImage(
-        source: source,
-        maxWidth: 335,
-        maxHeight: 176,
-        imageQuality: 20,
-      );
-      setState(() {
-        _imageFile = pickedFile;
-      });
-      this._handleImageUpload(pickedFile);
-    } catch (e) {
-      if (e.code != null &&
-          (e.code == 'photo_access_denied' ||
-              e.code == 'camera_access_denied')) {
-        SettingsDiaglog().show(
-          context,
-          e.code == 'photo_access_denied' ? 'gallery' : 'camera',
-        );
-      } else {
-        Toast(message: "Unexpected error").show(context);
-      }
-    }
+    ImageSelectionWidget(
+      width: 240,
+      height: 180,
+      imageQuality: 100,
+      onImageSelection: (imageFile) {
+        setState(() {
+          _imageFile = imageFile;
+        });
+        this._handleImageUpload(imageFile);
+      },
+    ).show(context);
   }
 
   void _handleProductSave() async {

@@ -14,7 +14,7 @@ import '../../../widget/index.dart'
         FullWidthButton,
         BotigaAppBar,
         BotigaBottomModal,
-        SettingsDiaglog;
+        ImageSelectionWidget;
 import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
 import '../../../util/index.dart';
 import './index.dart';
@@ -28,7 +28,6 @@ class SignupBuissnessDetails extends StatefulWidget {
 class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   GlobalKey<FormState> _formKey;
   PickedFile _imageFile;
-  ImagePicker _picker;
   TextEditingController maxWidthController,
       maxHeightController,
       qualityController;
@@ -54,7 +53,6 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-    _picker = ImagePicker();
 
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
@@ -133,32 +131,6 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
         _imageFile = null;
       });
       Toast(message: Http.message(err)).show(context);
-    }
-  }
-
-  void _onImageButtonPressed(ImageSource source) async {
-    try {
-      final pickedFile = await _picker.getImage(
-        source: source,
-        maxWidth: 96,
-        maxHeight: 96,
-        imageQuality: 20,
-      );
-      setState(() {
-        _imageFile = pickedFile;
-      });
-      _handleImageUpload(pickedFile);
-    } catch (e) {
-      if (e.code != null &&
-          (e.code == 'photo_access_denied' ||
-              e.code == 'camera_access_denied')) {
-        SettingsDiaglog().show(
-          context,
-          e.code == 'photo_access_denied' ? 'gallery' : 'camera',
-        );
-      } else {
-        Toast(message: "Unexpected error").show(context);
-      }
     }
   }
 
@@ -564,47 +536,17 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   }
 
   void showImageSelectOption(BuildContext context) {
-    BotigaBottomModal(
-        isDismissible: true,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text('Add image', style: AppTheme.textStyle.color100.size(22).w700),
-            SizedBox(
-              height: 24,
-            ),
-            ListTile(
-                onTap: () {
-                  Navigator.of(context).pop();
-                  _onImageButtonPressed(ImageSource.camera);
-                },
-                contentPadding: EdgeInsets.only(left: 0.0),
-                leading: Icon(
-                  Icons.camera_alt,
-                  color: AppTheme.color100,
-                ),
-                title: Text('Take photo',
-                    style: AppTheme.textStyle.color100.size(17).w500)),
-            ListTile(
-              onTap: () {
-                Navigator.of(context).pop();
-                _onImageButtonPressed(ImageSource.gallery);
-              },
-              contentPadding: EdgeInsets.only(left: 0.0),
-              leading: Icon(
-                Icons.image,
-                color: AppTheme.color100,
-              ),
-              title: Text('Choose from gallery',
-                  style: AppTheme.textStyle.color100.size(17).w500),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-          ],
-        )).show(context);
+    ImageSelectionWidget(
+      width: 150,
+      height: 150,
+      imageQuality: 100,
+      onImageSelection: (imageFile) {
+        setState(() {
+          _imageFile = imageFile;
+        });
+        this._handleImageUpload(imageFile);
+      },
+    ).show(context);
   }
 
   void handleSignUp(BuildContext context) async {

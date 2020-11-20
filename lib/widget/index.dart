@@ -18,4 +18,4 @@ export 'botigaAppBar.dart';
 export 'statusImageWidget.dart';
 export 'orderStatusWidget.dart';
 export 'buttons/index.dart';
-export 'settingsDialog.dart';
+export 'imageSelectionWidget.dart';
