@@ -149,7 +149,7 @@ class _EditProductState extends State<EditProduct>
           fit: BoxFit.fill,
           controller: _controller,
           onLoaded: (composition) {
-            _controller.duration = composition.duration * 1.5;
+            _controller.duration = composition.duration * 1;
             _controller.reset();
             _controller.forward();
           },
@@ -174,7 +174,7 @@ class _EditProductState extends State<EditProduct>
           fit: BoxFit.fill,
           controller: _controller,
           onLoaded: (composition) {
-            _controller.duration = composition.duration * 1.5;
+            _controller.duration = composition.duration * 1;
             _controller.reset();
             _controller.forward();
           },
@@ -436,7 +436,7 @@ class _EditProductState extends State<EditProduct>
                         },
                         color: AppTheme.primaryColor,
                         child: Text(
-                          'Update Product',
+                          'Update',
                           style: AppTheme.textStyle
                               .colored(AppTheme.backgroundColor)
                               .w600

@@ -103,7 +103,7 @@ class _ProfileState extends State<Profile> {
                         title: Align(
                           alignment: Alignment(-1.3, 0),
                           child: Text(
-                            'Payment Information',
+                            'Bank Details',
                             style: AppTheme.textStyle.color100.size(15).w500,
                           ),
                         ),
@@ -145,7 +145,7 @@ class _ProfileState extends State<Profile> {
                 ),
                 Divider(
                   color: AppTheme.dividerColor,
-                  thickness: 4,
+                  thickness: 8,
                 ),
                 profileInfo != null
                     ? Padding(

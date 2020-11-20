@@ -92,7 +92,7 @@ class _AddCommunitesSuccessState extends State<AddCommunitesSuccess>
                     fit: BoxFit.fill,
                     controller: _controller,
                     onLoaded: (composition) {
-                      _controller.duration = composition.duration * 1.5;
+                      _controller.duration = composition.duration * 1;
                       _controller.reset();
                       _controller.forward();
                     },
