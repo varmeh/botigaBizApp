@@ -23,6 +23,11 @@ class ServicesProvider with ChangeNotifier {
     return http.put(url, body: bytes);
   }
 
+  Future deleteImageFromS3(String url) async {
+    return await Http.post('/api/services/image/delete',
+        body: {'imageUrl': url});
+  }
+
   Future getAreaFromPincode(String pin) async {
     final response =
         await http.get('http://www.postalpincode.in/api/pincode/$pin');

@@ -128,8 +128,8 @@ class EditProductNetworkAvatar extends StatelessWidget {
       borderRadius: BorderRadius.circular(this.radius),
       child: CachedNetworkImage(
         fit: BoxFit.fill,
-        width: double.infinity,
-        height: 176.0,
+        width: 180,
+        height: 135.0,
         placeholder: (_, __) => _placeholderImage(),
         imageUrl: this.imageUrl,
         errorWidget: (context, url, error) {
@@ -141,8 +141,8 @@ class EditProductNetworkAvatar extends StatelessWidget {
 
   Widget _placeholderImage() {
     return Container(
-      width: double.infinity,
-      height: 176.0,
+      width: 180,
+      height: 135.0,
       decoration: BoxDecoration(
         image: DecorationImage(
             fit: BoxFit.fill, image: AssetImage(this.imagePlaceholder)),

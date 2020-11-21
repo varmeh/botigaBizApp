@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:botiga_biz/widget/buttons/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -155,6 +156,9 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
 
   void _getPreSignedUrl() async {
     try {
+      setState(() {
+        isSaving = true;
+      });
       final value = await Provider.of<ServicesProvider>(context, listen: false)
           .getPresignedImageUrl();
       setState(() {
@@ -163,17 +167,28 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
       });
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
     }
   }
 
   void _handleImageUpload(PickedFile file) async {
     try {
+      setState(() {
+        isSaving = true;
+      });
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
       setState(() {
         _imageFile = null;
+      });
+    } finally {
+      setState(() {
+        isSaving = false;
       });
     }
   }
@@ -273,6 +288,25 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     }
   }
 
+  void _handleImageDelete() async {
+    try {
+      setState(() {
+        isSaving = true;
+      });
+      await Provider.of<ServicesProvider>(context, listen: false)
+          .deleteImageFromS3(downloadUrl);
+      setState(() {
+        _imageFile = null;
+      });
+    } catch (err) {
+      Toast(message: "Unable to delete image").show(context);
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
@@ -332,14 +366,13 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                           _imageFile != null
                               ? ConstrainedBox(
                                   constraints: BoxConstraints.tight(
-                                    Size(double.infinity, 176),
+                                    Size(double.infinity, 135),
                                   ),
-                                  child: Stack(
-                                    alignment: AlignmentDirectional.center,
-                                    children: <Widget>[
+                                  child: Row(
+                                    children: [
                                       Container(
-                                        width: double.infinity,
-                                        height: 176,
+                                        width: 180,
+                                        height: 135,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -353,39 +386,42 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                               BorderRadius.circular(10),
                                         ),
                                       ),
-                                      Positioned(
-                                        bottom: 12,
-                                        right: 12,
-                                        child: Row(
+                                      Expanded(
+                                        child: Column(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            GestureDetector(
-                                              onTap: () {
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            PassiveButton(
+                                              title: "Change",
+                                              onPressed: () {
                                                 showImageSelectOption(context);
                                               },
-                                              child: Image.asset(
-                                                'assets/images/image_edit.png',
-                                                fit: BoxFit.cover,
+                                              icon: Icon(
+                                                Icons.edit,
+                                                color: AppTheme.color100,
+                                                size: 17,
                                               ),
+                                              height: 44,
+                                              width: 135,
                                             ),
-                                            SizedBox(
-                                              width: 12,
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _imageFile = null;
-                                                });
+                                            PassiveButton(
+                                              title: "Remove",
+                                              onPressed: () {
+                                                _handleImageDelete();
                                               },
-                                              child: Image.asset(
-                                                'assets/images/image_delete.png',
-                                                fit: BoxFit.cover,
+                                              icon: Icon(
+                                                Icons.delete_outline,
+                                                color: AppTheme.color100,
+                                                size: 17,
                                               ),
-                                            ),
+                                              height: 44,
+                                              width: 135,
+                                            )
                                           ],
                                         ),
-                                      ),
+                                      )
                                     ],
                                   ),
                                 )

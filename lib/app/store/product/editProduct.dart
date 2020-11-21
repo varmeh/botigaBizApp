@@ -15,7 +15,8 @@ import '../../../widget/index.dart'
         BotigaTextFieldForm,
         LoaderOverlay,
         EditProductNetworkAvatar,
-        ImageSelectionWidget;
+        ImageSelectionWidget,
+        PassiveButton;
 import '../../home/index.dart' show HomeScreen;
 import '../../../models/store/index.dart';
 
@@ -190,6 +191,9 @@ class _EditProductState extends State<EditProduct>
 
   void _getPreSignedUrl() async {
     try {
+      setState(() {
+        isSaving = true;
+      });
       final value = await Provider.of<ServicesProvider>(context, listen: false)
           .getPresignedImageUrl();
       setState(() {
@@ -198,10 +202,17 @@ class _EditProductState extends State<EditProduct>
       });
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
     }
   }
 
   void _handleImageUpload(PickedFile file) async {
+    setState(() {
+      isSaving = true;
+    });
     try {
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
@@ -209,6 +220,10 @@ class _EditProductState extends State<EditProduct>
       Toast(message: Http.message(err)).show(context);
       setState(() {
         _imageFile = null;
+      });
+    } finally {
+      setState(() {
+        isSaving = false;
       });
     }
   }
@@ -280,8 +295,66 @@ class _EditProductState extends State<EditProduct>
     }
   }
 
+  Widget _getEditProductButttons() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          PassiveButton(
+            title: "Change",
+            onPressed: () {
+              showImageSelectOption(context);
+            },
+            icon: Icon(
+              Icons.edit,
+              color: AppTheme.color100,
+              size: 17,
+            ),
+            height: 44,
+            width: 135,
+          ),
+          PassiveButton(
+            title: "Remove",
+            onPressed: () async {
+              setState(() {
+                isSaving = true;
+              });
+              try {
+                final urlToDelete =
+                    _imageFile != null ? downloadUrl : _imageUrl;
+                await Provider.of<ServicesProvider>(context, listen: false)
+                    .deleteImageFromS3(urlToDelete);
+                await Provider.of<ProductProvider>(context, listen: false)
+                    .fetchProducts();
+                setState(() {
+                  _imageFile = null;
+                });
+                loadInitialFormValue();
+              } catch (err) {
+                Toast(message: Http.message(err)).show(context);
+              } finally {
+                setState(() {
+                  isSaving = false;
+                });
+              }
+            },
+            icon: Icon(
+              Icons.delete_outline,
+              color: AppTheme.color100,
+              size: 17,
+            ),
+            height: 44,
+            width: 135,
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(_imageFile);
     return LoaderOverlay(
       isLoading: isSaving,
       child: Scaffold(
@@ -388,12 +461,13 @@ class _EditProductState extends State<EditProduct>
                           _imageFile != null
                               ? ConstrainedBox(
                                   constraints: BoxConstraints.tight(
-                                    Size(240, 180),
+                                    Size(double.infinity, 135),
                                   ),
-                                  child: Stack(
-                                    alignment: AlignmentDirectional.center,
+                                  child: Row(
                                     children: [
                                       Container(
+                                        width: 180,
+                                        height: 135,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -407,49 +481,16 @@ class _EditProductState extends State<EditProduct>
                                               BorderRadius.circular(10),
                                         ),
                                       ),
-                                      Positioned(
-                                        bottom: 12,
-                                        right: 12,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            GestureDetector(
-                                              onTap: () {
-                                                showImageSelectOption(context);
-                                              },
-                                              child: Image.asset(
-                                                'assets/images/image_edit.png',
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 12,
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  _imageFile = null;
-                                                });
-                                              },
-                                              child: Image.asset(
-                                                'assets/images/image_delete.png',
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      _getEditProductButttons()
                                     ],
                                   ),
                                 )
                               : ConstrainedBox(
                                   constraints: BoxConstraints.tight(
-                                    Size(240, 180),
+                                    Size(double.infinity, 135),
                                   ),
-                                  child: Stack(
-                                    alignment: AlignmentDirectional.center,
-                                    children: <Widget>[
+                                  child: Row(
+                                    children: [
                                       ColorFiltered(
                                         colorFilter: _available
                                             ? ColorFilter.mode(
@@ -464,25 +505,7 @@ class _EditProductState extends State<EditProduct>
                                           imageUrl: _imageUrl,
                                         ),
                                       ),
-                                      Positioned(
-                                        bottom: 12,
-                                        right: 12,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            GestureDetector(
-                                              onTap: () {
-                                                showImageSelectOption(context);
-                                              },
-                                              child: Image.asset(
-                                                'assets/images/image_edit.png',
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      _getEditProductButttons()
                                     ],
                                   ),
                                 ),
