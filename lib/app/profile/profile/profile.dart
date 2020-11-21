@@ -63,10 +63,11 @@ class _ProfileState extends State<Profile> {
                         leading: Icon(
                           BotigaIcons.suitcase,
                           color: AppTheme.color100,
+                          size: 25,
                         ),
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Align(
-                          alignment: Alignment(-1.2, 0),
+                        title: Transform(
+                          transform: Matrix4.translationValues(-16, 0.0, 0.0),
                           child: Text('Business details',
                               style: AppTheme.textStyle.color100.size(15).w500),
                         ),
@@ -81,10 +82,13 @@ class _ProfileState extends State<Profile> {
                           Navigator.of(context)
                               .pushNamed(StoreDeatils.routeName);
                         },
-                        leading: Image.asset('assets/images/store_details.png'),
+                        leading: Image.asset(
+                          'assets/images/store_details.png',
+                          width: 25,
+                        ),
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Align(
-                          alignment: Alignment(-1.2, 0),
+                        title: Transform(
+                          transform: Matrix4.translationValues(-16, 0.0, 0.0),
                           child: Text('Store details',
                               style: AppTheme.textStyle.color100.size(15).w500),
                         ),
@@ -98,10 +102,11 @@ class _ProfileState extends State<Profile> {
                         leading: Icon(
                           BotigaIcons.money,
                           color: AppTheme.color100,
+                          size: 25,
                         ),
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Align(
-                          alignment: Alignment(-1.3, 0),
+                        title: Transform(
+                          transform: Matrix4.translationValues(-16, 0.0, 0.0),
                           child: Text(
                             'Bank Details',
                             style: AppTheme.textStyle.color100.size(15).w500,
@@ -124,10 +129,11 @@ class _ProfileState extends State<Profile> {
                         leading: Icon(
                           BotigaIcons.exit,
                           color: AppTheme.color100,
+                          size: 25,
                         ),
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Align(
-                          alignment: Alignment(-1.2, 0),
+                        title: Transform(
+                          transform: Matrix4.translationValues(-16, 0.0, 0.0),
                           child: Text('Logout',
                               style: AppTheme.textStyle.color100.size(15).w500),
                         ),
