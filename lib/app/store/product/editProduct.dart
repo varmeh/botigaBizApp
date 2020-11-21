@@ -54,6 +54,7 @@ class _EditProductState extends State<EditProduct>
       _quantityFocusNode,
       _descriptionFocusNode;
   bool _available;
+  bool _errorInNetworkImage;
 
   AnimationController _controller;
 
@@ -71,6 +72,7 @@ class _EditProductState extends State<EditProduct>
     _quantityFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
     isSaving = false;
+    _errorInNetworkImage = false;
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
   }
@@ -105,6 +107,7 @@ class _EditProductState extends State<EditProduct>
                 : false;
         _description = product.description;
         _available = product.available;
+        _errorInNetworkImage = false;
       });
     }
   }
@@ -295,59 +298,82 @@ class _EditProductState extends State<EditProduct>
     }
   }
 
-  Widget _getEditProductButttons() {
+  void handleImageDeleteFromS3(bool isNetworkCondition) async {
+    final serviceProvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+    try {
+      setState(() {
+        isSaving = true;
+      });
+      if (isNetworkCondition) {
+        await serviceProvider.deleteImageFromS3(_imageUrl);
+        loadInitialFormValue();
+      } else {
+        serviceProvider.deleteImageFromS3(downloadUrl);
+        setState(() {
+          _imageFile = null;
+        });
+      }
+    } catch (err) {
+      Toast(message: "Unable to delete image").show(context);
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
+    }
+  }
+
+  Widget getImageChangeButton() {
+    return PassiveButton(
+      title: "Change",
+      onPressed: () {
+        showImageSelectOption(context);
+      },
+      icon: Icon(
+        Icons.edit,
+        color: AppTheme.color100,
+        size: 17,
+      ),
+      height: 44,
+      width: 135,
+    );
+  }
+
+  Widget getImageDeleteButton(bool isNetworkCondition) {
+    return PassiveButton(
+      title: "Remove",
+      onPressed: () {
+        handleImageDeleteFromS3(isNetworkCondition);
+      },
+      icon: Icon(
+        Icons.delete_outline,
+        color: AppTheme.color100,
+        size: 17,
+      ),
+      height: 44,
+      width: 135,
+    );
+  }
+
+  Widget getNetworkImageEditButtons() {
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          PassiveButton(
-            title: "Change",
-            onPressed: () {
-              showImageSelectOption(context);
-            },
-            icon: Icon(
-              Icons.edit,
-              color: AppTheme.color100,
-              size: 17,
-            ),
-            height: 44,
-            width: 135,
-          ),
-          PassiveButton(
-            title: "Remove",
-            onPressed: () async {
-              setState(() {
-                isSaving = true;
-              });
-              try {
-                final urlToDelete =
-                    _imageFile != null ? downloadUrl : _imageUrl;
-                await Provider.of<ServicesProvider>(context, listen: false)
-                    .deleteImageFromS3(urlToDelete);
-                await Provider.of<ProductProvider>(context, listen: false)
-                    .fetchProducts();
-                setState(() {
-                  _imageFile = null;
-                });
-                loadInitialFormValue();
-              } catch (err) {
-                Toast(message: Http.message(err)).show(context);
-              } finally {
-                setState(() {
-                  isSaving = false;
-                });
-              }
-            },
-            icon: Icon(
-              Icons.delete_outline,
-              color: AppTheme.color100,
-              size: 17,
-            ),
-            height: 44,
-            width: 135,
-          )
+          getImageChangeButton(),
+          _errorInNetworkImage ? SizedBox.shrink() : getImageDeleteButton(true)
         ],
+      ),
+    );
+  }
+
+  Widget getProductImageEditButtons() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [getImageChangeButton(), getImageDeleteButton(false)],
       ),
     );
   }
@@ -481,7 +507,7 @@ class _EditProductState extends State<EditProduct>
                                               BorderRadius.circular(10),
                                         ),
                                       ),
-                                      _getEditProductButttons()
+                                      getProductImageEditButtons()
                                     ],
                                   ),
                                 )
@@ -503,9 +529,14 @@ class _EditProductState extends State<EditProduct>
                                               ),
                                         child: EditProductNetworkAvatar(
                                           imageUrl: _imageUrl,
+                                          handleError: () {
+                                            setState(() {
+                                              _errorInNetworkImage = true;
+                                            });
+                                          },
                                         ),
                                       ),
-                                      _getEditProductButttons()
+                                      getNetworkImageEditButtons()
                                     ],
                                   ),
                                 ),

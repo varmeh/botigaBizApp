@@ -111,11 +111,13 @@ class EditProductNetworkAvatar extends StatelessWidget {
   final String imageUrl;
   final String imagePlaceholder;
   final double radius;
+  final Function handleError;
 
   EditProductNetworkAvatar({
     @required this.imageUrl,
     this.imagePlaceholder = 'assets/images/avatar.png',
     this.radius = 8.0,
+    this.handleError,
   });
 
   @override
@@ -133,6 +135,11 @@ class EditProductNetworkAvatar extends StatelessWidget {
         placeholder: (_, __) => _placeholderImage(),
         imageUrl: this.imageUrl,
         errorWidget: (context, url, error) {
+          Future.delayed(Duration.zero, () async {
+            if (handleError != null) {
+              handleError();
+            }
+          });
           return _placeholderImage();
         },
       ),
