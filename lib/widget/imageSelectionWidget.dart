@@ -30,17 +30,18 @@ class ImageSelectionWidget {
           Text('Add image', style: AppTheme.textStyle.color100.size(22).w700),
           SizedBox(height: 24),
           ListTile(
-              onTap: () {
-                Navigator.of(context).pop();
-                _onImageButtonPressed(context, ImageSource.camera);
-              },
-              contentPadding: EdgeInsets.only(left: 0.0),
-              leading: Icon(
-                Icons.camera_alt,
-                color: AppTheme.color100,
-              ),
-              title: Text('Take photo',
-                  style: AppTheme.textStyle.color100.size(17).w500)),
+            onTap: () {
+              Navigator.of(context).pop();
+              _onImageButtonPressed(context, ImageSource.camera);
+            },
+            contentPadding: EdgeInsets.only(left: 0.0),
+            leading: Icon(
+              Icons.camera_alt,
+              color: AppTheme.color100,
+            ),
+            title: Text('Take photo',
+                style: AppTheme.textStyle.color100.size(17).w500),
+          ),
           ListTile(
             onTap: () {
               Navigator.of(context).pop();
@@ -54,9 +55,7 @@ class ImageSelectionWidget {
             title: Text('Choose from gallery',
                 style: AppTheme.textStyle.color100.size(17).w500),
           ),
-          SizedBox(
-            height: 40,
-          ),
+          SizedBox(height: 10),
         ],
       ),
     ).show(context);
