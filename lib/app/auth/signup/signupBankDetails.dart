@@ -129,22 +129,24 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
         appBar: BotigaAppBar('Bank Details'),
         bottomNavigationBar: Material(
           elevation: 16.0,
-          child: Container(
-            color: AppTheme.backgroundColor,
-            padding: const EdgeInsets.only(
-              top: 10.0,
-              left: 10.0,
-              right: 10.0,
-              bottom: 10.0,
-            ),
-            child: FullWidthButton(
-              title: 'Save and continue',
-              onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  _formKey.currentState.save();
-                  _handleBankDetailSave();
-                }
-              },
+          child: SafeArea(
+            child: Container(
+              color: AppTheme.backgroundColor,
+              padding: const EdgeInsets.only(
+                top: 10.0,
+                left: 10.0,
+                right: 10.0,
+                bottom: 10.0,
+              ),
+              child: FullWidthButton(
+                title: 'Save and continue',
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    _handleBankDetailSave();
+                  }
+                },
+              ),
             ),
           ),
         ),
