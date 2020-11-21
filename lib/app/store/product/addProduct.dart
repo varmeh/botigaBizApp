@@ -512,6 +512,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                               visualDensity:
                                   VisualDensity(horizontal: 0, vertical: -1),
                               onTap: () {
+                                FocusScope.of(context).unfocus();
                                 showCategories();
                               },
                               trailing: Icon(Icons.keyboard_arrow_down,
