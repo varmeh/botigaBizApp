@@ -142,7 +142,8 @@ class _OrderListState extends State<OrderList> {
                                       ),
                                       Expanded(
                                         child: SearchBar(
-                                          placeholder: "Search...",
+                                          placeholder:
+                                              "Search by order number...",
                                           onClear: () {
                                             setState(() {
                                               _query = '';
@@ -265,7 +266,8 @@ class _OrderListState extends State<OrderList> {
                                   orders = orders.where(
                                     (_order) {
                                       return _order.order.number
-                                              .startsWith(_query) ==
+                                              .toLowerCase()
+                                              .contains(_query.toLowerCase()) ==
                                           true;
                                     },
                                   );

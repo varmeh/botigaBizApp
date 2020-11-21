@@ -61,7 +61,7 @@ class _ProductsState extends State<Products> {
               Padding(
                 padding: const EdgeInsets.only(top: 12, bottom: 12),
                 child: SearchBar(
-                  placeholder: 'Search...',
+                  placeholder: 'Search by product name...',
                   onClear: () {
                     setState(() {
                       _query = '';
@@ -555,7 +555,7 @@ Widget getProductTile(
     children: [
       ...productWithCategory.products
           .where((product) =>
-              product.name.toLowerCase().startsWith(_query.toLowerCase()))
+              product.name.toLowerCase().contains(_query.toLowerCase()))
           .map((product) {
         return Column(
           children: [
