@@ -138,6 +138,36 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     }
   }
 
+  void _handleMarkAsDeliverd(String orderId) async {
+    setState(() {
+      _isProcessing = true;
+    });
+    try {
+      final deliveryProvider =
+          Provider.of<DeliveryProvider>(context, listen: false);
+      final date = selectedDateForRequest == null
+          ? DateTime.now()
+          : selectedDateForRequest;
+      await deliveryProvider.setDeliveryStatus(orderId);
+      await deliveryProvider.fetchDeliveryListByApartment(
+          apartment.id, date.getRequestFormatDate());
+      Toast(
+        message: 'Order marked as deliverd',
+        icon: Icon(
+          BotigaIcons.truck,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        _isProcessing = false;
+      });
+    }
+  }
+
   void fetchDefaultDeliveryDetails() {
     final apartment =
         Provider.of<ProfileProvider>(context, listen: false).defaultApartment;
@@ -527,7 +557,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                             apartment.apartmentName,
                                             apartment.id,
                                             this._handleOutForDelivery,
-                                            selectedDateForRequest);
+                                            selectedDateForRequest,
+                                            this._handleMarkAsDeliverd);
                                       })
                                     ],
                                   );
@@ -552,11 +583,22 @@ class DeliveryRow extends StatelessWidget {
   final String apartmentId;
   final Function handleOutForDelivery;
   final DateTime selectedDateForRequest;
-  DeliveryRow(this.delivery, this.apartmentName, this.apartmentId,
-      this.handleOutForDelivery, this.selectedDateForRequest);
+  final Function handleMarkAsDeliverd;
+
+  DeliveryRow(
+      this.delivery,
+      this.apartmentName,
+      this.apartmentId,
+      this.handleOutForDelivery,
+      this.selectedDateForRequest,
+      this.handleMarkAsDeliverd);
 
   _handleOutForDelivery(String orderId) {
     this.handleOutForDelivery(orderId);
+  }
+
+  _handleMarkAsDeliverd(String orderId) {
+    this.handleMarkAsDeliverd(orderId);
   }
 
   @override
@@ -675,7 +717,7 @@ class DeliveryRow extends StatelessWidget {
                   ),
                   (delivery.order.isOpen || delivery.order.isDelayed)
                       ? Container(
-                          padding: EdgeInsets.only(left: 12, right: 10),
+                          padding: EdgeInsets.only(left: 12),
                           decoration: BoxDecoration(
                             border: Border(
                               left: BorderSide(
@@ -712,6 +754,56 @@ class DeliveryRow extends StatelessWidget {
                                   height: 32,
                                   child: Text(
                                     'Out for delivery',
+                                    textAlign: TextAlign.center,
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(12)
+                                        .letterSpace(0.2),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      : SizedBox.shrink(),
+                  delivery.order.isOutForDelivery
+                      ? Container(
+                          padding: EdgeInsets.only(left: 12),
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                  width: 1.2, color: AppTheme.dividerColor),
+                            ),
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              this._handleMarkAsDeliverd(delivery.id);
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.check,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppTheme.dividerColor),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Container(
+                                  width: 70,
+                                  height: 32,
+                                  child: Text(
+                                    'Delivered',
                                     textAlign: TextAlign.center,
                                     style: AppTheme.textStyle.color100.w500
                                         .size(12)
