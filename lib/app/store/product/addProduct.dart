@@ -273,10 +273,11 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
       setState(() {
         isSaving = true;
       });
+      final saveImageUrl = _imageFile != null ? downloadUrl : '';
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.saveProduct(_seletedCategoryId, _name, _price,
-          _quantity, _selectedQuantity, downloadUrl, _description);
+          _quantity, _selectedQuantity, saveImageUrl, _description);
       await productProvider.fetchProducts();
       BotigaBottomModal(child: addProductSuccessful()).show(context);
     } catch (err) {
