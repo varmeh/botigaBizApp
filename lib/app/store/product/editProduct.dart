@@ -24,7 +24,12 @@ class EditProduct extends StatefulWidget {
   final String productId;
   final String categoryId;
   final String categoryName;
-  EditProduct({this.productId, this.categoryId, this.categoryName});
+  final bool showWithImage;
+  EditProduct(
+      {this.productId,
+      this.categoryId,
+      this.categoryName,
+      this.showWithImage = false});
   static const routeName = 'edit-product';
   @override
   _EditProductState createState() => _EditProductState();
@@ -54,7 +59,7 @@ class _EditProductState extends State<EditProduct>
       _quantityFocusNode,
       _descriptionFocusNode;
   bool _available;
-  bool _errorInNetworkImage;
+  bool _showWithImage;
 
   AnimationController _controller;
 
@@ -72,7 +77,6 @@ class _EditProductState extends State<EditProduct>
     _quantityFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
     isSaving = false;
-    _errorInNetworkImage = false;
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
   }
@@ -85,31 +89,6 @@ class _EditProductState extends State<EditProduct>
       _isInit = true;
     }
     super.didChangeDependencies();
-  }
-
-  void loadInitialFormValue() {
-    Product product = Provider.of<ProductProvider>(context, listen: false)
-        .getProductById(widget.categoryId, widget.productId);
-    if (product != null) {
-      List productSpec = product.size.split(' ');
-      setState(() {
-        _productId = widget.productId;
-        _seletedCategory = widget.categoryName;
-        _seletedCategoryId = widget.categoryId;
-        _imageUrl = product.imageUrl;
-        _name = product.name;
-        _price = double.parse(product.price.toString());
-        _quantity = int.parse(productSpec.elementAt(0));
-        _selectedUnit = productSpec.elementAt(1);
-        _switchValue =
-            (product.description != '' && product.description != null)
-                ? true
-                : false;
-        _description = product.description;
-        _available = product.available;
-        _errorInNetworkImage = false;
-      });
-    }
   }
 
   @override
@@ -129,258 +108,8 @@ class _EditProductState extends State<EditProduct>
     super.dispose();
   }
 
-  void loadTabbarAfterAnimationCompletion(AnimationStatus status) {
-    if (status == AnimationStatus.completed) {
-      Navigator.of(context).pushAndRemoveUntil(
-        PageRouteBuilder(
-          pageBuilder: (_, __, ___) => HomeScreen(index: 1),
-          transitionDuration: Duration.zero,
-        ),
-        (route) => false,
-      );
-    }
-  }
-
-  Widget editSuccessful() {
-    return Column(
-      children: [
-        Lottie.asset(
-          'assets/lotties/checkSuccess.json',
-          width: 160.0,
-          height: 160.0,
-          fit: BoxFit.fill,
-          controller: _controller,
-          onLoaded: (composition) {
-            _controller.duration = composition.duration * 1;
-            _controller.reset();
-            _controller.forward();
-          },
-        ),
-        SizedBox(height: 42.0),
-        Text(
-          'Product updated successfuly',
-          textAlign: TextAlign.center,
-          style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
-        ),
-        SizedBox(height: 64.0),
-      ],
-    );
-  }
-
-  Widget deleteSuccessful() {
-    return Column(
-      children: [
-        Lottie.asset(
-          'assets/lotties/checkSuccess.json',
-          width: 160.0,
-          height: 160.0,
-          fit: BoxFit.fill,
-          controller: _controller,
-          onLoaded: (composition) {
-            _controller.duration = composition.duration * 1;
-            _controller.reset();
-            _controller.forward();
-          },
-        ),
-        SizedBox(height: 42.0),
-        Text(
-          'Product deleted Successfuly',
-          style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
-        ),
-        SizedBox(height: 64.0),
-      ],
-    );
-  }
-
-  void _getPreSignedUrl() async {
-    try {
-      setState(() {
-        isSaving = true;
-      });
-      final value = await Provider.of<ServicesProvider>(context, listen: false)
-          .getPresignedImageUrl();
-      setState(() {
-        uploadurl = value['uploadUrl'];
-        downloadUrl = value['downloadUrl'];
-      });
-    } catch (err) {
-      Toast(message: Http.message(err)).show(context);
-    } finally {
-      setState(() {
-        isSaving = false;
-      });
-    }
-  }
-
-  void _handleImageUpload(PickedFile file) async {
-    setState(() {
-      isSaving = true;
-    });
-    try {
-      await Provider.of<ServicesProvider>(context, listen: false)
-          .uploadImageToS3(uploadurl, file);
-    } catch (err) {
-      Toast(message: Http.message(err)).show(context);
-      setState(() {
-        _imageFile = null;
-      });
-    } finally {
-      setState(() {
-        isSaving = false;
-      });
-    }
-  }
-
-  void showImageSelectOption(BuildContext context) {
-    ImageSelectionWidget(
-      width: 240,
-      height: 180,
-      imageQuality: 100,
-      onImageSelection: (imageFile) {
-        setState(() {
-          _imageFile = imageFile;
-        });
-        this._handleImageUpload(imageFile);
-      },
-    ).show(context);
-  }
-
-  void _handleProductEdit() async {
-    try {
-      setState(() {
-        isSaving = true;
-      });
-      final _productDescription = _switchValue == true ? _description : '';
-      final updateImage = _imageFile != null ? true : false;
-      final productProvider =
-          Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.updateProduct(
-          _seletedCategoryId,
-          _productId,
-          _name,
-          _price,
-          _quantity,
-          _selectedUnit,
-          downloadUrl,
-          _productDescription,
-          _available,
-          updateImage);
-      await productProvider.fetchProducts();
-      BotigaBottomModal(child: editSuccessful()).show(context);
-    } catch (error) {
-      Toast(message: Http.message(error)).show(context);
-    } finally {
-      setState(() {
-        isSaving = false;
-      });
-    }
-  }
-
-  void _handleDelete() async {
-    try {
-      setState(() {
-        isSaving = true;
-      });
-      final productProvider =
-          Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.deleteProduct(
-        _seletedCategoryId,
-        _productId,
-      );
-      await productProvider.fetchProducts();
-      BotigaBottomModal(child: deleteSuccessful()).show(context);
-    } catch (error) {
-      Toast(message: Http.message(error)).show(context);
-    } finally {
-      setState(() {
-        isSaving = false;
-      });
-    }
-  }
-
-  void handleImageDeleteFromS3(bool isNetworkCondition) async {
-    final serviceProvider =
-        Provider.of<ServicesProvider>(context, listen: false);
-    try {
-      setState(() {
-        isSaving = true;
-      });
-      if (isNetworkCondition) {
-        await serviceProvider.deleteImageFromS3(_imageUrl);
-        loadInitialFormValue();
-      } else {
-        serviceProvider.deleteImageFromS3(downloadUrl);
-        setState(() {
-          _imageFile = null;
-        });
-      }
-    } catch (err) {
-      Toast(message: "Unable to delete image").show(context);
-    } finally {
-      setState(() {
-        isSaving = false;
-      });
-    }
-  }
-
-  Widget getImageChangeButton() {
-    return PassiveButton(
-      title: "Change",
-      onPressed: () {
-        showImageSelectOption(context);
-      },
-      icon: Icon(
-        Icons.edit,
-        color: AppTheme.color100,
-        size: 17,
-      ),
-      height: 44,
-      width: 135,
-    );
-  }
-
-  Widget getImageDeleteButton(bool isNetworkCondition) {
-    return PassiveButton(
-      title: "Remove",
-      onPressed: () {
-        handleImageDeleteFromS3(isNetworkCondition);
-      },
-      icon: Icon(
-        Icons.delete_outline,
-        color: AppTheme.color100,
-        size: 17,
-      ),
-      height: 44,
-      width: 135,
-    );
-  }
-
-  Widget getNetworkImageEditButtons() {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          getImageChangeButton(),
-          _errorInNetworkImage ? SizedBox.shrink() : getImageDeleteButton(true)
-        ],
-      ),
-    );
-  }
-
-  Widget getProductImageEditButtons() {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [getImageChangeButton(), getImageDeleteButton(false)],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    print(_imageFile);
     return LoaderOverlay(
       isLoading: isSaving,
       child: Scaffold(
@@ -485,61 +214,10 @@ class _EditProductState extends State<EditProduct>
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           _imageFile != null
-                              ? ConstrainedBox(
-                                  constraints: BoxConstraints.tight(
-                                    Size(double.infinity, 135),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 180,
-                                        height: 135,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: ClipRRect(
-                                          child: Image.file(
-                                            File(_imageFile.path),
-                                            fit: BoxFit.cover,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      getProductImageEditButtons()
-                                    ],
-                                  ),
-                                )
-                              : ConstrainedBox(
-                                  constraints: BoxConstraints.tight(
-                                    Size(double.infinity, 135),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      ColorFiltered(
-                                        colorFilter: _available
-                                            ? ColorFilter.mode(
-                                                Colors.transparent,
-                                                BlendMode.multiply,
-                                              )
-                                            : ColorFilter.mode(
-                                                AppTheme.backgroundColor,
-                                                BlendMode.saturation,
-                                              ),
-                                        child: EditProductNetworkAvatar(
-                                          imageUrl: _imageUrl,
-                                          handleError: () {
-                                            setState(() {
-                                              _errorInNetworkImage = true;
-                                            });
-                                          },
-                                        ),
-                                      ),
-                                      getNetworkImageEditButtons()
-                                    ],
-                                  ),
-                                ),
+                              ? getSelectedImageContainer()
+                              : _showWithImage == false
+                                  ? getSelectImageContainer()
+                                  : getNetworkImage(),
                           SizedBox(
                             height: 26,
                           ),
@@ -711,6 +389,392 @@ class _EditProductState extends State<EditProduct>
               ),
             ),
           )),
+    );
+  }
+
+  void loadInitialFormValue() {
+    Product product = Provider.of<ProductProvider>(context, listen: false)
+        .getProductById(widget.categoryId, widget.productId);
+    if (product != null) {
+      List productSpec = product.size.split(' ');
+      setState(() {
+        _productId = widget.productId;
+        _seletedCategory = widget.categoryName;
+        _seletedCategoryId = widget.categoryId;
+        _imageUrl = product.imageUrl;
+        _name = product.name;
+        _price = double.parse(product.price.toString());
+        _quantity = int.parse(productSpec.elementAt(0));
+        _selectedUnit = productSpec.elementAt(1);
+        _switchValue =
+            (product.description != '' && product.description != null)
+                ? true
+                : false;
+        _description = product.description;
+        _available = product.available;
+        _showWithImage = widget.showWithImage;
+      });
+    }
+  }
+
+  void loadTabbarAfterAnimationCompletion(AnimationStatus status) {
+    if (status == AnimationStatus.completed) {
+      Navigator.of(context).pushAndRemoveUntil(
+        PageRouteBuilder(
+          pageBuilder: (_, __, ___) => HomeScreen(index: 1),
+          transitionDuration: Duration.zero,
+        ),
+        (route) => false,
+      );
+    }
+  }
+
+  Widget editSuccessful() {
+    return Column(
+      children: [
+        Lottie.asset(
+          'assets/lotties/checkSuccess.json',
+          width: 160.0,
+          height: 160.0,
+          fit: BoxFit.fill,
+          controller: _controller,
+          onLoaded: (composition) {
+            _controller.duration = composition.duration * 1;
+            _controller.reset();
+            _controller.forward();
+          },
+        ),
+        SizedBox(height: 42.0),
+        Text(
+          'Product updated successfuly',
+          textAlign: TextAlign.center,
+          style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
+        ),
+        SizedBox(height: 64.0),
+      ],
+    );
+  }
+
+  Widget deleteSuccessful() {
+    return Column(
+      children: [
+        Lottie.asset(
+          'assets/lotties/checkSuccess.json',
+          width: 160.0,
+          height: 160.0,
+          fit: BoxFit.fill,
+          controller: _controller,
+          onLoaded: (composition) {
+            _controller.duration = composition.duration * 1;
+            _controller.reset();
+            _controller.forward();
+          },
+        ),
+        SizedBox(height: 42.0),
+        Text(
+          'Product deleted Successfuly',
+          style: AppTheme.textStyle.w700.color100.size(20.0).lineHeight(1.25),
+        ),
+        SizedBox(height: 64.0),
+      ],
+    );
+  }
+
+  void _getPreSignedUrl() async {
+    try {
+      setState(() {
+        isSaving = true;
+      });
+      final value = await Provider.of<ServicesProvider>(context, listen: false)
+          .getPresignedImageUrl();
+      setState(() {
+        uploadurl = value['uploadUrl'];
+        downloadUrl = value['downloadUrl'];
+      });
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
+    }
+  }
+
+  void _handleImageUpload(PickedFile file) async {
+    setState(() {
+      isSaving = true;
+    });
+    try {
+      await Provider.of<ServicesProvider>(context, listen: false)
+          .uploadImageToS3(uploadurl, file);
+    } catch (err) {
+      Toast(message: Http.message(err)).show(context);
+      setState(() {
+        _imageFile = null;
+      });
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
+    }
+  }
+
+  void showImageSelectOption(BuildContext context) {
+    ImageSelectionWidget(
+      width: 240,
+      height: 180,
+      imageQuality: 100,
+      onImageSelection: (imageFile) {
+        setState(() {
+          _imageFile = imageFile;
+        });
+        this._handleImageUpload(imageFile);
+      },
+    ).show(context);
+  }
+
+  void _handleProductEdit() async {
+    try {
+      setState(() {
+        isSaving = true;
+      });
+      final _productDescription = _switchValue == true ? _description : '';
+      final updateImage = _imageFile != null ? true : false;
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.updateProduct(
+          _seletedCategoryId,
+          _productId,
+          _name,
+          _price,
+          _quantity,
+          _selectedUnit,
+          downloadUrl,
+          _productDescription,
+          _available,
+          updateImage);
+      await productProvider.fetchProducts();
+      BotigaBottomModal(child: editSuccessful()).show(context);
+    } catch (error) {
+      Toast(message: Http.message(error)).show(context);
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
+    }
+  }
+
+  void _handleDelete() async {
+    try {
+      setState(() {
+        isSaving = true;
+      });
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.deleteProduct(
+        _seletedCategoryId,
+        _productId,
+      );
+      await productProvider.fetchProducts();
+      BotigaBottomModal(child: deleteSuccessful()).show(context);
+    } catch (error) {
+      Toast(message: Http.message(error)).show(context);
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
+    }
+  }
+
+  void handleImageDeleteFromS3() async {
+    final serviceProvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+    try {
+      setState(() {
+        isSaving = true;
+      });
+      if (_imageFile == null) {
+        final productProvider =
+            Provider.of<ProductProvider>(context, listen: false);
+        await productProvider.updateProduct(
+            _seletedCategoryId,
+            _productId,
+            _name,
+            _price,
+            _quantity,
+            _selectedUnit,
+            "",
+            _description,
+            _available,
+            true);
+        await productProvider.fetchProducts();
+        setState(() {
+          _showWithImage = false;
+        });
+      } else {
+        serviceProvider.deleteImageFromS3(downloadUrl);
+        setState(() {
+          _imageFile = null;
+        });
+      }
+    } catch (err) {
+      Toast(message: "Unable to delete image").show(context);
+    } finally {
+      setState(() {
+        isSaving = false;
+      });
+    }
+  }
+
+  Widget getImageChangeButton() {
+    return PassiveButton(
+      title: "Change",
+      onPressed: () {
+        showImageSelectOption(context);
+      },
+      icon: Icon(
+        Icons.edit,
+        color: AppTheme.color100,
+        size: 17,
+      ),
+      height: 44,
+      width: 135,
+    );
+  }
+
+  Widget getImageDeleteButton() {
+    return PassiveButton(
+      title: "Remove",
+      onPressed: () {
+        handleImageDeleteFromS3();
+      },
+      icon: Icon(
+        Icons.delete_outline,
+        color: AppTheme.color100,
+        size: 17,
+      ),
+      height: 44,
+      width: 135,
+    );
+  }
+
+  Widget getProductImageEditButtons() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [getImageChangeButton(), getImageDeleteButton()],
+      ),
+    );
+  }
+
+  Widget getSelectImageContainer() {
+    return Container(
+      width: double.infinity,
+      height: 176,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(
+          style: BorderStyle.solid,
+          color: AppTheme.color100.withOpacity(0.25),
+          width: 1.0,
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          FlatButton.icon(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            icon: Padding(
+              padding: const EdgeInsets.only(
+                left: 20,
+                top: 14,
+                bottom: 14,
+              ),
+              child: Icon(BotigaIcons.gallery, size: 18),
+            ),
+            onPressed: () {
+              showImageSelectOption(context);
+            },
+            color: Colors.black.withOpacity(0.05),
+            label: Padding(
+              padding: const EdgeInsets.only(
+                right: 20,
+                top: 14,
+                bottom: 14,
+                left: 8,
+              ),
+              child: Text('Add image',
+                  style: AppTheme.textStyle.color100.w500.size(15)),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 55, right: 55, top: 16),
+            child: Text(
+              'Adding image will increase people interest in your product',
+              textAlign: TextAlign.center,
+              style: AppTheme.textStyle.color50.w400.size(12).letterSpace(0.2),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget getNetworkImage() {
+    return ConstrainedBox(
+      constraints: BoxConstraints.tight(
+        Size(double.infinity, 135),
+      ),
+      child: Row(
+        children: [
+          ColorFiltered(
+            colorFilter: _available
+                ? ColorFilter.mode(
+                    Colors.transparent,
+                    BlendMode.multiply,
+                  )
+                : ColorFilter.mode(
+                    AppTheme.backgroundColor,
+                    BlendMode.saturation,
+                  ),
+            child: EditProductNetworkAvatar(
+              imageUrl: _imageUrl,
+            ),
+          ),
+          getProductImageEditButtons()
+        ],
+      ),
+    );
+  }
+
+  Widget getSelectedImageContainer() {
+    return ConstrainedBox(
+      constraints: BoxConstraints.tight(
+        Size(double.infinity, 135),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 180,
+            height: 135,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: ClipRRect(
+              child: Image.file(
+                File(_imageFile.path),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          getProductImageEditButtons()
+        ],
+      ),
     );
   }
 }

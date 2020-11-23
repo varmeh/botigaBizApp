@@ -19,6 +19,7 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   bool _isApiInProgress;
   String _query;
+  Map _imageStatus = Map();
 
   @override
   void initState() {
@@ -36,6 +37,10 @@ class _ProductsState extends State<Products> {
     setState(() {
       _isApiInProgress = status;
     });
+  }
+
+  _setNetworkImageStatus(String productId, bool status) {
+    _imageStatus[productId] = status;
   }
 
   @override
@@ -80,8 +85,13 @@ class _ProductsState extends State<Products> {
                       child: ListView(
                         children: <Widget>[
                           ..._products.map((productWithCategory) {
-                            return getProductTile(context, productWithCategory,
-                                this._setApiInProgressStatus, _query);
+                            return getProductTile(
+                                context,
+                                productWithCategory,
+                                this._setApiInProgressStatus,
+                                _query,
+                                this._setNetworkImageStatus,
+                                _imageStatus);
                           })
                         ],
                       ),
@@ -90,8 +100,12 @@ class _ProductsState extends State<Products> {
                       child: ListView(
                         children: <Widget>[
                           ..._products.map((productWithCategory) {
-                            return getTile(context, productWithCategory,
-                                this._setApiInProgressStatus);
+                            return getTile(
+                                context,
+                                productWithCategory,
+                                this._setApiInProgressStatus,
+                                this._setNetworkImageStatus,
+                                _imageStatus);
                           })
                         ],
                       ),
@@ -104,135 +118,13 @@ class _ProductsState extends State<Products> {
   }
 }
 
-Widget getTile(BuildContext context, ProductByCategory productWithCategory,
-    Function setApiStatus) {
-  void setProductAvilablity(
-      Product product, bool availabelStatus, Function onFail) async {
-    try {
-      setApiStatus(true);
-      final productProvider =
-          Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.updateProductStatus(
-          productWithCategory.categoryId, product, availabelStatus);
-      await productProvider.fetchProducts();
-      Toast(
-        message: 'Product status updated',
-        icon: Icon(
-          Icons.check_circle,
-          size: 24,
-          color: AppTheme.backgroundColor,
-        ),
-      ).show(context);
-    } catch (error) {
-      onFail();
-      Toast(message: Http.message(error)).show(context);
-    } finally {
-      setApiStatus(false);
-    }
-  }
-
-  final theme = Theme.of(context).copyWith(
-    accentColor: AppTheme.color100,
-    dividerColor: Colors.transparent,
-    unselectedWidgetColor: AppTheme.color100,
-    highlightColor: Colors.transparent,
-    splashColor: Colors.transparent,
-  );
-  final totalProducts = productWithCategory.products.length < 10
-      ? '0${productWithCategory.products.length}'
-      : '${productWithCategory.products.length}';
-  return Column(
-    children: <Widget>[
-      Theme(
-        data: theme,
-        child: ListTileTheme(
-          contentPadding: EdgeInsets.all(0),
-          child: ExpansionTile(
-            title: RichText(
-              text: TextSpan(
-                text: '$totalProducts',
-                style: AppTheme.textStyle.w600.size(12).color50.letterSpace(1),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: ' ',
-                    style: AppTheme.textStyle.letterSpace(20),
-                  ),
-                  TextSpan(
-                    text: '${productWithCategory.name.toUpperCase()}',
-                    style: AppTheme.textStyle.w600
-                        .size(12)
-                        .color100
-                        .letterSpace(1),
-                  ),
-                ],
-              ),
-            ),
-            children: [
-              Column(
-                children: [
-                  Divider(
-                    color: AppTheme.color100,
-                    thickness: 1,
-                    indent: 0,
-                    endIndent: 285,
-                  ),
-                  ...productWithCategory.products.asMap().entries.map((entry) {
-                    int idx = entry.key;
-                    if (idx == productWithCategory.products.length - 1) {
-                      return OpenContainer(
-                        closedElevation: 0.0,
-                        transitionDuration: Duration(milliseconds: 500),
-                        closedBuilder: (context, openContainer) =>
-                            ProductItemRow(entry.value, setProductAvilablity,
-                                openContainer),
-                        openBuilder: (_, __) => EditProduct(
-                          productId: entry.value.id,
-                          categoryId: productWithCategory.categoryId,
-                          categoryName: productWithCategory.name,
-                        ),
-                      );
-                    }
-                    return Column(
-                      children: [
-                        OpenContainer(
-                          closedElevation: 0.0,
-                          transitionDuration: Duration(milliseconds: 500),
-                          closedBuilder: (context, openContainer) =>
-                              ProductItemRow(entry.value, setProductAvilablity,
-                                  openContainer),
-                          openBuilder: (_, __) => EditProduct(
-                            productId: entry.value.id,
-                            categoryId: productWithCategory.categoryId,
-                            categoryName: productWithCategory.name,
-                          ),
-                        ),
-                        Divider(
-                          color: AppTheme.dividerColor,
-                          thickness: 1.2,
-                        ),
-                      ],
-                    );
-                  })
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-      Divider(
-        color: AppTheme.dividerColor,
-        thickness: 1.2,
-      ),
-    ],
-  );
-}
-
 class ProductItemRow extends StatefulWidget {
   final Product product;
-
   final Function setProductAvilablity;
   final Function onOpen;
-  ProductItemRow(this.product, this.setProductAvilablity, this.onOpen);
+  final Function setImageStatus;
+  ProductItemRow(this.product, this.setProductAvilablity, this.onOpen,
+      this.setImageStatus);
   @override
   _ProductItemRowState createState() => _ProductItemRowState();
 }
@@ -507,6 +399,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
   Widget build(BuildContext context) {
     Product product = widget.product;
     String statusText = _switchValue ? "Available" : "Not Available";
+    widget.setImageStatus(product.id, _showWithImage);
     return GestureDetector(
       onTap: () {
         widget.onOpen();
@@ -521,11 +414,136 @@ class _ProductItemRowState extends State<ProductItemRow> {
   }
 }
 
+Widget getTile(BuildContext context, ProductByCategory productWithCategory,
+    Function setApiStatus, Function setImageStatus, Map imageStatus) {
+  void setProductAvilablity(
+      Product product, bool availabelStatus, Function onFail) async {
+    try {
+      setApiStatus(true);
+      final productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
+      await productProvider.updateProductStatus(
+          productWithCategory.categoryId, product, availabelStatus);
+      await productProvider.fetchProducts();
+      Toast(
+        message: 'Product status updated',
+        icon: Icon(
+          Icons.check_circle,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
+    } catch (error) {
+      onFail();
+      Toast(message: Http.message(error)).show(context);
+    } finally {
+      setApiStatus(false);
+    }
+  }
+
+  final theme = Theme.of(context).copyWith(
+    accentColor: AppTheme.color100,
+    dividerColor: Colors.transparent,
+    unselectedWidgetColor: AppTheme.color100,
+    highlightColor: Colors.transparent,
+    splashColor: Colors.transparent,
+  );
+  final totalProducts = productWithCategory.products.length < 10
+      ? '0${productWithCategory.products.length}'
+      : '${productWithCategory.products.length}';
+  return Column(
+    children: <Widget>[
+      Theme(
+        data: theme,
+        child: ListTileTheme(
+          contentPadding: EdgeInsets.all(0),
+          child: ExpansionTile(
+            title: RichText(
+              text: TextSpan(
+                text: '$totalProducts',
+                style: AppTheme.textStyle.w600.size(12).color50.letterSpace(1),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: ' ',
+                    style: AppTheme.textStyle.letterSpace(20),
+                  ),
+                  TextSpan(
+                    text: '${productWithCategory.name.toUpperCase()}',
+                    style: AppTheme.textStyle.w600
+                        .size(12)
+                        .color100
+                        .letterSpace(1),
+                  ),
+                ],
+              ),
+            ),
+            children: [
+              Column(
+                children: [
+                  Divider(
+                    color: AppTheme.color100,
+                    thickness: 1,
+                    indent: 0,
+                    endIndent: 285,
+                  ),
+                  ...productWithCategory.products.asMap().entries.map((entry) {
+                    int idx = entry.key;
+                    if (idx == productWithCategory.products.length - 1) {
+                      return OpenContainer(
+                        closedElevation: 0.0,
+                        transitionDuration: Duration(milliseconds: 500),
+                        closedBuilder: (context, openContainer) =>
+                            ProductItemRow(entry.value, setProductAvilablity,
+                                openContainer, setImageStatus),
+                        openBuilder: (_, __) => EditProduct(
+                            productId: entry.value.id,
+                            categoryId: productWithCategory.categoryId,
+                            categoryName: productWithCategory.name,
+                            showWithImage: imageStatus[entry.value.id]),
+                      );
+                    }
+                    return Column(
+                      children: [
+                        OpenContainer(
+                          closedElevation: 0.0,
+                          transitionDuration: Duration(milliseconds: 500),
+                          closedBuilder: (context, openContainer) =>
+                              ProductItemRow(entry.value, setProductAvilablity,
+                                  openContainer, setImageStatus),
+                          openBuilder: (_, __) => EditProduct(
+                              productId: entry.value.id,
+                              categoryId: productWithCategory.categoryId,
+                              categoryName: productWithCategory.name,
+                              showWithImage: imageStatus[entry.value.id]),
+                        ),
+                        Divider(
+                          color: AppTheme.dividerColor,
+                          thickness: 1.2,
+                        ),
+                      ],
+                    );
+                  })
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+      Divider(
+        color: AppTheme.dividerColor,
+        thickness: 1.2,
+      ),
+    ],
+  );
+}
+
 Widget getProductTile(
     BuildContext context,
     ProductByCategory productWithCategory,
     Function setApiStatus,
-    String _query) {
+    String _query,
+    Function setImageStatus,
+    Map imageStatus) {
   void setProductAvilablity(
       Product product, bool availabelStatus, Function onFail) async {
     try {
@@ -562,13 +580,13 @@ Widget getProductTile(
             OpenContainer(
               closedElevation: 0.0,
               transitionDuration: Duration(milliseconds: 500),
-              closedBuilder: (context, openContainer) =>
-                  ProductItemRow(product, setProductAvilablity, openContainer),
+              closedBuilder: (context, openContainer) => ProductItemRow(
+                  product, setProductAvilablity, openContainer, setImageStatus),
               openBuilder: (_, __) => EditProduct(
-                productId: product.id,
-                categoryId: productWithCategory.categoryId,
-                categoryName: productWithCategory.name,
-              ),
+                  productId: product.id,
+                  categoryId: productWithCategory.categoryId,
+                  categoryName: productWithCategory.name,
+                  showWithImage: imageStatus[product.id]),
             ),
             Divider(
               color: AppTheme.dividerColor,
