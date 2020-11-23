@@ -295,82 +295,77 @@ class _ProductItemRowState extends State<ProductItemRow> {
           Row(
             children: <Widget>[
               Expanded(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: 70,
-                  ),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: 180,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${product.name}',
-                                style: AppTheme.textStyle.color100
-                                    .size(15)
-                                    .lineHeight(1.33)
-                                    .w500,
-                              ),
-                              Text(
-                                '${product.size} . $rupeeSymbol${product.price}',
-                                style: AppTheme.textStyle.color50
-                                    .size(13)
-                                    .lineHeight(1.33)
-                                    .w500
-                                    .letterSpace(0.5),
-                              ),
-                            ],
-                          ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Container(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: 180,
                         ),
-                      ),
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxWidth: 80,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${product.name}',
+                              style: AppTheme.textStyle.color100
+                                  .size(15)
+                                  .lineHeight(1.33)
+                                  .w500,
                             ),
-                            child: Text(
-                              statusText,
-                              textAlign: TextAlign.center,
+                            Text(
+                              '${product.size} . $rupeeSymbol${product.price}',
                               style: AppTheme.textStyle.color50
-                                  .size(12)
+                                  .size(13)
                                   .lineHeight(1.33)
                                   .w500
-                                  .letterSpace(0.2),
+                                  .letterSpace(0.5),
                             ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: 80,
                           ),
-                          Transform.scale(
-                            alignment: Alignment.centerRight,
-                            scale: 0.75,
-                            child: CupertinoSwitch(
-                              value: _switchValue,
-                              onChanged: (bool value) {
-                                setState(
+                          child: Text(
+                            statusText,
+                            textAlign: TextAlign.center,
+                            style: AppTheme.textStyle.color50
+                                .size(12)
+                                .lineHeight(1.33)
+                                .w500
+                                .letterSpace(0.2),
+                          ),
+                        ),
+                        Transform.scale(
+                          alignment: Alignment.centerRight,
+                          scale: 0.75,
+                          child: CupertinoSwitch(
+                            value: _switchValue,
+                            onChanged: (bool value) {
+                              setState(
+                                () {
+                                  _switchValue = value;
+                                },
+                              );
+                              widget.setProductAvilablity(widget.product, value,
                                   () {
-                                    _switchValue = value;
-                                  },
-                                );
-                                widget.setProductAvilablity(
-                                    widget.product, value, () {
-                                  setState(() {
-                                    _switchValue = !value;
-                                  });
+                                setState(() {
+                                  _switchValue = !value;
                                 });
-                              },
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                              });
+                            },
+                          ),
+                        )
+                      ],
+                    )
+                  ],
                 ),
               )
             ],
