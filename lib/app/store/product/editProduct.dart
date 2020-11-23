@@ -181,12 +181,15 @@ class _EditProductState extends State<EditProduct>
                           borderRadius: BorderRadius.circular(6.0),
                         ),
                         onPressed: () {
-                          if (_formKey.currentState.validate()) {
+                          if (this.isFormEdited() &&
+                              _formKey.currentState.validate()) {
                             _formKey.currentState.save();
                             _handleProductEdit();
                           }
                         },
-                        color: AppTheme.primaryColor,
+                        color: this.isFormEdited()
+                            ? AppTheme.primaryColor
+                            : AppTheme.dividerColor,
                         child: Text(
                           'Update',
                           style: AppTheme.textStyle
@@ -226,6 +229,7 @@ class _EditProductState extends State<EditProduct>
                               focusNode: _nameFocusNode,
                               labelText: 'Product name',
                               onSave: (value) => _name = value,
+                              onChange: (_) => handleFormChange(),
                               validator: nameValidator,
                               nextFocusNode: _priceFocusNode),
                           SizedBox(
@@ -264,6 +268,7 @@ class _EditProductState extends State<EditProduct>
                               labelText: 'Price',
                               keyboardType: TextInputType.datetime,
                               onSave: (value) => _price = double.parse(value),
+                              onChange: (_) => handleFormChange(),
                               validator: (value) {
                                 if (value.isEmpty) {
                                   return 'Required';
@@ -282,6 +287,7 @@ class _EditProductState extends State<EditProduct>
                             labelText: 'Quantity',
                             keyboardType: TextInputType.datetime,
                             onSave: (value) => _quantity = int.parse(value),
+                            onChange: (_) => handleFormChange(),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Required';
@@ -381,6 +387,7 @@ class _EditProductState extends State<EditProduct>
                               focusNode: _descriptionFocusNode,
                               labelText: 'Description',
                               onSave: (value) => _description = value,
+                              onChange: (_) => handleFormChange(),
                             ),
                           )
                         : SizedBox()
@@ -390,6 +397,35 @@ class _EditProductState extends State<EditProduct>
             ),
           )),
     );
+  }
+
+  void handleFormChange() {
+    Future.delayed(const Duration(milliseconds: 5), () {
+      if (_formKey.currentState.validate()) {
+        _formKey.currentState.save();
+        setState(() {});
+      }
+    });
+  }
+
+  bool isFormEdited() {
+    bool isEdited = true;
+    Product product = Provider.of<ProductProvider>(context, listen: false)
+        .getProductById(widget.categoryId, widget.productId);
+    List productSpec = product.size.split(' ');
+    int quantity = int.parse(productSpec.elementAt(0));
+    String selectedUnit = productSpec.elementAt(1);
+    String description = _switchValue ? _description : '';
+    if (product.name == _name &&
+        product.price == _price &&
+        quantity == _quantity &&
+        selectedUnit == _selectedUnit &&
+        product.description == description &&
+        _imageFile == null) {
+      isEdited = false;
+    }
+
+    return isEdited;
   }
 
   void loadInitialFormValue() {

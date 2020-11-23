@@ -45,11 +45,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                 closedShape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(50.0)),
                 ),
-                closedElevation: 0.0,
+                closedElevation: 4.0,
                 transitionDuration: Duration(milliseconds: 500),
-                closedBuilder: (context, openContainer) => Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: FloatingActionButton.extended(
+                closedBuilder: (context, openContainer) {
+                  return FloatingActionButton.extended(
                     backgroundColor: AppTheme.backgroundColor,
                     elevation: 4.0,
                     icon: const Icon(Icons.add, color: Color(0xff179F57)),
@@ -62,8 +61,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                     onPressed: () {
                       openContainer();
                     },
-                  ),
-                ),
+                  );
+                },
                 openBuilder: (_, __) => SelectArea(),
               ),
             )
