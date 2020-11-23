@@ -182,31 +182,35 @@ class _StoreScreenState extends State<StoreScreen>
   }
 
   Widget _addProduct() {
-    return OpenContainer(
+    return Padding(
+      padding: EdgeInsets.only(bottom: 28.0),
+      child: OpenContainer(
+        closedColor: AppTheme.backgroundColor,
+        closedShape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(50.0)),
+        ),
         closedElevation: 0.0,
         transitionDuration: Duration(milliseconds: 500),
-        closedBuilder: (context, openContainer) {
-          return Container(
-            color: Colors.transparent,
-            margin: const EdgeInsets.only(bottom: 32.0),
-            padding: const EdgeInsets.symmetric(horizontal: 2.0),
-            child: FloatingActionButton.extended(
-              elevation: 4.0,
-              backgroundColor: AppTheme.backgroundColor,
-              icon: const Icon(Icons.add, color: Color(0xff179F57)),
-              label: Text(
-                'ADD PRODUCT',
+        closedBuilder: (context, openContainer) => Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: FloatingActionButton.extended(
+            backgroundColor: AppTheme.backgroundColor,
+            elevation: 4.0,
+            icon: const Icon(Icons.add, color: Color(0xff179F57)),
+            label: Text('ADD PRODUCT',
                 style: AppTheme.textStyle
-                    .colored(AppTheme.primaryColor)
-                    .w700
                     .size(12)
-                    .letterSpace(1),
-              ),
-              onPressed: () => openContainer(),
-            ),
-          );
-        },
-        openBuilder: (_, __) => AddProduct());
+                    .w700
+                    .letterSpace(1)
+                    .colored(AppTheme.primaryColor)),
+            onPressed: () {
+              openContainer();
+            },
+          ),
+        ),
+        openBuilder: (_, __) => AddProduct(),
+      ),
+    );
   }
 
   Widget _addCategory() {
