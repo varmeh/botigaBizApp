@@ -521,8 +521,8 @@ class _EditProductState extends State<EditProduct>
 
   void showImageSelectOption(BuildContext context) {
     ImageSelectionWidget(
-      width: 240,
-      height: 180,
+      width: 180,
+      height: 135,
       imageQuality: 100,
       onImageSelection: (imageFile) {
         setState(() {
