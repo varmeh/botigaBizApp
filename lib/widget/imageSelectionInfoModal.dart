@@ -1,6 +1,7 @@
 import '../theme/index.dart';
 import 'package:flutter/material.dart';
 import './buttons/activeButton.dart';
+import '../util/keyStore.dart';
 
 class ImageSelectionInfoModal extends StatelessWidget {
   @override
@@ -119,7 +120,10 @@ class ImageSelectionInfoModal extends StatelessWidget {
               },
             ),
             FlatButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await KeyStore.setDontShowImageInfoModal();
+                  Navigator.of(context).pop();
+                },
                 child: Text(
                   "Don’t show again",
                   style: AppTheme.textStyle.w600.size(15).color50,

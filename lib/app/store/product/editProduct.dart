@@ -82,11 +82,14 @@ class _EditProductState extends State<EditProduct>
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
     Future.delayed(const Duration(milliseconds: 500), () {
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (_) => ImageSelectionInfoModal(),
-      );
+      bool showImageInfoModal = KeyStore.showImageInfoModal();
+      if (showImageInfoModal) {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (_) => ImageSelectionInfoModal(),
+        );
+      }
     });
   }
 
@@ -382,7 +385,7 @@ class _EditProductState extends State<EditProduct>
                             child: BotigaTextFieldForm(
                               initialValue: _description,
                               maxLines: 3,
-                              maxLength: 80,
+                              maxLength: 120,
                               focusNode: _descriptionFocusNode,
                               labelText: 'Description',
                               onSave: (value) => _description = value,

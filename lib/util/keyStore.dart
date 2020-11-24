@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class KeyStore {
   static const _keyFirstRun = 'firstRun';
+  static const _imageInfoModal = 'imageInfoModal';
   static SharedPreferences _prefs;
 
   static Future<void> initialize() async {
@@ -14,5 +15,13 @@ class KeyStore {
 
   static Future<void> setFirstRun() async {
     await _prefs.setBool(_keyFirstRun, true);
+  }
+
+  static Future<void> setDontShowImageInfoModal() async {
+    await _prefs.setBool(_imageInfoModal, true);
+  }
+
+  static bool showImageInfoModal() {
+    return !_prefs.containsKey(_imageInfoModal);
   }
 }
