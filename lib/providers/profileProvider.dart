@@ -199,14 +199,15 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future updateBankDetails(String beneficiaryName, String accountNumber,
-      String ifscCode, String bankName) async {
+      String ifscCode, String bankName, String accountType) async {
     return Http.patch(
       '/api/seller/profile/bankdetails',
       body: {
         "beneficiaryName": beneficiaryName,
         "accountNumber": accountNumber,
         "ifscCode": ifscCode,
-        "bankName": bankName
+        "bankName": bankName,
+        "accountType": accountType
       },
     );
   }

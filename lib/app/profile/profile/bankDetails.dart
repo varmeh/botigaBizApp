@@ -44,7 +44,7 @@ class _BankDetailsState extends State<BankDetails> {
     _ifscCode = '';
     _bankName = '';
     _editable = false;
-    _accType = 'current';
+    _accType = '';
     _isInit = false;
     _isLoading = false;
     _isError = false;
@@ -76,6 +76,7 @@ class _BankDetailsState extends State<BankDetails> {
         _ifscCode = bankDetails['ifscCode'];
         _bankName = bankDetails['bankName'];
         _editable = bankDetails['editable'];
+        _accType = bankDetails['accountType'];
       });
     } catch (err) {
       setState(() {
@@ -118,6 +119,7 @@ class _BankDetailsState extends State<BankDetails> {
                       ifscCode: _ifscCode,
                       bankName: _bankName,
                       isSignUpFlow: false,
+                      accountType: _accType,
                     )
                   : SingleChildScrollView(
                       child: _editable == true

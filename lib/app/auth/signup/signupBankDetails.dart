@@ -21,11 +21,13 @@ class SignUpBankeDetails extends StatefulWidget {
   final String accountNumber;
   final String ifscCode;
   final String bankName;
+  final String accountType;
   SignUpBankeDetails(
       {this.beneficiaryName = '',
       this.accountNumber = '',
       this.ifscCode = '',
       this.bankName = '',
+      this.accountType = '',
       this.isSignUpFlow = true});
   @override
   _SignUpBankeDetailsState createState() => _SignUpBankeDetailsState();
@@ -47,7 +49,7 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
     _beneficiaryNameFocusNode = FocusNode();
     _accountNumberFocusNode = FocusNode();
     _ifscCodeFocusNode = FocusNode();
-    _accType = 'current';
+    _accType = widget.accountType;
     _beneficiaryName = widget.beneficiaryName;
     _accountNumber = widget.accountNumber;
     _ifscCode = widget.ifscCode;
@@ -93,7 +95,7 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
       final profileProvider =
           Provider.of<ProfileProvider>(context, listen: false);
       await profileProvider.updateBankDetails(
-          _beneficiaryName, _accountNumber, _ifscCode, _bankName);
+          _beneficiaryName, _accountNumber, _ifscCode, _bankName, _accType);
       if (widget.isSignUpFlow == true) {
         final routesArgs =
             ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
