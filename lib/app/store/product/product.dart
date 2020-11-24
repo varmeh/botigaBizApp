@@ -388,7 +388,6 @@ class _ProductItemRowState extends State<ProductItemRow> {
   }
 
   Widget getProductRow(Product product, String statusText) {
-    print(product.imageUrl);
     if (product.imageUrl != null &&
         product.imageUrl != "" &&
         product.imageUrl.startsWith("https://")) {
