@@ -142,9 +142,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
   }
 
   Widget getRowWithProductImage(Product product, String statusText) {
-    if (_showWithImage == false) {
-      return SizedBox.shrink();
-    }
+    widget.setImageStatus(product.id, _showWithImage);
     return Container(
       padding: EdgeInsets.only(top: 12, bottom: 12),
       child: Column(
@@ -155,23 +153,24 @@ class _ProductItemRowState extends State<ProductItemRow> {
           Row(
             children: <Widget>[
               ColorFiltered(
-                  colorFilter: _switchValue
-                      ? ColorFilter.mode(
-                          Colors.transparent,
-                          BlendMode.multiply,
-                        )
-                      : ColorFilter.mode(
-                          AppTheme.backgroundColor,
-                          BlendMode.saturation,
-                        ),
-                  child: ProductNetworkAvatar(
-                    imageUrl: '${product.imageUrl}',
-                    func: () {
-                      setState(() {
-                        _showWithImage = false;
-                      });
-                    },
-                  )),
+                colorFilter: _switchValue
+                    ? ColorFilter.mode(
+                        Colors.transparent,
+                        BlendMode.multiply,
+                      )
+                    : ColorFilter.mode(
+                        AppTheme.backgroundColor,
+                        BlendMode.saturation,
+                      ),
+                child: ProductNetworkAvatar(
+                  imageUrl: '${product.imageUrl}',
+                  func: () {
+                    setState(() {
+                      _showWithImage = false;
+                    });
+                  },
+                ),
+              ),
               Expanded(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(
@@ -282,9 +281,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
   }
 
   Widget getRowWithoutProductImage(Product product, String statusText) {
-    if (_showWithImage == true) {
-      return SizedBox.shrink();
-    }
+    widget.setImageStatus(product.id, false);
     return Container(
       padding: EdgeInsets.only(top: 12, bottom: 12),
       child: Column(
@@ -390,21 +387,26 @@ class _ProductItemRowState extends State<ProductItemRow> {
     );
   }
 
+  Widget getProductRow(Product product, String statusText) {
+    print(product.imageUrl);
+    if (product.imageUrl != null &&
+        product.imageUrl != "" &&
+        product.imageUrl.startsWith("https://")) {
+      return getRowWithProductImage(product, statusText);
+    } else {
+      return getRowWithoutProductImage(product, statusText);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Product product = widget.product;
     String statusText = _switchValue ? "Available" : "Not Available";
-    widget.setImageStatus(product.id, _showWithImage);
     return GestureDetector(
       onTap: () {
         widget.onOpen();
       },
-      child: Column(
-        children: [
-          getRowWithProductImage(product, statusText),
-          getRowWithoutProductImage(product, statusText)
-        ],
-      ),
+      child: Container(child: this.getProductRow(product, statusText)),
     );
   }
 }
