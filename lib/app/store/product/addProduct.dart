@@ -439,7 +439,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                     ),
                                   ),
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
@@ -482,7 +482,24 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                           textAlign: TextAlign.center,
                                           style: AppTheme.textStyle.color50.w400
                                               .size(12)
-                                              .letterSpace(0.2),
+                                              .letterSpace(0.2)
+                                              .lineHeight(1.5),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 55,
+                                            right: 55,
+                                            top: 8,
+                                            bottom: 10),
+                                        child: Text(
+                                          '*Upload Landscape Image',
+                                          textAlign: TextAlign.center,
+                                          style: AppTheme
+                                              .textStyle.color100.w500
+                                              .size(12)
+                                              .letterSpace(0.2)
+                                              .lineHeight(1.5),
                                         ),
                                       ),
                                     ],

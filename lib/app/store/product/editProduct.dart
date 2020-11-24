@@ -708,7 +708,7 @@ class _EditProductState extends State<EditProduct>
         ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           FlatButton.icon(
@@ -743,7 +743,22 @@ class _EditProductState extends State<EditProduct>
             child: Text(
               'Adding image will increase people interest in your product',
               textAlign: TextAlign.center,
-              style: AppTheme.textStyle.color50.w400.size(12).letterSpace(0.2),
+              style: AppTheme.textStyle.color50.w400
+                  .size(12)
+                  .letterSpace(0.2)
+                  .lineHeight(1.5),
+            ),
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 55, right: 55, top: 8, bottom: 10),
+            child: Text(
+              '*Upload Landscape Image',
+              textAlign: TextAlign.center,
+              style: AppTheme.textStyle.color100.w500
+                  .size(12)
+                  .letterSpace(0.2)
+                  .lineHeight(1.5),
             ),
           ),
         ],
