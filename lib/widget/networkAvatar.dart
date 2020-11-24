@@ -12,13 +12,12 @@ class ProductNetworkAvatar extends StatefulWidget {
   final String imageUrl;
   final String imagePlaceholder;
   final double radius;
-  final Function func;
 
-  ProductNetworkAvatar(
-      {@required this.imageUrl,
-      this.imagePlaceholder = 'assets/images/avatar.png',
-      this.radius = 4.0,
-      @required this.func});
+  ProductNetworkAvatar({
+    @required this.imageUrl,
+    this.imagePlaceholder = 'assets/images/avatar.png',
+    this.radius = 4.0,
+  });
 
   @override
   _ProductNetworkAvatarState createState() => _ProductNetworkAvatarState();
@@ -40,9 +39,6 @@ class _ProductNetworkAvatarState extends State<ProductNetworkAvatar> {
         placeholder: (_, __) => _placeholderImage(),
         imageUrl: this.widget.imageUrl,
         errorWidget: (context, url, error) {
-          if (this.widget.func != null) {
-            this.widget.func();
-          }
           return _placeholderImage();
         },
       ),
