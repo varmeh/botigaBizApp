@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:botiga_biz/widget/buttons/index.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,8 @@ import '../../../widget/index.dart'
         BotigaBottomModal,
         BotigaTextFieldForm,
         LoaderOverlay,
-        ImageSelectionWidget;
+        ImageSelectionWidget,
+        ImageSelectionInfoModal;
 
 class AddProduct extends StatefulWidget {
   static const routeName = 'add-product';
@@ -79,6 +81,13 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     isSaving = false;
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
+    Future.delayed(const Duration(milliseconds: 500), () {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => ImageSelectionInfoModal(),
+      );
+    });
   }
 
   @override

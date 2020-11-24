@@ -232,9 +232,15 @@ class _CategoryState extends State<Category> {
             ),
           ),
           trailing: productCount != 0
-              ? Icon(
-                  Icons.delete_sharp,
-                  color: AppTheme.color50,
+              ? GestureDetector(
+                  onTap: () {
+                    Toast(message: "Deletion possible for empty category")
+                        .show(context);
+                  },
+                  child: Icon(
+                    Icons.delete_sharp,
+                    color: AppTheme.color50,
+                  ),
                 )
               : GestureDetector(
                   child: Icon(

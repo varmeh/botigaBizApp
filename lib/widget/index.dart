@@ -19,3 +19,4 @@ export 'statusImageWidget.dart';
 export 'orderStatusWidget.dart';
 export 'buttons/index.dart';
 export 'imageSelectionWidget.dart';
+export 'imageSelectionInfoModal.dart';

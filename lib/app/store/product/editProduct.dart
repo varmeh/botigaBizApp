@@ -17,7 +17,8 @@ import '../../../widget/index.dart'
         EditProductNetworkAvatar,
         ImageSelectionWidget,
         ActiveButton,
-        PassiveButton;
+        PassiveButton,
+        ImageSelectionInfoModal;
 import '../../home/index.dart' show HomeScreen;
 import '../../../models/store/index.dart';
 
@@ -80,6 +81,13 @@ class _EditProductState extends State<EditProduct>
     isSaving = false;
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
+    Future.delayed(const Duration(milliseconds: 500), () {
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) => ImageSelectionInfoModal(),
+      );
+    });
   }
 
   @override
