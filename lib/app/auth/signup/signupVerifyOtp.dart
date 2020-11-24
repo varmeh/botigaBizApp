@@ -72,9 +72,10 @@ class _SignUpOtpState extends State<SignUpOtp> {
       final value = await profileProvider.verifyOtp(phone, sessionId, pinValue);
       String message = value['message'];
       if (message == 'createSeller') {
+        String createToken = value['createToken'];
         Navigator.pushReplacementNamed(
             context, SignupBuissnessDetails.routeName,
-            arguments: {'phone': phone});
+            arguments: {'phone': phone, 'createToken': createToken});
       } else {
         KeyStore.setFirstRun().whenComplete(
             () => Navigator.pushNamed(context, HomeScreen.routeName));

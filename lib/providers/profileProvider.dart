@@ -160,7 +160,8 @@ class ProfileProvider with ChangeNotifier {
       String brandName,
       String phone,
       String tagline,
-      String url) async {
+      String url,
+      String createToken) async {
     return await Http.postAuth('/api/seller/auth/signup', body: {
       'businessName': businessName,
       'businessCategory': businessCategory,
@@ -169,7 +170,8 @@ class ProfileProvider with ChangeNotifier {
       'brandName': brandName,
       'phone': phone,
       ...(tagline != null && tagline != '') ? {'tagline': tagline} : {},
-      ...(url != null && url != '') ? {'brandUrl': url} : {}
+      ...(url != null && url != '') ? {'brandUrl': url} : {},
+      'createToken': createToken
     });
   }
 

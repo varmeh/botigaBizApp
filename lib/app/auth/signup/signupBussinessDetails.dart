@@ -558,12 +558,13 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     final routesArgs =
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
     final phone = routesArgs['phone'];
+    final createToken = routesArgs['createToken'];
     try {
       setState(() {
         _isLoading = true;
       });
       await profileProvider.signup(_businessName, _seletedCategory, _firstName,
-          _lastName, _brandName, phone, _tagline, downloadUrl);
+          _lastName, _brandName, phone, _tagline, downloadUrl, createToken);
       await KeyStore.setFirstRun();
       Navigator.of(context).pushNamed(SignUpStoreDetails.routeName);
     } catch (err) {
