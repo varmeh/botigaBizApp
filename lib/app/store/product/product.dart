@@ -131,7 +131,6 @@ class ProductItemRow extends StatefulWidget {
 
 class _ProductItemRowState extends State<ProductItemRow> {
   bool _switchValue = false;
-  bool _showWithImage = true;
 
   @override
   void initState() {
@@ -142,7 +141,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
   }
 
   Widget getRowWithProductImage(Product product, String statusText) {
-    widget.setImageStatus(product.id, _showWithImage);
+    widget.setImageStatus(product.id, true);
     return Container(
       padding: EdgeInsets.only(top: 12, bottom: 12),
       child: Column(
@@ -164,9 +163,6 @@ class _ProductItemRowState extends State<ProductItemRow> {
                       ),
                 child: ProductNetworkAvatar(
                   imageUrl: '${product.imageUrl}',
-                  func: () {
-                    widget.setImageStatus(product.id, false);
-                  },
                 ),
               ),
               Expanded(
