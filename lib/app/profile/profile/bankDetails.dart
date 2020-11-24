@@ -6,7 +6,7 @@ import '../../../widget/index.dart'
         BotigaTextFieldForm,
         BotigaAppBar,
         PassiveButton,
-        PrimaryButton,
+        ActiveButton,
         HttpExceptionWidget,
         Loader;
 import '../../../providers/index.dart' show ProfileProvider;
@@ -261,7 +261,7 @@ class _BankDetailsState extends State<BankDetails> {
                                                         .spaceAround,
                                                 children: [
                                                   _accType == 'current'
-                                                      ? PrimaryButton(
+                                                      ? ActiveButton(
                                                           onPressed: () {},
                                                           title: 'Current',
                                                           width: 156.0,
@@ -273,7 +273,7 @@ class _BankDetailsState extends State<BankDetails> {
                                                           width: 156.0,
                                                         ),
                                                   _accType == 'savings'
-                                                      ? PrimaryButton(
+                                                      ? ActiveButton(
                                                           onPressed: () {},
                                                           title: 'Savings',
                                                           width: 156.0,

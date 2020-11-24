@@ -8,7 +8,7 @@ import '../../../widget/index.dart'
         Toast,
         BotigaTextFieldForm,
         BotigaAppBar,
-        PrimaryButton,
+        ActiveButton,
         PassiveButton;
 import '../../../util/index.dart';
 import '../../../providers/index.dart' show ProfileProvider;
@@ -291,7 +291,7 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   _accType == 'current'
-                                      ? PrimaryButton(
+                                      ? ActiveButton(
                                           onPressed: () {
                                             setState(() {
                                               _accType = 'current';
@@ -311,7 +311,7 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
                                           width: 156.0,
                                         ),
                                   _accType == 'savings'
-                                      ? PrimaryButton(
+                                      ? ActiveButton(
                                           onPressed: () {
                                             setState(() {
                                               _accType = 'savings';

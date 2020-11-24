@@ -8,6 +8,7 @@ class PassiveButton extends StatelessWidget {
   final Widget icon;
   final double width;
   final double height;
+  final bool disabled;
 
   PassiveButton({
     @required this.title,
@@ -15,6 +16,7 @@ class PassiveButton extends StatelessWidget {
     this.icon,
     this.width,
     this.height = 44.0,
+    this.disabled = false,
   });
 
   @override

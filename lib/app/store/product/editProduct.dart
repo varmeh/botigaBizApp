@@ -16,6 +16,7 @@ import '../../../widget/index.dart'
         LoaderOverlay,
         EditProductNetworkAvatar,
         ImageSelectionWidget,
+        ActiveButton,
         PassiveButton;
 import '../../home/index.dart' show HomeScreen;
 import '../../../models/store/index.dart';
@@ -159,46 +160,36 @@ class _EditProductState extends State<EditProduct>
                     },
                   );
                 },
-                child: Text('Delete',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: Theme.of(context).colorScheme.error)),
+                child: Text(
+                  'Delete',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1
+                      .copyWith(color: Theme.of(context).colorScheme.error),
+                ),
               )
             ],
           ),
           bottomNavigationBar: SafeArea(
             child: Container(
               color: AppTheme.backgroundColor,
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
               child: Row(
                 children: <Widget>[
                   Expanded(
                     child: SizedBox(
-                      height: 52,
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        onPressed: () {
-                          if (this.isFormEdited() &&
-                              _formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            _handleProductEdit();
-                          }
-                        },
-                        color: this.isFormEdited()
-                            ? AppTheme.primaryColor
-                            : AppTheme.dividerColor,
-                        child: Text(
-                          'Update',
-                          style: AppTheme.textStyle
-                              .colored(AppTheme.backgroundColor)
-                              .w600
-                              .size(15),
-                        ),
-                      ),
-                    ),
+                        height: 52,
+                        child: this.isFormEdited()
+                            ? ActiveButton(
+                                title: 'Update',
+                                onPressed: () {
+                                  if (this.isFormEdited() &&
+                                      _formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                    _handleProductEdit();
+                                  }
+                                })
+                            : PassiveButton(title: 'Update', onPressed: () {})),
                   ),
                 ],
               ),
