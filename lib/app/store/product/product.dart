@@ -165,9 +165,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                 child: ProductNetworkAvatar(
                   imageUrl: '${product.imageUrl}',
                   func: () {
-                    setState(() {
-                      _showWithImage = false;
-                    });
+                    widget.setImageStatus(product.id, false);
                   },
                 ),
               ),

@@ -40,11 +40,9 @@ class _ProductNetworkAvatarState extends State<ProductNetworkAvatar> {
         placeholder: (_, __) => _placeholderImage(),
         imageUrl: this.widget.imageUrl,
         errorWidget: (context, url, error) {
-          Future.delayed(Duration.zero, () async {
-            if (this.widget.func != null) {
-              this.widget.func();
-            }
-          });
+          if (this.widget.func != null) {
+            this.widget.func();
+          }
           return _placeholderImage();
         },
       ),
