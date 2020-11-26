@@ -84,6 +84,9 @@ class _BussinessDetailsState extends State<BussinessDetails> {
   }
 
   void _getPreSignedUrl() async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       final value = await Provider.of<ServicesProvider>(context, listen: false)
           .getPresignedBrandImageUrl();
@@ -93,10 +96,17 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       });
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
   void _handleImageUpload(PickedFile file) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
@@ -104,6 +114,10 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       Toast(message: Http.message(err)).show(context);
       setState(() {
         _imageFile = null;
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
       });
     }
   }
