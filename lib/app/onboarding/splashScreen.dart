@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../util/index.dart' show KeyStore;
 import '../../theme/index.dart';
-import '../auth/index.dart' show Login, SignupBuissnessDetails;
+import '../auth/index.dart' show Login;
 import '../../providers/index.dart' show ProfileProvider;
 import './index.dart' show IntroScreen;
 import '../home/index.dart' show HomeScreen;
@@ -48,10 +48,8 @@ class _SplashScreenState extends State<SplashScreen>
           } else {
             next = snapshot.hasError ? Login.routeName : HomeScreen.routeName;
           }
-          Future.delayed(
-              Duration.zero,
-              () => Navigator.of(context)
-                  .pushReplacementNamed(SignupBuissnessDetails.routeName));
+          Future.delayed(Duration.zero,
+              () => Navigator.of(context).pushReplacementNamed(next));
         }
 
         return Scaffold(
