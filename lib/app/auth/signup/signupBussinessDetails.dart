@@ -99,6 +99,9 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
 
   void _getPreSignedUrl() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
       final value = await Provider.of<ServicesProvider>(context, listen: false)
           .getPresignedBrandImageUrl();
       setState(() {
@@ -107,6 +110,10 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       });
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -123,6 +130,9 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   }
 
   void _handleImageUpload(PickedFile file) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
@@ -131,6 +141,10 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
         _imageFile = null;
       });
       Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -438,7 +452,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                 ),
                 margin: EdgeInsets.only(top: 25.0, bottom: 20),
                 decoration: BoxDecoration(
-                  color: Color(0xff121715).withOpacity(0.05),
+                  color: AppTheme.color100.withOpacity(0.05),
                   shape: BoxShape.circle,
                 ),
               ),
