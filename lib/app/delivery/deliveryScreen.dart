@@ -91,7 +91,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 },
               )
             : Scaffold(
-                appBar: !_showSearch
+                appBar: !_showSearch && (hasApt && hasEnabledApt)
                     ? BotigaAppBar(
                         'Delivery',
                         neverShowLeadingBtn: true,
