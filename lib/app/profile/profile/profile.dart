@@ -177,9 +177,39 @@ class _ProfileState extends State<Profile> {
                             SizedBox(
                               height: 16,
                             ),
-                            ContactWidget(
-                                phone: profileInfo.contact.phone,
-                                whatsapp: profileInfo.contact.whatsapp)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Monday - Friday',
+                                      style: AppTheme.textStyle.w500.color100
+                                          .size(15)
+                                          .lineHeight(1.3),
+                                    ),
+                                    Text(
+                                      '10 AM to 6 PM',
+                                      style: AppTheme.textStyle.w500.color50
+                                          .size(15)
+                                          .lineHeight(1.3),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    WhatsappIconButton(
+                                      number: profileInfo.contact.whatsapp,
+                                    ),
+                                    SizedBox(width: 16.0),
+                                    CallIconButton(
+                                      number: profileInfo.contact.phone,
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ],
                         ),
                       )
