@@ -104,6 +104,9 @@ class _BussinessDetailsState extends State<BussinessDetails> {
   }
 
   void _handleImageUpload(PickedFile file) async {
+    if (file == null) {
+      return;
+    }
     setState(() {
       _isLoading = true;
     });
@@ -111,10 +114,10 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
     } catch (err) {
-      Toast(message: Http.message(err)).show(context);
       setState(() {
         _imageFile = null;
       });
+      Toast(message: 'Something went wrong!').show(context);
     } finally {
       setState(() {
         _isLoading = false;

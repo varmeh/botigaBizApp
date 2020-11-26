@@ -130,6 +130,9 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   }
 
   void _handleImageUpload(PickedFile file) async {
+    if (file == null) {
+      return;
+    }
     setState(() {
       _isLoading = true;
     });
@@ -140,7 +143,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       setState(() {
         _imageFile = null;
       });
-      Toast(message: Http.message(err)).show(context);
+      Toast(message: 'Something went wrong!').show(context);
     } finally {
       setState(() {
         _isLoading = false;

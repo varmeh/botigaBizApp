@@ -539,6 +539,9 @@ class _EditProductState extends State<EditProduct>
   }
 
   void _handleImageUpload(PickedFile file) async {
+    if (file == null) {
+      return;
+    }
     setState(() {
       isSaving = true;
     });
@@ -546,10 +549,10 @@ class _EditProductState extends State<EditProduct>
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
     } catch (err) {
-      Toast(message: Http.message(err)).show(context);
       setState(() {
         _imageFile = null;
       });
+      Toast(message: 'Something went wrong!').show(context);
     } finally {
       setState(() {
         isSaving = false;
