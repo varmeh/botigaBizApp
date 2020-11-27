@@ -12,6 +12,7 @@ import '../../models/profile/index.dart';
 import '../../models/orders/index.dart';
 
 const rupeeSymbol = '\u20B9';
+const TODAY = 'TODAY';
 
 class DeliveryScreen extends StatefulWidget {
   static const routeName = 'all-delivery-list';
@@ -257,8 +258,18 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                 ),
                                 Consumer<DeliveryProvider>(
                                     builder: (ctx, deliveryProvider, _) {
-                                  final deliveryListByApartment =
-                                      deliveryProvider.deliveryListByApartment;
+                                  var deliveryListByApartment;
+                                  bool isTodaySelected =
+                                      selectedDate.getTodayOrSelectedDate() ==
+                                          TODAY;
+                                  if (isTodaySelected) {
+                                    deliveryListByApartment = deliveryProvider
+                                            .deliveryByApartmentToday[
+                                        '${apartment.id}-${selectedDate.getRequestFormatDate()}'];
+                                  } else {
+                                    deliveryListByApartment = deliveryProvider
+                                        .deliveryListByApartmentOtherDay;
+                                  }
 
                                   if (deliveryListByApartment == null ||
                                       deliveryListByApartment.length == 0) {
@@ -343,6 +354,11 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
         currentDate != '') {
       final deliveryProvider =
           Provider.of<DeliveryProvider>(context, listen: false);
+      if (deliveryProvider
+              .deliveryByApartmentToday['$aprtmentId-$currentDate'] !=
+          null) {
+        return;
+      }
       setState(() {
         _isError = false;
         _isLoading = true;
@@ -694,7 +710,7 @@ class DeliveryRow extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             child: Padding(
               padding: const EdgeInsets.only(
-                  left: 20.0, right: 15, top: 16, bottom: 16),
+                  left: 20.0, right: 20, top: 16, bottom: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -839,7 +855,7 @@ class DeliveryRow extends StatelessWidget {
                                   child: Center(
                                     child: Icon(
                                       Icons.check,
-                                      size: 30,
+                                      size: 25,
                                     ),
                                   ),
                                   decoration: BoxDecoration(

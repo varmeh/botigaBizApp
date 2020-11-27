@@ -248,7 +248,8 @@ class _OrderDetailsState extends State<OrderDetails> {
 
     OrderByDateDetail orderDetail = (routeArgs['flowType'] == 'order')
         ? ordersProvider.getOrderDetails(id)
-        : deliveryProvider.getDeliveryDetails(id);
+        : deliveryProvider.getDeliveryDetails(
+            id, apartmentId, selectedDateForRequest);
     if (orderDetail == null) {
       return Scaffold(
         body: SizedBox.shrink(),
