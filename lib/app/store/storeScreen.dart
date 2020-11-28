@@ -257,11 +257,11 @@ class _StoreScreenState extends State<StoreScreen>
                           height: 24,
                         ),
                         BotigaTextFieldForm(
-                          focusNode: _categoryNameFocusNode,
-                          labelText: 'Category name',
-                          onSave: (value) => _categoryName = value,
-                          validator: nameValidator,
-                        ),
+                            focusNode: _categoryNameFocusNode,
+                            labelText: 'Category name',
+                            onSave: (value) => _categoryName = value,
+                            validator: nameValidator,
+                            autofocus: true),
                         SizedBox(
                           height: 40,
                         ),
