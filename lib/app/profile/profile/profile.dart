@@ -126,9 +126,6 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
                 Divider(
                   color: AppTheme.dividerColor,
                   thickness: 8,
