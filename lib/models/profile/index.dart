@@ -1,3 +1,3 @@
-export './businessDetails/businessDetails.dart';
-export './storeDetails/storeDetails.dart';
-export './profile.dart';
+export 'businessDetails/businessDetailsModel.dart';
+export 'storeDetails/storeDetailsModel.dart';
+export 'profileModel.dart';

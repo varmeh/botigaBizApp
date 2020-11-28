@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'apartments.g.dart';
+part 'apartmentsModel.g.dart';
 
 @JsonSerializable()
 class Apartments {

@@ -1,2 +1,2 @@
 export './apartmentModel.dart';
-export './apartments.dart';
+export 'apartmentsModel.dart';

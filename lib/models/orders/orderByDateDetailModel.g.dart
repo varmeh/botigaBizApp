@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'orderByDateDetail.dart';
+part of 'orderByDateDetailModel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

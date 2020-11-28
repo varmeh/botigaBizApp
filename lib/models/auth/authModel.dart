@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-part 'auth.g.dart';
+part 'authModel.g.dart';
 
 @JsonSerializable()
 class Auth {

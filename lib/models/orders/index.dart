@@ -1,2 +1,2 @@
-export './aggregatedOrders.dart';
-export './orderByDateDetail.dart';
+export 'aggregatedOrdersModel.dart';
+export 'orderByDateDetailModel.dart';

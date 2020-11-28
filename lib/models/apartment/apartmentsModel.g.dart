@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'apartments.dart';
+part of 'apartmentsModel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -1,2 +1,2 @@
-export './category/storeCategory.dart';
-export './product/productByCategory.dart';
+export 'category/storeCategoryModel.dart';
+export 'product/productByCategoryModel.dart';
