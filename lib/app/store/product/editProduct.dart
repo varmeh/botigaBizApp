@@ -653,7 +653,7 @@ class _EditProductState extends State<EditProduct>
           _showWithImage = false;
         });
       } else {
-        serviceProvider.deleteImageFromS3(downloadUrl);
+        await serviceProvider.deleteImageFromS3(downloadUrl);
         setState(() {
           _imageFile = null;
         });
