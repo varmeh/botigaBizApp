@@ -33,27 +33,28 @@ class BotigaTextFieldForm extends StatefulWidget {
   final String initialValue;
   final double iconSize;
   final bool readOnly;
+  final bool autofocus;
 
-  BotigaTextFieldForm({
-    @required this.focusNode,
-    @required this.labelText,
-    @required this.onSave,
-    this.validator,
-    this.maskFormatter,
-    this.keyboardType = TextInputType.text,
-    this.textInputAction = TextInputAction.done,
-    this.maxLines = 1,
-    this.maxLength,
-    this.nextFocusNode,
-    this.onFieldSubmitted,
-    this.textEditingController,
-    this.onChange,
-    this.textCapitalization = TextCapitalization.words,
-    this.icon,
-    this.initialValue,
-    this.iconSize = 25,
-    this.readOnly = false,
-  });
+  BotigaTextFieldForm(
+      {@required this.focusNode,
+      @required this.labelText,
+      @required this.onSave,
+      this.validator,
+      this.maskFormatter,
+      this.keyboardType = TextInputType.text,
+      this.textInputAction = TextInputAction.done,
+      this.maxLines = 1,
+      this.maxLength,
+      this.nextFocusNode,
+      this.onFieldSubmitted,
+      this.textEditingController,
+      this.onChange,
+      this.textCapitalization = TextCapitalization.words,
+      this.icon,
+      this.initialValue,
+      this.iconSize = 25,
+      this.readOnly = false,
+      this.autofocus = false});
 
   @override
   _BotigaTextFieldFormState createState() => _BotigaTextFieldFormState();
@@ -92,6 +93,7 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
     }
 
     return TextFormField(
+      autofocus: widget.autofocus,
       readOnly: widget.readOnly,
       autovalidateMode:
           _autoValidate ? AutovalidateMode.always : AutovalidateMode.disabled,
