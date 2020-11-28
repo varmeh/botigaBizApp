@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../theme/index.dart';
-import '../../util/index.dart' show FlavorBanner, Http;
+import '../../util/index.dart' show FlavorBanner, Http, KeyStore;
 import '../orders/index.dart' show OrdersHome;
 import '../store/index.dart' show StoreScreen;
 import '../profile/index.dart' show ProfileScreen;
@@ -82,10 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _saveToken() async {
-    final token = await _fbm.getToken();
-    try {
-      await Http.patch('/api/seller/auth/token', body: {'token': token});
-    } catch (_) {}
+    if (KeyStore.shared.isPushTokenRegistered) {
+      final token = await _fbm.getToken();
+      try {
+        await Http.patch('/api/seller/auth/token', body: {'token': token});
+        await KeyStore.shared.registerPushToken();
+      } catch (_) {}
+    }
   }
 
   void _initializeHome() async {
