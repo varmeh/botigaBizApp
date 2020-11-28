@@ -123,32 +123,11 @@ class _ProfileState extends State<Profile> {
                               .pushNamed(BankDetails.routeName);
                         },
                       ),
-                      ListTile(
-                        onTap: () {
-                          this._handleLogout();
-                        },
-                        leading: Icon(
-                          BotigaIcons.exit,
-                          color: AppTheme.color100,
-                          size: 25,
-                        ),
-                        contentPadding: EdgeInsets.only(left: 0, right: 0),
-                        title: Transform(
-                          transform: Matrix4.translationValues(-16, 0.0, 0.0),
-                          child: Text('Logout',
-                              style: AppTheme.textStyle.color100.size(15).w500),
-                        ),
-                        trailing: Icon(
-                          Icons.chevron_right,
-                          color: AppTheme.color100,
-                          size: 20,
-                        ),
-                      )
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Divider(
                   color: AppTheme.dividerColor,
@@ -223,7 +202,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(bottom: 30),
+                  padding: EdgeInsets.only(bottom: 10),
                   child: Column(
                     children: [
                       ListTile(
@@ -261,13 +240,25 @@ class _ProfileState extends State<Profile> {
                           size: 20,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: AppTheme.dividerColor,
-                          thickness: 1.2,
-                        ),
+                      SizedBox(
+                        height: 10,
                       ),
+                      Divider(
+                        color: AppTheme.dividerColor,
+                        thickness: 8,
+                      ),
+                      ListTile(
+                        onTap: () {
+                          this._handleLogout();
+                        },
+                        title: Text('Logout',
+                            style: AppTheme.textStyle.color100.size(15).w500),
+                        trailing: Icon(
+                          BotigaIcons.exit,
+                          color: AppTheme.color100,
+                          size: 25,
+                        ),
+                      )
                     ],
                   ),
                 )
