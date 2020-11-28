@@ -5,6 +5,7 @@ import '../../../util/index.dart';
 import '../../../providers/index.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
+import 'policyWebviewScreen.dart';
 import '../../auth/index.dart' show Login;
 
 class Profile extends StatefulWidget {
@@ -213,7 +214,63 @@ class _ProfileState extends State<Profile> {
                           ],
                         ),
                       )
-                    : SizedBox.shrink()
+                    : SizedBox.shrink(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Divider(
+                    color: AppTheme.dividerColor,
+                    thickness: 1.2,
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(bottom: 30),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => PolicyWebiewScreen(
+                                  "https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.pdf")));
+                        },
+                        title: Text('Privacy Policy',
+                            style: AppTheme.textStyle.color100.size(15).w500),
+                        trailing: Icon(
+                          Icons.chevron_right,
+                          color: AppTheme.color100,
+                          size: 20,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: AppTheme.dividerColor,
+                          thickness: 1.2,
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => PolicyWebiewScreen(
+                                  "https://s3.ap-south-1.amazonaws.com/products.image.prod/botigaPrivacyPolicy.pdf")));
+                        },
+                        title: Text('Terms & Conditions',
+                            style: AppTheme.textStyle.color100.size(15).w500),
+                        trailing: Icon(
+                          Icons.chevron_right,
+                          color: AppTheme.color100,
+                          size: 20,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Divider(
+                          color: AppTheme.dividerColor,
+                          thickness: 1.2,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),
