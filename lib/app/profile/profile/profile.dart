@@ -4,8 +4,13 @@ import './index.dart';
 import '../../../util/index.dart';
 import '../../../providers/index.dart';
 import '../../../theme/index.dart';
-import '../../../widget/index.dart';
-import 'policyWebviewScreen.dart';
+import '../../../widget/index.dart'
+    show
+        PolicyWebiewScreen,
+        Toast,
+        LoaderOverlay,
+        WhatsappIconButton,
+        CallIconButton;
 import '../../auth/index.dart' show Login;
 
 class Profile extends StatefulWidget {
@@ -206,7 +211,7 @@ class _ProfileState extends State<Profile> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (_) => PolicyWebiewScreen(
-                                  "https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.pdf")));
+                                  "https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html")));
                         },
                         title: Text('Privacy Policy',
                             style: AppTheme.textStyle.color100.size(15).w500),
@@ -227,7 +232,7 @@ class _ProfileState extends State<Profile> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (_) => PolicyWebiewScreen(
-                                  "https://s3.ap-south-1.amazonaws.com/products.image.prod/botigaPrivacyPolicy.pdf")));
+                                  "https://s3.ap-south-1.amazonaws.com/products.image.prod/privacyPolicy.html")));
                         },
                         title: Text('Terms & Conditions',
                             style: AppTheme.textStyle.color100.size(15).w500),
