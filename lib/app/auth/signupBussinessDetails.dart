@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/gestures.dart';
 import '../../theme/index.dart';
 import '../../widget/index.dart'
@@ -14,6 +13,7 @@ import '../../widget/index.dart'
         FullWidthButton,
         BotigaAppBar,
         BotigaBottomModal,
+        PolicyWebiewScreen,
         ImageSelectionWidget;
 import '../../providers/index.dart' show ProfileProvider, ServicesProvider;
 import '../../util/index.dart';
@@ -286,18 +286,14 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                               .w500
                               .colored(AppTheme.primaryColor),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () async {
-                              // Note: Don't use canLaunch(url). Fails on iOS devices
-                              try {
-                                await launch(
-                                  'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.pdf',
-                                );
-                              } catch (_) {
-                                Toast(
-                                  message:
-                                      'Failed to open agreement in browser',
-                                ).show(context);
-                              }
+                            ..onTap = () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => PolicyWebiewScreen(
+                                    'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
+                                  ),
+                                ),
+                              );
                             },
                         ),
                       ],
