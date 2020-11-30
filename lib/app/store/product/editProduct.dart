@@ -414,19 +414,22 @@ class _EditProductState extends State<EditProduct>
     bool isEdited = true;
     Product product = Provider.of<ProductProvider>(context, listen: false)
         .getProductById(widget.categoryId, widget.productId);
-    List productSpec = product.size.split(' ');
-    int quantity = int.parse(productSpec.elementAt(0));
-    String selectedUnit = productSpec.elementAt(1);
-    String description = _switchValue ? _description : '';
-    if (product.name == _name &&
-        product.price == _price &&
-        quantity == _quantity &&
-        selectedUnit == _selectedUnit &&
-        product.description == description &&
-        _imageFile == null) {
+    if (product == null) {
       isEdited = false;
+    } else {
+      List productSpec = product.size.split(' ');
+      int quantity = int.parse(productSpec.elementAt(0));
+      String selectedUnit = productSpec.elementAt(1);
+      String description = _switchValue ? _description : '';
+      if (product.name == _name &&
+          product.price == _price &&
+          quantity == _quantity &&
+          selectedUnit == _selectedUnit &&
+          product.description == description &&
+          _imageFile == null) {
+        isEdited = false;
+      }
     }
-
     return isEdited;
   }
 
