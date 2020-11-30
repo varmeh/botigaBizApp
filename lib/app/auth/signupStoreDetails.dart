@@ -1,17 +1,17 @@
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../theme/index.dart';
-import '../../../widget/index.dart'
+import '../../theme/index.dart';
+import '../../widget/index.dart'
     show
         FullWidthButton,
         LoaderOverlay,
         Toast,
         BotigaTextFieldForm,
         BotigaAppBar;
-import '../../../providers/index.dart' show ServicesProvider, ProfileProvider;
-import '../../../util/index.dart';
-import './index.dart';
+import '../../providers/index.dart' show ServicesProvider, ProfileProvider;
+import '../../util/index.dart';
+import 'index.dart';
 
 class SignUpStoreDetails extends StatefulWidget {
   static const routeName = 'signup-store-detail';

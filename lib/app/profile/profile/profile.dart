@@ -6,7 +6,7 @@ import '../../../providers/index.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
 import 'policyWebviewScreen.dart';
-import '../../auth/index.dart' show Login;
+import '../../auth/index.dart' show Welcome;
 
 class Profile extends StatefulWidget {
   @override
@@ -36,7 +36,7 @@ class _ProfileState extends State<Profile> {
         isProcessing = false;
       });
       Navigator.of(context)
-          .pushNamedAndRemoveUntil(Login.routeName, (route) => false);
+          .pushNamedAndRemoveUntil(Welcome.routeName, (route) => false);
     }
   }
 

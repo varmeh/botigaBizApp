@@ -11,17 +11,11 @@ import 'util/index.dart' show Flavor, Http, KeyStore;
 
 import 'app/auth/index.dart'
     show
-        //SignUp
-        SignupWelcome,
+        Welcome,
         SignupBuissnessDetails,
         SignUpStoreDetails,
-        SetPin,
-        SignUpOtp,
-        SignUpBankeDetails,
-        //Login
-        Login,
-        LoginForgotPin,
-        EnterPin;
+        VerifyOtp,
+        SignUpBankeDetails;
 import 'app/home/index.dart' show HomeScreen;
 import 'app/orders/index.dart' show OrderDetails, OrdersHome, OrderList;
 import 'app/store/index.dart' show StoreScreen, AddProduct, EditProduct;
@@ -107,7 +101,6 @@ class BotigaBizApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (ctx) => SplashScreen(),
         IntroScreen.routeName: (ctx) => IntroScreen(),
-        Login.routeName: (ctx) => Login(),
         HomeScreen.routeName: (ctx) => HomeScreen(index: 0),
         OrdersHome.routeName: (ctx) => OrdersHome(),
         OrderList.routeName: (ctx) => OrderList(),
@@ -120,14 +113,11 @@ class BotigaBizApp extends StatelessWidget {
         StoreDeatils.routeName: (ctx) => StoreDeatils(),
         BankDetails.routeName: (ctx) => BankDetails(),
         DeliveryScreen.routeName: (ctx) => DeliveryScreen(),
-        SignupWelcome.routeName: (ctx) => SignupWelcome(),
-        SignUpOtp.routeName: (ctx) => SignUpOtp(),
+        Welcome.routeName: (ctx) => Welcome(),
+        VerifyOtp.routeName: (ctx) => VerifyOtp(),
         SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
         SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
         SignUpBankeDetails.routeName: (ctx) => SignUpBankeDetails(),
-        SetPin.routeName: (ctx) => SetPin(),
-        EnterPin.routeName: (ctx) => EnterPin(),
-        LoginForgotPin.routeName: (ctx) => LoginForgotPin()
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(

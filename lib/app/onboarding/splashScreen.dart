@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../util/index.dart' show KeyStore;
 import '../../theme/index.dart';
-import '../auth/index.dart' show Login;
+import '../auth/index.dart' show Welcome;
 import '../../providers/index.dart' show ProfileProvider;
 import './index.dart' show IntroScreen;
 import '../home/index.dart' show HomeScreen;
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
           if (KeyStore.firstRun()) {
             next = IntroScreen.routeName;
           } else {
-            next = snapshot.hasError ? Login.routeName : HomeScreen.routeName;
+            next = snapshot.hasError ? Welcome.routeName : HomeScreen.routeName;
           }
           Future.delayed(Duration.zero,
               () => Navigator.of(context).pushReplacementNamed(next));

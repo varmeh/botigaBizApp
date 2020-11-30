@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
-import '../auth/index.dart' show SignupWelcome;
+import '../auth/index.dart' show Welcome;
 import '../../theme/index.dart';
 
 class IntroScreen extends StatelessWidget {
@@ -92,7 +92,7 @@ class IntroScreen extends StatelessWidget {
           colorDot: AppTheme.color25,
           colorActiveDot: AppTheme.primaryColor,
           onDonePress: () {
-            Navigator.of(context).pushNamed(SignupWelcome.routeName);
+            Navigator.of(context).pushNamed(Welcome.routeName);
           },
           listCustomTabs: _slides.map((slide) => _customTab(slide)).toList(),
           colorSkipBtn: AppTheme.backgroundColor,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../theme/index.dart';
-import '../../../widget/index.dart'
+import '../../theme/index.dart';
+import '../../widget/index.dart'
     show
         FullWidthButton,
         LoaderOverlay,
@@ -10,9 +10,9 @@ import '../../../widget/index.dart'
         BotigaAppBar,
         ActiveButton,
         PassiveButton;
-import '../../../util/index.dart';
-import '../../../providers/index.dart' show ProfileProvider;
-import './index.dart';
+import '../../util/index.dart';
+import '../../providers/index.dart' show ProfileProvider;
+import '../home/homeScreen.dart';
 
 class SignUpBankeDetails extends StatefulWidget {
   static const routeName = 'signup-bank-detail';
@@ -97,11 +97,7 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
       await profileProvider.updateBankDetails(
           _beneficiaryName, _accountNumber, _ifscCode, _bankName, _accType);
       if (widget.isSignUpFlow == true) {
-        final routesArgs =
-            ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-        final phone = routesArgs['phone'];
-        Navigator.of(context)
-            .pushNamed(SetPin.routeName, arguments: {'phone': phone});
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       } else {
         Toast(
           message:

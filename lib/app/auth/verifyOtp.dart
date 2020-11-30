@@ -1,20 +1,21 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../util/index.dart' show Http;
-import '../../../theme/index.dart';
-import '../index.dart' show SetPin;
-import '../widgets/index.dart' show Background;
-import '../../../widget/index.dart' show Toast, PinTextField, LoaderOverlay;
-import '../../../providers/index.dart' show ProfileProvider;
+import 'widgets/index.dart' show Background;
+import 'index.dart' show SignupBuissnessDetails;
+import '../Home/homeScreen.dart';
+import '../../widget/index.dart';
+import '../../theme/index.dart';
+import '../../util/index.dart' show Http, KeyStore;
+import '../../providers/index.dart' show ProfileProvider;
 
-class LoginForgotPin extends StatefulWidget {
-  static const routeName = 'forgot-pin';
+class VerifyOtp extends StatefulWidget {
+  static const routeName = 'signup-otp';
   @override
-  _LoginForgotPinState createState() => _LoginForgotPinState();
+  _VerifyOtpState createState() => _VerifyOtpState();
 }
 
-class _LoginForgotPinState extends State<LoginForgotPin> {
+class _VerifyOtpState extends State<VerifyOtp> {
   GlobalKey<FormState> _form = GlobalKey();
   String sessionId;
   String pinValue;
@@ -59,10 +60,10 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
   }
 
   void _verifyOTP() async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
-      setState(() {
-        _isLoading = true;
-      });
       final profileProvider =
           Provider.of<ProfileProvider>(context, listen: false);
       final routesArgs =
@@ -71,17 +72,13 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
       final value = await profileProvider.verifyOtp(phone, sessionId, pinValue);
       String message = value['message'];
       if (message == 'createSeller') {
-        Toast(
-          icon: Icon(
-            Icons.info_outline,
-            size: 24,
-            color: AppTheme.backgroundColor,
-          ),
-          message: 'You Are Not Registerd !',
-        ).show(context);
+        String createToken = value['createToken'];
+        Navigator.pushReplacementNamed(
+            context, SignupBuissnessDetails.routeName,
+            arguments: {'phone': phone, 'createToken': createToken});
       } else {
-        Navigator.pushNamed(context, SetPin.routeName,
-            arguments: {'phone': phone});
+        KeyStore.setFirstRun().whenComplete(() =>
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName));
       }
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
@@ -93,15 +90,17 @@ class _LoginForgotPinState extends State<LoginForgotPin> {
   }
 
   void _getOTP() async {
+    startTimer();
+    final routesArgs =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
+    final phone = routesArgs['phone'];
     try {
-      startTimer();
-      final routesArgs =
-          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-      final profileProvider =
-          Provider.of<ProfileProvider>(context, listen: false);
-      final phone = routesArgs['phone'];
       final value = await profileProvider.getOTP(phone);
-      sessionId = value['sessionId'];
+      setState(() {
+        sessionId = value['sessionId'];
+      });
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     }
