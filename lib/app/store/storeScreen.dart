@@ -26,6 +26,7 @@ class _StoreScreenState extends State<StoreScreen>
   List<String> tabList = ['Products', 'Categories'];
 
   FocusNode _categoryNameFocusNode;
+  BotigaBottomModal _bottomModal;
 
   @override
   void initState() {
@@ -82,9 +83,7 @@ class _StoreScreenState extends State<StoreScreen>
 
   void _handleCategorySave(String name) async {
     try {
-      setState(() {
-        isSavingCategory = true;
-      });
+      _bottomModal.animation(true);
       final categoryProvider =
           Provider.of<CategoryProvider>(context, listen: false);
       final productProvider =
@@ -96,9 +95,7 @@ class _StoreScreenState extends State<StoreScreen>
     } catch (error) {
       Toast(message: Http.message(error)).show(context);
     } finally {
-      setState(() {
-        isSavingCategory = false;
-      });
+      _bottomModal.animation(false);
     }
   }
 
@@ -230,7 +227,7 @@ class _StoreScreenState extends State<StoreScreen>
         onPressed: () {
           final _formKey = GlobalKey<FormState>();
           String _categoryName = '';
-          BotigaBottomModal(
+          _bottomModal = BotigaBottomModal(
             isDismissible: false,
             child: Column(
               children: [
@@ -317,7 +314,8 @@ class _StoreScreenState extends State<StoreScreen>
                 ),
               ],
             ),
-          ).show(context);
+          );
+          _bottomModal.show(context);
         },
       ),
     );

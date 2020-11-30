@@ -14,6 +14,7 @@ class Category extends StatefulWidget {
 class _CategoryState extends State<Category> {
   bool _isProcessing = false;
   FocusNode _categoryNameFocusNode;
+  BotigaBottomModal _bottomModal;
 
   @override
   void initState() {
@@ -37,9 +38,7 @@ class _CategoryState extends State<Category> {
 
   void _handleCategoryEdit(String categoryId, String name) async {
     try {
-      setState(() {
-        _isProcessing = true;
-      });
+      _bottomModal.animation(true);
       final categoryProvider =
           Provider.of<CategoryProvider>(context, listen: false);
       final productProvider =
@@ -51,9 +50,7 @@ class _CategoryState extends State<Category> {
     } catch (error) {
       Toast(message: Http.message(error)).show(context);
     } finally {
-      setState(() {
-        _isProcessing = false;
-      });
+      _bottomModal.animation(false);
     }
   }
 
@@ -112,7 +109,7 @@ class _CategoryState extends State<Category> {
           onTap: () {
             final _formKey = GlobalKey<FormState>();
             String _categoryName = category.name;
-            BotigaBottomModal(
+            _bottomModal = BotigaBottomModal(
               isDismissible: true,
               child: Column(
                 children: [
@@ -199,7 +196,8 @@ class _CategoryState extends State<Category> {
                   ),
                 ],
               ),
-            ).show(context);
+            );
+            _bottomModal.show(context);
           },
           contentPadding: EdgeInsets.only(left: 0, right: 0),
           title: RichText(
