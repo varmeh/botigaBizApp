@@ -70,12 +70,12 @@ class _AddContactDetailsState extends State<AddContactDetails> {
       _businessName = profileInfo.businessName;
     });
     _phoneMaskFormatter = MaskTextInputFormatter(
-        mask: '+91 #####-#####',
+        mask: '+91 ##### #####',
         filter: {'#': RegExp(r'[0-9]')},
         initialText: '91${widget.phoneNumber}');
 
     _whatsappMaskFormatter = MaskTextInputFormatter(
-        mask: '+91 #####-#####',
+        mask: '+91 ##### #####',
         filter: {'#': RegExp(r'[0-9]')},
         initialText: '91${widget.whatsappNumber}');
   }

@@ -59,7 +59,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
     _isLoading = false;
 
     _whatsappMaskFormatter = MaskTextInputFormatter(
-      mask: '+91 #####-#####',
+      mask: '+91 ##### #####',
       filter: {'#': RegExp(r'[0-9]')},
     );
 

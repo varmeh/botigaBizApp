@@ -19,7 +19,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
   GlobalKey<FormState> _phoneFormKey;
   FocusNode _phoneFocusNode;
   final _phoneMaskFormatter = new MaskTextInputFormatter(
-    mask: '+91 #####-#####',
+    mask: '+91 ##### #####',
     filter: {'#': RegExp(r'[0-9]')},
   );
 
