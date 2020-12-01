@@ -42,6 +42,7 @@ class _StoreScreenState extends State<StoreScreen>
   void dispose() {
     _categoryNameFocusNode.dispose();
     _controller.dispose();
+    _bottomModal = null;
     super.dispose();
   }
 

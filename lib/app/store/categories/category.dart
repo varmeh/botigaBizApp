@@ -26,7 +26,7 @@ class _CategoryState extends State<Category> {
   @override
   void dispose() {
     _categoryNameFocusNode.dispose();
-
+    _bottomModal = null;
     super.dispose();
   }
 
