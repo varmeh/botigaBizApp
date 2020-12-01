@@ -219,7 +219,7 @@ class _ProfileState extends State<Profile> {
                       _policyDivider(),
                       _policyTile(
                         'Frequently Asked Questions',
-                        'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
+                        'https://s3.ap-south-1.amazonaws.com/products.image.prod/faqMerchants.html',
                       ),
                       SizedBox(height: 10),
                       Divider(
