@@ -234,6 +234,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                   ),
                   _sizedBox24,
                   BotigaTextFieldForm(
+                    textCapitalization: TextCapitalization.sentences,
                     focusNode: _taglineFocusNode,
                     labelText: 'Tagline',
                     onSave: (value) => _tagline = value,

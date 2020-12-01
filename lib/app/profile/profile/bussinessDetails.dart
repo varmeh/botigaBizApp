@@ -329,6 +329,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                       ),
                       BotigaTextFieldForm(
                         initialValue: _tagline,
+                        textCapitalization: TextCapitalization.sentences,
                         focusNode: _taglineFocusNode,
                         labelText: 'Tagline',
                         onSave: (value) => _tagline = value,
