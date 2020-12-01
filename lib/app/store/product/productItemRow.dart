@@ -112,26 +112,23 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                           .letterSpace(0.2),
                                     ),
                                   ),
-                                  Transform.scale(
-                                    alignment: Alignment.centerRight,
-                                    scale: 0.75,
-                                    child: CupertinoSwitch(
-                                      value: _switchValue,
-                                      onChanged: (bool value) {
-                                        setState(
-                                          () {
-                                            _switchValue = value;
-                                          },
-                                        );
-                                        widget.setProductAvilablity(
-                                            widget.product, value, () {
-                                          setState(() {
-                                            _switchValue = !value;
-                                          });
+                                  BotigaSwitch(
+                                    handleSwitchChage: (bool value) {
+                                      setState(
+                                        () {
+                                          _switchValue = value;
+                                        },
+                                      );
+                                      widget.setProductAvilablity(
+                                          widget.product, value, () {
+                                        setState(() {
+                                          _switchValue = !value;
                                         });
-                                      },
-                                    ),
-                                  )
+                                      });
+                                    },
+                                    switchValue: _switchValue,
+                                    alignment: Alignment.centerRight,
+                                  ),
                                 ],
                               )
                             ],
@@ -225,26 +222,23 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                   .letterSpace(0.2),
                             ),
                           ),
-                          Transform.scale(
-                            alignment: Alignment.centerRight,
-                            scale: 0.75,
-                            child: CupertinoSwitch(
-                              value: _switchValue,
-                              onChanged: (bool value) {
-                                setState(
+                          BotigaSwitch(
+                            handleSwitchChage: (bool value) {
+                              setState(
+                                () {
+                                  _switchValue = value;
+                                },
+                              );
+                              widget.setProductAvilablity(widget.product, value,
                                   () {
-                                    _switchValue = value;
-                                  },
-                                );
-                                widget.setProductAvilablity(
-                                    widget.product, value, () {
-                                  setState(() {
-                                    _switchValue = !value;
-                                  });
+                                setState(() {
+                                  _switchValue = !value;
                                 });
-                              },
-                            ),
-                          )
+                              });
+                            },
+                            switchValue: _switchValue,
+                            alignment: Alignment.centerRight,
+                          ),
                         ],
                       )
                     ],

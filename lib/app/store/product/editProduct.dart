@@ -18,7 +18,8 @@ import '../../../widget/index.dart'
         ImageSelectionWidget,
         ActiveButton,
         PassiveButton,
-        ImageSelectionInfoModal;
+        ImageSelectionInfoModal,
+        BotigaSwitch;
 import '../../home/index.dart' show HomeScreen;
 import '../../../models/store/index.dart';
 
@@ -354,19 +355,16 @@ class _EditProductState extends State<EditProduct>
                               'Add description',
                               style: AppTheme.textStyle.size(15).w500.color100,
                             ),
-                            Transform.scale(
+                            BotigaSwitch(
+                              handleSwitchChage: (bool value) {
+                                setState(() {
+                                  _switchValue = value;
+                                });
+                                _descriptionFocusNode.requestFocus();
+                              },
+                              switchValue: _switchValue,
                               alignment: Alignment.centerLeft,
-                              scale: 0.75,
-                              child: CupertinoSwitch(
-                                value: _switchValue,
-                                onChanged: (bool value) {
-                                  setState(() {
-                                    _switchValue = value;
-                                  });
-                                  _descriptionFocusNode.requestFocus();
-                                },
-                              ),
-                            )
+                            ),
                           ],
                         ),
                       ),

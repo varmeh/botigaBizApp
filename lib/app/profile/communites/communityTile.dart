@@ -268,15 +268,12 @@ class _CommunityTileState extends State<CommunityTile> {
             widget.apt.apartmentArea,
             style: AppTheme.textStyle.size(15).w500.color50.lineHeight(1.33),
           ),
-          trailing: Transform.scale(
+          trailing: BotigaSwitch(
+            handleSwitchChage: (bool value) {
+              this._handleSwitchChage(value);
+            },
+            switchValue: _switchValue,
             alignment: Alignment.topRight,
-            scale: 0.75,
-            child: CupertinoSwitch(
-              value: _switchValue,
-              onChanged: (bool value) {
-                this._handleSwitchChage(value);
-              },
-            ),
           ),
         ),
         Row(
