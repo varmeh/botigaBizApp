@@ -10,7 +10,7 @@ extension Validations on String {
   }
 
   bool get isRegexWithAlphanumericSpaceDotChars =>
-      RegExp(r"^[a-zA-Z0-9\s.,']*$").hasMatch(this);
+      RegExp(r'^[a-zA-Z0-9\s.,\-’]*$').hasMatch(this);
 }
 
 final Function(String) nameValidator = (value) {
@@ -35,7 +35,7 @@ final Function(String) regexAlphanumericSpaceDotCharsValidator = (value) {
   if (value.isEmpty) {
     return 'Required';
   } else if (!value.isRegexWithAlphanumericSpaceDotChars) {
-    return 'Please use alphabets, digits, space, dot, comma & \' characters only';
+    return 'Use alphanumeric, space, dot, colon, comma & ’ chars only';
   }
   return null;
 };
