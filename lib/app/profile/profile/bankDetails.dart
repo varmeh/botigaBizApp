@@ -277,7 +277,7 @@ class _BankDetailsState extends State<BankDetails> {
                                           height: 24,
                                         ),
                                         Text(
-                                          "Please contact customer care to change your bank details",
+                                          'Please contact customer care to change your bank details.',
                                           style: AppTheme.textStyle.w500.color50
                                               .size(13)
                                               .lineHeight(1.3),

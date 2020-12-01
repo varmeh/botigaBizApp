@@ -188,7 +188,7 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
                                             child: Padding(
                                           padding: const EdgeInsets.all(10.0),
                                           child: Text(
-                                            "Please make sure all details as per your bank account",
+                                            'Please make sure all details are as per your bank account.',
                                             style: AppTheme
                                                 .textStyle.w500.color100
                                                 .size(13)
