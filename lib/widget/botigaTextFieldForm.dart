@@ -132,6 +132,7 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
         filled: true,
         labelText: widget.labelText,
         labelStyle: AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.3),
+        errorMaxLines: 2,
         errorStyle: AppTheme.textStyle.w400.colored(AppTheme.errorColor),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
