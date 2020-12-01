@@ -13,6 +13,18 @@ extension Validations on String {
       RegExp(r'^[a-zA-Z0-9\s.,\-’]*$').hasMatch(this);
 }
 
+final Function(String) emptyValidator =
+    (value) => value.isEmpty ? 'Required' : null;
+
+final Function(String) integerValidator = (value) {
+  if (value.isEmpty) {
+    return 'Required';
+  } else if (int.tryParse(value) == null) {
+    return 'Please use numbers only';
+  }
+  return null;
+};
+
 final Function(String) nameValidator = (value) {
   if (value.isEmpty) {
     return 'Required';
@@ -27,15 +39,6 @@ final Function(String) emailValidator = (value) {
     return 'Required';
   } else if (!value.isValidEmail()) {
     return 'Please enter email in correct format';
-  }
-  return null;
-};
-
-final Function(String) regexAlphanumericSpaceDotCharsValidator = (value) {
-  if (value.isEmpty) {
-    return 'Required';
-  } else if (!value.isRegexWithAlphanumericSpaceDotChars) {
-    return 'Use alphanumeric, space, dot, colon, comma & ’ chars only';
   }
   return null;
 };

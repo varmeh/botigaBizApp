@@ -209,7 +209,7 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
                                 labelText: 'Beneficiary Name',
                                 onSave: (value) => _beneficiaryName = value,
                                 nextFocusNode: _accountNumberFocusNode,
-                                validator: nameValidator,
+                                validator: emptyValidator,
                                 keyboardType: TextInputType.text,
                               ),
                               _sizedBox16,
@@ -220,14 +220,7 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
                                 onSave: (value) => _accountNumber = value,
                                 nextFocusNode: _ifscCodeFocusNode,
                                 keyboardType: TextInputType.datetime,
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Required';
-                                  } else if (int.tryParse(value) == null) {
-                                    return 'Please enter numbers only';
-                                  }
-                                  return null;
-                                },
+                                validator: integerValidator,
                               ),
                               _sizedBox16,
                               BotigaTextFieldForm(

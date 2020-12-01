@@ -321,7 +321,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                         focusNode: _brandNameFocusNode,
                         labelText: 'Brand name',
                         onSave: (value) => _brandName = value,
-                        validator: nameValidator,
+                        validator: emptyValidator,
                         nextFocusNode: _taglineFocusNode,
                       ),
                       SizedBox(
@@ -333,7 +333,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                         focusNode: _taglineFocusNode,
                         labelText: 'Tagline',
                         onSave: (value) => _tagline = value,
-                        validator: nameValidator,
+                        validator: emptyValidator,
                       ),
                       SizedBox(
                         height: 24,

@@ -195,7 +195,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                                         .getUnmaskedText()
                                         .length !=
                                     10) {
-                                  return 'Please provide a valid 10 digit Watsapp Number';
+                                  return 'Please provide a valid 10 digit Whatsapp Number';
                                 }
                                 return null;
                               },
@@ -241,8 +241,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                               labelText: 'Building',
                               onSave: (value) => _buildingNumber = value,
                               nextFocusNode: _streetNameFocusNode,
-                              validator:
-                                  regexAlphanumericSpaceDotCharsValidator,
+                              validator: emptyValidator,
                             ),
                             _sizedBox16,
                             BotigaTextFieldForm(
@@ -250,31 +249,24 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                               labelText: 'Street Name/Locality',
                               onSave: (value) => _streetName = value,
                               nextFocusNode: _pincodeFocusNode,
-                              validator:
-                                  regexAlphanumericSpaceDotCharsValidator,
+                              validator: emptyValidator,
                             ),
                             _sizedBox16,
                             BotigaTextFieldForm(
-                                focusNode: _pincodeFocusNode,
-                                labelText: 'Pincode',
-                                onSave: (value) => _pincode = value,
-                                nextFocusNode: _areaFocusNode,
-                                keyboardType: TextInputType.datetime,
-                                onChange: (value) {
-                                  if (value.length == 6) {
-                                    FocusScope.of(context)
-                                        .requestFocus(_areaFocusNode);
-                                    _handlePinCodeChange(value);
-                                  }
-                                },
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Required';
-                                  } else if (int.tryParse(value) == null) {
-                                    return 'Please enter numbers only';
-                                  }
-                                  return null;
-                                }),
+                              focusNode: _pincodeFocusNode,
+                              labelText: 'Pincode',
+                              onSave: (value) => _pincode = value,
+                              nextFocusNode: _areaFocusNode,
+                              keyboardType: TextInputType.datetime,
+                              onChange: (value) {
+                                if (value.length == 6) {
+                                  FocusScope.of(context)
+                                      .requestFocus(_areaFocusNode);
+                                  _handlePinCodeChange(value);
+                                }
+                              },
+                              validator: integerValidator,
+                            ),
                             _sizedBox16,
                             BotigaTextFieldForm(
                               readOnly: _isLoading,
@@ -283,8 +275,7 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                               labelText: 'Area',
                               onSave: (value) => _area = value,
                               nextFocusNode: _cityFocusNode,
-                              validator:
-                                  regexAlphanumericSpaceDotCharsValidator,
+                              validator: emptyValidator,
                             ),
                             _sizedBox16,
                             BotigaTextFieldForm(

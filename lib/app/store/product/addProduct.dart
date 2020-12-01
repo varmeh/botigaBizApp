@@ -527,7 +527,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                               focusNode: _nameFocusNode,
                               labelText: 'Product name',
                               onSave: (value) => _name = value,
-                              validator: nameValidator,
+                              validator: emptyValidator,
                               nextFocusNode: _priceFocusNode),
                           SizedBox(
                             height: 26,
@@ -590,14 +590,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                             labelText: 'Quantity',
                             keyboardType: TextInputType.datetime,
                             onSave: (value) => _quantity = int.parse(value),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              } else if (int.tryParse(value) == null) {
-                                return 'Please use numbers for quantity';
-                              }
-                              return null;
-                            },
+                            validator: integerValidator,
                           ),
                         ],
                       ),

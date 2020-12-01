@@ -232,7 +232,7 @@ class _EditProductState extends State<EditProduct>
                               labelText: 'Product name',
                               onSave: (value) => _name = value,
                               onChange: (_) => handleFormChange(),
-                              validator: nameValidator,
+                              validator: emptyValidator,
                               nextFocusNode: _priceFocusNode),
                           SizedBox(
                             height: 26,
@@ -290,14 +290,7 @@ class _EditProductState extends State<EditProduct>
                             keyboardType: TextInputType.datetime,
                             onSave: (value) => _quantity = int.parse(value),
                             onChange: (_) => handleFormChange(),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Required';
-                              } else if (int.tryParse(value) == null) {
-                                return 'Please use numbers for quantity';
-                              }
-                              return null;
-                            },
+                            validator: integerValidator,
                           ),
                         ],
                       ),

@@ -252,7 +252,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                                               .getUnmaskedText()
                                               .length !=
                                           10) {
-                                        return 'Please provide a valid 10 digit Watsapp Number';
+                                        return 'Please provide a valid 10 digit Whatsapp Number';
                                       }
                                       return null;
                                     },
@@ -318,14 +318,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                               labelText: 'Building No.',
                               onSave: (value) => _buildingNumber = value,
                               nextFocusNode: _streetNameFocusNode,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Required';
-                                } else if (int.tryParse(value) == null) {
-                                  return 'Please enter numbers only';
-                                }
-                                return null;
-                              },
+                              validator: emptyValidator,
                             ),
                             SizedBox(
                               height: 16,
@@ -336,7 +329,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                               labelText: 'Street Name/Locality',
                               onSave: (value) => _streetName = value,
                               nextFocusNode: _pincodeFocusNode,
-                              validator: nameValidator,
+                              validator: emptyValidator,
                             ),
                             SizedBox(
                               height: 16,
@@ -378,7 +371,7 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                                     labelText: 'Area',
                                     onSave: (value) => _area = value,
                                     nextFocusNode: _cityFocusNode,
-                                    validator: nameValidator,
+                                    validator: emptyValidator,
                                   )
                                 : SizedBox.shrink(),
                             SizedBox(

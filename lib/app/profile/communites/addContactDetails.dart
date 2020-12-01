@@ -291,7 +291,7 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                                               .getUnmaskedText()
                                               .length !=
                                           10) {
-                                        return 'Please provide a valid 10 digit Watsapp Number';
+                                        return 'Please provide a valid 10 digit Whatsapp Number';
                                       }
                                       return null;
                                     },
