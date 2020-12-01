@@ -186,45 +186,47 @@ class _OrdersHomeState extends State<OrdersHome> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Container(
+                padding: const EdgeInsets.only(left: 27.86, right: 27.86),
                 width: double.infinity,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(width: 40),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'REVENUE',
-                          style: AppTheme.textStyle.color50.w500.size(12),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '$rupeeSymbol $revenue',
-                          style: AppTheme.textStyle.color100.w500.size(22),
-                        ),
-                      ],
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'REVENUE',
+                            style: AppTheme.textStyle.color50.w500.size(12),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '$rupeeSymbol $revenue',
+                            style: AppTheme.textStyle.color100.w500.size(22),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      width: 106,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'ORDERS',
-                          style: AppTheme.textStyle.color50.w500.size(12),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          '$totalOrder',
-                          style: AppTheme.textStyle.color100.w500.size(22),
-                        )
-                      ],
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            'ORDERS',
+                            style: AppTheme.textStyle.color50.w500.size(12),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            '$totalOrder',
+                            style: AppTheme.textStyle.color100.w500.size(22),
+                          )
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -239,6 +241,8 @@ class _OrdersHomeState extends State<OrdersHome> {
   Widget _orderCard(
       String apartmentId, String apartmentName, int revenue, int totalOrder) {
     return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       onTap: () {
         Navigator.of(context).pushNamed(OrderList.routeName, arguments: {
           'apartmentId': apartmentId,
@@ -328,48 +332,53 @@ class _OrdersHomeState extends State<OrdersHome> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          'REVENUE',
-                                          style: AppTheme.textStyle.color50.w500
-                                              .size(12),
-                                        ),
-                                        SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                          '$rupeeSymbol $revenue',
-                                          style: AppTheme
-                                              .textStyle.color100.w500
-                                              .size(17),
-                                        ),
-                                      ],
+                                    Expanded(
+                                      flex: 1,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'REVENUE',
+                                            style: AppTheme
+                                                .textStyle.color50.w500
+                                                .size(12),
+                                          ),
+                                          SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                            '$rupeeSymbol $revenue',
+                                            style: AppTheme
+                                                .textStyle.color100.w500
+                                                .size(17),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    SizedBox(
-                                      width: 95,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          'ORDERS',
-                                          style: AppTheme.textStyle.color50.w500
-                                              .size(12),
-                                        ),
-                                        SizedBox(
-                                          height: 3,
-                                        ),
-                                        Text(
-                                          '$totalOrder',
-                                          style: AppTheme
-                                              .textStyle.color100.w500
-                                              .size(17),
-                                        )
-                                      ],
+                                    Expanded(
+                                      flex: 1,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'ORDERS',
+                                            style: AppTheme
+                                                .textStyle.color50.w500
+                                                .size(12),
+                                          ),
+                                          SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text(
+                                            '$totalOrder',
+                                            style: AppTheme
+                                                .textStyle.color100.w500
+                                                .size(17),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
