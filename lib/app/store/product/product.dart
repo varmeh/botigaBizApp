@@ -48,8 +48,8 @@ class _ProductsState extends State<Products> {
         Provider.of<ProductProvider>(context, listen: true).allProducts;
     if (_products.length == 0) {
       return BrandingTile(
-        'Thriving communities, empowering people',
-        'Made by awesome team of Botiga',
+        'Add your wonderful products here',
+        'Make sure to add categories in Category tab before adding any products',
       );
     }
     return SafeArea(
