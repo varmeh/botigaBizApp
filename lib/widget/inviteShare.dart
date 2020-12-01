@@ -93,7 +93,7 @@ Widget inviteShare(BuildContext context) {
                   borderRadius: BorderRadius.circular(6.0)),
               icon: Padding(
                 padding: const EdgeInsets.only(left: 13, top: 13, bottom: 13),
-                child: Image.asset('assets/images/watsapp.png'),
+                child: Image.asset('assets/images/whatsapp.png'),
               ),
               onPressed: () {
                 Share.share(text)

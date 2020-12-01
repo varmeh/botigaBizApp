@@ -24,9 +24,9 @@ class WhatsappButton extends StatelessWidget {
       height: 44,
       width: width,
       icon: Image.asset(
-        'assets/images/watsapp.png',
-        width: 18,
-        height: 18,
+        'assets/images/whatsapp.png',
+        width: 20,
+        height: 20,
       ),
       onPressed: () => whatsapp(context, number, message),
       title: title,
@@ -47,9 +47,9 @@ class WhatsappIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BotigaIconButton(
       child: Image.asset(
-        'assets/images/watsapp.png',
-        width: 18,
-        height: 18,
+        'assets/images/whatsapp.png',
+        width: 20,
+        height: 20,
       ),
       onPressed: () => whatsapp(context, number, message),
     );
@@ -68,7 +68,7 @@ void whatsapp(BuildContext context, String number, String message) async {
     Toast(
       message: 'Please download whatsapp to use this feature',
       icon: Image.asset(
-        'assets/images/watsapp.png',
+        'assets/images/whatsapp.png',
         width: 28.0,
         height: 28.0,
         color: AppTheme.backgroundColor,

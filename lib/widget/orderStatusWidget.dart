@@ -128,7 +128,7 @@ class OrderStatusWidget extends StatelessWidget {
                                   message:
                                       'Please download whatsapp to use this feature',
                                   icon: Image.asset(
-                                    'assets/images/watsapp.png',
+                                    'assets/images/whatsapp.png',
                                     width: 28.0,
                                     height: 28.0,
                                     color: AppTheme.backgroundColor,

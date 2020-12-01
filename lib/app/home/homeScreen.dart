@@ -142,7 +142,6 @@ class _HomeScreenState extends State<HomeScreen> {
           child: (!_isLoading && !_isError)
               ? BottomNavigationBar(
                   backgroundColor: AppTheme.backgroundColor,
-                  selectedIconTheme: IconThemeData(size: 28),
                   selectedItemColor: AppTheme.primaryColor,
                   selectedLabelStyle: AppTheme.textStyle.w500.size(12),
                   unselectedLabelStyle: AppTheme.textStyle.w500.size(13),
