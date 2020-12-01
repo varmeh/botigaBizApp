@@ -206,7 +206,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                     labelText: 'Business Name',
                     onSave: (value) => _businessName = value,
                     nextFocusNode: _firstNameFocusNode,
-                    validator: businessNameValidator,
+                    validator: regexAlphanumericSpaceDotCharsValidator,
                   ),
                   _sizedBox24,
                   BotigaTextFieldForm(
@@ -230,7 +230,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                     labelText: 'Brand Name',
                     onSave: (value) => _brandName = value,
                     nextFocusNode: _taglineFocusNode,
-                    validator: businessNameValidator,
+                    validator: regexAlphanumericSpaceDotCharsValidator,
                   ),
                   _sizedBox24,
                   BotigaTextFieldForm(
@@ -238,7 +238,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                     focusNode: _taglineFocusNode,
                     labelText: 'Tagline',
                     onSave: (value) => _tagline = value,
-                    validator: businessNameValidator,
+                    validator: regexAlphanumericSpaceDotCharsValidator,
                   ),
                   _sizedBox24,
                   Container(

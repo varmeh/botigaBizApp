@@ -9,7 +9,8 @@ extension Validations on String {
         .hasMatch(this);
   }
 
-  bool get isValidBusinessName => RegExp(r"^[a-zA-Z0-9\s.,']*$").hasMatch(this);
+  bool get isRegexWithAlphanumericSpaceDotChars =>
+      RegExp(r"^[a-zA-Z0-9\s.,']*$").hasMatch(this);
 }
 
 final Function(String) nameValidator = (value) {
@@ -30,10 +31,10 @@ final Function(String) emailValidator = (value) {
   return null;
 };
 
-final Function(String) businessNameValidator = (value) {
+final Function(String) regexAlphanumericSpaceDotCharsValidator = (value) {
   if (value.isEmpty) {
     return 'Required';
-  } else if (!value.isValidBusinessName) {
+  } else if (!value.isRegexWithAlphanumericSpaceDotChars) {
     return 'Please use alphabets, digits, space, dot, comma & \' characters only';
   }
   return null;

@@ -241,8 +241,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                               labelText: 'Building',
                               onSave: (value) => _buildingNumber = value,
                               nextFocusNode: _streetNameFocusNode,
-                              validator: (value) =>
-                                  value.isEmpty ? 'Required' : null,
+                              validator:
+                                  regexAlphanumericSpaceDotCharsValidator,
                             ),
                             _sizedBox16,
                             BotigaTextFieldForm(
@@ -250,7 +250,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                               labelText: 'Street Name/Locality',
                               onSave: (value) => _streetName = value,
                               nextFocusNode: _pincodeFocusNode,
-                              validator: nameValidator,
+                              validator:
+                                  regexAlphanumericSpaceDotCharsValidator,
                             ),
                             _sizedBox16,
                             BotigaTextFieldForm(
@@ -282,7 +283,8 @@ class _SignUpStoreDetailsState extends State<SignUpStoreDetails> {
                               labelText: 'Area',
                               onSave: (value) => _area = value,
                               nextFocusNode: _cityFocusNode,
-                              validator: nameValidator,
+                              validator:
+                                  regexAlphanumericSpaceDotCharsValidator,
                             ),
                             _sizedBox16,
                             BotigaTextFieldForm(
