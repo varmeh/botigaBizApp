@@ -384,6 +384,7 @@ class _EditProductState extends State<EditProduct>
                                 left: 20, right: 15, bottom: 15, top: 25),
                             child: BotigaTextFieldForm(
                               initialValue: _description,
+                              textCapitalization: TextCapitalization.sentences,
                               maxLines: 3,
                               maxLength: 120,
                               focusNode: _descriptionFocusNode,
