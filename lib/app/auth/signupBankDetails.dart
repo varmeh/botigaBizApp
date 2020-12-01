@@ -27,7 +27,7 @@ class SignUpBankeDetails extends StatefulWidget {
       this.accountNumber = '',
       this.ifscCode = '',
       this.bankName = '',
-      this.accountType = '',
+      this.accountType = 'current',
       this.isSignUpFlow = true});
   @override
   _SignUpBankeDetailsState createState() => _SignUpBankeDetailsState();
