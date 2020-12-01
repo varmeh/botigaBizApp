@@ -450,8 +450,7 @@ class _OrdersHomeState extends State<OrdersHome> {
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.only(bottom: 60),
-        height: MediaQuery.of(context).size.height,
-        color: AppTheme.dividerColor,
+        height: 800,
         child: Stack(
           alignment: Alignment.center,
           children: [
