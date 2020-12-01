@@ -48,6 +48,11 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     final profileInfo =
         Provider.of<ProfileProvider>(context, listen: false).profileInfo;
+    final arrowIcon = Icon(
+      Icons.chevron_right,
+      color: AppTheme.color50,
+      size: 20,
+    );
 
     return LoaderOverlay(
       isLoading: isProcessing,
@@ -74,14 +79,12 @@ class _ProfileState extends State<Profile> {
                         contentPadding: EdgeInsets.only(left: 0, right: 0),
                         title: Transform(
                           transform: Matrix4.translationValues(-16, 0.0, 0.0),
-                          child: Text('Business details',
-                              style: AppTheme.textStyle.color100.size(15).w500),
+                          child: Text(
+                            'Business details',
+                            style: AppTheme.textStyle.color100.size(15).w500,
+                          ),
                         ),
-                        trailing: Icon(
-                          Icons.chevron_right,
-                          color: AppTheme.color100,
-                          size: 20,
-                        ),
+                        trailing: arrowIcon,
                       ),
                       ListTile(
                         onTap: () {
@@ -98,11 +101,7 @@ class _ProfileState extends State<Profile> {
                           child: Text('Store details',
                               style: AppTheme.textStyle.color100.size(15).w500),
                         ),
-                        trailing: Icon(
-                          Icons.chevron_right,
-                          color: AppTheme.color100,
-                          size: 20,
-                        ),
+                        trailing: arrowIcon,
                       ),
                       ListTile(
                         leading: Icon(
@@ -118,11 +117,7 @@ class _ProfileState extends State<Profile> {
                             style: AppTheme.textStyle.color100.size(15).w500,
                           ),
                         ),
-                        trailing: Icon(
-                          Icons.chevron_right,
-                          color: AppTheme.color100,
-                          size: 20,
-                        ),
+                        trailing: arrowIcon,
                         onTap: () {
                           Navigator.of(context)
                               .pushNamed(BankDetails.routeName);
@@ -207,44 +202,26 @@ class _ProfileState extends State<Profile> {
                   padding: EdgeInsets.only(bottom: 10),
                   child: Column(
                     children: [
-                      ListTile(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => PolicyWebiewScreen(
-                                  "https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html")));
-                        },
-                        title: Text('Privacy Policy',
-                            style: AppTheme.textStyle.color100.size(15).w500),
-                        trailing: Icon(
-                          Icons.chevron_right,
-                          color: AppTheme.color100,
-                          size: 20,
-                        ),
+                      _policyTile(
+                        'Cancellation Policy',
+                        'https://s3.ap-south-1.amazonaws.com/products.image.prod/cancellationPolicy.html',
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Divider(
-                          color: AppTheme.dividerColor,
-                          thickness: 1.2,
-                        ),
+                      _policyDivider(),
+                      _policyTile(
+                        'Privacy Policy',
+                        'https://s3.ap-south-1.amazonaws.com/products.image.prod/privacyPolicy.html',
                       ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => PolicyWebiewScreen(
-                                  "https://s3.ap-south-1.amazonaws.com/products.image.prod/privacyPolicy.html")));
-                        },
-                        title: Text('Terms & Conditions',
-                            style: AppTheme.textStyle.color100.size(15).w500),
-                        trailing: Icon(
-                          Icons.chevron_right,
-                          color: AppTheme.color100,
-                          size: 20,
-                        ),
+                      _policyDivider(),
+                      _policyTile(
+                        'Terms & Conditions',
+                        'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
                       ),
-                      SizedBox(
-                        height: 10,
+                      _policyDivider(),
+                      _policyTile(
+                        'Frequently Asked Questions',
+                        'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
                       ),
+                      SizedBox(height: 10),
                       Divider(
                         color: AppTheme.dividerColor,
                         thickness: 8,
@@ -257,7 +234,7 @@ class _ProfileState extends State<Profile> {
                             style: AppTheme.textStyle.color100.size(15).w500),
                         trailing: Icon(
                           BotigaIcons.exit,
-                          color: AppTheme.color100,
+                          color: AppTheme.color50,
                           size: 25,
                         ),
                       )
@@ -268,6 +245,34 @@ class _ProfileState extends State<Profile> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _policyTile(String title, String url) {
+    return ListTile(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => PolicyWebiewScreen(url),
+          ),
+        );
+      },
+      title: Text(title, style: AppTheme.textStyle.color100.size(15).w500),
+      trailing: Icon(
+        Icons.chevron_right,
+        color: AppTheme.color50,
+        size: 20,
+      ),
+    );
+  }
+
+  Widget _policyDivider() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Divider(
+        color: AppTheme.dividerColor,
+        thickness: 1.2,
       ),
     );
   }
