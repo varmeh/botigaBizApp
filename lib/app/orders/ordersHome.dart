@@ -78,7 +78,7 @@ class _OrdersHomeState extends State<OrdersHome> {
               child: LoaderOverlay(
                 isLoading: snapshot.connectionState == ConnectionState.waiting,
                 child: Container(
-                  color: AppTheme.dividerColor,
+                  color: AppTheme.backgroundColor,
                   child: ListView(
                     padding: const EdgeInsets.only(bottom: 32.0),
                     children: [
@@ -178,57 +178,72 @@ class _OrdersHomeState extends State<OrdersHome> {
             left: 20,
             right: 20,
             bottom: 0,
-            child: Card(
-              margin: EdgeInsets.all(0),
-              elevation: 0,
-              color: AppTheme.backgroundColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Container(
-                padding: const EdgeInsets.only(left: 27.86, right: 27.86),
-                width: double.infinity,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'REVENUE',
-                            style: AppTheme.textStyle.color50.w500.size(12),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '$rupeeSymbol $revenue',
-                            style: AppTheme.textStyle.color100.w500.size(22),
-                          ),
-                        ],
-                      ),
+            child: Container(
+              decoration: new BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: AppTheme.color25,
+                    blurRadius: 40.0, // soften the shadow
+                    spreadRadius: 0.0, //extend the shadow
+                    offset: Offset(
+                      0.0, // Move to right
+                      0.0, // Move to bottom
                     ),
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            'ORDERS',
-                            style: AppTheme.textStyle.color50.w500.size(12),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            '$totalOrder',
-                            style: AppTheme.textStyle.color100.w500.size(22),
-                          )
-                        ],
+                  ),
+                ],
+              ),
+              child: Card(
+                margin: EdgeInsets.all(0),
+                elevation: 0,
+                color: AppTheme.backgroundColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Container(
+                  padding: const EdgeInsets.only(left: 27.86, right: 27.86),
+                  width: double.infinity,
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'REVENUE',
+                              style: AppTheme.textStyle.color50.w500.size(12),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              '$rupeeSymbol $revenue',
+                              style: AppTheme.textStyle.color100.w500.size(22),
+                            ),
+                          ],
+                        ),
                       ),
-                    )
-                  ],
+                      Expanded(
+                        flex: 1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              'ORDERS',
+                              style: AppTheme.textStyle.color50.w500.size(12),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              '$totalOrder',
+                              style: AppTheme.textStyle.color100.w500.size(22),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -256,7 +271,7 @@ class _OrdersHomeState extends State<OrdersHome> {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: AppTheme.color05,
+                color: AppTheme.color25,
                 blurRadius: 40.0, // soften the shadow
                 spreadRadius: 0.0, //extend the shadow
                 offset: Offset(

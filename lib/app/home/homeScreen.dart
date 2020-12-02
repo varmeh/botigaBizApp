@@ -132,13 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 : _pages[_selectedPageIndex],
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: Colors.black12,
-                width: 1.0,
-              ),
-            ),
-          ),
+              boxShadow: [BoxShadow(color: AppTheme.color25, blurRadius: 20)]),
           child: (!_isLoading && !_isError)
               ? BottomNavigationBar(
                   backgroundColor: AppTheme.backgroundColor,
