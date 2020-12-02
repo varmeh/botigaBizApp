@@ -212,7 +212,7 @@ class _StoreScreenState extends State<StoreScreen>
 
   Widget _addCategory() {
     return Container(
-      padding: EdgeInsets.only(bottom: 32.0),
+      padding: EdgeInsets.only(bottom: 28.0),
       child: FloatingActionButton.extended(
         backgroundColor: AppTheme.backgroundColor,
         elevation: 4.0,
