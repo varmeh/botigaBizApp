@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:flutter/gestures.dart';
 import '../../theme/index.dart';
 import '../../widget/index.dart'
@@ -184,124 +185,144 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       ),
       body: LoaderOverlay(
         isLoading: _isLoading,
-        child: SafeArea(
-          child: Form(
-            key: _formKey,
-            child: Container(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              color: AppTheme.backgroundColor,
-              child: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5, bottom: 5),
-                    child: Text(
-                      'We collect these details for future communication and to create your store.',
-                      style: AppTheme.textStyle.size(13).w500.color50,
-                    ),
-                  ),
-                  _imageSelectionWidget(),
-                  _sizedBox24,
-                  BotigaTextFieldForm(
-                    focusNode: _businessNameFocusNode,
-                    labelText: 'Business Name',
-                    onSave: (value) => _businessName = value,
-                    nextFocusNode: _firstNameFocusNode,
-                    validator: emptyValidator,
-                  ),
-                  _sizedBox24,
-                  BotigaTextFieldForm(
-                    focusNode: _firstNameFocusNode,
-                    labelText: 'Business Owner First Name',
-                    onSave: (value) => _firstName = value,
-                    nextFocusNode: _lastFocusNode,
-                    validator: nameValidator,
-                  ),
-                  _sizedBox24,
-                  BotigaTextFieldForm(
-                    focusNode: _lastFocusNode,
-                    labelText: 'Business Owner Last Name',
-                    onSave: (value) => _lastName = value,
-                    nextFocusNode: _brandNameFocusNode,
-                    validator: nameValidator,
-                  ),
-                  _sizedBox24,
-                  BotigaTextFieldForm(
-                    focusNode: _brandNameFocusNode,
-                    labelText: 'Brand Name',
-                    onSave: (value) => _brandName = value,
-                    nextFocusNode: _taglineFocusNode,
-                    validator: emptyValidator,
-                  ),
-                  _sizedBox24,
-                  BotigaTextFieldForm(
-                    textCapitalization: TextCapitalization.sentences,
-                    focusNode: _taglineFocusNode,
-                    labelText: 'Tagline',
-                    onSave: (value) => _tagline = value,
-                    validator: emptyValidator,
-                  ),
-                  _sizedBox24,
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(3.5),
-                      border: Border.all(
-                        style: BorderStyle.solid,
-                        color: AppTheme.color25,
-                        width: 1.0,
-                      ),
-                    ),
-                    child: ListTile(
-                      visualDensity: VisualDensity(horizontal: 0, vertical: -1),
-                      onTap: () {
-                        FocusScope.of(context).unfocus();
-                        showCategories();
-                      },
-                      trailing: Icon(Icons.keyboard_arrow_down,
-                          color: AppTheme.color100),
-                      title: _seletedCategory == ''
-                          ? Text(
-                              'Business Category',
-                              style: AppTheme.textStyle.color100.w500.size(15),
-                            )
-                          : Text(
-                              '$_seletedCategory',
-                              style: AppTheme.textStyle.color100.w500.size(15),
-                            ),
-                    ),
-                  ),
-                  _sizedBox24,
-                  Text.rich(
-                    TextSpan(
-                      text: 'By signing up, you agree to all ',
-                      style: AppTheme.textStyle
-                          .size(13)
-                          .lineHeight(1.5)
-                          .w500
-                          .color50,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Terms & Conditions',
-                          style: AppTheme.textStyle
-                              .size(13)
-                              .lineHeight(1.5)
-                              .w500
-                              .colored(AppTheme.primaryColor),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) => PolicyWebiewScreen(
-                                    'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
-                                  ),
-                                ),
-                              );
-                            },
+        child: GestureDetector(
+          onVerticalDragDown: (_) => FocusScope.of(context).unfocus(),
+          child: KeyboardActions(
+            config: buildConfig(
+              context,
+              [
+                _businessNameFocusNode,
+                _firstNameFocusNode,
+                _lastFocusNode,
+                _brandNameFocusNode,
+                _taglineFocusNode
+              ],
+            ),
+            child: SafeArea(
+              child: Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 20, right: 20),
+                    color: AppTheme.backgroundColor,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5, bottom: 5),
+                          child: Text(
+                            'We collect these details for future communication and to create your store.',
+                            style: AppTheme.textStyle.size(13).w500.color50,
+                          ),
                         ),
+                        _imageSelectionWidget(),
+                        _sizedBox24,
+                        BotigaTextFieldForm(
+                          focusNode: _businessNameFocusNode,
+                          labelText: 'Business Name',
+                          onSave: (value) => _businessName = value,
+                          nextFocusNode: _firstNameFocusNode,
+                          validator: emptyValidator,
+                        ),
+                        _sizedBox24,
+                        BotigaTextFieldForm(
+                          focusNode: _firstNameFocusNode,
+                          labelText: 'Business Owner First Name',
+                          onSave: (value) => _firstName = value,
+                          nextFocusNode: _lastFocusNode,
+                          validator: nameValidator,
+                        ),
+                        _sizedBox24,
+                        BotigaTextFieldForm(
+                          focusNode: _lastFocusNode,
+                          labelText: 'Business Owner Last Name',
+                          onSave: (value) => _lastName = value,
+                          nextFocusNode: _brandNameFocusNode,
+                          validator: nameValidator,
+                        ),
+                        _sizedBox24,
+                        BotigaTextFieldForm(
+                          focusNode: _brandNameFocusNode,
+                          labelText: 'Brand Name',
+                          onSave: (value) => _brandName = value,
+                          nextFocusNode: _taglineFocusNode,
+                          validator: emptyValidator,
+                        ),
+                        _sizedBox24,
+                        BotigaTextFieldForm(
+                          textCapitalization: TextCapitalization.sentences,
+                          focusNode: _taglineFocusNode,
+                          labelText: 'Tagline',
+                          onSave: (value) => _tagline = value,
+                          validator: emptyValidator,
+                        ),
+                        _sizedBox24,
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3.5),
+                            border: Border.all(
+                              style: BorderStyle.solid,
+                              color: AppTheme.color25,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: ListTile(
+                            visualDensity:
+                                VisualDensity(horizontal: 0, vertical: -1),
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              showCategories();
+                            },
+                            trailing: Icon(Icons.keyboard_arrow_down,
+                                color: AppTheme.color100),
+                            title: _seletedCategory == ''
+                                ? Text(
+                                    'Business Category',
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(15),
+                                  )
+                                : Text(
+                                    '$_seletedCategory',
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(15),
+                                  ),
+                          ),
+                        ),
+                        _sizedBox24,
+                        Text.rich(
+                          TextSpan(
+                            text: 'By signing up, you agree to all ',
+                            style: AppTheme.textStyle
+                                .size(13)
+                                .lineHeight(1.5)
+                                .w500
+                                .color50,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Terms & Conditions',
+                                style: AppTheme.textStyle
+                                    .size(13)
+                                    .lineHeight(1.5)
+                                    .w500
+                                    .colored(AppTheme.primaryColor),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) => PolicyWebiewScreen(
+                                          'https://s3.ap-south-1.amazonaws.com/products.image.prod/termsAndConditions.html',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                              ),
+                            ],
+                          ),
+                        ),
+                        _sizedBox24,
                       ],
                     ),
                   ),
-                  _sizedBox24,
-                ],
+                ),
               ),
             ),
           ),
