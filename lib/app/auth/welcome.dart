@@ -8,12 +8,15 @@ class Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PhoneScreen(
-      title: KeyStore.firstRun() ? 'Welcome to Botiga' : 'Login',
-      navigate: (phone) {
-        Navigator.of(context)
-            .pushNamed(VerifyOtp.routeName, arguments: {'phone': phone});
-      },
+    return GestureDetector(
+      onVerticalDragDown: (_) => FocusScope.of(context).unfocus(),
+      child: PhoneScreen(
+        title: KeyStore.firstRun() ? 'Welcome to Botiga' : 'Login',
+        navigate: (phone) {
+          Navigator.of(context)
+              .pushNamed(VerifyOtp.routeName, arguments: {'phone': phone});
+        },
+      ),
     );
   }
 }

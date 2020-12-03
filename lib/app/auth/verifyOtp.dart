@@ -174,24 +174,27 @@ class _VerifyOtpState extends State<VerifyOtp> {
     return Background(
       title: 'Verify OTP',
       backNavigation: true,
-      child: SingleChildScrollView(
-        child: LoaderOverlay(
-          isLoading: _isLoading,
-          child: Column(
-            children: [
-              sizedBox,
-              Text(
-                'Please enter OTP sent to your phone number $phone',
-                style:
-                    AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
-              ),
-              sizedBox,
-              otpForm(),
-              SizedBox(height: 12),
-              resendWidget(),
-              SizedBox(height: 16),
-              verifyButton(this._verifyOTP),
-            ],
+      child: GestureDetector(
+        onVerticalDragDown: (_) => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          child: LoaderOverlay(
+            isLoading: _isLoading,
+            child: Column(
+              children: [
+                sizedBox,
+                Text(
+                  'Please enter OTP sent to your phone number $phone',
+                  style:
+                      AppTheme.textStyle.w500.color100.size(15).lineHeight(1.3),
+                ),
+                sizedBox,
+                otpForm(),
+                SizedBox(height: 12),
+                resendWidget(),
+                SizedBox(height: 16),
+                verifyButton(this._verifyOTP),
+              ],
+            ),
           ),
         ),
       ),
