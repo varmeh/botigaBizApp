@@ -22,6 +22,7 @@ import '../../../widget/index.dart'
         BotigaSwitch;
 import '../../home/index.dart' show HomeScreen;
 import '../../../models/store/index.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 
 class EditProduct extends StatefulWidget {
   final String productId;
@@ -125,271 +126,287 @@ class _EditProductState extends State<EditProduct>
   Widget build(BuildContext context) {
     return LoaderOverlay(
       isLoading: isSaving,
-      child: Scaffold(
-          backgroundColor: AppTheme.backgroundColor,
-          appBar: BotigaAppBar(
-            'Update Product',
-            actions: [
-              FlatButton(
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(
-                          'Delete product',
-                          style: AppTheme.textStyle.w500.color100,
-                        ),
-                        content: Text(
-                          'Are you sure you want to delete this product ?',
-                          style: AppTheme.textStyle.w400.color100,
-                        ),
-                        actions: [
-                          FlatButton(
-                            child: Text(
-                              'Don\'t Delete',
-                              style: AppTheme.textStyle.w600.color50,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
+      child: GestureDetector(
+        onVerticalDragDown: (_) => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+            backgroundColor: AppTheme.backgroundColor,
+            appBar: BotigaAppBar(
+              'Update Product',
+              actions: [
+                FlatButton(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(
+                            'Delete product',
+                            style: AppTheme.textStyle.w500.color100,
                           ),
-                          FlatButton(
-                            child: Text(
-                              'Confirm',
-                              style: AppTheme.textStyle.w600
-                                  .colored(AppTheme.errorColor),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              _handleDelete();
-                            },
+                          content: Text(
+                            'Are you sure you want to delete this product ?',
+                            style: AppTheme.textStyle.w400.color100,
                           ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: Text(
-                  'Delete',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1
-                      .copyWith(color: Theme.of(context).colorScheme.error),
-                ),
-              )
-            ],
-          ),
-          bottomNavigationBar: SafeArea(
-            child: Container(
-              color: AppTheme.backgroundColor,
-              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: SizedBox(
-                        height: 52,
-                        child: this.isFormEdited()
-                            ? ActiveButton(
-                                title: 'Update',
-                                onPressed: () {
-                                  if (this.isFormEdited() &&
-                                      _formKey.currentState.validate()) {
-                                    _formKey.currentState.save();
-                                    _handleProductEdit();
-                                  }
-                                })
-                            : PassiveButton(title: 'Update', onPressed: () {})),
+                          actions: [
+                            FlatButton(
+                              child: Text(
+                                'Don\'t Delete',
+                                style: AppTheme.textStyle.w600.color50,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            FlatButton(
+                              child: Text(
+                                'Confirm',
+                                style: AppTheme.textStyle.w600
+                                    .colored(AppTheme.errorColor),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                _handleDelete();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Text(
+                    'Delete',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        .copyWith(color: Theme.of(context).colorScheme.error),
                   ),
-                ],
-              ),
+                )
+              ],
             ),
-          ),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
+            bottomNavigationBar: SafeArea(
+              child: Container(
+                color: AppTheme.backgroundColor,
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
+                child: Row(
                   children: <Widget>[
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(left: 20.0, right: 20, top: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          _imageFile != null
-                              ? getSelectedImageContainer()
-                              : _showWithImage == false
-                                  ? getSelectImageContainer()
-                                  : getNetworkImage(),
-                          SizedBox(
-                            height: 26,
-                          ),
-                          BotigaTextFieldForm(
-                              initialValue: _name,
-                              focusNode: _nameFocusNode,
-                              labelText: 'Product name',
-                              onSave: (value) => _name = value,
-                              onChange: (_) => handleFormChange(),
-                              validator: emptyValidator,
-                              nextFocusNode: _priceFocusNode),
-                          SizedBox(
-                            height: 26,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3.5),
-                              border: Border.all(
-                                style: BorderStyle.solid,
-                                color: AppTheme.color25,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: ListTile(
-                              visualDensity:
-                                  VisualDensity(horizontal: 0, vertical: -1),
-                              tileColor: AppTheme.color05,
-                              trailing: Icon(Icons.keyboard_arrow_down,
-                                  color: AppTheme.color100),
-                              title: Text(
-                                '$_seletedCategory',
-                                style:
-                                    AppTheme.textStyle.color100.w500.size(15),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 26,
-                          ),
-                          BotigaTextFieldForm(
-                              initialValue: _price.toString(),
-                              icon: BotigaIcons.rupee,
-                              iconSize: 14.0,
-                              focusNode: _priceFocusNode,
-                              labelText: 'Price',
-                              keyboardType: TextInputType.datetime,
-                              onSave: (value) => _price = double.parse(value),
-                              onChange: (_) => handleFormChange(),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Required';
-                                } else if (double.tryParse(value) == null) {
-                                  return 'Please use numbers for price';
-                                }
-                                return null;
-                              },
-                              nextFocusNode: _quantityFocusNode),
-                          SizedBox(
-                            height: 26,
-                          ),
-                          BotigaTextFieldForm(
-                            initialValue: _quantity.toString(),
-                            focusNode: _quantityFocusNode,
-                            labelText: 'Quantity',
-                            keyboardType: TextInputType.datetime,
-                            onSave: (value) => _quantity = int.parse(value),
-                            onChange: (_) => handleFormChange(),
-                            validator: integerValidator,
-                          ),
-                        ],
-                      ),
+                    Expanded(
+                      child: SizedBox(
+                          height: 52,
+                          child: this.isFormEdited()
+                              ? ActiveButton(
+                                  title: 'Update',
+                                  onPressed: () {
+                                    if (this.isFormEdited() &&
+                                        _formKey.currentState.validate()) {
+                                      _formKey.currentState.save();
+                                      _handleProductEdit();
+                                    }
+                                  })
+                              : PassiveButton(
+                                  title: 'Update', onPressed: () {})),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, top: 17, bottom: 17),
-                      child: Container(
-                        height: 44,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            ...['kg', 'gms', 'lt', 'ml', 'piece', 'pieces'].map(
-                              (val) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 12),
-                                  child: Container(
-                                    height: 44,
-                                    child: FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12.0),
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _selectedUnit = val;
-                                        });
-                                      },
-                                      color: _selectedUnit == val
-                                          ? AppTheme.primaryColor
-                                          : AppTheme.dividerColor,
-                                      child: Text('$val',
-                                          style: _selectedUnit == val
-                                              ? AppTheme.textStyle
-                                                  .size(13)
-                                                  .lineHeight(1.5)
-                                                  .w600
-                                                  .colored(
-                                                      AppTheme.backgroundColor)
-                                              : AppTheme.textStyle.color100
-                                                  .size(13)
-                                                  .lineHeight(1.5)
-                                                  .w600),
-                                    ),
-                                  ),
-                                );
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 10),
-                      child: Container(
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Add description',
-                              style: AppTheme.textStyle.size(15).w500.color100,
-                            ),
-                            BotigaSwitch(
-                              handleSwitchChage: (bool value) {
-                                setState(() {
-                                  _switchValue = value;
-                                });
-                                _descriptionFocusNode.requestFocus();
-                              },
-                              switchValue: _switchValue,
-                              alignment: Alignment.centerLeft,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    _switchValue == true
-                        ? Padding(
-                            padding: const EdgeInsets.only(
-                                left: 20, right: 15, bottom: 15, top: 25),
-                            child: BotigaTextFieldForm(
-                              initialValue: _description,
-                              textCapitalization: TextCapitalization.sentences,
-                              maxLines: 3,
-                              maxLength: 120,
-                              focusNode: _descriptionFocusNode,
-                              labelText: 'Description',
-                              onSave: (value) => _description = value,
-                              onChange: (_) => handleFormChange(),
-                            ),
-                          )
-                        : SizedBox()
                   ],
                 ),
               ),
             ),
-          )),
+            body: SafeArea(
+              child: KeyboardActions(
+                config: buildConfig(context, [
+                  _nameFocusNode,
+                  _priceFocusNode,
+                  _quantityFocusNode,
+                  _descriptionFocusNode
+                ]),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20.0, right: 20, top: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              _imageFile != null
+                                  ? getSelectedImageContainer()
+                                  : _showWithImage == false
+                                      ? getSelectImageContainer()
+                                      : getNetworkImage(),
+                              SizedBox(
+                                height: 26,
+                              ),
+                              BotigaTextFieldForm(
+                                  initialValue: _name,
+                                  focusNode: _nameFocusNode,
+                                  labelText: 'Product name',
+                                  onSave: (value) => _name = value,
+                                  onChange: (_) => handleFormChange(),
+                                  validator: emptyValidator,
+                                  nextFocusNode: _priceFocusNode),
+                              SizedBox(
+                                height: 26,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(3.5),
+                                  border: Border.all(
+                                    style: BorderStyle.solid,
+                                    color: AppTheme.color25,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                child: ListTile(
+                                  visualDensity: VisualDensity(
+                                      horizontal: 0, vertical: -1),
+                                  tileColor: AppTheme.color05,
+                                  trailing: Icon(Icons.keyboard_arrow_down,
+                                      color: AppTheme.color100),
+                                  title: Text(
+                                    '$_seletedCategory',
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(15),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 26,
+                              ),
+                              BotigaTextFieldForm(
+                                  initialValue: _price.toString(),
+                                  icon: BotigaIcons.rupee,
+                                  iconSize: 14.0,
+                                  focusNode: _priceFocusNode,
+                                  labelText: 'Price',
+                                  keyboardType: TextInputType.datetime,
+                                  onSave: (value) =>
+                                      _price = double.parse(value),
+                                  onChange: (_) => handleFormChange(),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Required';
+                                    } else if (double.tryParse(value) == null) {
+                                      return 'Please use numbers for price';
+                                    }
+                                    return null;
+                                  },
+                                  nextFocusNode: _quantityFocusNode),
+                              SizedBox(
+                                height: 26,
+                              ),
+                              BotigaTextFieldForm(
+                                initialValue: _quantity.toString(),
+                                focusNode: _quantityFocusNode,
+                                labelText: 'Quantity',
+                                keyboardType: TextInputType.datetime,
+                                onSave: (value) => _quantity = int.parse(value),
+                                onChange: (_) => handleFormChange(),
+                                validator: integerValidator,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20.0, top: 17, bottom: 17),
+                          child: Container(
+                            height: 44,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: <Widget>[
+                                ...['kg', 'gms', 'lt', 'ml', 'piece', 'pieces']
+                                    .map(
+                                  (val) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(right: 12),
+                                      child: Container(
+                                        height: 44,
+                                        child: FlatButton(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          onPressed: () {
+                                            setState(() {
+                                              _selectedUnit = val;
+                                            });
+                                          },
+                                          color: _selectedUnit == val
+                                              ? AppTheme.primaryColor
+                                              : AppTheme.dividerColor,
+                                          child: Text('$val',
+                                              style: _selectedUnit == val
+                                                  ? AppTheme.textStyle
+                                                      .size(13)
+                                                      .lineHeight(1.5)
+                                                      .w600
+                                                      .colored(AppTheme
+                                                          .backgroundColor)
+                                                  : AppTheme.textStyle.color100
+                                                      .size(13)
+                                                      .lineHeight(1.5)
+                                                      .w600),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20, top: 10),
+                          child: Container(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text(
+                                  'Add description',
+                                  style:
+                                      AppTheme.textStyle.size(15).w500.color100,
+                                ),
+                                BotigaSwitch(
+                                  handleSwitchChage: (bool value) {
+                                    setState(() {
+                                      _switchValue = value;
+                                    });
+                                    _descriptionFocusNode.requestFocus();
+                                  },
+                                  switchValue: _switchValue,
+                                  alignment: Alignment.centerLeft,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        _switchValue == true
+                            ? Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 15, bottom: 15, top: 25),
+                                child: BotigaTextFieldForm(
+                                  initialValue: _description,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  maxLines: 3,
+                                  maxLength: 120,
+                                  focusNode: _descriptionFocusNode,
+                                  labelText: 'Description',
+                                  onSave: (value) => _description = value,
+                                  onChange: (_) => handleFormChange(),
+                                ),
+                              )
+                            : SizedBox()
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )),
+      ),
     );
   }
 
