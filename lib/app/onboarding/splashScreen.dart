@@ -1,12 +1,13 @@
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import '../../util/index.dart' show KeyStore;
-import '../../theme/index.dart';
-import '../auth/index.dart' show Welcome;
+import 'package:provider/provider.dart';
+
 import '../../providers/index.dart' show ProfileProvider;
-import './index.dart' show IntroScreen;
+import '../../theme/index.dart';
+import '../../util/index.dart' show KeyStore;
+import '../auth/index.dart' show Welcome;
 import '../home/index.dart' show HomeScreen;
+import 'index.dart' show IntroScreen;
 
 class SplashScreen extends StatefulWidget {
   static final routeName = 'splashScreen';

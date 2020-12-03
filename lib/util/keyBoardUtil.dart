@@ -1,5 +1,6 @@
-import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:flutter/material.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
+
 import '../theme/index.dart';
 
 KeyboardActionsConfig buildConfig(BuildContext context, List<FocusNode> nodes) {

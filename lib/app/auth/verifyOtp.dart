@@ -1,13 +1,15 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'widgets/index.dart' show Background;
-import 'index.dart' show SignupBuissnessDetails;
-import '../Home/homeScreen.dart';
-import '../../widget/index.dart';
+
+import '../../providers/index.dart' show ProfileProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart' show Http, KeyStore;
-import '../../providers/index.dart' show ProfileProvider;
+import '../../widget/index.dart';
+import '../Home/homeScreen.dart';
+import 'index.dart' show SignupBuissnessDetails;
+import 'widgets/index.dart' show Background;
 
 class VerifyOtp extends StatefulWidget {
   static const routeName = 'signup-otp';

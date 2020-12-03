@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import './index.dart';
-import '../../../util/index.dart';
+
 import '../../../providers/index.dart';
 import '../../../theme/index.dart';
+import '../../../util/index.dart';
 import '../../../widget/index.dart'
     show
         PolicyWebiewScreen,
@@ -12,6 +12,7 @@ import '../../../widget/index.dart'
         WhatsappIconButton,
         CallIconButton;
 import '../../auth/index.dart' show Welcome;
+import 'index.dart';
 
 class Profile extends StatefulWidget {
   @override

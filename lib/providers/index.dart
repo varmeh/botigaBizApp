@@ -1,5 +1,5 @@
-export 'ordersProvider.dart';
-export 'profileProvider.dart';
+export './deliveryprovider.dart';
 export './servicesProvider.dart';
 export './store/index.dart';
-export './deliveryprovider.dart';
+export 'ordersProvider.dart';
+export 'profileProvider.dart';

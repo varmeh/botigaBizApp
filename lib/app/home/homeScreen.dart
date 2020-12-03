@@ -1,17 +1,18 @@
 import 'dart:io';
-import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/index.dart' show ProfileProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart' show FlavorBanner, Http, KeyStore;
-import '../orders/index.dart' show OrdersHome;
-import '../store/index.dart' show StoreScreen;
-import '../profile/index.dart' show ProfileScreen;
-import '../delivery/index.dart' show DeliveryScreen;
-import '../../providers/index.dart' show ProfileProvider;
 import '../../widget/index.dart' show Loader, HttpExceptionWidget;
+import '../delivery/index.dart' show DeliveryScreen;
+import '../orders/index.dart' show OrdersHome;
+import '../profile/index.dart' show ProfileScreen;
+import '../store/index.dart' show StoreScreen;
 
 class HomeScreen extends StatefulWidget {
   static const routeName = 'home-screen';

@@ -1,11 +1,15 @@
 import 'dart:io';
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:flutter/gestures.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/index.dart' show ProfileProvider, ServicesProvider;
 import '../../theme/index.dart';
+import '../../util/index.dart';
 import '../../widget/index.dart'
     show
         LoaderOverlay,
@@ -16,8 +20,6 @@ import '../../widget/index.dart'
         BotigaBottomModal,
         PolicyWebiewScreen,
         ImageSelectionWidget;
-import '../../providers/index.dart' show ProfileProvider, ServicesProvider;
-import '../../util/index.dart';
 import 'index.dart';
 
 class SignupBuissnessDetails extends StatefulWidget {

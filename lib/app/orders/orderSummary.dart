@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../util/index.dart';
-import '../../theme/index.dart';
-import '../../widget/index.dart' show ContactWidget;
+
 import '../../models/orders/index.dart';
+import '../../theme/index.dart';
+import '../../util/index.dart';
+import '../../widget/index.dart' show ContactWidget;
 
 class OrderSummary extends StatelessWidget {
   final OrderByDateDetail orderDetail;

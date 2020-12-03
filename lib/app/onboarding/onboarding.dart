@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
-import '../auth/index.dart' show Welcome;
+
 import '../../theme/index.dart';
+import '../auth/index.dart' show Welcome;
 
 class IntroScreen extends StatelessWidget {
   static const routeName = 'intro';

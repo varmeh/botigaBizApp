@@ -1,7 +1,8 @@
-import '../theme/index.dart';
 import 'package:flutter/material.dart';
-import './buttons/activeButton.dart';
+
+import '../theme/index.dart';
 import '../util/keyStore.dart';
+import 'buttons/activeButton.dart';
 
 class ImageSelectionInfoModal extends StatelessWidget {
   @override

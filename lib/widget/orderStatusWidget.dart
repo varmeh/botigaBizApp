@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../theme/index.dart';
+
 import '../models/orders/index.dart' show OrderByDateDetail;
-import './index.dart'
+import '../theme/index.dart';
+import 'index.dart'
     show
         StatusImageWidget,
         ImageStatus,

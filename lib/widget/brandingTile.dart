@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../theme/index.dart'; // required to access extensions
 
 class BrandingTile extends StatelessWidget {

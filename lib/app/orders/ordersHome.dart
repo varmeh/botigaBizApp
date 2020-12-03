@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import './index.dart';
-import '../../util/index.dart';
-import '../../theme/index.dart';
-import '../../widget/index.dart';
+
 import '../../providers/index.dart' show OrdersProvider, ProfileProvider;
+import '../../theme/index.dart';
+import '../../util/index.dart';
+import '../../widget/index.dart';
+import 'index.dart';
 
 class OrdersHome extends StatefulWidget {
   static const routeName = 'orders-home';

@@ -1,12 +1,13 @@
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import './index.dart' show AddCommunitesSuccess;
-import '../../../util/index.dart';
-import '../../../theme/index.dart';
-import '../../../widget/index.dart';
-import '../../../providers/index.dart' show ProfileProvider;
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/index.dart' show ProfileProvider;
+import '../../../theme/index.dart';
+import '../../../util/index.dart';
+import '../../../widget/index.dart';
+import 'index.dart' show AddCommunitesSuccess;
 
 class AddContactDetails extends StatefulWidget {
   final String apartmentId;

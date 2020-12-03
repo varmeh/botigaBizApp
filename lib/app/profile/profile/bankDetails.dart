@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../providers/index.dart' show ProfileProvider;
 import '../../../theme/index.dart';
 import '../../../widget/index.dart'
     show
@@ -9,7 +11,6 @@ import '../../../widget/index.dart'
         ActiveButton,
         HttpExceptionWidget,
         Loader;
-import '../../../providers/index.dart' show ProfileProvider;
 import '../../auth/index.dart' show SignUpBankeDetails;
 
 class BankDetails extends StatefulWidget {

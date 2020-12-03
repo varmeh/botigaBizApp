@@ -1,8 +1,11 @@
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/index.dart' show ServicesProvider, ProfileProvider;
 import '../../theme/index.dart';
+import '../../util/index.dart';
 import '../../widget/index.dart'
     show
         FullWidthButton,
@@ -10,8 +13,6 @@ import '../../widget/index.dart'
         Toast,
         BotigaTextFieldForm,
         BotigaAppBar;
-import '../../providers/index.dart' show ServicesProvider, ProfileProvider;
-import '../../util/index.dart';
 import 'index.dart';
 
 class SignUpStoreDetails extends StatefulWidget {

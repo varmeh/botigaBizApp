@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
 import '../../../theme/index.dart';
-import '../../home/index.dart' show HomeScreen;
 import '../../../widget/inviteShare.dart';
+import '../../home/index.dart' show HomeScreen;
 
 class AddCommunitesSuccess extends StatefulWidget {
   final String _businessName, _deliveryType;

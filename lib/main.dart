@@ -1,13 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart' show kReleaseMode;
-
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'util/index.dart' show Flavor, Http, KeyStore;
+import 'package:flutter/foundation.dart' show kReleaseMode;
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import 'app/auth/index.dart'
     show
@@ -16,14 +14,13 @@ import 'app/auth/index.dart'
         SignUpStoreDetails,
         VerifyOtp,
         SignUpBankeDetails;
+import 'app/delivery/index.dart' show DeliveryScreen;
 import 'app/home/index.dart' show HomeScreen;
+import 'app/onboarding/index.dart' show SplashScreen, IntroScreen;
 import 'app/orders/index.dart' show OrderDetails, OrdersHome, OrderList;
-import 'app/store/index.dart' show StoreScreen, AddProduct, EditProduct;
 import 'app/profile/index.dart'
     show SelectArea, BussinessDetails, StoreDeatils, BankDetails;
-import 'app/delivery/index.dart' show DeliveryScreen;
-import 'app/onboarding/index.dart' show SplashScreen, IntroScreen;
-
+import 'app/store/index.dart' show StoreScreen, AddProduct, EditProduct;
 import 'providers/index.dart'
     show
         OrdersProvider,
@@ -32,6 +29,7 @@ import 'providers/index.dart'
         ProfileProvider,
         ServicesProvider,
         DeliveryProvider;
+import 'util/index.dart' show Flavor, Http, KeyStore;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

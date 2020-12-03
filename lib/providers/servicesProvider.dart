@@ -1,9 +1,11 @@
-import '../util/index.dart' show Http;
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+
+import '../util/index.dart' show Http;
 
 class ServicesProvider with ChangeNotifier {
   Future getbusinessCategory() async {

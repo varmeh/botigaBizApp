@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
 import '../../theme/index.dart';
 import '../../widget/index.dart' show inviteShare, BotigaBottomModal;
 

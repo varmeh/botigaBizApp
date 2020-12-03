@@ -1,9 +1,14 @@
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
+import '../../../theme/index.dart';
+import '../../../util/index.dart';
 import '../../../widget/index.dart'
     show
         BotigaAppBar,
@@ -12,9 +17,6 @@ import '../../../widget/index.dart'
         LoaderOverlay,
         ProfileNetworkAvatar,
         ImageSelectionWidget;
-import '../../../theme/index.dart';
-import '../../../util/index.dart';
-import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
 
 class BussinessDetails extends StatefulWidget {
   static const routeName = 'business-details';

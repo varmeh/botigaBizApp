@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../theme/index.dart';
-import '../../../widget/index.dart';
-import '../../../providers/index.dart' show ProfileProvider;
-import './index.dart' show AddContactDetails;
-import '../../../util/index.dart' show Http;
+
 import '../../../models/apartment/index.dart';
+import '../../../providers/index.dart' show ProfileProvider;
+import '../../../theme/index.dart';
+import '../../../util/index.dart' show Http;
+import '../../../widget/index.dart';
+import 'index.dart' show AddContactDetails;
 
 class SelectArea extends StatefulWidget {
   static const routeName = 'select-area';

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import './index.dart';
-import '../../theme/index.dart';
+
+import '../../models/orders/index.dart';
 import '../../providers/index.dart' show OrdersProvider, DeliveryProvider;
+import '../../theme/index.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';
-import '../../models/orders/index.dart';
+import 'index.dart';
 
 class OrderDetails extends StatefulWidget {
   static const routeName = 'order-details';

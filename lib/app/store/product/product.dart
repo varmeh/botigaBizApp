@@ -1,14 +1,15 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:animations/animations.dart';
-import './index.dart' show EditProduct;
-import '../../../widget/index.dart';
-import '../../../providers/index.dart' show ProductProvider;
+
 import '../../../models/store/index.dart';
+import '../../../providers/index.dart' show ProductProvider;
 import '../../../theme/index.dart';
 import '../../../util/index.dart' show Http;
-import './productItemRow.dart';
+import '../../../widget/index.dart';
+import 'index.dart' show EditProduct;
+import 'productItemRow.dart';
 
 class Products extends StatefulWidget {
   @override

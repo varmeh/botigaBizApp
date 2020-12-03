@@ -1,12 +1,12 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:animations/animations.dart';
 
-import '../../theme/index.dart';
-import '../../widget/index.dart';
-import '../../util/index.dart';
 import '../../providers/index.dart' show CategoryProvider, ProductProvider;
-import './index.dart';
+import '../../theme/index.dart';
+import '../../util/index.dart';
+import '../../widget/index.dart';
+import 'index.dart';
 
 class StoreScreen extends StatefulWidget {
   static const routeName = 'store-screen';

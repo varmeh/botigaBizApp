@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../util/index.dart' show Http, Token;
+
 import '../models/profile/index.dart';
+import '../util/index.dart' show Http, Token;
 
 class ProfileProvider with ChangeNotifier {
   Profile _profile;

@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:botiga_biz/widget/buttons/index.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lottie/lottie.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 import '../../../providers/index.dart'
     show CategoryProvider, ProductProvider, ServicesProvider;
 import '../../../theme/index.dart';
 import '../../../util/index.dart';
-import '../../home/index.dart' show HomeScreen;
+import '../../../widget/buttons/index.dart';
 import '../../../widget/index.dart'
     show
         Toast,
@@ -22,6 +22,7 @@ import '../../../widget/index.dart'
         LoaderOverlay,
         ImageSelectionWidget,
         ImageSelectionInfoModal;
+import '../../home/index.dart' show HomeScreen;
 
 class AddProduct extends StatefulWidget {
   static const routeName = 'add-product';

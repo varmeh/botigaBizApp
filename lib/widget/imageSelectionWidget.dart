@@ -1,6 +1,6 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:app_settings/app_settings.dart';
 
 import '../theme/index.dart';
 import 'botigaBottomModal.dart';

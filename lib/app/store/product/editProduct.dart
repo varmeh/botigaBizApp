@@ -1,9 +1,13 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+
+import '../../../models/store/index.dart';
 import '../../../providers/index.dart' show ProductProvider, ServicesProvider;
 import '../../../theme/index.dart';
 import '../../../util/index.dart';
@@ -21,8 +25,6 @@ import '../../../widget/index.dart'
         ImageSelectionInfoModal,
         BotigaSwitch;
 import '../../home/index.dart' show HomeScreen;
-import '../../../models/store/index.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 
 class EditProduct extends StatefulWidget {
   final String productId;

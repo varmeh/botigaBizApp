@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../../models/store/index.dart';
+import '../../../providers/index.dart' show CategoryProvider, ProductProvider;
+import '../../../theme/index.dart';
 import '../../../util/index.dart';
 import '../../../widget/index.dart';
-import '../../../providers/index.dart' show CategoryProvider, ProductProvider;
-import '../../../models/store/index.dart';
-import '../../../theme/index.dart';
 
 class Category extends StatefulWidget {
   @override

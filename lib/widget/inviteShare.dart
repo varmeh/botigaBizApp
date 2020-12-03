@@ -1,11 +1,11 @@
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share/share.dart';
-import 'package:clipboard/clipboard.dart';
 
 import '../providers/index.dart' show ProfileProvider;
-import 'toast.dart';
 import '../theme/index.dart';
+import 'toast.dart';
 
 Widget inviteShare(BuildContext context) {
   const borderRadius = BorderRadius.only(

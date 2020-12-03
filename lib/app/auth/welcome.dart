@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../../util/index.dart' show KeyStore;
 import 'index.dart' show VerifyOtp;
 import 'widgets/index.dart' show PhoneScreen;
-import '../../util/index.dart' show KeyStore;
 
 class Welcome extends StatelessWidget {
   static const routeName = 'signup-welcome';

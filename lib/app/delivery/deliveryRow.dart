@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../orders/index.dart' show OrderDetails;
+
 import '../../models/orders/index.dart';
 import '../../theme/index.dart';
 import '../../util/index.dart';
+import '../orders/index.dart' show OrderDetails;
 
 const rupeeSymbol = '\u20B9';
 

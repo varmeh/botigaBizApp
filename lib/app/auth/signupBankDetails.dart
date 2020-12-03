@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:provider/provider.dart';
+
+import '../../providers/index.dart' show ProfileProvider;
 import '../../theme/index.dart';
+import '../../util/index.dart';
 import '../../widget/index.dart'
     show
         FullWidthButton,
@@ -10,10 +14,7 @@ import '../../widget/index.dart'
         BotigaAppBar,
         ActiveButton,
         PassiveButton;
-import '../../util/index.dart';
-import '../../providers/index.dart' show ProfileProvider;
 import '../home/homeScreen.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 
 class SignUpBankeDetails extends StatefulWidget {
   static const routeName = 'signup-bank-detail';

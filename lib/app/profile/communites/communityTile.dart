@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import '../../../models/profile/index.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
-import '../../../models/profile/index.dart';
 import '../../profile/index.dart' show AddContactDetails;
 
 class CommunityTile extends StatefulWidget {

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-import './index.dart';
+
 import '../../providers/index.dart' show OrdersProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart';
 import '../../widget/index.dart';
+import 'index.dart';
 
 class OrderList extends StatefulWidget {
   static const routeName = 'all-orders-list';

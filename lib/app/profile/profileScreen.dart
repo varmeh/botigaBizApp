@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
-import 'Profile/profile.dart';
+import 'package:flutter/material.dart';
+
 import '../../theme/index.dart';
 import 'Communites/index.dart' show Communities, SelectArea;
+import 'Profile/profile.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override

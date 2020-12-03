@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../theme/index.dart';
+
 import '../../models/orders/index.dart';
-import './orderListItem.dart';
+import '../../theme/index.dart';
+import 'orderListItem.dart';
 
 class OrderListSummary extends StatelessWidget {
   final String rupeeSymbol = '\u20B9';
