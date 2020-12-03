@@ -56,61 +56,64 @@ class _ProductsState extends State<Products> {
     return SafeArea(
       child: LoaderOverlay(
         isLoading: _isApiInProgress,
-        child: Container(
-          padding: const EdgeInsets.only(
-            left: 20,
-            right: 20,
-          ),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 12, bottom: 12),
-                child: SearchBar(
-                  placeholder: 'Search by product name...',
-                  onClear: () {
-                    setState(() {
-                      _query = '';
-                    });
-                  },
-                  onChange: (value) {
-                    setState(() {
-                      _query = value;
-                    });
-                  },
-                  onSubmit: (_) {},
+        child: GestureDetector(
+          onVerticalDragDown: (_) => FocusScope.of(context).unfocus(),
+          child: Container(
+            padding: const EdgeInsets.only(
+              left: 20,
+              right: 20,
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 12, bottom: 12),
+                  child: SearchBar(
+                    placeholder: 'Search by product name...',
+                    onClear: () {
+                      setState(() {
+                        _query = '';
+                      });
+                    },
+                    onChange: (value) {
+                      setState(() {
+                        _query = value;
+                      });
+                    },
+                    onSubmit: (_) {},
+                  ),
                 ),
-              ),
-              (_query != '' && _query != null)
-                  ? Expanded(
-                      child: ListView(
-                        children: <Widget>[
-                          ..._products.map((productWithCategory) {
-                            return getProductTile(
-                                context,
-                                productWithCategory,
-                                this._setApiInProgressStatus,
-                                _query,
-                                this._setNetworkImageStatus,
-                                _imageStatus);
-                          })
-                        ],
+                (_query != '' && _query != null)
+                    ? Expanded(
+                        child: ListView(
+                          children: <Widget>[
+                            ..._products.map((productWithCategory) {
+                              return getProductTile(
+                                  context,
+                                  productWithCategory,
+                                  this._setApiInProgressStatus,
+                                  _query,
+                                  this._setNetworkImageStatus,
+                                  _imageStatus);
+                            })
+                          ],
+                        ),
+                      )
+                    : Expanded(
+                        child: ListView(
+                          children: <Widget>[
+                            ..._products.map((productWithCategory) {
+                              return getTile(
+                                  context,
+                                  productWithCategory,
+                                  this._setApiInProgressStatus,
+                                  this._setNetworkImageStatus,
+                                  _imageStatus);
+                            })
+                          ],
+                        ),
                       ),
-                    )
-                  : Expanded(
-                      child: ListView(
-                        children: <Widget>[
-                          ..._products.map((productWithCategory) {
-                            return getTile(
-                                context,
-                                productWithCategory,
-                                this._setApiInProgressStatus,
-                                this._setNetworkImageStatus,
-                                _imageStatus);
-                          })
-                        ],
-                      ),
-                    ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
