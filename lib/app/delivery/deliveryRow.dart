@@ -180,7 +180,7 @@ class DeliveryRow extends StatelessWidget {
                                   height: 4,
                                 ),
                                 Container(
-                                  width: 70,
+                                  width: 85,
                                   height: 32,
                                   child: Text(
                                     'Out for delivery',
@@ -230,7 +230,7 @@ class DeliveryRow extends StatelessWidget {
                                   height: 4,
                                 ),
                                 Container(
-                                  width: 70,
+                                  width: 85,
                                   height: 32,
                                   child: Text(
                                     'Delivered',
