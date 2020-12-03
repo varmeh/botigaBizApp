@@ -168,6 +168,9 @@ class _StoreScreenState extends State<StoreScreen>
 
   Widget _floatingButton(BuildContext context) {
     if (selectedTab == 1) {
+      if (FocusScope.of(context) != null) {
+        FocusScope.of(context).unfocus();
+      }
       return _addCategory();
     } else {
       final hasCategories = Provider.of<CategoryProvider>(context, listen: true)
