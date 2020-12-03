@@ -124,8 +124,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                             isLoading: _isProcessing,
                             child: Container(
                               color: AppTheme.backgroundColor,
-                              child: ListView(
-                                controller: _scrollcontroller,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Column(
                                     crossAxisAlignment:
@@ -134,202 +134,215 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                       _getSearch(),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 20, right: 20),
+                                            left: 20, right: 20, bottom: 10),
                                         child: Text(
                                           'Order to be sent out today',
                                           style: AppTheme.textStyle.color50.w500
                                               .size(15),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 25,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: Container(
-                                          height: 44,
-                                          child: ListView(
-                                            scrollDirection: Axis.horizontal,
-                                            children: <Widget>[
-                                              ...statusMap.keys.map((val) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 12),
-                                                  child: Container(
-                                                    height: 44,
-                                                    child: FlatButton(
-                                                      shape: new RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              new BorderRadius
-                                                                      .circular(
-                                                                  12.0)),
-                                                      onPressed: () {
-                                                        setState(() {
-                                                          selectedStatus = val;
-                                                        });
-                                                      },
-                                                      color:
-                                                          selectedStatus == val
-                                                              ? AppTheme
-                                                                  .primaryColor
-                                                              : AppTheme
-                                                                  .dividerColor,
-                                                      child: Text('$val',
-                                                          style: selectedStatus ==
-                                                                  val
-                                                              ? AppTheme
-                                                                  .textStyle
-                                                                  .colored(AppTheme
-                                                                      .backgroundColor)
-                                                                  .w500
-                                                                  .size(13)
-                                                              : AppTheme
-                                                                  .textStyle
-                                                                  .color100
-                                                                  .w500
-                                                                  .size(13)),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: ListView(
+                                      controller: _scrollcontroller,
+                                      children: [
+                                        SizedBox(
+                                          height: 15,
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 20),
+                                          child: Container(
+                                            height: 44,
+                                            child: ListView(
+                                              scrollDirection: Axis.horizontal,
+                                              children: <Widget>[
+                                                ...statusMap.keys.map((val) {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 12),
+                                                    child: Container(
+                                                      height: 44,
+                                                      child: FlatButton(
+                                                        shape: new RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                new BorderRadius
+                                                                        .circular(
+                                                                    12.0)),
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            selectedStatus =
+                                                                val;
+                                                          });
+                                                        },
+                                                        color: selectedStatus ==
+                                                                val
+                                                            ? AppTheme
+                                                                .primaryColor
+                                                            : AppTheme
+                                                                .dividerColor,
+                                                        child: Text('$val',
+                                                            style: selectedStatus ==
+                                                                    val
+                                                                ? AppTheme
+                                                                    .textStyle
+                                                                    .colored(
+                                                                        AppTheme
+                                                                            .backgroundColor)
+                                                                    .w500
+                                                                    .size(13)
+                                                                : AppTheme
+                                                                    .textStyle
+                                                                    .color100
+                                                                    .w500
+                                                                    .size(13)),
+                                                      ),
                                                     ),
+                                                  );
+                                                })
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 20.0,
+                                              right: 10,
+                                              top: 20,
+                                              bottom: 20),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              Container(
+                                                child: Expanded(
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        child: Icon(
+                                                          BotigaIcons.building,
+                                                          size: 18,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Flexible(
+                                                        child: Text(
+                                                          '${apartment.apartmentName}',
+                                                          style: AppTheme
+                                                              .textStyle
+                                                              .w500
+                                                              .color100
+                                                              .size(15),
+                                                        ),
+                                                      )
+                                                    ],
                                                   ),
-                                                );
-                                              })
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Container(
+                                                width: 100,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    _getDateSelection();
+                                                  },
+                                                  child: Row(
+                                                    children: <Widget>[
+                                                      Flexible(
+                                                        child: Text(
+                                                            '${selectedDate.getTodayOrSelectedDate()}',
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .subtitle1),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 7,
+                                                      ),
+                                                      Icon(
+                                                        Icons.expand_more_sharp,
+                                                        size: 25,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )
                                             ],
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 20.0, right: 10, top: 20),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Container(
-                                          child: Expanded(
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  child: Icon(
-                                                    BotigaIcons.building,
-                                                    size: 18,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Flexible(
-                                                  child: Text(
-                                                    '${apartment.apartmentName}',
-                                                    style: AppTheme
-                                                        .textStyle.w500.color100
-                                                        .size(15),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Container(
-                                          width: 100,
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              _getDateSelection();
-                                            },
-                                            child: Row(
-                                              children: <Widget>[
-                                                Flexible(
-                                                  child: Text(
-                                                      '${selectedDate.getTodayOrSelectedDate()}',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .subtitle1),
-                                                ),
-                                                SizedBox(
-                                                  width: 7,
-                                                ),
-                                                Icon(
-                                                  Icons.expand_more_sharp,
-                                                  size: 25,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        )
+                                        Consumer<DeliveryProvider>(builder:
+                                            (ctx, deliveryProvider, _) {
+                                          var deliveryListByApartment;
+                                          bool isTodaySelected = selectedDate
+                                                  .getTodayOrSelectedDate() ==
+                                              TODAY;
+                                          if (isTodaySelected) {
+                                            deliveryListByApartment = deliveryProvider
+                                                    .deliveryByApartmentToday[
+                                                '${apartment.id}-${selectedDate.getRequestFormatDate()}'];
+                                          } else {
+                                            deliveryListByApartment =
+                                                deliveryProvider
+                                                    .deliveryListByApartmentOtherDay;
+                                          }
+
+                                          if (deliveryListByApartment == null ||
+                                              deliveryListByApartment.length ==
+                                                  0) {
+                                            return EmptyDelivery();
+                                          }
+
+                                          final filterdStatusDetails =
+                                              selectedStatus == 'All'
+                                                  ? deliveryListByApartment
+                                                  : deliveryListByApartment
+                                                      .where((deliveryRow) {
+                                                      return deliveryRow
+                                                              .order.status ==
+                                                          statusMap[
+                                                              selectedStatus];
+                                                    });
+
+                                          if (filterdStatusDetails.length ==
+                                              0) {
+                                            return EmptyDelivery();
+                                          }
+
+                                          var deliveries = filterdStatusDetails;
+                                          if (_query != '' && _query != null) {
+                                            deliveries = deliveries.where(
+                                              (_delivery) {
+                                                return _delivery.order.number
+                                                        .toLowerCase()
+                                                        .contains(_query
+                                                            .toLowerCase()) ==
+                                                    true;
+                                              },
+                                            );
+                                          }
+
+                                          return Column(
+                                            children: [
+                                              ...deliveries.map((deliveryRow) {
+                                                return DeliveryRow(
+                                                    deliveryRow,
+                                                    apartment.apartmentName,
+                                                    apartment.id,
+                                                    this._handleOutForDelivery,
+                                                    selectedDateForRequest,
+                                                    this._handleMarkAsDeliverd);
+                                              })
+                                            ],
+                                          );
+                                        }),
                                       ],
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Consumer<DeliveryProvider>(
-                                      builder: (ctx, deliveryProvider, _) {
-                                    var deliveryListByApartment;
-                                    bool isTodaySelected =
-                                        selectedDate.getTodayOrSelectedDate() ==
-                                            TODAY;
-                                    if (isTodaySelected) {
-                                      deliveryListByApartment = deliveryProvider
-                                              .deliveryByApartmentToday[
-                                          '${apartment.id}-${selectedDate.getRequestFormatDate()}'];
-                                    } else {
-                                      deliveryListByApartment = deliveryProvider
-                                          .deliveryListByApartmentOtherDay;
-                                    }
-
-                                    if (deliveryListByApartment == null ||
-                                        deliveryListByApartment.length == 0) {
-                                      return EmptyDelivery();
-                                    }
-
-                                    final filterdStatusDetails =
-                                        selectedStatus == 'All'
-                                            ? deliveryListByApartment
-                                            : deliveryListByApartment
-                                                .where((deliveryRow) {
-                                                return deliveryRow
-                                                        .order.status ==
-                                                    statusMap[selectedStatus];
-                                              });
-
-                                    if (filterdStatusDetails.length == 0) {
-                                      return EmptyDelivery();
-                                    }
-
-                                    var deliveries = filterdStatusDetails;
-                                    if (_query != '' && _query != null) {
-                                      deliveries = deliveries.where(
-                                        (_delivery) {
-                                          return _delivery.order.number
-                                                  .toLowerCase()
-                                                  .contains(
-                                                      _query.toLowerCase()) ==
-                                              true;
-                                        },
-                                      );
-                                    }
-
-                                    return Column(
-                                      children: [
-                                        ...deliveries.map((deliveryRow) {
-                                          return DeliveryRow(
-                                              deliveryRow,
-                                              apartment.apartmentName,
-                                              apartment.id,
-                                              this._handleOutForDelivery,
-                                              selectedDateForRequest,
-                                              this._handleMarkAsDeliverd);
-                                        })
-                                      ],
-                                    );
-                                  }),
-                                  SizedBox(
-                                    height: 100,
                                   ),
                                 ],
                               ),
