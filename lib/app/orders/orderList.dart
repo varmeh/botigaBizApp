@@ -119,194 +119,202 @@ class _OrderListState extends State<OrderList> {
                   },
                 )
               : SafeArea(
-                  child: Container(
-                    color: AppTheme.backgroundColor,
-                    child: Column(
-                      children: [
-                        _showSearch
-                            ? Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 8, bottom: 8),
-                                child: Container(
-                                  child: Row(
-                                    children: [
-                                      IconButton(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        icon: Icon(
-                                          Icons.arrow_back,
-                                          color: AppTheme.color100,
+                  child: GestureDetector(
+                    onVerticalDragDown: (_) => FocusScope.of(context).unfocus(),
+                    child: Container(
+                      color: AppTheme.backgroundColor,
+                      child: Column(
+                        children: [
+                          _showSearch
+                              ? Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 8, bottom: 8),
+                                  child: Container(
+                                    child: Row(
+                                      children: [
+                                        IconButton(
+                                          splashColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          icon: Icon(
+                                            Icons.arrow_back,
+                                            color: AppTheme.color100,
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
                                         ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      Expanded(
-                                        child: SearchBar(
-                                          placeholder:
-                                              "Search by order number...",
-                                          onClear: () {
+                                        Expanded(
+                                          child: SearchBar(
+                                            placeholder:
+                                                "Search by order number...",
+                                            onClear: () {
+                                              setState(() {
+                                                _query = '';
+                                              });
+                                            },
+                                            onChange: (value) {
+                                              setState(() {
+                                                _query = value;
+                                              });
+                                            },
+                                            onSubmit: (_) {},
+                                          ),
+                                        ),
+                                        IconButton(
+                                          splashColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          icon: Icon(
+                                            Icons.close,
+                                            color: AppTheme.color100,
+                                          ),
+                                          onPressed: () {
                                             setState(() {
+                                              _showSearch = false;
                                               _query = '';
                                             });
                                           },
-                                          onChange: (value) {
-                                            setState(() {
-                                              _query = value;
-                                            });
-                                          },
-                                          onSubmit: (_) {},
-                                        ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              : SizedBox.shrink(),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 8, bottom: 8, left: 20, right: 20),
+                            child: GestureDetector(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) => Container(
+                                    padding: EdgeInsets.only(bottom: 24),
+                                    decoration: BoxDecoration(
+                                      color:
+                                          Theme.of(context).colorScheme.surface,
+                                      borderRadius: BorderRadius.only(
+                                        topLeft: const Radius.circular(16.0),
+                                        topRight: const Radius.circular(16.0),
                                       ),
-                                      IconButton(
-                                        splashColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        icon: Icon(
-                                          Icons.close,
-                                          color: AppTheme.color100,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _showSearch = false;
-                                            _query = '';
-                                          });
+                                    ),
+                                    child: SafeArea(
+                                      child: TableCalendar(
+                                        initialSelectedDay: selectedDate,
+                                        startDay: DateTime.now()
+                                            .subtract(Duration(days: 15)),
+                                        availableCalendarFormats: const {
+                                          CalendarFormat.month: 'Month',
                                         },
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : SizedBox.shrink(),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8, bottom: 8, left: 20, right: 20),
-                          child: GestureDetector(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                builder: (context) => Container(
-                                  padding: EdgeInsets.only(bottom: 24),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        Theme.of(context).colorScheme.surface,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: const Radius.circular(16.0),
-                                      topRight: const Radius.circular(16.0),
+                                        calendarStyle: CalendarStyle(
+                                            todayColor: AppTheme
+                                                .primaryColorVariant
+                                                .withOpacity(0.5),
+                                            selectedColor:
+                                                AppTheme.primaryColor,
+                                            outsideDaysVisible: true,
+                                            weekendStyle:
+                                                AppTheme.textStyle.color100,
+                                            outsideWeekendStyle:
+                                                AppTheme.textStyle.color50),
+                                        daysOfWeekStyle: DaysOfWeekStyle(
+                                          weekendStyle: AppTheme.textStyle
+                                              .colored(AppTheme.color100),
+                                        ),
+                                        headerStyle: HeaderStyle(
+                                          centerHeaderTitle: false,
+                                          formatButtonVisible: false,
+                                        ),
+                                        onDaySelected: (date, events, _) {
+                                          Navigator.of(context).pop();
+                                          setState(() {
+                                            selectedDate = date;
+                                            selectedDateForRequest = date;
+                                          });
+                                          fetchData(
+                                              date.getRequestFormatDate());
+                                        },
+                                        calendarController: _calendarController,
+                                      ),
                                     ),
                                   ),
-                                  child: SafeArea(
-                                    child: TableCalendar(
-                                      initialSelectedDay: selectedDate,
-                                      startDay: DateTime.now()
-                                          .subtract(Duration(days: 15)),
-                                      availableCalendarFormats: const {
-                                        CalendarFormat.month: 'Month',
-                                      },
-                                      calendarStyle: CalendarStyle(
-                                          todayColor: AppTheme
-                                              .primaryColorVariant
-                                              .withOpacity(0.5),
-                                          selectedColor: AppTheme.primaryColor,
-                                          outsideDaysVisible: true,
-                                          weekendStyle:
-                                              AppTheme.textStyle.color100,
-                                          outsideWeekendStyle:
-                                              AppTheme.textStyle.color50),
-                                      daysOfWeekStyle: DaysOfWeekStyle(
-                                        weekendStyle: AppTheme.textStyle
-                                            .colored(AppTheme.color100),
-                                      ),
-                                      headerStyle: HeaderStyle(
-                                        centerHeaderTitle: false,
-                                        formatButtonVisible: false,
-                                      ),
-                                      onDaySelected: (date, events, _) {
-                                        Navigator.of(context).pop();
-                                        setState(() {
-                                          selectedDate = date;
-                                          selectedDateForRequest = date;
-                                        });
-                                        fetchData(date.getRequestFormatDate());
-                                      },
-                                      calendarController: _calendarController,
-                                    ),
+                                );
+                              },
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                      '${selectedDate.getTodayOrSelectedDate()}',
+                                      style: AppTheme.textStyle.color100.w500
+                                          .size(15)),
+                                  SizedBox(
+                                    width: 9,
                                   ),
-                                ),
-                              );
-                            },
-                            child: Row(
+                                  Icon(Icons.expand_more_sharp,
+                                      size: 25, color: AppTheme.color100),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: ListView(
                               children: <Widget>[
-                                Text('${selectedDate.getTodayOrSelectedDate()}',
-                                    style: AppTheme.textStyle.color100.w500
-                                        .size(15)),
+                                Consumer<OrdersProvider>(
+                                    builder: (ctx, ordersprovider, _) {
+                                  final orderByDateApartment =
+                                      ordersprovider.orderByDateApartment;
+                                  if (orderByDateApartment == null ||
+                                      orderByDateApartment.length == 0) {
+                                    return EmptyOrders();
+                                  }
+
+                                  var orders = orderByDateApartment;
+                                  if (_query != '' && _query != null) {
+                                    orders = orders.where(
+                                      (_order) {
+                                        return _order.order.number
+                                                .toLowerCase()
+                                                .contains(
+                                                    _query.toLowerCase()) ==
+                                            true;
+                                      },
+                                    );
+                                  }
+                                  return Column(
+                                    children: [
+                                      ...orders.map((orderRow) {
+                                        return OrderRow(
+                                          () {
+                                            Navigator.of(context).pushNamed(
+                                              OrderDetails.routeName,
+                                              arguments: {
+                                                'flowType': 'order',
+                                                'id': orderRow.id,
+                                                'apartmentName': aprtmentName,
+                                                'apartmentId': apartmentId,
+                                                'selectedDateForRequest':
+                                                    selectedDateForRequest ==
+                                                            null
+                                                        ? DateTime.now()
+                                                            .getRequestFormatDate()
+                                                        : selectedDateForRequest
+                                                            .getRequestFormatDate()
+                                              },
+                                            );
+                                          },
+                                          orderRow.order,
+                                        );
+                                      })
+                                    ],
+                                  );
+                                }),
                                 SizedBox(
-                                  width: 9,
+                                  height: 61,
                                 ),
-                                Icon(Icons.expand_more_sharp,
-                                    size: 25, color: AppTheme.color100),
                               ],
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: ListView(
-                            children: <Widget>[
-                              Consumer<OrdersProvider>(
-                                  builder: (ctx, ordersprovider, _) {
-                                final orderByDateApartment =
-                                    ordersprovider.orderByDateApartment;
-                                if (orderByDateApartment == null ||
-                                    orderByDateApartment.length == 0) {
-                                  return EmptyOrders();
-                                }
-
-                                var orders = orderByDateApartment;
-                                if (_query != '' && _query != null) {
-                                  orders = orders.where(
-                                    (_order) {
-                                      return _order.order.number
-                                              .toLowerCase()
-                                              .contains(_query.toLowerCase()) ==
-                                          true;
-                                    },
-                                  );
-                                }
-                                return Column(
-                                  children: [
-                                    ...orders.map((orderRow) {
-                                      return OrderRow(
-                                        () {
-                                          Navigator.of(context).pushNamed(
-                                            OrderDetails.routeName,
-                                            arguments: {
-                                              'flowType': 'order',
-                                              'id': orderRow.id,
-                                              'apartmentName': aprtmentName,
-                                              'apartmentId': apartmentId,
-                                              'selectedDateForRequest':
-                                                  selectedDateForRequest == null
-                                                      ? DateTime.now()
-                                                          .getRequestFormatDate()
-                                                      : selectedDateForRequest
-                                                          .getRequestFormatDate()
-                                            },
-                                          );
-                                        },
-                                        orderRow.order,
-                                      );
-                                    })
-                                  ],
-                                );
-                              }),
-                              SizedBox(
-                                height: 61,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
