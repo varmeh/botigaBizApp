@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -371,341 +370,327 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
               ),
             ),
             body: SafeArea(
-              child: KeyboardActions(
-                config: buildConfig(context, [
-                  _nameFocusNode,
-                  _priceFocusNode,
-                  _quantityFocusNode,
-                  _descriptionFocusNode
-                ]),
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, right: 20, top: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              _imageFile != null
-                                  ? ConstrainedBox(
-                                      constraints: BoxConstraints.tight(
-                                        Size(double.infinity, 135),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 180,
-                                            height: 135,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: ClipRRect(
-                                              child: Image.file(
-                                                File(_imageFile.path),
-                                                fit: BoxFit.cover,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, right: 20, top: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            _imageFile != null
+                                ? ConstrainedBox(
+                                    constraints: BoxConstraints.tight(
+                                      Size(double.infinity, 135),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 180,
+                                          height: 135,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
                                           ),
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                PassiveButton(
-                                                  title: "Change",
-                                                  onPressed: () {
-                                                    showImageSelectOption(
-                                                        context);
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.edit,
-                                                    color: AppTheme.color100,
-                                                    size: 17,
-                                                  ),
-                                                  height: 44,
-                                                  width: 135,
-                                                ),
-                                                PassiveButton(
-                                                  title: "Remove",
-                                                  onPressed: () {
-                                                    _handleImageDelete();
-                                                  },
-                                                  icon: Icon(
-                                                    Icons.delete_outline,
-                                                    color: AppTheme.color100,
-                                                    size: 17,
-                                                  ),
-                                                  height: 44,
-                                                  width: 135,
-                                                )
-                                              ],
+                                          child: ClipRRect(
+                                            child: Image.file(
+                                              File(_imageFile.path),
+                                              fit: BoxFit.cover,
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  : Container(
-                                      width: double.infinity,
-                                      height: 176,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        border: Border.all(
-                                          style: BorderStyle.solid,
-                                          color: AppTheme.color100
-                                              .withOpacity(0.25),
-                                          width: 1.0,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
                                         ),
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          FlatButton.icon(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                            icon: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 20,
-                                                top: 14,
-                                                bottom: 14,
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              PassiveButton(
+                                                title: "Change",
+                                                onPressed: () {
+                                                  showImageSelectOption(
+                                                      context);
+                                                },
+                                                icon: Icon(
+                                                  Icons.edit,
+                                                  color: AppTheme.color100,
+                                                  size: 17,
+                                                ),
+                                                height: 44,
+                                                width: 135,
                                               ),
-                                              child: Icon(BotigaIcons.gallery,
-                                                  size: 18),
-                                            ),
-                                            onPressed: () {
-                                              showImageSelectOption(context);
-                                            },
-                                            color:
-                                                Colors.black.withOpacity(0.05),
-                                            label: Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 20,
-                                                top: 14,
-                                                bottom: 14,
-                                                left: 8,
-                                              ),
-                                              child: Text('Add image',
-                                                  style: AppTheme
-                                                      .textStyle.color100.w500
-                                                      .size(15)),
-                                            ),
+                                              PassiveButton(
+                                                title: "Remove",
+                                                onPressed: () {
+                                                  _handleImageDelete();
+                                                },
+                                                icon: Icon(
+                                                  Icons.delete_outline,
+                                                  color: AppTheme.color100,
+                                                  size: 17,
+                                                ),
+                                                height: 44,
+                                                width: 135,
+                                              )
+                                            ],
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 55, right: 55, top: 16),
-                                            child: Text(
-                                              'Adding image will increase people interest in your product',
-                                              textAlign: TextAlign.center,
-                                              style: AppTheme
-                                                  .textStyle.color50.w400
-                                                  .size(12)
-                                                  .letterSpace(0.2)
-                                                  .lineHeight(1.5),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 55,
-                                                right: 55,
-                                                top: 8,
-                                                bottom: 10),
-                                            child: Text(
-                                              '*Upload Landscape Image',
-                                              textAlign: TextAlign.center,
-                                              style: AppTheme
-                                                  .textStyle.color100.w500
-                                                  .size(12)
-                                                  .letterSpace(0.2)
-                                                  .lineHeight(1.5),
-                                            ),
-                                          ),
-                                        ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                : Container(
+                                    width: double.infinity,
+                                    height: 176,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      border: Border.all(
+                                        style: BorderStyle.solid,
+                                        color:
+                                            AppTheme.color100.withOpacity(0.25),
+                                        width: 1.0,
                                       ),
                                     ),
-                              SizedBox(
-                                height: 26,
-                              ),
-                              BotigaTextFieldForm(
-                                  focusNode: _nameFocusNode,
-                                  labelText: 'Product name',
-                                  onSave: (value) => _name = value,
-                                  validator: emptyValidator,
-                                  nextFocusNode: _priceFocusNode),
-                              SizedBox(
-                                height: 26,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3.5),
-                                  border: Border.all(
-                                    style: BorderStyle.solid,
-                                    color: AppTheme.color25,
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: ListTile(
-                                  visualDensity: VisualDensity(
-                                      horizontal: 0, vertical: -1),
-                                  onTap: () {
-                                    FocusScope.of(context).unfocus();
-                                    showCategories();
-                                  },
-                                  trailing: Icon(Icons.keyboard_arrow_down,
-                                      color: AppTheme.color100),
-                                  title: _seletedCategory == ''
-                                      ? Text(
-                                          'Select Category',
-                                          style: AppTheme
-                                              .textStyle.color100.w500
-                                              .size(15),
-                                        )
-                                      : Text(
-                                          '$_seletedCategory',
-                                          style: AppTheme
-                                              .textStyle.color100.w500
-                                              .size(15),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        FlatButton.icon(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          icon: Padding(
+                                            padding: const EdgeInsets.only(
+                                              left: 20,
+                                              top: 14,
+                                              bottom: 14,
+                                            ),
+                                            child: Icon(BotigaIcons.gallery,
+                                                size: 18),
+                                          ),
+                                          onPressed: () {
+                                            showImageSelectOption(context);
+                                          },
+                                          color: Colors.black.withOpacity(0.05),
+                                          label: Padding(
+                                            padding: const EdgeInsets.only(
+                                              right: 20,
+                                              top: 14,
+                                              bottom: 14,
+                                              left: 8,
+                                            ),
+                                            child: Text('Add image',
+                                                style: AppTheme
+                                                    .textStyle.color100.w500
+                                                    .size(15)),
+                                          ),
                                         ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 55, right: 55, top: 16),
+                                          child: Text(
+                                            'Adding image will increase people interest in your product',
+                                            textAlign: TextAlign.center,
+                                            style: AppTheme
+                                                .textStyle.color50.w400
+                                                .size(12)
+                                                .letterSpace(0.2)
+                                                .lineHeight(1.5),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 55,
+                                              right: 55,
+                                              top: 8,
+                                              bottom: 10),
+                                          child: Text(
+                                            '*Upload Landscape Image',
+                                            textAlign: TextAlign.center,
+                                            style: AppTheme
+                                                .textStyle.color100.w500
+                                                .size(12)
+                                                .letterSpace(0.2)
+                                                .lineHeight(1.5),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                            SizedBox(
+                              height: 26,
+                            ),
+                            BotigaTextFieldForm(
+                                focusNode: _nameFocusNode,
+                                labelText: 'Product name',
+                                onSave: (value) => _name = value,
+                                validator: emptyValidator,
+                                nextFocusNode: _priceFocusNode),
+                            SizedBox(
+                              height: 26,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3.5),
+                                border: Border.all(
+                                  style: BorderStyle.solid,
+                                  color: AppTheme.color25,
+                                  width: 1.0,
                                 ),
                               ),
-                              SizedBox(
-                                height: 26,
+                              child: ListTile(
+                                visualDensity:
+                                    VisualDensity(horizontal: 0, vertical: -1),
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                  showCategories();
+                                },
+                                trailing: Icon(Icons.keyboard_arrow_down,
+                                    color: AppTheme.color100),
+                                title: _seletedCategory == ''
+                                    ? Text(
+                                        'Select Category',
+                                        style: AppTheme.textStyle.color100.w500
+                                            .size(15),
+                                      )
+                                    : Text(
+                                        '$_seletedCategory',
+                                        style: AppTheme.textStyle.color100.w500
+                                            .size(15),
+                                      ),
                               ),
-                              BotigaTextFieldForm(
-                                  icon: BotigaIcons.rupee,
-                                  iconSize: 14.0,
-                                  focusNode: _priceFocusNode,
-                                  labelText: 'Price',
-                                  keyboardType: TextInputType.datetime,
-                                  onSave: (value) =>
-                                      _price = double.parse(value),
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return 'Required';
-                                    } else if (double.tryParse(value) == null) {
-                                      return 'Please use numbers for price';
-                                    }
-                                    return null;
-                                  },
-                                  nextFocusNode: _quantityFocusNode),
-                              SizedBox(
-                                height: 26,
-                              ),
-                              BotigaTextFieldForm(
-                                focusNode: _quantityFocusNode,
-                                labelText: 'Quantity',
+                            ),
+                            SizedBox(
+                              height: 26,
+                            ),
+                            BotigaTextFieldForm(
+                                icon: BotigaIcons.rupee,
+                                iconSize: 14.0,
+                                focusNode: _priceFocusNode,
+                                labelText: 'Price',
                                 keyboardType: TextInputType.datetime,
-                                onSave: (value) => _quantity = int.parse(value),
-                                validator: integerValidator,
+                                onSave: (value) => _price = double.parse(value),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Required';
+                                  } else if (double.tryParse(value) == null) {
+                                    return 'Please use numbers for price';
+                                  }
+                                  return null;
+                                },
+                                nextFocusNode: _quantityFocusNode),
+                            SizedBox(
+                              height: 26,
+                            ),
+                            BotigaTextFieldForm(
+                              focusNode: _quantityFocusNode,
+                              labelText: 'Quantity',
+                              keyboardType: TextInputType.datetime,
+                              onSave: (value) => _quantity = int.parse(value),
+                              validator: integerValidator,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20.0, top: 17, bottom: 17),
+                        child: Container(
+                          height: 44,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: <Widget>[
+                              ...['kg', 'gms', 'lt', 'ml', 'piece', 'pieces']
+                                  .map(
+                                (val) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 12),
+                                    child: Container(
+                                      height: 44,
+                                      child: FlatButton(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _selectedQuantity = val;
+                                          });
+                                        },
+                                        color: _selectedQuantity == val
+                                            ? AppTheme.primaryColor
+                                            : AppTheme.dividerColor,
+                                        child: Text('$val',
+                                            style: _selectedQuantity == val
+                                                ? AppTheme.textStyle
+                                                    .size(13)
+                                                    .lineHeight(1.5)
+                                                    .w600
+                                                    .colored(AppTheme
+                                                        .backgroundColor)
+                                                : AppTheme.textStyle.color100
+                                                    .size(13)
+                                                    .lineHeight(1.5)
+                                                    .w600),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 10),
+                        child: Container(
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Add description',
+                                style:
+                                    AppTheme.textStyle.size(15).w500.color100,
+                              ),
+                              BotigaSwitch(
+                                handleSwitchChage: (bool value) {
+                                  setState(() {
+                                    _switchValue = value;
+                                  });
+                                  _descriptionFocusNode.requestFocus();
+                                },
+                                switchValue: _switchValue,
+                                alignment: Alignment.centerLeft,
                               ),
                             ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, top: 17, bottom: 17),
-                          child: Container(
-                            height: 44,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: <Widget>[
-                                ...['kg', 'gms', 'lt', 'ml', 'piece', 'pieces']
-                                    .map(
-                                  (val) {
-                                    return Padding(
-                                      padding: const EdgeInsets.only(right: 12),
-                                      child: Container(
-                                        height: 44,
-                                        child: FlatButton(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12.0),
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              _selectedQuantity = val;
-                                            });
-                                          },
-                                          color: _selectedQuantity == val
-                                              ? AppTheme.primaryColor
-                                              : AppTheme.dividerColor,
-                                          child: Text('$val',
-                                              style: _selectedQuantity == val
-                                                  ? AppTheme.textStyle
-                                                      .size(13)
-                                                      .lineHeight(1.5)
-                                                      .w600
-                                                      .colored(AppTheme
-                                                          .backgroundColor)
-                                                  : AppTheme.textStyle.color100
-                                                      .size(13)
-                                                      .lineHeight(1.5)
-                                                      .w600),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20, top: 10),
-                          child: Container(
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  'Add description',
-                                  style:
-                                      AppTheme.textStyle.size(15).w500.color100,
-                                ),
-                                BotigaSwitch(
-                                  handleSwitchChage: (bool value) {
-                                    setState(() {
-                                      _switchValue = value;
-                                    });
-                                    _descriptionFocusNode.requestFocus();
-                                  },
-                                  switchValue: _switchValue,
-                                  alignment: Alignment.centerLeft,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        _switchValue == true
-                            ? Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20, right: 15, bottom: 15, top: 25),
-                                child: BotigaTextFieldForm(
-                                  maxLines: 3,
-                                  maxLength: 120,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  focusNode: _descriptionFocusNode,
-                                  labelText: 'Description',
-                                  onSave: (value) => _description = value,
-                                ),
-                              )
-                            : SizedBox()
-                      ],
-                    ),
+                      ),
+                      _switchValue == true
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 15, bottom: 15, top: 25),
+                              child: BotigaTextFieldForm(
+                                maxLines: 3,
+                                maxLength: 120,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                focusNode: _descriptionFocusNode,
+                                labelText: 'Description',
+                                onSave: (value) => _description = value,
+                              ),
+                            )
+                          : SizedBox()
+                    ],
                   ),
                 ),
               ),
