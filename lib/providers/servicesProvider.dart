@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
@@ -21,6 +22,11 @@ class ServicesProvider with ChangeNotifier {
   }
 
   Future uploadImageToS3(String url, PickedFile image) async {
+    Uint8List bytes = await image.readAsBytes();
+    return http.put(url, body: bytes);
+  }
+
+  Future uploadImageToS33(String url, File image) async {
     Uint8List bytes = await image.readAsBytes();
     return http.put(url, body: bytes);
   }

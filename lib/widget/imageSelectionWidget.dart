@@ -1,23 +1,27 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 import '../theme/index.dart';
 import 'botigaBottomModal.dart';
 import 'toast.dart';
+import 'dart:async';
+import 'dart:io';
 
 class ImageSelectionWidget {
   final double width;
   final double height;
   final int imageQuality;
   final Function(PickedFile) onImageSelection;
+  final Function(File) onImageSelection1;
 
-  ImageSelectionWidget({
-    @required this.width,
-    @required this.height,
-    @required this.imageQuality,
-    @required this.onImageSelection,
-  });
+  ImageSelectionWidget(
+      {@required this.width,
+      @required this.height,
+      @required this.imageQuality,
+      @required this.onImageSelection,
+      this.onImageSelection1});
 
   void show(BuildContext context) {
     BotigaBottomModal(
@@ -63,13 +67,12 @@ class ImageSelectionWidget {
 
   void _onImageButtonPressed(BuildContext context, ImageSource source) async {
     try {
-      final pickedFile = await ImagePicker().getImage(
+      PickedFile pickedFile = await ImagePicker().getImage(
         source: source,
         maxWidth: width,
         maxHeight: height,
-        imageQuality: imageQuality,
       );
-      onImageSelection(pickedFile);
+      _cropImage(pickedFile);
     } catch (e) {
       if (e.code != null &&
           (e.code == 'photo_access_denied' ||
@@ -78,6 +81,41 @@ class ImageSelectionWidget {
       } else {
         Toast(message: 'Unexpected error').show(context);
       }
+    }
+  }
+
+  _cropImage(pickedFile) async {
+    File croppedImage = await ImageCropper.cropImage(
+        sourcePath: pickedFile.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio16x9
+              ]
+            : [
+                CropAspectRatioPreset.original,
+                CropAspectRatioPreset.square,
+                CropAspectRatioPreset.ratio3x2,
+                CropAspectRatioPreset.ratio4x3,
+                CropAspectRatioPreset.ratio5x3,
+                CropAspectRatioPreset.ratio5x4,
+                CropAspectRatioPreset.ratio7x5,
+                CropAspectRatioPreset.ratio16x9
+              ],
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: AppTheme.primaryColor,
+            toolbarWidgetColor: AppTheme.backgroundColor,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          title: 'Cropper',
+        ));
+    if (croppedImage != null) {
+      onImageSelection1(croppedImage);
     }
   }
 

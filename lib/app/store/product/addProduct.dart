@@ -30,7 +30,7 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
-  PickedFile _imageFile;
+  File _imageFile;
   TextEditingController maxWidthController,
       maxHeightController,
       qualityController;
@@ -187,7 +187,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     }
   }
 
-  void _handleImageUpload(PickedFile file) async {
+  void _handleImageUpload(File file) async {
     if (file == null) {
       return;
     }
@@ -196,7 +196,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
         isSaving = true;
       });
       await Provider.of<ServicesProvider>(context, listen: false)
-          .uploadImageToS3(uploadurl, file);
+          .uploadImageToS33(uploadurl, file);
     } catch (err) {
       setState(() {
         _imageFile = null;
@@ -272,16 +272,21 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
 
   void showImageSelectOption(BuildContext context) {
     ImageSelectionWidget(
-      width: 180,
-      height: 135,
-      imageQuality: 100,
-      onImageSelection: (imageFile) {
-        setState(() {
-          _imageFile = imageFile;
-        });
-        this._handleImageUpload(imageFile);
-      },
-    ).show(context);
+        width: 180,
+        height: 135,
+        imageQuality: 100,
+        onImageSelection: (imageFile) {
+          setState(() {
+            _imageFile = File(imageFile.path);
+          });
+          this._handleImageUpload(_imageFile);
+        },
+        onImageSelection1: (imageFile) {
+          setState(() {
+            _imageFile = imageFile;
+          });
+          this._handleImageUpload(imageFile);
+        }).show(context);
   }
 
   void _handleProductSave() async {
