@@ -207,11 +207,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 20.0,
-                                              right: 10,
-                                              top: 20,
-                                              bottom: 20),
+                                          padding: const EdgeInsets.all(20),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
@@ -253,6 +249,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                                     _getDateSelection();
                                                   },
                                                   child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.end,
                                                     children: <Widget>[
                                                       Flexible(
                                                         child: Text(
