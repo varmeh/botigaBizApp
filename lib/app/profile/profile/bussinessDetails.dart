@@ -128,6 +128,8 @@ class _BussinessDetailsState extends State<BussinessDetails> {
 
   void showImageSelectOption() {
     ImageSelectionWidget(
+      width: 150,
+      height: 150,
       onImageSelection: (imageFile) {
         setState(() {
           _imageFile = imageFile;

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -18,8 +17,7 @@ import '../../../widget/index.dart'
         BotigaBottomModal,
         BotigaTextFieldForm,
         LoaderOverlay,
-        ImageSelectionWidget,
-        ImageSelectionInfoModal;
+        ImageSelectionWidget;
 import '../../home/index.dart' show HomeScreen;
 
 class AddProduct extends StatefulWidget {
@@ -81,16 +79,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     isSaving = false;
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
-    Future.delayed(const Duration(milliseconds: 500), () {
-      bool showImageInfoModal = KeyStore.showImageInfoModal();
-      if (showImageInfoModal) {
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (_) => ImageSelectionInfoModal(),
-        );
-      }
-    });
   }
 
   @override
@@ -271,6 +259,8 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
 
   void showImageSelectOption(BuildContext context) {
     ImageSelectionWidget(
+      width: 180,
+      height: 135,
       onImageSelection: (imageFile) {
         setState(() {
           _imageFile = imageFile;
@@ -454,7 +444,8 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: <Widget>[
@@ -497,22 +488,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                             textAlign: TextAlign.center,
                                             style: AppTheme
                                                 .textStyle.color50.w400
-                                                .size(12)
-                                                .letterSpace(0.2)
-                                                .lineHeight(1.5),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 55,
-                                              right: 55,
-                                              top: 8,
-                                              bottom: 10),
-                                          child: Text(
-                                            '*Upload Landscape Image',
-                                            textAlign: TextAlign.center,
-                                            style: AppTheme
-                                                .textStyle.color100.w500
                                                 .size(12)
                                                 .letterSpace(0.2)
                                                 .lineHeight(1.5),

@@ -9,9 +9,13 @@ import 'toast.dart';
 import 'dart:io';
 
 class ImageSelectionWidget {
+  final double width;
+  final double height;
   final Function(File) onImageSelection;
 
   ImageSelectionWidget({
+    @required this.width,
+    @required this.height,
     @required this.onImageSelection,
   });
 
@@ -77,26 +81,17 @@ class ImageSelectionWidget {
   }
 
   _cropImage(pickedFile) async {
+    List<CropAspectRatioPreset> aspectRatio;
+    if (width == 150 && height == 150) {
+      aspectRatio = [CropAspectRatioPreset.square];
+    } else {
+      aspectRatio = [
+        CropAspectRatioPreset.ratio4x3,
+      ];
+    }
     File croppedImage = await ImageCropper.cropImage(
         sourcePath: pickedFile.path,
-        aspectRatioPresets: Platform.isAndroid
-            ? [
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio16x9
-              ]
-            : [
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio5x3,
-                CropAspectRatioPreset.ratio5x4,
-                CropAspectRatioPreset.ratio7x5,
-                CropAspectRatioPreset.ratio16x9
-              ],
+        aspectRatioPresets: aspectRatio,
         androidUiSettings: AndroidUiSettings(
             toolbarTitle: '',
             toolbarColor: AppTheme.primaryColor,

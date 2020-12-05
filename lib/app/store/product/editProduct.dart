@@ -20,7 +20,6 @@ import '../../../widget/index.dart'
         ImageSelectionWidget,
         ActiveButton,
         PassiveButton,
-        ImageSelectionInfoModal,
         BotigaSwitch;
 import '../../home/index.dart' show HomeScreen;
 
@@ -83,16 +82,6 @@ class _EditProductState extends State<EditProduct>
     isSaving = false;
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
-    Future.delayed(const Duration(milliseconds: 500), () {
-      bool showImageInfoModal = KeyStore.showImageInfoModal();
-      if (showImageInfoModal) {
-        showDialog(
-          barrierDismissible: false,
-          context: context,
-          builder: (_) => ImageSelectionInfoModal(),
-        );
-      }
-    });
   }
 
   @override
@@ -565,6 +554,8 @@ class _EditProductState extends State<EditProduct>
 
   void showImageSelectOption(BuildContext context) {
     ImageSelectionWidget(
+      width: 180,
+      height: 135,
       onImageSelection: (imageFile) {
         setState(() {
           _imageFile = imageFile;
@@ -722,7 +713,7 @@ class _EditProductState extends State<EditProduct>
         ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           FlatButton.icon(
@@ -758,18 +749,6 @@ class _EditProductState extends State<EditProduct>
               'Adding image will increase people interest in your product',
               textAlign: TextAlign.center,
               style: AppTheme.textStyle.color50.w400
-                  .size(12)
-                  .letterSpace(0.2)
-                  .lineHeight(1.5),
-            ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 55, right: 55, top: 8, bottom: 10),
-            child: Text(
-              '*Upload Landscape Image',
-              textAlign: TextAlign.center,
-              style: AppTheme.textStyle.color100.w500
                   .size(12)
                   .letterSpace(0.2)
                   .lineHeight(1.5),

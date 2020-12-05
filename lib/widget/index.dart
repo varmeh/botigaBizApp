@@ -8,7 +8,6 @@ export 'communitiesInfo.dart';
 export 'contactWidget.dart';
 export 'fullWidthButton.dart';
 export 'httpExceptionWidget.dart';
-export 'imageSelectionInfoModal.dart';
 export 'imageSelectionWidget.dart';
 export 'inviteShare.dart';
 export 'loader.dart';

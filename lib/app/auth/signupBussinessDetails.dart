@@ -563,6 +563,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
 
   void showImageSelectOption(BuildContext context) {
     ImageSelectionWidget(
+      width: 150,
+      height: 150,
       onImageSelection: (imageFile) {
         setState(() {
           _imageFile = imageFile;
