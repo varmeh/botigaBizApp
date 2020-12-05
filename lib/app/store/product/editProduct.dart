@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +41,7 @@ class EditProduct extends StatefulWidget {
 
 class _EditProductState extends State<EditProduct>
     with TickerProviderStateMixin {
-  PickedFile _imageFile;
+  File _imageFile;
   TextEditingController maxWidthController,
       maxHeightController,
       qualityController;
@@ -542,7 +541,7 @@ class _EditProductState extends State<EditProduct>
     }
   }
 
-  void _handleImageUpload(PickedFile file) async {
+  void _handleImageUpload(File file) async {
     if (file == null) {
       return;
     }
@@ -566,9 +565,6 @@ class _EditProductState extends State<EditProduct>
 
   void showImageSelectOption(BuildContext context) {
     ImageSelectionWidget(
-      width: 180,
-      height: 135,
-      imageQuality: 100,
       onImageSelection: (imageFile) {
         setState(() {
           _imageFile = imageFile;

@@ -6,22 +6,14 @@ import 'package:image_cropper/image_cropper.dart';
 import '../theme/index.dart';
 import 'botigaBottomModal.dart';
 import 'toast.dart';
-import 'dart:async';
 import 'dart:io';
 
 class ImageSelectionWidget {
-  final double width;
-  final double height;
-  final int imageQuality;
-  final Function(PickedFile) onImageSelection;
-  final Function(File) onImageSelection1;
+  final Function(File) onImageSelection;
 
-  ImageSelectionWidget(
-      {@required this.width,
-      @required this.height,
-      @required this.imageQuality,
-      @required this.onImageSelection,
-      this.onImageSelection1});
+  ImageSelectionWidget({
+    @required this.onImageSelection,
+  });
 
   void show(BuildContext context) {
     BotigaBottomModal(
@@ -69,10 +61,10 @@ class ImageSelectionWidget {
     try {
       PickedFile pickedFile = await ImagePicker().getImage(
         source: source,
-        maxWidth: width,
-        maxHeight: height,
       );
-      _cropImage(pickedFile);
+      if (pickedFile != null) {
+        _cropImage(pickedFile);
+      }
     } catch (e) {
       if (e.code != null &&
           (e.code == 'photo_access_denied' ||
@@ -106,16 +98,16 @@ class ImageSelectionWidget {
                 CropAspectRatioPreset.ratio16x9
               ],
         androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Cropper',
+            toolbarTitle: '',
             toolbarColor: AppTheme.primaryColor,
             toolbarWidgetColor: AppTheme.backgroundColor,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         iosUiSettings: IOSUiSettings(
-          title: 'Cropper',
+          title: '',
         ));
     if (croppedImage != null) {
-      onImageSelection1(croppedImage);
+      onImageSelection(croppedImage);
     }
   }
 

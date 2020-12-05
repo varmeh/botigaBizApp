@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/index.dart' show ProfileProvider, ServicesProvider;
@@ -29,7 +28,7 @@ class SignupBuissnessDetails extends StatefulWidget {
 
 class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   GlobalKey<FormState> _formKey;
-  PickedFile _imageFile;
+  File _imageFile;
   TextEditingController maxWidthController,
       maxHeightController,
       qualityController;
@@ -131,7 +130,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     }
   }
 
-  void _handleImageUpload(PickedFile file) async {
+  void _handleImageUpload(File file) async {
     if (file == null) {
       return;
     }
@@ -564,9 +563,6 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
 
   void showImageSelectOption(BuildContext context) {
     ImageSelectionWidget(
-      width: 150,
-      height: 150,
-      imageQuality: 100,
       onImageSelection: (imageFile) {
         setState(() {
           _imageFile = imageFile;

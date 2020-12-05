@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 
 import '../util/index.dart' show Http;
 
@@ -21,12 +20,7 @@ class ServicesProvider with ChangeNotifier {
     return await Http.get('/api/services/brandimageurls/png');
   }
 
-  Future uploadImageToS3(String url, PickedFile image) async {
-    Uint8List bytes = await image.readAsBytes();
-    return http.put(url, body: bytes);
-  }
-
-  Future uploadImageToS33(String url, File image) async {
+  Future uploadImageToS3(String url, File image) async {
     Uint8List bytes = await image.readAsBytes();
     return http.put(url, body: bytes);
   }
