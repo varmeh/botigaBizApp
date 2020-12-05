@@ -81,26 +81,26 @@ class ImageSelectionWidget {
   }
 
   _cropImage(pickedFile) async {
-    List<CropAspectRatioPreset> aspectRatio;
+    CropAspectRatio aspectRatio;
     if (width == 150 && height == 150) {
-      aspectRatio = [CropAspectRatioPreset.square];
+      aspectRatio = CropAspectRatio(ratioX: 1, ratioY: 1);
     } else {
-      aspectRatio = [
-        CropAspectRatioPreset.ratio4x3,
-      ];
+      aspectRatio = CropAspectRatio(ratioX: 4, ratioY: 3);
     }
     File croppedImage = await ImageCropper.cropImage(
-        sourcePath: pickedFile.path,
-        aspectRatioPresets: aspectRatio,
-        androidUiSettings: AndroidUiSettings(
-            toolbarTitle: '',
-            toolbarColor: AppTheme.primaryColor,
-            toolbarWidgetColor: AppTheme.backgroundColor,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        iosUiSettings: IOSUiSettings(
-          title: '',
-        ));
+      sourcePath: pickedFile.path,
+      aspectRatio: aspectRatio,
+      maxHeight: height.toInt(),
+      maxWidth: width.toInt(),
+      androidUiSettings: AndroidUiSettings(
+        toolbarTitle: '',
+        toolbarColor: AppTheme.primaryColor,
+        toolbarWidgetColor: AppTheme.backgroundColor,
+        initAspectRatio: CropAspectRatioPreset.original,
+        lockAspectRatio: false,
+      ),
+      iosUiSettings: IOSUiSettings(title: ''),
+    );
     if (croppedImage != null) {
       onImageSelection(croppedImage);
     }
