@@ -82,10 +82,13 @@ class ImageSelectionWidget {
 
   _cropImage(pickedFile) async {
     CropAspectRatio aspectRatio;
+    CropAspectRatioPreset aspectRatioPreset;
     if (width == 150 && height == 150) {
       aspectRatio = CropAspectRatio(ratioX: 1, ratioY: 1);
+      aspectRatioPreset = CropAspectRatioPreset.square;
     } else {
       aspectRatio = CropAspectRatio(ratioX: 4, ratioY: 3);
+      aspectRatioPreset = CropAspectRatioPreset.ratio4x3;
     }
     File croppedImage = await ImageCropper.cropImage(
       sourcePath: pickedFile.path,
@@ -96,8 +99,9 @@ class ImageSelectionWidget {
         toolbarTitle: '',
         toolbarColor: AppTheme.primaryColor,
         toolbarWidgetColor: AppTheme.backgroundColor,
-        initAspectRatio: CropAspectRatioPreset.original,
-        lockAspectRatio: false,
+        activeControlsWidgetColor: AppTheme.primaryColor,
+        initAspectRatio: aspectRatioPreset,
+        lockAspectRatio: true,
       ),
       iosUiSettings: IOSUiSettings(title: ''),
     );
