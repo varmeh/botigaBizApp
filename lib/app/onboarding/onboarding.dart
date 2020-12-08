@@ -13,24 +13,24 @@ class IntroScreen extends StatelessWidget {
       title: 'Sell your products in communities',
       description:
           'Keep track of all orders and improve delivery efficiency with our smart delivery system.',
-      pathImage: 'assets/images/communities.png',
+      pathImage: 'assets/images/intro_11.png',
     ),
     Slide(
       title: 'Manage orders & deliveries',
       description:
           'Keep track of all orders and improve delivery efficiency with our smart delivery system.',
-      pathImage: 'assets/images/intro_2.png',
+      pathImage: 'assets/images/intro_22.png',
     ),
     Slide(
       title: 'Reach more customers',
       description: 'Get instant access to communities to expand your business.',
-      pathImage: 'assets/images/intro_3.png',
+      pathImage: 'assets/images/intro_33.png',
     ),
     Slide(
       title: '0% Commissions',
       description:
           'Receive money directly to your bank account in 1 day. Absolutely free.',
-      pathImage: 'assets/images/intro_4.png',
+      pathImage: 'assets/images/intro_44.png',
     ),
   ];
 
