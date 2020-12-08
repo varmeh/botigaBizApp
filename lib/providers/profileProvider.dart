@@ -52,6 +52,21 @@ class ProfileProvider with ChangeNotifier {
     return this._profile;
   }
 
+  String getApartmentName(String apartmentid) {
+    if (this._profile != null && this._profile.apartments != null) {
+      Apartment apartment = this
+          ._profile
+          .apartments
+          .firstWhere((apt) => apt.id == apartmentid, orElse: () => null);
+      if (apartment == null) {
+        return '';
+      } else {
+        return apartment.apartmentName;
+      }
+    }
+    return '';
+  }
+
   Future setApartmentStatus(String apartmentid, bool status) async {
     return Http.patch('/api/seller/apartments/live',
         body: {'apartmentId': apartmentid, 'live': status});

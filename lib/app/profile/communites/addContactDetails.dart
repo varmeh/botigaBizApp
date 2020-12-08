@@ -92,12 +92,14 @@ class _AddContactDetailsState extends State<AddContactDetails> {
       await profileProvider.addApartment(widget.apartmentId, _phoneNumber,
           whatsappNumber, _email, widget.deliveryType, widget.day);
       await profileProvider.fetchProfile();
+      String apartmentName =
+          profileProvider.getApartmentName(widget.apartmentId);
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (builder) {
-          return AddCommunitesSuccess(_businessName, widget.deliveryType,
+          return AddCommunitesSuccess(apartmentName, widget.deliveryType,
               widget.day, widget.isSave, widget.deliveryMsg);
         },
       );
@@ -121,12 +123,14 @@ class _AddContactDetailsState extends State<AddContactDetails> {
       await profileProvider.updateApartmentContactInformation(
           widget.apartmentId, _email, whatsappNumber, _phoneNumber);
       await profileProvider.fetchProfile();
+      String apartmentName =
+          profileProvider.getApartmentName(widget.apartmentId);
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (builder) {
-          return AddCommunitesSuccess(_businessName, widget.deliveryType,
+          return AddCommunitesSuccess(apartmentName, widget.deliveryType,
               widget.day, widget.isSave, widget.deliveryMsg);
         },
       );

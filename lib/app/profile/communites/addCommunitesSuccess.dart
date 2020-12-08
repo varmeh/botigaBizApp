@@ -6,12 +6,12 @@ import '../../../widget/inviteShare.dart';
 import '../../home/index.dart' show HomeScreen;
 
 class AddCommunitesSuccess extends StatefulWidget {
-  final String _businessName, _deliveryType;
+  final String _aptName, _deliveryType;
   final int _day;
   final bool isSave;
   final String _deliveryMsg;
 
-  AddCommunitesSuccess(this._businessName, this._deliveryType, this._day,
+  AddCommunitesSuccess(this._aptName, this._deliveryType, this._day,
       this.isSave, this._deliveryMsg);
 
   @override
@@ -35,36 +35,27 @@ class _AddCommunitesSuccessState extends State<AddCommunitesSuccess>
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this);
-    _controller.addStatusListener(loadTabbarAfterAnimationCompletion);
   }
 
   @override
   void dispose() {
-    _controller.removeStatusListener(loadTabbarAfterAnimationCompletion);
     _controller.dispose();
     super.dispose();
-  }
-
-  void loadTabbarAfterAnimationCompletion(AnimationStatus status) {
-    if (status == AnimationStatus.completed) {
-      Navigator.of(context).popUntil(ModalRoute.withName(HomeScreen.routeName));
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: double.infinity,
-        height: MediaQuery.of(context).size.height * 0.80,
-        decoration: BoxDecoration(
-          color: AppTheme.backgroundColor,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(16.0),
-            topRight: const Radius.circular(16.0),
-          ),
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height * 0.80,
+      decoration: BoxDecoration(
+        color: AppTheme.backgroundColor,
+        borderRadius: BorderRadius.only(
+          topLeft: const Radius.circular(16.0),
+          topRight: const Radius.circular(16.0),
         ),
-        //could change this to Color(0xFF737373),
-        //so you don't have to change MaterialApp canvasColor
+      ),
+      child: SafeArea(
         child: ListView(
           children: <Widget>[
             Padding(
@@ -104,7 +95,7 @@ class _AddCommunitesSuccessState extends State<AddCommunitesSuccess>
                   Container(
                     width: 242,
                     child: Text(
-                      'You are Servicing ${widget._businessName}',
+                      'You are Servicing ${widget._aptName}',
                       textAlign: TextAlign.center,
                       style: AppTheme.textStyle.w700.color100
                           .size(25)
@@ -137,20 +128,21 @@ class _AddCommunitesSuccessState extends State<AddCommunitesSuccess>
             SizedBox(
               height: 32,
             ),
-            Expanded(
-              child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.only(left: 22, right: 22, top: 32),
-                  decoration: BoxDecoration(
-                    color: AppTheme.color05,
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(32.0),
-                      topRight: const Radius.circular(32.0),
-                    ),
-                  ),
-                  child: inviteShare(context)),
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(left: 22, right: 22, top: 32),
+              decoration: BoxDecoration(
+                color: AppTheme.color05,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(32.0),
+                  topRight: const Radius.circular(32.0),
+                ),
+              ),
+              child: inviteShare(context),
             )
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
