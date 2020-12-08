@@ -39,8 +39,11 @@ class ImageSelectionWidget {
               Icons.camera_alt,
               color: AppTheme.color100,
             ),
-            title: Text('Take photo',
-                style: AppTheme.textStyle.color100.size(17).w500),
+            title: Transform(
+              transform: Matrix4.translationValues(-16, 0.0, 0.0),
+              child: Text('Take photo',
+                  style: AppTheme.textStyle.color100.size(17).w500),
+            ),
           ),
           ListTile(
             onTap: () {
@@ -52,8 +55,11 @@ class ImageSelectionWidget {
               Icons.image,
               color: AppTheme.color100,
             ),
-            title: Text('Choose from gallery',
-                style: AppTheme.textStyle.color100.size(17).w500),
+            title: Transform(
+              transform: Matrix4.translationValues(-16, 0.0, 0.0),
+              child: Text('Choose from gallery',
+                  style: AppTheme.textStyle.color100.size(17).w500),
+            ),
           ),
           SizedBox(height: 10),
         ],
