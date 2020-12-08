@@ -83,11 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _saveToken() async {
-    if (KeyStore.shared.isPushTokenRegistered) {
+    final resetToken = await KeyStore.shared.resetToken();
+    if (resetToken) {
       final token = await _fbm.getToken();
       try {
         await Http.patch('/api/seller/auth/token', body: {'token': token});
-        await KeyStore.shared.registerPushToken();
       } catch (_) {}
     }
   }

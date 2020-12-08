@@ -1,5 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+const _tokenResetCounter = 200;
+
 class KeyStore {
   static const _keyFirstRun = 'firstRun';
   static const _keyPushTokenRegistered = 'pushTokenRegisterd';
@@ -20,10 +22,21 @@ class KeyStore {
     await _prefs.setBool(_keyFirstRun, true);
   }
 
-  bool get isPushTokenRegistered =>
-      !_prefs.containsKey(_keyPushTokenRegistered);
-
-  Future<void> registerPushToken() async {
-    await _prefs.setBool(_keyPushTokenRegistered, true);
+  Future<bool> resetToken() async {
+    bool _resetToken = true;
+    if (_prefs.containsKey(_keyPushTokenRegistered)) {
+      int value = _prefs.getInt(_keyPushTokenRegistered);
+      if (value > 0) {
+        value--;
+        _resetToken = false;
+      } else {
+        value = _tokenResetCounter;
+      }
+      await _prefs.setInt(_keyPushTokenRegistered, value);
+    } else {
+      // Initialize token counter
+      await _prefs.setInt(_keyPushTokenRegistered, _tokenResetCounter);
+    }
+    return _resetToken;
   }
 }
