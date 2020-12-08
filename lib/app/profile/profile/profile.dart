@@ -10,7 +10,8 @@ import '../../../widget/index.dart'
         Toast,
         LoaderOverlay,
         WhatsappIconButton,
-        CallIconButton;
+        CallIconButton,
+        InviteTile;
 import '../../auth/index.dart' show Welcome;
 import 'index.dart';
 
@@ -126,6 +127,15 @@ class _ProfileState extends State<Profile> {
                       ),
                     ],
                   ),
+                ),
+                Divider(
+                  color: AppTheme.dividerColor,
+                  thickness: 8,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 20, right: 20, top: 24, bottom: 24),
+                  child: InviteTile(),
                 ),
                 Divider(
                   color: AppTheme.dividerColor,
