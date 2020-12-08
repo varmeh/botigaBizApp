@@ -62,6 +62,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
       child: Padding(
         padding: const EdgeInsets.only(top: 40, bottom: 30),
         child: BotigaTextFieldForm(
+          icon: Icons.phone,
           onSave: (val) => null,
           focusNode: _phoneFocusNode,
           labelText: 'Phone Number',
