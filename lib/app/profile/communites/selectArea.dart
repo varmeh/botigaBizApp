@@ -441,8 +441,17 @@ class _SelectAreaState extends State<SelectArea> {
         final json =
             await Http.get('/api/services/apartments/search?text=$_query');
         _apartments.clear();
-        json.forEach(
-            (apartment) => _apartments.add(ApartmentModel.fromJson(apartment)));
+        json.forEach((apartment) {
+          bool isApartmentAdded =
+              Provider.of<ProfileProvider>(context, listen: false)
+                      .allApartment
+                      .firstWhere((apt) => apt.id == apartment['_id'],
+                          orElse: () => null) ==
+                  null;
+          if (isApartmentAdded == true) {
+            _apartments.add(ApartmentModel.fromJson(apartment));
+          }
+        });
       } catch (error) {
         Toast(message: Http.message(error)).show(context);
       } finally {
