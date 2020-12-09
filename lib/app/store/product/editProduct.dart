@@ -664,10 +664,10 @@ class _EditProductState extends State<EditProduct>
       onPressed: () {
         showImageSelectOption(context);
       },
-      icon: Icon(
-        Icons.edit,
-        color: AppTheme.color100,
-        size: 17,
+      icon: Image.asset(
+        'assets/images/edit.png',
+        height: 20,
+        width: 20,
       ),
       height: 44,
       width: 135,
@@ -680,10 +680,10 @@ class _EditProductState extends State<EditProduct>
       onPressed: () {
         handleImageDeleteFromS3();
       },
-      icon: Icon(
-        Icons.delete_outline,
-        color: AppTheme.color100,
-        size: 17,
+      icon: Image.asset(
+        'assets/images/trash.png',
+        height: 20,
+        width: 20,
       ),
       height: 44,
       width: 135,

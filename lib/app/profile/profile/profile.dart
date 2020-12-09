@@ -147,11 +147,23 @@ class _ProfileState extends State<Profile> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Need help?",
-                              style: AppTheme.textStyle.w700.color100
-                                  .size(17)
-                                  .lineHeight(1.5),
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/images/chat.png',
+                                  height: 20,
+                                  width: 20,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Need help?",
+                                  style: AppTheme.textStyle.w700.color100
+                                      .size(17)
+                                      .lineHeight(1.5),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 8,
