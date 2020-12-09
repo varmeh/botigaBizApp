@@ -18,7 +18,7 @@ Widget inviteShare(BuildContext context) {
       .brand
       .name;
   final text =
-      'Hi, $sellerBrand is now selling its products on Botiga app. See our entire catalog, place orders anytime and track conveniently. Download Botiga app now. https://botiga.app/xcGha';
+      'Hi, $sellerBrand is now selling its products on Botiga app. See our entire catalog, place orders anytime and track conveniently. Download Botiga app now. http://onelink.to/husbnk';
 
   return Column(
     mainAxisSize: MainAxisSize.min,
