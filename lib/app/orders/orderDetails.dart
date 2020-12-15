@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/orders/index.dart';
 import '../../providers/index.dart' show OrdersProvider, DeliveryProvider;
@@ -17,18 +16,15 @@ class OrderDetails extends StatefulWidget {
 }
 
 class _OrderDetailsState extends State<OrderDetails> {
-  CalendarController _calendarController;
   bool _isLoading;
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
     _isLoading = false;
   }
 
   @override
   void dispose() {
-    _calendarController.dispose();
     super.dispose();
   }
 
@@ -53,7 +49,6 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   void handleMarkAsDelayOrders(String id, DateTime date, String apartmentId,
       String selectedDateForRequest) async {
-    Navigator.of(context).pop();
     setState(() {
       _isLoading = true;
     });
@@ -386,66 +381,19 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     ),
                                     child: InkWell(
                                       onTap: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          builder: (context) => Container(
-                                            padding:
-                                                EdgeInsets.only(bottom: 24),
-                                            decoration: BoxDecoration(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .surface,
-                                              borderRadius: BorderRadius.only(
-                                                topLeft:
-                                                    const Radius.circular(16.0),
-                                                topRight:
-                                                    const Radius.circular(16.0),
-                                              ),
-                                            ),
-                                            child: SafeArea(
-                                              child: TableCalendar(
-                                                startDay: DateTime.now(),
-                                                availableCalendarFormats: const {
-                                                  CalendarFormat.month: 'Month',
-                                                },
-                                                calendarStyle: CalendarStyle(
-                                                    todayColor: AppTheme
-                                                        .primaryColorVariant
-                                                        .withOpacity(0.5),
-                                                    selectedColor:
-                                                        AppTheme.primaryColor,
-                                                    outsideDaysVisible: true,
-                                                    weekendStyle: AppTheme
-                                                        .textStyle.color100,
-                                                    outsideWeekendStyle:
-                                                        AppTheme
-                                                            .textStyle.color50),
-                                                daysOfWeekStyle:
-                                                    DaysOfWeekStyle(
-                                                  weekendStyle: AppTheme
-                                                      .textStyle
-                                                      .colored(
-                                                          AppTheme.color100),
-                                                ),
-                                                headerStyle: HeaderStyle(
-                                                  centerHeaderTitle: false,
-                                                  formatButtonVisible: false,
-                                                ),
-                                                onDaySelected:
-                                                    (date, events, _) {
-                                                  handleMarkAsDelayOrders(
-                                                      id,
-                                                      date,
-                                                      apartmentId,
-                                                      selectedDateForRequest);
-                                                },
-                                                calendarController:
-                                                    _calendarController,
-                                              ),
-                                            ),
-                                          ),
+                                        getBotigaCalendar(
+                                          context,
+                                          DateTime.now(),
+                                          DateTime.now()
+                                              .add(const Duration(days: 90)),
+                                          DateTime.now(),
+                                          (DateTime date) {
+                                            handleMarkAsDelayOrders(
+                                                id,
+                                                date,
+                                                apartmentId,
+                                                selectedDateForRequest);
+                                          },
                                         );
                                       },
                                       child: Padding(

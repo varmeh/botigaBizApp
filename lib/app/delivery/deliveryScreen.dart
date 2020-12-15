@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/profile/index.dart';
 import '../../providers/index.dart' show ProfileProvider, DeliveryProvider;
@@ -39,7 +38,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   bool fabIsVisible;
   Apartment apartment;
   GlobalKey<ScaffoldState> _scaffoldKey;
-  CalendarController _calendarController;
   ScrollController _scrollcontroller;
   var _error;
   bool _showSearch;
@@ -49,7 +47,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
   void initState() {
     super.initState();
     loadSettings();
-    _calendarController = CalendarController();
     _scrollcontroller = ScrollController();
     _scrollcontroller.addListener(() {
       setState(() {
@@ -61,7 +58,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
 
   @override
   void dispose() {
-    _calendarController.dispose();
     _scrollcontroller.dispose();
     super.dispose();
   }
@@ -246,7 +242,25 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                                 width: 100,
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    _getDateSelection();
+                                                    getBotigaCalendar(
+                                                      context,
+                                                      DateTime.now().subtract(
+                                                          Duration(days: 15)),
+                                                      DateTime.now().add(
+                                                          const Duration(
+                                                              days: 60)),
+                                                      selectedDate,
+                                                      (DateTime date) {
+                                                        setState(() {
+                                                          selectedDate = date;
+                                                          selectedDateForRequest =
+                                                              date;
+                                                        });
+                                                        fetchDeliveryData(
+                                                            apartment.id,
+                                                            date.getRequestFormatDate());
+                                                      },
+                                                    );
                                                   },
                                                   child: Row(
                                                     mainAxisAlignment:
@@ -615,54 +629,5 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 backgroundColor: AppTheme.backgroundColor,
               )
         : SizedBox.shrink();
-  }
-
-  void _getDateSelection() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        padding: EdgeInsets.only(bottom: 24),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(16.0),
-            topRight: const Radius.circular(16.0),
-          ),
-        ),
-        child: SafeArea(
-          child: TableCalendar(
-            initialSelectedDay: selectedDate,
-            startDay: DateTime.now().subtract(Duration(days: 15)),
-            availableCalendarFormats: const {
-              CalendarFormat.month: 'Month',
-            },
-            calendarStyle: CalendarStyle(
-                todayColor: AppTheme.primaryColorVariant.withOpacity(0.5),
-                selectedColor: AppTheme.primaryColor,
-                outsideDaysVisible: true,
-                weekendStyle: AppTheme.textStyle.color100,
-                outsideWeekendStyle: AppTheme.textStyle.color50),
-            daysOfWeekStyle: DaysOfWeekStyle(
-              weekendStyle: AppTheme.textStyle.colored(AppTheme.color100),
-            ),
-            headerStyle: HeaderStyle(
-              centerHeaderTitle: false,
-              formatButtonVisible: false,
-            ),
-            onDaySelected: (date, events, _) {
-              Navigator.of(context).pop();
-              setState(() {
-                selectedDate = date;
-                selectedDateForRequest = date;
-              });
-              fetchDeliveryData(apartment.id, date.getRequestFormatDate());
-            },
-            calendarController: _calendarController,
-          ),
-        ),
-      ),
-    );
   }
 }
