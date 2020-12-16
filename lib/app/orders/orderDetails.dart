@@ -355,8 +355,8 @@ class _OrderDetailsState extends State<OrderDetails> {
                       (orderDetail.order.isOpen == true ||
                               orderDetail.order.isDelayed == true)
                           ? Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
+                              padding: const EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 40),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
