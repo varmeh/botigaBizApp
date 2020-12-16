@@ -93,25 +93,21 @@ class OrderStatusWidget extends StatelessWidget {
             padding:
                 const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    StatusImageWidget(
-                      baseImage: baseImage,
-                      status: status,
-                    ),
-                    SizedBox(width: 24),
-                    Text(
-                      title,
-                      style: AppTheme.textStyle.color100.w500
-                          .size(13)
-                          .lineHeight(1.38),
-                    ),
-                  ],
+                StatusImageWidget(
+                  baseImage: baseImage,
+                  status: status,
+                ),
+                SizedBox(width: 24),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppTheme.textStyle.color100.w500
+                        .size(13)
+                        .lineHeight(1.38),
+                  ),
                 ),
                 status == ImageStatus.failure
                     ? !isOrderCancelled
@@ -175,11 +171,13 @@ class OrderStatusWidget extends StatelessWidget {
                             status: ImageStatus.success,
                           ),
                           SizedBox(width: 24),
-                          Text(
-                            "Refund Completed.",
-                            style: AppTheme.textStyle.color100.w500
-                                .size(13)
-                                .lineHeight(1.38),
+                          Expanded(
+                            child: Text(
+                              "Refund Completed.",
+                              style: AppTheme.textStyle.color100.w500
+                                  .size(13)
+                                  .lineHeight(1.38),
+                            ),
                           ),
                         ],
                       ),
@@ -190,22 +188,27 @@ class OrderStatusWidget extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                subTitle,
-                                style: AppTheme.textStyle.color50.w500
-                                    .size(13)
-                                    .lineHeight(1.38),
-                              ),
-                              Text(
-                                "\u20B9 $refundAmount",
-                                style: AppTheme.textStyle.color100.w500
-                                    .size(13)
-                                    .lineHeight(1.38),
-                              )
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  subTitle,
+                                  style: AppTheme.textStyle.color50.w500
+                                      .size(13)
+                                      .lineHeight(1.38),
+                                ),
+                                Text(
+                                  "\u20B9 $refundAmount",
+                                  style: AppTheme.textStyle.color100.w500
+                                      .size(13)
+                                      .lineHeight(1.38),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 8,
                           ),
                           button != null ? button : SizedBox.shrink()
                         ],
