@@ -78,16 +78,16 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     final bool hasEnabledApt =
         Provider.of<ProfileProvider>(context, listen: false)
             .hasAnyEnabledApartment;
-    return _isLoading
-        ? Loader()
-        : _isError
-            ? HttpExceptionWidget(
-                exception: _error,
-                onTap: () {
-                  fetchDefaultDeliveryDetails();
-                },
-              )
-            : Scaffold(
+    return _isError
+        ? HttpExceptionWidget(
+            exception: _error,
+            onTap: () {
+              fetchDefaultDeliveryDetails();
+            },
+          )
+        : LoaderOverlay(
+            isLoading: _isLoading,
+            child: Scaffold(
                 appBar: !_showSearch && (hasApt && hasEnabledApt)
                     ? BotigaAppBar(
                         'Delivery',
@@ -140,220 +140,235 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                     ],
                                   ),
                                   Expanded(
-                                    child: ListView(
-                                      controller: _scrollcontroller,
-                                      children: [
-                                        SizedBox(
-                                          height: 15,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 20),
-                                          child: Container(
-                                            height: 44,
-                                            child: ListView(
-                                              scrollDirection: Axis.horizontal,
-                                              children: <Widget>[
-                                                ...statusMap.keys.map((val) {
-                                                  return Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 12),
-                                                    child: Container(
-                                                      height: 44,
-                                                      child: FlatButton(
-                                                        shape: new RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                new BorderRadius
-                                                                        .circular(
-                                                                    12.0)),
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            selectedStatus =
-                                                                val;
-                                                          });
-                                                        },
-                                                        color: selectedStatus ==
-                                                                val
-                                                            ? AppTheme
-                                                                .primaryColor
-                                                            : AppTheme
-                                                                .dividerColor,
-                                                        child: Text('$val',
-                                                            style: selectedStatus ==
-                                                                    val
-                                                                ? AppTheme
-                                                                    .textStyle
-                                                                    .colored(
-                                                                        AppTheme
-                                                                            .backgroundColor)
-                                                                    .w500
-                                                                    .size(13)
-                                                                : AppTheme
-                                                                    .textStyle
-                                                                    .color100
-                                                                    .w500
-                                                                    .size(13)),
+                                    child: RefreshIndicator(
+                                      onRefresh: () => pullToRefresh(),
+                                      child: ListView(
+                                        physics:
+                                            AlwaysScrollableScrollPhysics(),
+                                        controller: _scrollcontroller,
+                                        children: [
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 20),
+                                            child: Container(
+                                              height: 44,
+                                              child: ListView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                children: <Widget>[
+                                                  ...statusMap.keys.map((val) {
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 12),
+                                                      child: Container(
+                                                        height: 44,
+                                                        child: FlatButton(
+                                                          shape: new RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  new BorderRadius
+                                                                          .circular(
+                                                                      12.0)),
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              selectedStatus =
+                                                                  val;
+                                                            });
+                                                          },
+                                                          color: selectedStatus ==
+                                                                  val
+                                                              ? AppTheme
+                                                                  .primaryColor
+                                                              : AppTheme
+                                                                  .dividerColor,
+                                                          child: Text('$val',
+                                                              style: selectedStatus ==
+                                                                      val
+                                                                  ? AppTheme
+                                                                      .textStyle
+                                                                      .colored(
+                                                                          AppTheme
+                                                                              .backgroundColor)
+                                                                      .w500
+                                                                      .size(13)
+                                                                  : AppTheme
+                                                                      .textStyle
+                                                                      .color100
+                                                                      .w500
+                                                                      .size(
+                                                                          13)),
+                                                        ),
                                                       ),
+                                                    );
+                                                  })
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(20),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Container(
+                                                  child: Expanded(
+                                                    child: Row(
+                                                      children: [
+                                                        Container(
+                                                          child: Icon(
+                                                            BotigaIcons
+                                                                .building,
+                                                            size: 18,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Flexible(
+                                                          child: Text(
+                                                            '${apartment.apartmentName}',
+                                                            style: AppTheme
+                                                                .textStyle
+                                                                .w500
+                                                                .color100
+                                                                .size(15),
+                                                          ),
+                                                        )
+                                                      ],
                                                     ),
-                                                  );
-                                                })
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Container(
+                                                  width: 100,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      getBotigaCalendar(
+                                                        context,
+                                                        DateTime.now().subtract(
+                                                            Duration(days: 15)),
+                                                        DateTime.now().add(
+                                                            const Duration(
+                                                                days: 60)),
+                                                        selectedDate,
+                                                        (DateTime date) {
+                                                          setState(() {
+                                                            selectedDate = date;
+                                                            selectedDateForRequest =
+                                                                date;
+                                                          });
+                                                          fetchDeliveryData(
+                                                              apartment.id,
+                                                              date.getRequestFormatDate());
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: <Widget>[
+                                                        Flexible(
+                                                          child: Text(
+                                                              '${selectedDate.getTodayOrSelectedDate()}',
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .subtitle1),
+                                                        ),
+                                                        SizedBox(
+                                                          width: 7,
+                                                        ),
+                                                        Icon(
+                                                          Icons
+                                                              .expand_more_sharp,
+                                                          size: 25,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
                                               ],
                                             ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(20),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: <Widget>[
-                                              Container(
-                                                child: Expanded(
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        child: Icon(
-                                                          BotigaIcons.building,
-                                                          size: 18,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Flexible(
-                                                        child: Text(
-                                                          '${apartment.apartmentName}',
-                                                          style: AppTheme
-                                                              .textStyle
-                                                              .w500
-                                                              .color100
-                                                              .size(15),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Container(
-                                                width: 100,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    getBotigaCalendar(
-                                                      context,
-                                                      DateTime.now().subtract(
-                                                          Duration(days: 15)),
-                                                      DateTime.now().add(
-                                                          const Duration(
-                                                              days: 60)),
-                                                      selectedDate,
-                                                      (DateTime date) {
-                                                        setState(() {
-                                                          selectedDate = date;
-                                                          selectedDateForRequest =
-                                                              date;
-                                                        });
-                                                        fetchDeliveryData(
-                                                            apartment.id,
-                                                            date.getRequestFormatDate());
-                                                      },
-                                                    );
-                                                  },
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: <Widget>[
-                                                      Flexible(
-                                                        child: Text(
-                                                            '${selectedDate.getTodayOrSelectedDate()}',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .subtitle1),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 7,
-                                                      ),
-                                                      Icon(
-                                                        Icons.expand_more_sharp,
-                                                        size: 25,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Consumer<DeliveryProvider>(builder:
-                                            (ctx, deliveryProvider, _) {
-                                          var deliveryListByApartment;
-                                          bool isTodaySelected = selectedDate
-                                                  .getTodayOrSelectedDate() ==
-                                              TODAY;
-                                          if (isTodaySelected) {
-                                            deliveryListByApartment = deliveryProvider
-                                                    .deliveryByApartmentToday[
-                                                '${apartment.id}-${selectedDate.getRequestFormatDate()}'];
-                                          } else {
-                                            deliveryListByApartment =
-                                                deliveryProvider
-                                                    .deliveryListByApartmentOtherDay;
-                                          }
+                                          Consumer<DeliveryProvider>(builder:
+                                              (ctx, deliveryProvider, _) {
+                                            var deliveryListByApartment;
+                                            bool isTodaySelected = selectedDate
+                                                    .getTodayOrSelectedDate() ==
+                                                TODAY;
+                                            if (isTodaySelected) {
+                                              deliveryListByApartment = deliveryProvider
+                                                      .deliveryByApartmentToday[
+                                                  '${apartment.id}-${selectedDate.getRequestFormatDate()}'];
+                                            } else {
+                                              deliveryListByApartment =
+                                                  deliveryProvider
+                                                      .deliveryListByApartmentOtherDay;
+                                            }
 
-                                          if (deliveryListByApartment == null ||
-                                              deliveryListByApartment.length ==
-                                                  0) {
-                                            return EmptyDelivery();
-                                          }
+                                            if (deliveryListByApartment ==
+                                                    null ||
+                                                deliveryListByApartment
+                                                        .length ==
+                                                    0) {
+                                              return EmptyDelivery();
+                                            }
 
-                                          final filterdStatusDetails =
-                                              selectedStatus == 'All'
-                                                  ? deliveryListByApartment
-                                                  : deliveryListByApartment
-                                                      .where((deliveryRow) {
-                                                      return deliveryRow
-                                                              .order.status ==
-                                                          statusMap[
-                                                              selectedStatus];
-                                                    });
+                                            final filterdStatusDetails =
+                                                selectedStatus == 'All'
+                                                    ? deliveryListByApartment
+                                                    : deliveryListByApartment
+                                                        .where((deliveryRow) {
+                                                        return deliveryRow
+                                                                .order.status ==
+                                                            statusMap[
+                                                                selectedStatus];
+                                                      });
 
-                                          if (filterdStatusDetails.length ==
-                                              0) {
-                                            return EmptyDelivery();
-                                          }
+                                            if (filterdStatusDetails.length ==
+                                                0) {
+                                              return EmptyDelivery();
+                                            }
 
-                                          var deliveries = filterdStatusDetails;
-                                          if (_query != '' && _query != null) {
-                                            deliveries = deliveries.where(
-                                              (_delivery) {
-                                                return _delivery.order.number
-                                                        .toLowerCase()
-                                                        .contains(_query
-                                                            .toLowerCase()) ==
-                                                    true;
-                                              },
+                                            var deliveries =
+                                                filterdStatusDetails;
+                                            if (_query != '' &&
+                                                _query != null) {
+                                              deliveries = deliveries.where(
+                                                (_delivery) {
+                                                  return _delivery.order.number
+                                                          .toLowerCase()
+                                                          .contains(_query
+                                                              .toLowerCase()) ==
+                                                      true;
+                                                },
+                                              );
+                                            }
+
+                                            return Column(
+                                              children: [
+                                                ...deliveries
+                                                    .map((deliveryRow) {
+                                                  return DeliveryRow(
+                                                      deliveryRow,
+                                                      apartment.apartmentName,
+                                                      apartment.id,
+                                                      this._handleOutForDelivery,
+                                                      selectedDateForRequest,
+                                                      this._handleMarkAsDeliverd);
+                                                })
+                                              ],
                                             );
-                                          }
-
-                                          return Column(
-                                            children: [
-                                              ...deliveries.map((deliveryRow) {
-                                                return DeliveryRow(
-                                                    deliveryRow,
-                                                    apartment.apartmentName,
-                                                    apartment.id,
-                                                    this._handleOutForDelivery,
-                                                    selectedDateForRequest,
-                                                    this._handleMarkAsDeliverd);
-                                              })
-                                            ],
-                                          );
-                                        }),
-                                      ],
+                                          }),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -364,7 +379,8 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                       )
                     : !hasApt
                         ? CommunitiesInfo('No Communities Added')
-                        : CommunitiesInfo('No Communities enabled'));
+                        : CommunitiesInfo('No Communities enabled')),
+          );
   }
 
   void loadSettings() async {
@@ -629,5 +645,12 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                 backgroundColor: AppTheme.backgroundColor,
               )
         : SizedBox.shrink();
+  }
+
+  Future pullToRefresh() async {
+    final aprtmentId = apartment != null ? apartment.id : '';
+    return await Provider.of<DeliveryProvider>(context, listen: false)
+        .fetchDeliveryListByApartment(
+            aprtmentId, selectedDate.getRequestFormatDate());
   }
 }
