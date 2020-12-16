@@ -142,6 +142,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                   Expanded(
                                     child: RefreshIndicator(
                                       onRefresh: () => pullToRefresh(),
+                                      color: AppTheme.primaryColor,
                                       child: ListView(
                                         physics:
                                             AlwaysScrollableScrollPhysics(),
