@@ -34,5 +34,5 @@ class Flavor {
   String get bannerName => isProduction ? 'PROD' : 'DEV';
 
   String get baseUrl =>
-      isProduction ? 'https://dev.botiga.app' : 'https://dev.botiga.app';
+      isProduction ? 'https://prod.botiga.app' : 'https://dev.botiga.app';
 }
