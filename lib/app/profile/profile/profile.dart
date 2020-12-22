@@ -277,12 +277,12 @@ class _ProfileState extends State<Profile> {
                           size: 25,
                         ),
                       ),
-                      _policyDivider(),
-                      ListTile(
-                        title: Text('App version',
-                            style: AppTheme.textStyle.color100.size(15).w500),
-                        trailing: Text(appVersion,
-                            style: AppTheme.textStyle.color50.size(15).w500),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20.0, bottom: 100),
+                        child: Center(
+                          child: Text(appVersion,
+                              style: AppTheme.textStyle.color50.size(13).w500),
+                        ),
                       ),
                     ],
                   ),
