@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:package_info/package_info.dart';
 
 import '../../../providers/index.dart';
 import '../../../theme/index.dart';
@@ -22,6 +23,21 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool isProcessing = false;
+  String appVersion = '';
+
+  @override
+  void initState() {
+    super.initState();
+    this._updateBuildInfo();
+  }
+
+  _updateBuildInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String version = packageInfo.version;
+    setState(() {
+      appVersion = version;
+    });
+  }
 
   _handleLogout() async {
     try {
@@ -260,7 +276,14 @@ class _ProfileState extends State<Profile> {
                           color: AppTheme.color50,
                           size: 25,
                         ),
-                      )
+                      ),
+                      _policyDivider(),
+                      ListTile(
+                        title: Text('App version',
+                            style: AppTheme.textStyle.color100.size(15).w500),
+                        trailing: Text(appVersion,
+                            style: AppTheme.textStyle.color50.size(15).w500),
+                      ),
                     ],
                   ),
                 )
