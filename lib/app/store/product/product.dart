@@ -198,7 +198,7 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
                     if (idx == productWithCategory.products.length - 1) {
                       return OpenContainer(
                         closedElevation: 0.0,
-                        transitionDuration: Duration(milliseconds: 500),
+                        transitionDuration: Duration(milliseconds: 300),
                         closedBuilder: (context, openContainer) =>
                             ProductItemRow(entry.value, setProductAvilablity,
                                 openContainer, setImageStatus),
@@ -213,7 +213,7 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
                       children: [
                         OpenContainer(
                           closedElevation: 0.0,
-                          transitionDuration: Duration(milliseconds: 500),
+                          transitionDuration: Duration(milliseconds: 300),
                           closedBuilder: (context, openContainer) =>
                               ProductItemRow(entry.value, setProductAvilablity,
                                   openContainer, setImageStatus),
@@ -286,7 +286,7 @@ Widget getProductTile(
           children: [
             OpenContainer(
               closedElevation: 0.0,
-              transitionDuration: Duration(milliseconds: 500),
+              transitionDuration: Duration(milliseconds: 300),
               closedBuilder: (context, openContainer) => ProductItemRow(
                   product, setProductAvilablity, openContainer, setImageStatus),
               openBuilder: (_, __) => EditProduct(

@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   borderRadius: BorderRadius.all(Radius.circular(50.0)),
                 ),
                 closedElevation: 4.0,
-                transitionDuration: Duration(milliseconds: 500),
+                transitionDuration: Duration(milliseconds: 300),
                 closedBuilder: (context, openContainer) {
                   return FloatingActionButton.extended(
                     backgroundColor: AppTheme.backgroundColor,
