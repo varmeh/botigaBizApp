@@ -95,10 +95,10 @@ flutter build ios --flavor dev --release
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
 ```
-flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaBizAppAndroid_<version> --flavor prod --release
+flutter build appbundle --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaBizApp_1.0.0+3 --flavor prod --release
 ```
 
--   `<version>` in command should match one in pubspec.yaml
+-   `botigaBizApp_<version>` Version here should match one in pubspec.yaml
 
 The reason to use appbundle has been detailed in [article](https://developer.android.com/guide/app-bundle?authuser=1).
 
@@ -107,10 +107,10 @@ The reason to use appbundle has been detailed in [article](https://developer.and
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
 ```
-flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaBizAppIos_<version> --flavor prod --release
+flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaBizApp_1.0.0+3 --flavor prod --release
 ```
 
--   `<version>` in command should match one in pubspec.yaml
+-   `botigaBizApp_<version>` Version here should match one in pubspec.yaml
 -   Once app is built, archieve it as explaind [here](https://flutter.dev/docs/deployment/ios#create-a-build-archive)
 
 -   Once archieve is done, it will open distribution organizer
