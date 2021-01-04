@@ -32,13 +32,11 @@ class OrderStatusWidget extends StatelessWidget {
     if (orderDetails.payment.isSuccess) {
       paymentStatus = ImageStatus.success;
       paymentTitle = 'Paid via ${orderDetails.payment.paymentMode}';
-    } else if (orderDetails.payment.isPending) {
-      paymentStatus = ImageStatus.pending;
-      paymentTitle = 'Payment pending, Please wait for 20 mins.';
     } else {
       paymentStatus = ImageStatus.failure;
       paymentTitle = 'Payment Failed';
     }
+
     if (orderDetails.refund.isRefund) {
       if (orderDetails.refund.isSuccess) {
         isRefundSuccess = true;

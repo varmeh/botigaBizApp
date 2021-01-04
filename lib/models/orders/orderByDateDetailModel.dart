@@ -127,7 +127,6 @@ class PaymentModel {
   });
 
   bool get isInitiated => status == 'initiated';
-  bool get isPending => status == 'pending';
   bool get isSuccess => status == 'success';
   bool get isFailure => status == 'failure';
 
@@ -152,7 +151,6 @@ class RefundModel {
   });
 
   bool get isInitiated => status == 'initiated';
-  bool get isPending => status == 'pending';
   bool get isSuccess => status == 'success';
   bool get isFailure => status == 'failure';
 
