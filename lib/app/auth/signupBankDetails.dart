@@ -328,7 +328,7 @@ class _SignUpBankeDetailsState extends State<SignUpBankeDetails> {
                                 height: 24,
                               ),
                               Text(
-                                "All the money will be credit to this bank account in T+1 day",
+                                "All the money will be credit to this bank account in T+2 days. For details, refer FAQs in profile tab.",
                                 style: AppTheme.textStyle.w500.color50
                                     .size(13)
                                     .lineHeight(1.3),
