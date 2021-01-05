@@ -215,13 +215,9 @@ class _ProfileState extends State<Profile> {
                                 ),
                                 Row(
                                   children: [
-                                    WhatsappIconButton(
-                                      number: profileInfo.contact.whatsapp,
-                                    ),
+                                    WhatsappIconButton(number: '9910057232'),
                                     SizedBox(width: 16.0),
-                                    CallIconButton(
-                                      number: profileInfo.contact.phone,
-                                    ),
+                                    CallIconButton(number: '9910057232'),
                                   ],
                                 )
                               ],
