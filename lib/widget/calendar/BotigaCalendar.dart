@@ -4,6 +4,7 @@ import 'utils/date_models.dart';
 import 'utils/date_utils.dart';
 import '../../theme/index.dart';
 import '../botigaBottomModal.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class BotigaCalendar extends StatefulWidget {
   final DateTime minDate;
@@ -30,6 +31,7 @@ class _BotigaCalendarState extends State<BotigaCalendar> {
   DateTime _minDate;
   DateTime _maxDate;
   List<Month> _months;
+  ItemScrollController _scrollController = ItemScrollController();
 
   @override
   void initState() {
@@ -51,19 +53,24 @@ class _BotigaCalendarState extends State<BotigaCalendar> {
     }
   }
 
+  void _scrollToSelectedMonth(int positionToScroll) {
+    _scrollController.scrollTo(
+        index: positionToScroll, duration: Duration(milliseconds: 1));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Expanded(
-          child: ListView.builder(
-              cacheExtent:
-                  (MediaQuery.of(context).size.width / DateTime.daysPerWeek) *
-                      6,
+          child: ScrollablePositionedList.builder(
+              itemScrollController: _scrollController,
               padding: widget.listPadding ?? EdgeInsets.zero,
               itemCount: _months.length,
               itemBuilder: (BuildContext context, int position) {
                 return _MonthView(
+                    scrollToSelected: _scrollToSelectedMonth,
+                    positionToScroll: position,
                     month: _months[position],
                     minDate: _minDate,
                     maxDate: _maxDate,
@@ -82,12 +89,16 @@ class _MonthView extends StatelessWidget {
   final DateTime maxDate;
   final ValueChanged<DateTime> onDayPressed;
   final DateTime selectedDate;
+  final Function scrollToSelected;
+  final int positionToScroll;
 
   _MonthView(
       {@required this.month,
       @required this.minDate,
       @required this.maxDate,
       @required this.selectedDate,
+      @required this.scrollToSelected,
+      @required this.positionToScroll,
       this.onDayPressed,
       Key key})
       : super(key: key);
@@ -156,7 +167,11 @@ class _MonthView extends StatelessWidget {
                         }
                       }
                     : null,
-                child: _DefaultDayView(date: day, selectedDate: selectedDate),
+                child: _DefaultDayView(
+                    date: day,
+                    selectedDate: selectedDate,
+                    scrollToSelected: scrollToSelected,
+                    positionToScroll: positionToScroll),
               ));
         }
       }, growable: false),
@@ -185,13 +200,24 @@ class _DefaultMonthView extends StatelessWidget {
 class _DefaultDayView extends StatelessWidget {
   final DateTime date;
   final DateTime selectedDate;
+  final Function scrollToSelected;
+  final int positionToScroll;
 
-  _DefaultDayView({@required this.date, @required this.selectedDate});
+  _DefaultDayView(
+      {@required this.date,
+      @required this.selectedDate,
+      @required this.scrollToSelected,
+      @required this.positionToScroll});
 
   @override
   Widget build(BuildContext context) {
     bool isSelected = DateFormat('dd MMMM yyyy').format(selectedDate) ==
         DateFormat('dd MMMM yyyy').format(date);
+    if (isSelected) {
+      Future.delayed(const Duration(milliseconds: 1), () {
+        scrollToSelected(positionToScroll);
+      });
+    }
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(

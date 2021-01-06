@@ -94,15 +94,15 @@ class _AddContactDetailsState extends State<AddContactDetails> {
       await profileProvider.fetchProfile();
       String apartmentName =
           profileProvider.getApartmentName(widget.apartmentId);
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (builder) {
-          return AddCommunitesSuccess(apartmentName, widget.deliveryType,
-              widget.day, widget.isSave, widget.deliveryMsg);
-        },
-      );
+      BotigaBottomModal(
+        isDismissible: false,
+        child: Column(
+          children: [
+            AddCommunitesSuccess(apartmentName, widget.deliveryType, widget.day,
+                widget.isSave, widget.deliveryMsg),
+          ],
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
@@ -125,15 +125,15 @@ class _AddContactDetailsState extends State<AddContactDetails> {
       await profileProvider.fetchProfile();
       String apartmentName =
           profileProvider.getApartmentName(widget.apartmentId);
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        builder: (builder) {
-          return AddCommunitesSuccess(apartmentName, widget.deliveryType,
-              widget.day, widget.isSave, widget.deliveryMsg);
-        },
-      );
+      BotigaBottomModal(
+        isDismissible: false,
+        child: Column(
+          children: [
+            AddCommunitesSuccess(apartmentName, widget.deliveryType, widget.day,
+                widget.isSave, widget.deliveryMsg),
+          ],
+        ),
+      ).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
