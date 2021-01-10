@@ -22,7 +22,7 @@ class Flavor {
           break;
 
         case 'app.botiga.botiga.biz.qa':
-          _flavor = _Flavor.dev;
+          _flavor = _Flavor.qa;
           break;
 
         default:
