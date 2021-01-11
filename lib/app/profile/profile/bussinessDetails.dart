@@ -92,13 +92,16 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       _businessName = profile.businessName;
       _fullName = '${profile.firstName} ${profile.lastName}';
       _imageUrl = profile.brand.imageUrl;
-      _gstin = profile.gstin;
-      _seletedBusinessType = profile.businessType;
-      _fssaiNumber = profile.fssaiNumber;
+      _gstin = _hasValue(profile.gstin) ? profile.gstin : '';
+      _seletedBusinessType =
+          _hasValue(profile.businessType) ? profile.businessType : '';
+      _fssaiNumber = _hasValue(profile.fssaiNumber) ? profile.fssaiNumber : '';
       _fssaiDate = _hasValue(profile.fssaiValidityDate)
           ? DateTime.parse(profile.fssaiValidityDate)
           : null;
-      _fssaiCertificateUrl = profile.fssaiCertificateUrl;
+      _fssaiCertificateUrl = _hasValue(profile.fssaiCertificateUrl)
+          ? profile.fssaiCertificateUrl
+          : '';
     });
   }
 
