@@ -63,6 +63,8 @@ android {
 
     buildTypes {
         release {
+            // Proguard rule to prevent crash of pdf_flutter - https://stackoverflow.com/questions/61519557/i-am-using-pdf-viewer-plugin-and-in-android-studio-i-have-no-problem-but-when-i
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
