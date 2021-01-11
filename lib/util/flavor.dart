@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
-enum _Flavor { dev, prod }
+enum _Flavor { dev, prod, qa }
 
 class Flavor {
   static final Flavor _singleton = Flavor._internal();
@@ -21,6 +21,10 @@ class Flavor {
           _flavor = _Flavor.dev;
           break;
 
+        case 'app.botiga.botiga.biz.qa':
+          _flavor = _Flavor.qa;
+          break;
+
         default:
           _flavor = _Flavor.prod;
       }
@@ -28,11 +32,35 @@ class Flavor {
   }
 
   bool get isProduction => _flavor == _Flavor.prod;
+  bool get isQa => _flavor == _Flavor.qa;
 
-  Color get bannerColor => isProduction ? Colors.transparent : Colors.brown;
+  Color get bannerColor {
+    if (isProduction) {
+      return Colors.transparent;
+    } else if (isQa) {
+      return Colors.brown;
+    } else {
+      return Colors.red;
+    }
+  }
 
-  String get bannerName => isProduction ? 'PROD' : 'DEV';
+  String get bannerName {
+    if (isProduction) {
+      return 'PROD';
+    } else if (isQa) {
+      return 'QA';
+    } else {
+      return 'DEV';
+    }
+  }
 
-  String get baseUrl =>
-      isProduction ? 'https://prod.botiga.app' : 'https://dev.botiga.app';
+  String get baseUrl {
+    if (isProduction) {
+      return 'https://prod.botiga.app';
+    } else if (isQa) {
+      return 'https://qa.botiga.app';
+    } else {
+      return 'https://dev.botiga.app';
+    }
+  }
 }
