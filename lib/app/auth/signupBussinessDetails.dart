@@ -565,16 +565,12 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                                           visualDensity: VisualDensity(
                                               horizontal: 0, vertical: -1),
                                           onTap: () {
-                                            DateTime selectedDate =
-                                                _fssaiDate == null
-                                                    ? DateTime.now()
-                                                    : _fssaiDate;
                                             getBotigaCalendar(
                                               context,
                                               DateTime.now(),
                                               DateTime.now().add(
                                                   const Duration(days: 3650)),
-                                              selectedDate,
+                                              DateTime.now(),
                                               (DateTime date) {
                                                 setState(() {
                                                   _fssaiDate = date;

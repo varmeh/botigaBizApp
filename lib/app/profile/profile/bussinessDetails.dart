@@ -564,6 +564,7 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                           ),
                           Container(
                             decoration: BoxDecoration(
+                              color: AppTheme.dividerColor,
                               borderRadius: BorderRadius.circular(3.5),
                               border: Border.all(
                                 style: BorderStyle.solid,
@@ -571,18 +572,19 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                                 width: 1.0,
                               ),
                             ),
-                            child: ListTile(
-                              contentPadding:
-                                  EdgeInsets.only(top: 4, bottom: 4, left: 8),
-                              tileColor: AppTheme.dividerColor,
-                              visualDensity:
-                                  VisualDensity(horizontal: 0, vertical: -1),
-                              trailing: Icon(Icons.keyboard_arrow_down,
-                                  color: AppTheme.color50),
-                              title: Text(
-                                '$_seletedCategory',
-                                style:
-                                    AppTheme.textStyle.color100.w500.size(15),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                              child: ListTile(
+                                visualDensity:
+                                    VisualDensity(horizontal: 0, vertical: -1),
+                                trailing: Icon(Icons.keyboard_arrow_down,
+                                    color: AppTheme.color50),
+                                title: Text(
+                                  '$_seletedCategory',
+                                  style:
+                                      AppTheme.textStyle.color100.w500.size(15),
+                                ),
                               ),
                             ),
                           ),
@@ -715,15 +717,12 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                                 visualDensity:
                                     VisualDensity(horizontal: 0, vertical: -1),
                                 onTap: () {
-                                  DateTime selectedDate = _fssaiDate == null
-                                      ? DateTime.now()
-                                      : _fssaiDate;
                                   getBotigaCalendar(
                                     context,
                                     DateTime.now(),
                                     DateTime.now()
                                         .add(const Duration(days: 3650)),
-                                    selectedDate,
+                                    DateTime.now(),
                                     (DateTime date) {
                                       setState(() {
                                         _fssaiDate = date;
