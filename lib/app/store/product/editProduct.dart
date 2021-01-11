@@ -48,7 +48,7 @@ class _EditProductState extends State<EditProduct>
   bool _isInit;
   String _name;
   double _price;
-  int _quantity;
+  double _quantity;
   String _selectedUnit;
   String _seletedCategory;
   String _seletedCategoryId;
@@ -282,9 +282,17 @@ class _EditProductState extends State<EditProduct>
                               focusNode: _quantityFocusNode,
                               labelText: 'Quantity',
                               keyboardType: TextInputType.datetime,
-                              onSave: (value) => _quantity = int.parse(value),
+                              onSave: (value) =>
+                                  _quantity = double.parse(value),
                               onChange: (_) => handleFormChange(),
-                              validator: integerValidator,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Required';
+                                } else if (double.tryParse(value) == null) {
+                                  return 'Please use numbers for price';
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -373,7 +381,7 @@ class _EditProductState extends State<EditProduct>
                                 textCapitalization:
                                     TextCapitalization.sentences,
                                 maxLines: 3,
-                                maxLength: 120,
+                                maxLength: 300,
                                 focusNode: _descriptionFocusNode,
                                 labelText: 'Description',
                                 onSave: (value) => _description = value,
@@ -407,7 +415,7 @@ class _EditProductState extends State<EditProduct>
       isEdited = false;
     } else {
       List productSpec = product.size.split(' ');
-      int quantity = int.parse(productSpec.elementAt(0));
+      double quantity = double.parse(productSpec.elementAt(0));
       String selectedUnit = productSpec.elementAt(1);
       String description = _switchValue ? _description : '';
       if (product.name == _name &&
@@ -434,7 +442,7 @@ class _EditProductState extends State<EditProduct>
         _imageUrl = product.imageUrl;
         _name = product.name;
         _price = double.parse(product.price.toString());
-        _quantity = int.parse(productSpec.elementAt(0));
+        _quantity = double.parse(productSpec.elementAt(0));
         _selectedUnit = productSpec.elementAt(1);
         _switchValue =
             (product.description != '' && product.description != null)

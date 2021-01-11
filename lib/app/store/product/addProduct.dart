@@ -37,7 +37,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   bool _isInit;
   String _name;
   double _price;
-  int _quantity;
+  double _quantity;
   String _selectedQuantity;
   String _seletedCategory;
   String _seletedCategoryId;
@@ -68,7 +68,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     _seletedCategoryId = '';
     _name = '';
     _price = 0.0;
-    _quantity = 0;
+    _quantity = 0.0;
     _description = '';
 
     _nameFocusNode = FocusNode();
@@ -565,8 +565,16 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                               focusNode: _quantityFocusNode,
                               labelText: 'Quantity',
                               keyboardType: TextInputType.datetime,
-                              onSave: (value) => _quantity = int.parse(value),
-                              validator: integerValidator,
+                              onSave: (value) =>
+                                  _quantity = double.parse(value),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Required';
+                                } else if (double.tryParse(value) == null) {
+                                  return 'Please use numbers for price';
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
@@ -652,7 +660,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                   left: 20, right: 15, bottom: 15, top: 25),
                               child: BotigaTextFieldForm(
                                 maxLines: 3,
-                                maxLength: 120,
+                                maxLength: 300,
                                 textCapitalization:
                                     TextCapitalization.sentences,
                                 focusNode: _descriptionFocusNode,

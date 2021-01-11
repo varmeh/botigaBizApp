@@ -48,8 +48,8 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future saveProduct(String categoryId, String name, double price, int quantity,
-      String unit, String imageUrl, String description) async {
+  Future saveProduct(String categoryId, String name, double price,
+      double quantity, String unit, String imageUrl, String description) async {
     return Http.post('/api/seller/products', body: {
       'categoryId': categoryId,
       'name': name,
@@ -83,7 +83,7 @@ class ProductProvider with ChangeNotifier {
       String productId,
       String name,
       double price,
-      int quantity,
+      double quantity,
       String unit,
       String imageUrl,
       String description,

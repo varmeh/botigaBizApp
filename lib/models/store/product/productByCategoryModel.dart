@@ -19,7 +19,7 @@ class ProductByCategory {
 class Product {
   String id;
   String name;
-  int price;
+  double price;
   bool available;
   String size;
   String description;
