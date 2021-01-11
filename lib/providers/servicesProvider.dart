@@ -39,4 +39,13 @@ class ServicesProvider with ChangeNotifier {
       throw Exception('Failed to load code');
     }
   }
+
+  Future getPresignedePdfUrl() async {
+    return await Http.get('/api/services/url/pdf');
+  }
+
+  Future uploadPdfToS3(String url, File image) async {
+    Uint8List bytes = await image.readAsBytes();
+    return http.put(url, body: bytes);
+  }
 }

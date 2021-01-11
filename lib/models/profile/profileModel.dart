@@ -9,6 +9,11 @@ class Profile {
   String businessName;
   String businessCategory;
   Brand brand;
+  String businessType;
+  String gstin;
+  String fssaiNumber;
+  String fssaiValidityDate;
+  String fssaiCertificateUrl;
   Contact contact;
   List<Apartment> apartments;
 

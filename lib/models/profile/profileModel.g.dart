@@ -22,7 +22,12 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Apartment.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-  );
+  )
+    ..businessType = json['businessType'] as String
+    ..gstin = json['gstin'] as String
+    ..fssaiNumber = json['fssaiNumber'] as String
+    ..fssaiValidityDate = json['fssaiValidityDate'] as String
+    ..fssaiCertificateUrl = json['fssaiCertificateUrl'] as String;
 }
 
 Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
@@ -31,6 +36,11 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'businessName': instance.businessName,
       'businessCategory': instance.businessCategory,
       'brand': instance.brand,
+      'businessType': instance.businessType,
+      'gstin': instance.gstin,
+      'fssaiNumber': instance.fssaiNumber,
+      'fssaiValidityDate': instance.fssaiValidityDate,
+      'fssaiCertificateUrl': instance.fssaiCertificateUrl,
       'contact': instance.contact,
       'apartments': instance.apartments,
     };

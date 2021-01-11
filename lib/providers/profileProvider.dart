@@ -79,13 +79,33 @@ class ProfileProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future updateBusinessInfromation(String brandName, String tagline,
-      String imageUrl, String businessCategory, bool updateImage) async {
+  Future updateBusinessInfromation(
+      String brandName,
+      String tagline,
+      String imageUrl,
+      String businessCategory,
+      bool updateImage,
+      String businessType,
+      String gstin,
+      String fssaiNumber,
+      String fssaiValidityDate,
+      String fssaiCertificateUrl) async {
     return Http.patch('/api/seller/profile/business', body: {
       'brandName': brandName,
       'tagline': tagline,
       'imageUrl': imageUrl,
-      'updateImage': updateImage
+      'updateImage': updateImage,
+      'businessType': businessType,
+      'gstin': gstin,
+      ...(fssaiNumber != '' && fssaiNumber != null)
+          ? {'fssaiNumber': fssaiNumber}
+          : {},
+      ...(fssaiValidityDate != null && fssaiValidityDate != '')
+          ? {'fssaiValidityDate': fssaiValidityDate}
+          : {},
+      ...(fssaiCertificateUrl != null && fssaiCertificateUrl != '')
+          ? {'fssaiCertificateUrl': fssaiCertificateUrl}
+          : {}
     });
   }
 
@@ -178,7 +198,12 @@ class ProfileProvider with ChangeNotifier {
       String phone,
       String tagline,
       String url,
-      String createToken) async {
+      String createToken,
+      String businessType,
+      String gstin,
+      String fssaiNumber,
+      String fssaiValidityDate,
+      String fssaiCertificateUrl) async {
     return await Http.postAuth('/api/seller/auth/signup', body: {
       'businessName': businessName,
       'businessCategory': businessCategory,
@@ -188,7 +213,18 @@ class ProfileProvider with ChangeNotifier {
       'phone': phone,
       ...(tagline != null && tagline != '') ? {'tagline': tagline} : {},
       ...(url != null && url != '') ? {'brandUrl': url} : {},
-      'createToken': createToken
+      'createToken': createToken,
+      'businessType': businessType,
+      'gstin': gstin,
+      ...(fssaiNumber != '' && fssaiNumber != null)
+          ? {'fssaiNumber': fssaiNumber}
+          : {},
+      ...(fssaiValidityDate != null && fssaiValidityDate != '')
+          ? {'fssaiValidityDate': fssaiValidityDate}
+          : {},
+      ...(fssaiCertificateUrl != null && fssaiCertificateUrl != '')
+          ? {'fssaiCertificateUrl': fssaiCertificateUrl}
+          : {}
     });
   }
 

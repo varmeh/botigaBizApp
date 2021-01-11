@@ -34,6 +34,7 @@ class BotigaTextFieldForm extends StatefulWidget {
   final double iconSize;
   final bool readOnly;
   final bool autofocus;
+  final bool hideBorder;
 
   BotigaTextFieldForm(
       {@required this.focusNode,
@@ -54,7 +55,8 @@ class BotigaTextFieldForm extends StatefulWidget {
       this.initialValue,
       this.iconSize = 25,
       this.readOnly = false,
-      this.autofocus = false});
+      this.autofocus = false,
+      this.hideBorder = false});
 
   @override
   _BotigaTextFieldFormState createState() => _BotigaTextFieldFormState();
@@ -134,30 +136,38 @@ class _BotigaTextFieldFormState extends State<BotigaTextFieldForm> {
         labelStyle: AppTheme.textStyle.w500.color50.size(15.0).lineHeight(1.3),
         errorMaxLines: 2,
         errorStyle: AppTheme.textStyle.w400.colored(AppTheme.errorColor),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 1.0,
-            color: AppTheme.color25,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 1.0,
-            color: AppTheme.color25,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 1.0,
-            color: AppTheme.errorColor,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 1.0,
-            color: AppTheme.errorColor,
-          ),
-        ),
+        enabledBorder: widget.hideBorder
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 1.0,
+                  color: AppTheme.color25,
+                ),
+              ),
+        focusedBorder: widget.hideBorder
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 1.0,
+                  color: AppTheme.color25,
+                ),
+              ),
+        errorBorder: widget.hideBorder
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 1.0,
+                  color: AppTheme.errorColor,
+                ),
+              ),
+        focusedErrorBorder: widget.hideBorder
+            ? InputBorder.none
+            : OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 1.0,
+                  color: AppTheme.errorColor,
+                ),
+              ),
       ),
     );
   }
