@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pdf_flutter/pdf_flutter.dart';
-import 'package:file_picker/file_picker.dart';
 
 import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
 import '../../../theme/index.dart';
@@ -29,16 +27,8 @@ class _BussinessDetailsState extends State<BussinessDetails> {
   String uploadurl, downloadUrl;
   String _imageUrl;
 
-  String _gstin, _seletedBusinessType, _fssaiNumber, _fssaiCertificateUrl;
-  DateTime _fssaiDate;
-  FocusNode _gstinFocusNode, _fssaiNumberFocusNode;
-
-  bool _businessTypeError = false,
-      _fssaiDateError = false,
-      _fssiCertificateError = false,
-      _fssaiNumberError = false;
-  File _pdfFile;
-  String pdfUploadUrl = '', pdfDownloadUrl = '';
+  String _gstin, _seletedBusinessType;
+  FocusNode _gstinFocusNode;
 
   @override
   void initState() {
@@ -52,8 +42,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     _brandNameFocusNode = FocusNode();
     _taglineFocusNode = FocusNode();
     _gstinFocusNode = FocusNode();
-    _fssaiNumberFocusNode = FocusNode();
-
     _isLoading = false;
     _isInit = false;
     loadInitialValueForForm();
@@ -63,7 +51,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
   void didChangeDependencies() {
     if (!_isInit) {
       this._getPreSignedUrl();
-      this._getPreSignedPdfUrl();
       _isInit = true;
     }
     super.didChangeDependencies();
@@ -77,7 +64,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     _brandNameFocusNode.dispose();
     _taglineFocusNode.dispose();
     _gstinFocusNode.dispose();
-    _fssaiNumberFocusNode.dispose();
 
     super.dispose();
   }
@@ -95,13 +81,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       _gstin = _hasValue(profile.gstin) ? profile.gstin : '';
       _seletedBusinessType =
           _hasValue(profile.businessType) ? profile.businessType : '';
-      _fssaiNumber = _hasValue(profile.fssaiNumber) ? profile.fssaiNumber : '';
-      _fssaiDate = _hasValue(profile.fssaiValidityDate)
-          ? DateTime.parse(profile.fssaiValidityDate)
-          : null;
-      _fssaiCertificateUrl = _hasValue(profile.fssaiCertificateUrl)
-          ? profile.fssaiCertificateUrl
-          : '';
     });
   }
 
@@ -168,10 +147,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
       final profileProvider =
           Provider.of<ProfileProvider>(context, listen: false);
       final updateImage = _imageFile != null ? true : false;
-      final fssaiCertUrl =
-          _pdfFile != null ? pdfDownloadUrl : _fssaiCertificateUrl;
-      final fssaiDateString =
-          _fssaiDate != null ? _fssaiDate.getRequestFormatDate() : '';
       await profileProvider.updateBusinessInfromation(
           _brandName,
           _tagline,
@@ -180,9 +155,9 @@ class _BussinessDetailsState extends State<BussinessDetails> {
           updateImage,
           _seletedBusinessType,
           _gstin,
-          _fssaiNumber,
-          fssaiDateString,
-          fssaiCertUrl);
+          null,
+          null,
+          null);
       await profileProvider.fetchProfile();
       Toast(
         message: 'Business details updated',
@@ -201,154 +176,11 @@ class _BussinessDetailsState extends State<BussinessDetails> {
     }
   }
 
-  void showBusinessType() {
-    List<String> businessTypes = [
-      'Private Limited',
-      'Proprietorship',
-      'Partnership',
-      'Individual',
-      'Public Limited',
-      'LLP'
-    ];
-    BotigaBottomModal(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Text(
-                  'Select Business Type',
-                  style: AppTheme.textStyle.color100.size(22).w700,
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                SafeArea(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.40,
-                    child: ListView(
-                      children: [
-                        ...businessTypes.map((bs) {
-                          return bussinessTypeItem(bs);
-                        }),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-            isDismissible: true)
-        .show(context);
-  }
-
-  Widget bussinessTypeItem(String s) {
-    return Column(
-      children: <Widget>[
-        ListTile(
-          onTap: () {
-            Navigator.of(context).pop();
-            setState(() {
-              _seletedBusinessType = s;
-              _businessTypeError = false;
-            });
-          },
-          contentPadding: EdgeInsets.all(0),
-          title: Text(
-            s,
-            style: AppTheme.textStyle.color100.w500.size(17),
-          ),
-        ),
-        Divider(
-          color: AppTheme.dividerColor,
-          thickness: 1.2,
-        ),
-      ],
-    );
-  }
-
-  void handlePdfChange() async {
-    File oldFile = _pdfFile;
-    setState(() {
-      _pdfFile = null;
-    });
-    FilePickerResult result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
-    if (result != null) {
-      File file = File(result.files.single.path);
-      setState(() {
-        _pdfFile = file;
-        _fssiCertificateError = false;
-      });
-      _handlePdfUpload(_pdfFile);
-    } else {
-      setState(() {
-        _pdfFile = oldFile;
-      });
-    }
-  }
-
-  void _handlePdfUpload(File file) async {
-    if (file == null) {
-      return;
-    }
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      await Provider.of<ServicesProvider>(context, listen: false)
-          .uploadPdfToS3(pdfUploadUrl, file);
-    } catch (err) {
-      setState(() {
-        _pdfFile = null;
-      });
-      Toast(message: 'Something went wrong!').show(context);
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
-  void _getPreSignedPdfUrl() async {
-    try {
-      setState(() {
-        _isLoading = true;
-      });
-      final value = await Provider.of<ServicesProvider>(context, listen: false)
-          .getPresignedePdfUrl();
-      setState(() {
-        pdfUploadUrl = value['uploadUrl'];
-        pdfDownloadUrl = value['downloadUrl'];
-      });
-    } catch (err) {
-      Toast(message: Http.message(err)).show(context);
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
   bool _hasValue(val) {
     if (val != null && val != '') {
       return true;
     }
     return false;
-  }
-
-  Widget _getErrorText(bool errorVal) {
-    return errorVal
-        ? Padding(
-            padding: const EdgeInsets.only(left: 15.0, top: 15.0),
-            child: Text(
-              "Required",
-              style:
-                  AppTheme.textStyle.w400.size(12).colored(AppTheme.errorColor),
-            ),
-          )
-        : SizedBox.shrink();
   }
 
   @override
@@ -373,32 +205,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                           borderRadius: BorderRadius.circular(6.0),
                         ),
                         onPressed: () {
-                          if (_hasValue(_seletedBusinessType) == false) {
-                            setState(() {
-                              _businessTypeError = true;
-                            });
-                            return null;
-                          }
-
-                          if (_hasValue(_fssaiNumber) == true &&
-                              _hasValue(_fssaiDate) == true &&
-                              _hasValue(_pdfFile) == true) {
-                            //Alow check to pass
-                          } else {
-                            if (_hasValue(_fssaiNumber) == false &&
-                                _hasValue(_fssaiDate) == false &&
-                                _hasValue(_pdfFile) == false) {
-                              //Alow check to pass
-                            } else {
-                              setState(() {
-                                _fssaiNumberError = !_hasValue(_fssaiNumber);
-                                _fssaiDateError = !_hasValue(_fssaiDate);
-                                _fssiCertificateError = !_hasValue(_pdfFile);
-                              });
-                              return null;
-                            }
-                          }
-
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
                             handleBusinessInformationSave();
@@ -603,12 +409,11 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                           ),
                           Container(
                             decoration: BoxDecoration(
+                              color: AppTheme.dividerColor,
                               borderRadius: BorderRadius.circular(3.5),
                               border: Border.all(
                                 style: BorderStyle.solid,
-                                color: _businessTypeError
-                                    ? AppTheme.errorColor
-                                    : AppTheme.color25,
+                                color: AppTheme.color25,
                                 width: 1.0,
                               ),
                             ),
@@ -618,304 +423,19 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                               child: ListTile(
                                 visualDensity:
                                     VisualDensity(horizontal: 0, vertical: -1),
-                                onTap: () {
-                                  FocusScope.of(context).unfocus();
-                                  showBusinessType();
-                                },
                                 trailing: Icon(Icons.keyboard_arrow_down,
-                                    color: AppTheme.color100),
-                                title: _seletedBusinessType == ''
-                                    ? Text(
-                                        'Business Type',
-                                        style: AppTheme.textStyle.color100.w500
-                                            .size(15),
-                                      )
-                                    : Text(
-                                        '$_seletedBusinessType',
-                                        style: AppTheme.textStyle.color100.w500
-                                            .size(15),
-                                      ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 24,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Divider(
-                      color: AppTheme.dividerColor,
-                      thickness: 4,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 20, right: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            contentPadding:
-                                EdgeInsets.only(left: 0.0, right: 0.0),
-                            title: Text(
-                              "FSSAI DETAILS",
-                              style: AppTheme.textStyle.w700.color100
-                                  .size(12)
-                                  .lineHeight(1.2)
-                                  .letterSpace(0.2),
-                            ),
-                            subtitle: Text(
-                              "Fill only if you are are in Food Business",
-                              style: AppTheme.textStyle.w500.color50
-                                  .size(12)
-                                  .lineHeight(1.2)
-                                  .letterSpace(0.2),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2.0),
-                              border: Border.all(
-                                style: BorderStyle.solid,
-                                color: _fssaiNumberError
-                                    ? AppTheme.errorColor
-                                    : AppTheme.color25,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: BotigaTextFieldForm(
-                                initialValue: _fssaiNumber,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                focusNode: _fssaiNumberFocusNode,
-                                labelText: 'FSSAI Number',
-                                onChange: (value) => _fssaiNumber = value,
-                                onSave: (value) => _fssaiNumber = value,
-                                hideBorder: true),
-                          ),
-                          _getErrorText(_fssaiNumberError),
-                          SizedBox(
-                            height: 24,
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3.5),
-                              border: Border.all(
-                                style: BorderStyle.solid,
-                                color: _fssaiDateError
-                                    ? AppTheme.errorColor
-                                    : AppTheme.color25,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                              child: ListTile(
-                                visualDensity:
-                                    VisualDensity(horizontal: 0, vertical: -1),
-                                onTap: () {
-                                  getBotigaCalendar(
-                                    context,
-                                    DateTime.now(),
-                                    DateTime.now()
-                                        .add(const Duration(days: 3650)),
-                                    DateTime.now(),
-                                    (DateTime date) {
-                                      setState(() {
-                                        _fssaiDate = date;
-                                        _fssaiDateError = false;
-                                      });
-                                    },
-                                  );
-                                },
-                                trailing: Icon(Icons.date_range,
                                     color: AppTheme.color50),
-                                title: _fssaiDate == null
-                                    ? Text(
-                                        'FSSAI Validity Date',
-                                        style: AppTheme.textStyle.color50.w500
-                                            .size(15),
-                                      )
-                                    : Text(
-                                        '${_fssaiDate.getRequestFormatDate()}',
-                                        style: AppTheme.textStyle.color100.w500
-                                            .size(15),
-                                      ),
+                                title: Text(
+                                  '$_seletedBusinessType',
+                                  style:
+                                      AppTheme.textStyle.color100.w500.size(15),
+                                ),
                               ),
                             ),
                           ),
-                          _getErrorText(_fssaiDateError),
                           SizedBox(
                             height: 24,
                           ),
-                          _pdfFile != null
-                              ? ConstrainedBox(
-                                  constraints: BoxConstraints.tight(
-                                    Size(double.infinity, 156),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 156,
-                                        height: 156,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: ClipRRect(
-                                          child: PDF.file(
-                                            _pdfFile,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            PassiveButton(
-                                              title: "Change",
-                                              onPressed: () {
-                                                handlePdfChange();
-                                              },
-                                              height: 44,
-                                              width: 135,
-                                            ),
-                                            SizedBox(
-                                              height: 24,
-                                            ),
-                                            PassiveButton(
-                                              title: "Delete",
-                                              onPressed: () {
-                                                setState(() {
-                                                  _pdfFile = null;
-                                                });
-                                              },
-                                              height: 44,
-                                              width: 135,
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              : (_fssaiCertificateUrl != null &&
-                                      _fssaiCertificateUrl != '')
-                                  ? ConstrainedBox(
-                                      constraints: BoxConstraints.tight(
-                                        Size(double.infinity, 156),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 156,
-                                            height: 156,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: PDF.network(
-                                              _fssaiCertificateUrl,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                PassiveButton(
-                                                  title: "Change",
-                                                  onPressed: () {
-                                                    handlePdfChange();
-                                                  },
-                                                  height: 44,
-                                                  width: 135,
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  : Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: double.infinity,
-                                          height: 156,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            border: Border.all(
-                                              style: BorderStyle.solid,
-                                              color: _fssiCertificateError
-                                                  ? AppTheme.errorColor
-                                                  : AppTheme.color100
-                                                      .withOpacity(0.25),
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              PassiveButton(
-                                                icon: Icon(
-                                                  Icons.upload_file,
-                                                  color: AppTheme.color50,
-                                                ),
-                                                title: "Upload",
-                                                onPressed: () {
-                                                  handlePdfChange();
-                                                },
-                                                height: 44,
-                                                width: 135,
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: Text(
-                                                  'Upload FSSAI certificate',
-                                                  textAlign: TextAlign.center,
-                                                  style: AppTheme
-                                                      .textStyle.color50.w500
-                                                      .size(12)
-                                                      .letterSpace(0.2)
-                                                      .lineHeight(1.5),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: Text(
-                                                  '* only pdf',
-                                                  textAlign: TextAlign.center,
-                                                  style: AppTheme
-                                                      .textStyle.color100.w500
-                                                      .size(10)
-                                                      .letterSpace(0.2)
-                                                      .lineHeight(1.2),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        _getErrorText(_fssaiDateError),
-                                      ],
-                                    ),
                         ],
                       ),
                     ),

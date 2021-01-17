@@ -107,6 +107,25 @@ class _ProfileState extends State<Profile> {
                       ListTile(
                         onTap: () {
                           Navigator.of(context)
+                              .pushNamed(FssaiDetails.routeName);
+                        },
+                        leading: Image.asset(
+                          'assets/images/fssai.png',
+                          width: 25,
+                        ),
+                        contentPadding: EdgeInsets.only(left: 0, right: 0),
+                        title: Transform(
+                          transform: Matrix4.translationValues(-16, 0.0, 0.0),
+                          child: Text(
+                            'FSSAI details',
+                            style: AppTheme.textStyle.color100.size(15).w500,
+                          ),
+                        ),
+                        trailing: arrowIcon,
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Navigator.of(context)
                               .pushNamed(StoreDeatils.routeName);
                         },
                         leading: Image.asset(

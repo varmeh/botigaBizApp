@@ -20,19 +20,10 @@ class DeliveryScreen extends StatefulWidget {
 }
 
 class _DeliveryScreenState extends State<DeliveryScreen> {
-  Map<String, String> statusMap = {
-    'All': 'All',
-    'Open': 'open',
-    'Out for delivery': 'out',
-    'Deliverd': 'delivered',
-    'Delayed': 'delayed',
-    'Cancelled': 'cancelled'
-  };
   bool _isLoading;
   bool _isError;
   bool _isInit;
   bool _isProcessing;
-  String selectedStatus;
   DateTime selectedDate;
   DateTime selectedDateForRequest;
   bool fabIsVisible;
@@ -128,16 +119,93 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       _getSearch(),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20, right: 20, bottom: 10),
-                                        child: Text(
-                                          'Order to be sent out today',
-                                          style: AppTheme.textStyle.color50.w500
-                                              .size(15),
-                                        ),
-                                      ),
                                     ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 5,
+                                        bottom: 20,
+                                        left: 20,
+                                        right: 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Container(
+                                          child: Expanded(
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  child: Icon(
+                                                    BotigaIcons.building,
+                                                    size: 18,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Flexible(
+                                                  child: Text(
+                                                    '${apartment.apartmentName}',
+                                                    style: AppTheme
+                                                        .textStyle.w500.color100
+                                                        .size(15),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Container(
+                                          width: 100,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              getBotigaCalendar(
+                                                context,
+                                                DateTime.now().subtract(
+                                                    Duration(days: 15)),
+                                                DateTime.now().add(
+                                                    const Duration(days: 60)),
+                                                selectedDate,
+                                                (DateTime date) {
+                                                  setState(() {
+                                                    selectedDate = date;
+                                                    selectedDateForRequest =
+                                                        date;
+                                                  });
+                                                  fetchDeliveryData(
+                                                      apartment.id,
+                                                      date.getRequestFormatDate());
+                                                },
+                                              );
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
+                                              children: <Widget>[
+                                                Flexible(
+                                                  child: Text(
+                                                      '${selectedDate.getTodayOrSelectedDate()}',
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .subtitle1),
+                                                ),
+                                                SizedBox(
+                                                  width: 7,
+                                                ),
+                                                Icon(
+                                                  Icons.expand_more_sharp,
+                                                  size: 25,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   Expanded(
                                     child: RefreshIndicator(
@@ -148,156 +216,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                             AlwaysScrollableScrollPhysics(),
                                         controller: _scrollcontroller,
                                         children: [
-                                          SizedBox(
-                                            height: 15,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 20),
-                                            child: Container(
-                                              height: 44,
-                                              child: ListView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                children: <Widget>[
-                                                  ...statusMap.keys.map((val) {
-                                                    return Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 12),
-                                                      child: Container(
-                                                        height: 44,
-                                                        child: FlatButton(
-                                                          shape: new RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  new BorderRadius
-                                                                          .circular(
-                                                                      12.0)),
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              selectedStatus =
-                                                                  val;
-                                                            });
-                                                          },
-                                                          color: selectedStatus ==
-                                                                  val
-                                                              ? AppTheme
-                                                                  .primaryColor
-                                                              : AppTheme
-                                                                  .dividerColor,
-                                                          child: Text('$val',
-                                                              style: selectedStatus ==
-                                                                      val
-                                                                  ? AppTheme
-                                                                      .textStyle
-                                                                      .colored(
-                                                                          AppTheme
-                                                                              .backgroundColor)
-                                                                      .w500
-                                                                      .size(13)
-                                                                  : AppTheme
-                                                                      .textStyle
-                                                                      .color100
-                                                                      .w500
-                                                                      .size(
-                                                                          13)),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  })
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(20),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: <Widget>[
-                                                Container(
-                                                  child: Expanded(
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          child: Icon(
-                                                            BotigaIcons
-                                                                .building,
-                                                            size: 18,
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Flexible(
-                                                          child: Text(
-                                                            '${apartment.apartmentName}',
-                                                            style: AppTheme
-                                                                .textStyle
-                                                                .w500
-                                                                .color100
-                                                                .size(15),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Container(
-                                                  width: 100,
-                                                  child: GestureDetector(
-                                                    onTap: () {
-                                                      getBotigaCalendar(
-                                                        context,
-                                                        DateTime.now().subtract(
-                                                            Duration(days: 15)),
-                                                        DateTime.now().add(
-                                                            const Duration(
-                                                                days: 60)),
-                                                        selectedDate,
-                                                        (DateTime date) {
-                                                          setState(() {
-                                                            selectedDate = date;
-                                                            selectedDateForRequest =
-                                                                date;
-                                                          });
-                                                          fetchDeliveryData(
-                                                              apartment.id,
-                                                              date.getRequestFormatDate());
-                                                        },
-                                                      );
-                                                    },
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.end,
-                                                      children: <Widget>[
-                                                        Flexible(
-                                                          child: Text(
-                                                              '${selectedDate.getTodayOrSelectedDate()}',
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .subtitle1),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 7,
-                                                        ),
-                                                        Icon(
-                                                          Icons
-                                                              .expand_more_sharp,
-                                                          size: 25,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
                                           Consumer<DeliveryProvider>(builder:
                                               (ctx, deliveryProvider, _) {
                                             var deliveryListByApartment;
@@ -322,24 +240,14 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                               return EmptyDelivery();
                                             }
 
-                                            final filterdStatusDetails =
-                                                selectedStatus == 'All'
-                                                    ? deliveryListByApartment
-                                                    : deliveryListByApartment
-                                                        .where((deliveryRow) {
-                                                        return deliveryRow
-                                                                .order.status ==
-                                                            statusMap[
-                                                                selectedStatus];
-                                                      });
-
-                                            if (filterdStatusDetails.length ==
+                                            if (deliveryListByApartment
+                                                    .length ==
                                                 0) {
                                               return EmptyDelivery();
                                             }
 
                                             var deliveries =
-                                                filterdStatusDetails;
+                                                deliveryListByApartment;
                                             if (_query != '' &&
                                                 _query != null) {
                                               deliveries = deliveries.where(
@@ -393,7 +301,6 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
     _isInit = false;
     fabIsVisible = true;
     _isProcessing = false;
-    selectedStatus = 'All';
     apartment = deafaultApartment;
     selectedDate = DateTime.now();
     selectedDateForRequest = DateTime.now();

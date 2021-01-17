@@ -19,7 +19,7 @@ import 'app/home/index.dart' show HomeScreen;
 import 'app/onboarding/index.dart' show SplashScreen, IntroScreen;
 import 'app/orders/index.dart' show OrderDetails, OrdersHome, OrderList;
 import 'app/profile/index.dart'
-    show SelectArea, BussinessDetails, StoreDeatils, BankDetails;
+    show SelectArea, BussinessDetails, StoreDeatils, BankDetails, FssaiDetails;
 import 'app/store/index.dart' show StoreScreen, AddProduct, EditProduct;
 import 'providers/index.dart'
     show
@@ -116,6 +116,7 @@ class BotigaBizApp extends StatelessWidget {
         SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),
         SignUpStoreDetails.routeName: (ctx) => SignUpStoreDetails(),
         SignUpBankeDetails.routeName: (ctx) => SignUpBankeDetails(),
+        FssaiDetails.routeName: (ctx) => FssaiDetails(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
