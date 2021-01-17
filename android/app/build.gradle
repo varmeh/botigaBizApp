@@ -75,16 +75,25 @@ android {
         dev {
             dimension "app"
             applicationIdSuffix ".dev"
-            resValue "string", "app_name", "Botiga Biz Dev" 
+            resValue "string", "app_name", "Botiga Biz Dev"
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            } 
         }
-         qa {
+        qa {
             dimension "app"
             applicationIdSuffix ".qa"
             resValue "string", "app_name", "Botiga Biz QA" 
+            firebaseCrashlytics {
+                mappingFileUploadEnabled false
+            }
         }
         prod {
             dimension "app"
             resValue "string", "app_name", "Botiga Business"
+            firebaseCrashlytics {
+                mappingFileUploadEnabled true
+            }
         }
     }
 
