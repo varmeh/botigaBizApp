@@ -4,7 +4,7 @@ part 'aggregatedOrdersModel.g.dart';
 
 @JsonSerializable()
 class AggregatedOrders {
-  int totalRevenue;
+  double totalRevenue;
   int totalOrders;
   List<AppartmentBreakUp> apartmentWiseBreakup;
 
@@ -22,7 +22,7 @@ class AppartmentBreakUp {
   String id;
   String apartmentName;
   int orders;
-  int revenue;
+  double revenue;
 
   AppartmentBreakUp({this.id, this.apartmentName, this.orders, this.revenue});
 

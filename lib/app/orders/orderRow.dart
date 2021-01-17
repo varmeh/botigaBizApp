@@ -15,7 +15,7 @@ class OrderRow extends StatelessWidget {
   Widget build(BuildContext context) {
     String number = order.number;
     DateTime orderDate = order.orderDate;
-    int totalAmount = order.totalAmount;
+    double totalAmount = order.totalAmount;
     int productsLength = order.products.length;
 
     return InkWell(

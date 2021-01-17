@@ -105,7 +105,7 @@ class _OrdersHomeState extends State<OrdersHome> {
     );
   }
 
-  Widget _orderHeader(int revenue, int totalOrder, String name) {
+  Widget _orderHeader(double revenue, int totalOrder, String name) {
     return ConstrainedBox(
       constraints: BoxConstraints.tight(Size(double.infinity, 285)),
       child: new Stack(
@@ -260,8 +260,8 @@ class _OrdersHomeState extends State<OrdersHome> {
     );
   }
 
-  Widget _orderCard(
-      String apartmentId, String apartmentName, int revenue, int totalOrder) {
+  Widget _orderCard(String apartmentId, String apartmentName, double revenue,
+      int totalOrder) {
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,

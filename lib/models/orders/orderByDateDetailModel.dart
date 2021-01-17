@@ -29,7 +29,7 @@ class Order {
   String number;
   DateTime orderDate;
   String status;
-  int totalAmount;
+  double totalAmount;
   List<Product> products;
 
   Order(
@@ -80,7 +80,7 @@ class Order {
 @JsonSerializable()
 class Product {
   String name;
-  int price;
+  double price;
   int quantity;
   String unitInfo;
 

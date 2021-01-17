@@ -8,7 +8,7 @@ part of 'aggregatedOrdersModel.dart';
 
 AggregatedOrders _$AggregatedOrdersFromJson(Map<String, dynamic> json) {
   return AggregatedOrders(
-    totalRevenue: json['totalRevenue'] as int,
+    totalRevenue: (json['totalRevenue'] as num)?.toDouble(),
     totalOrders: json['totalOrders'] as int,
     apartmentWiseBreakup: (json['apartmentWiseBreakup'] as List)
         ?.map((e) => e == null
@@ -30,7 +30,7 @@ AppartmentBreakUp _$AppartmentBreakUpFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     apartmentName: json['apartmentName'] as String,
     orders: json['orders'] as int,
-    revenue: json['revenue'] as int,
+    revenue: (json['revenue'] as num)?.toDouble(),
   );
 }
 

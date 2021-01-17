@@ -5,7 +5,7 @@ import '../../theme/index.dart';
 class OrderListItem extends StatelessWidget {
   final String rupeeSymbol = '\u20B9';
   final String name;
-  final int price;
+  final double price;
   final int quantity;
   final String unitInfo;
   OrderListItem(this.name, this.price, this.quantity, this.unitInfo);
