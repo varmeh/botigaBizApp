@@ -284,101 +284,96 @@ class _CommunityTileState extends State<CommunityTile> {
               widget.apt.deliveryMessage,
               style: AppTheme.textStyle.size(15).w500.color50.lineHeight(1.33),
             ),
-            _switchValue
-                ? GestureDetector(
-                    onTap: () {
-                      BotigaBottomModal(
-                        isDismissible: true,
-                        child: Column(
-                          children: [
-                            Card(
-                              elevation: 0,
-                              child: ListTile(
-                                onTap: () {
-                                  _showDurationBottomSheet();
-                                },
-                                tileColor: AppTheme.dividerColor,
-                                leading: Icon(
-                                  BotigaIcons.truck,
-                                  size: 30,
-                                ),
-                                title: Text(
-                                  'Change delivery details',
-                                  style: AppTheme.textStyle.w500.color100
-                                      .lineHeight(1.33)
-                                      .size(15),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 12,
-                            ),
-                            Card(
-                              elevation: 0,
-                              child: ListTile(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    builder: (builder) {
-                                      return Container(
-                                        width: double.infinity,
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.80,
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.backgroundColor,
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: const Radius.circular(
-                                              16.0,
-                                            ),
-                                            topRight: const Radius.circular(
-                                              16.0,
-                                            ),
-                                          ),
-                                        ),
-                                        child: AddContactDetails(
-                                            apartmentId: widget.apt.id,
-                                            email: widget.apt.contact.email,
-                                            phoneNumber:
-                                                widget.apt.contact.phone,
-                                            whatsappNumber:
-                                                widget.apt.contact.whatsapp,
-                                            isSave: false,
-                                            deliveryMsg:
-                                                widget.apt.deliveryMessage),
-                                      );
-                                    },
-                                  );
-                                },
-                                tileColor: AppTheme.dividerColor,
-                                leading: Icon(
-                                  Icons.supervisor_account_sharp,
-                                  size: 30,
-                                ),
-                                title: Text(
-                                  'Update contact information',
-                                  style: AppTheme.textStyle.w500.color100
-                                      .lineHeight(1.33)
-                                      .size(15),
-                                ),
-                              ),
-                            ),
-                          ],
+            GestureDetector(
+              onTap: () {
+                BotigaBottomModal(
+                  isDismissible: true,
+                  child: Column(
+                    children: [
+                      Card(
+                        elevation: 0,
+                        child: ListTile(
+                          onTap: () {
+                            _showDurationBottomSheet();
+                          },
+                          tileColor: AppTheme.dividerColor,
+                          leading: Icon(
+                            BotigaIcons.truck,
+                            size: 30,
+                          ),
+                          title: Text(
+                            'Change delivery details',
+                            style: AppTheme.textStyle.w500.color100
+                                .lineHeight(1.33)
+                                .size(15),
+                          ),
                         ),
-                      ).show(context);
-                    },
-                    child: Text(
-                      'EDIT',
-                      style: AppTheme.textStyle
-                          .size(15)
-                          .w600
-                          .colored(AppTheme.primaryColor)
-                          .lineHeight(1.33),
-                    ),
-                  )
-                : SizedBox.shrink()
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Card(
+                        elevation: 0,
+                        child: ListTile(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (builder) {
+                                return Container(
+                                  width: double.infinity,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.80,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.backgroundColor,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: const Radius.circular(
+                                        16.0,
+                                      ),
+                                      topRight: const Radius.circular(
+                                        16.0,
+                                      ),
+                                    ),
+                                  ),
+                                  child: AddContactDetails(
+                                      apartmentId: widget.apt.id,
+                                      email: widget.apt.contact.email,
+                                      phoneNumber: widget.apt.contact.phone,
+                                      whatsappNumber:
+                                          widget.apt.contact.whatsapp,
+                                      isSave: false,
+                                      deliveryMsg: widget.apt.deliveryMessage),
+                                );
+                              },
+                            );
+                          },
+                          tileColor: AppTheme.dividerColor,
+                          leading: Icon(
+                            Icons.supervisor_account_sharp,
+                            size: 30,
+                          ),
+                          title: Text(
+                            'Update contact information',
+                            style: AppTheme.textStyle.w500.color100
+                                .lineHeight(1.33)
+                                .size(15),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ).show(context);
+              },
+              child: Text(
+                'EDIT',
+                style: AppTheme.textStyle
+                    .size(15)
+                    .w600
+                    .colored(AppTheme.primaryColor)
+                    .lineHeight(1.33),
+              ),
+            )
           ],
         ),
         SizedBox(
