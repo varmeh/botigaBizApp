@@ -29,6 +29,28 @@ class _ProductItemRowState extends State<ProductItemRow> {
     });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    Product product = widget.product;
+    String statusText = _switchValue ? "Available" : "Not Available";
+    return GestureDetector(
+      onTap: () {
+        widget.onOpen();
+      },
+      child: Container(child: this.getProductRow(product, statusText)),
+    );
+  }
+
+  Widget getProductRow(Product product, String statusText) {
+    if (product.imageUrl != null &&
+        product.imageUrl != "" &&
+        product.imageUrl.startsWith("https://")) {
+      return getRowWithProductImage(product, statusText);
+    } else {
+      return getRowWithoutProductImage(product, statusText);
+    }
+  }
+
   Widget getRowWithProductImage(Product product, String statusText) {
     widget.setImageStatus(product.id, true);
     return Container(
@@ -86,7 +108,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                             children: [
                               ConstrainedBox(
                                 constraints: BoxConstraints(
-                                  maxWidth: 60,
+                                  maxWidth: 90,
                                 ),
                                 child: Text(
                                   '$rupeeSymbol${product.price}',
@@ -101,7 +123,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                 children: <Widget>[
                                   ConstrainedBox(
                                     constraints: BoxConstraints(
-                                      maxWidth: 80,
+                                      maxWidth: 90,
                                     ),
                                     child: Text(
                                       statusText,
@@ -115,16 +137,10 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                   ),
                                   BotigaSwitch(
                                     handleSwitchChage: (bool value) {
-                                      setState(
-                                        () {
-                                          _switchValue = value;
-                                        },
-                                      );
+                                      setState(() => _switchValue = value);
                                       widget.setProductAvilablity(
                                           widget.product, value, () {
-                                        setState(() {
-                                          _switchValue = !value;
-                                        });
+                                        setState(() => _switchValue = !value);
                                       });
                                     },
                                     switchValue: _switchValue,
@@ -196,7 +212,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                     .w500,
                               ),
                               Text(
-                                '${product.size} . $rupeeSymbol${product.price}',
+                                '${product.size} ・ $rupeeSymbol${product.price}',
                                 style: AppTheme.textStyle.color50
                                     .size(13)
                                     .lineHeight(1.33)
@@ -265,28 +281,6 @@ class _ProductItemRowState extends State<ProductItemRow> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget getProductRow(Product product, String statusText) {
-    if (product.imageUrl != null &&
-        product.imageUrl != "" &&
-        product.imageUrl.startsWith("https://")) {
-      return getRowWithProductImage(product, statusText);
-    } else {
-      return getRowWithoutProductImage(product, statusText);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Product product = widget.product;
-    String statusText = _switchValue ? "Available" : "Not Available";
-    return GestureDetector(
-      onTap: () {
-        widget.onOpen();
-      },
-      child: Container(child: this.getProductRow(product, statusText)),
     );
   }
 }
