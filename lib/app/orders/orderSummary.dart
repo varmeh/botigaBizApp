@@ -103,19 +103,12 @@ class OrderSummary extends StatelessWidget {
             ],
           ),
         ),
-        (orderDetail.order.isDelivered == false ||
-                (orderDetail.order.isCancelled == true &&
-                    orderDetail.refund != null &&
-                    orderDetail.refund.isSuccess == false))
-            ? Padding(
-                padding: const EdgeInsets.only(top: 27, bottom: 24),
-                child: ContactWidget(
-                    whatsapp: orderDetail.buyer.whatsapp,
-                    phone: orderDetail.buyer.phone),
-              )
-            : SizedBox(
-                height: 27,
-              ),
+        Padding(
+          padding: const EdgeInsets.only(top: 24, bottom: 24),
+          child: ContactWidget(
+              whatsapp: orderDetail.buyer.whatsapp,
+              phone: orderDetail.buyer.phone),
+        ),
       ],
     );
   }
