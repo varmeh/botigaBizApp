@@ -391,6 +391,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                                 BorderRadius.circular(10),
                                           ),
                                         ),
+                                        SizedBox(width: 20),
                                         Expanded(
                                           child: Column(
                                             mainAxisAlignment:
@@ -410,7 +411,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                                   size: 17,
                                                 ),
                                                 height: 44,
-                                                width: 135,
                                               ),
                                               PassiveButton(
                                                 title: "Remove",
@@ -423,7 +423,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                                   size: 17,
                                                 ),
                                                 height: 44,
-                                                width: 135,
                                               )
                                             ],
                                           ),
