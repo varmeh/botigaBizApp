@@ -181,7 +181,6 @@ class DeliveryRow extends StatelessWidget {
                                 ),
                                 Container(
                                   width: 85,
-                                  height: 32,
                                   child: Text(
                                     'Out for delivery',
                                     textAlign: TextAlign.center,
@@ -231,7 +230,6 @@ class DeliveryRow extends StatelessWidget {
                                 ),
                                 Container(
                                   width: 85,
-                                  height: 32,
                                   child: Text(
                                     'Delivered',
                                     textAlign: TextAlign.center,
