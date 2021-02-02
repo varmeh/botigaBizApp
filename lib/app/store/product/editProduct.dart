@@ -678,7 +678,7 @@ class _EditProductState extends State<EditProduct>
         width: 20,
       ),
       height: 44,
-      width: 135,
+      // width: 135,
     );
   }
 
@@ -694,7 +694,7 @@ class _EditProductState extends State<EditProduct>
         width: 20,
       ),
       height: 44,
-      width: 135,
+      // width: 135,
     );
   }
 
@@ -788,6 +788,7 @@ class _EditProductState extends State<EditProduct>
               imageUrl: _imageUrl,
             ),
           ),
+          SizedBox(width: 20),
           getProductImageEditButtons()
         ],
       ),
