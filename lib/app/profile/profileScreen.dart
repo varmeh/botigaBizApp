@@ -1,8 +1,7 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 import '../../theme/index.dart';
-import 'Communites/index.dart' show Communities, SelectArea;
+import 'Communites/index.dart' show Communities;
 import 'Profile/profile.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -37,37 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundColor,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: slelectedTab == 1
-          ? Padding(
-              padding: EdgeInsets.only(bottom: 28.0),
-              child: OpenContainer(
-                closedColor: AppTheme.backgroundColor,
-                closedShape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                ),
-                closedElevation: 4.0,
-                transitionDuration: Duration(milliseconds: 300),
-                closedBuilder: (context, openContainer) {
-                  return FloatingActionButton.extended(
-                    backgroundColor: AppTheme.backgroundColor,
-                    elevation: 4.0,
-                    icon: const Icon(Icons.add, color: Color(0xff179F57)),
-                    label: Text('NEW COMMUNITY',
-                        style: AppTheme.textStyle
-                            .size(12)
-                            .w700
-                            .letterSpace(1)
-                            .colored(AppTheme.primaryColor)),
-                    onPressed: () {
-                      openContainer();
-                    },
-                  );
-                },
-                openBuilder: (_, __) => SelectArea(),
-              ),
-            )
-          : SizedBox.shrink(),
       appBar: AppBar(
         elevation: 0.0,
         brightness: Brightness.light,
