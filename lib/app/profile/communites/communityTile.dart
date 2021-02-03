@@ -57,53 +57,100 @@ class _CommunityTileState extends State<CommunityTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          contentPadding: EdgeInsets.all(0),
-          title: Text(widget.apt.apartmentName,
-              style:
-                  AppTheme.textStyle.w500.size(15).lineHeight(1.33).color100),
-          subtitle: Text(
-            widget.apt.apartmentArea,
-            style: AppTheme.textStyle.size(15).w500.color50.lineHeight(1.33),
-          ),
-          trailing: BotigaSwitch(
-            handleSwitchChage: (bool value) {
-              this._handleSwitchChage(value);
-            },
-            switchValue: _switchValue,
-            alignment: Alignment.topRight,
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              widget.apt.deliveryMessage,
-              style: AppTheme.textStyle.size(15).w500.color50.lineHeight(1.33),
-            ),
-            GestureDetector(
-              onTap: () => _editBottomModal(context),
-              child: Text(
-                'EDIT',
-                style: AppTheme.textStyle
-                    .size(15)
-                    .w600
-                    .colored(AppTheme.primaryColor)
-                    .lineHeight(1.33),
+    final _hasSlot =
+        widget.apt.deliverySlot != null && widget.apt.deliverySlot.isNotEmpty;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.apt.apartmentName,
+                      style: AppTheme.textStyle.w500
+                          .size(15)
+                          .lineHeight(1.33)
+                          .color100,
+                    ),
+                    SizedBox(height: 4.0),
+                    Text(
+                      widget.apt.apartmentArea,
+                      style: AppTheme.textStyle
+                          .size(15)
+                          .w500
+                          .color50
+                          .lineHeight(1.33),
+                    ),
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
-        SizedBox(
-          height: 16,
-        ),
-        Divider(
-          color: AppTheme.dividerColor,
-          thickness: 1.2,
-        )
-      ],
+              BotigaSwitch(
+                handleSwitchChage: (bool value) {
+                  this._handleSwitchChage(value);
+                },
+                switchValue: _switchValue,
+                alignment: Alignment.topRight,
+              ),
+            ],
+          ),
+          SizedBox(height: 16.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.apt.deliveryMessage,
+                    style: AppTheme.textStyle
+                        .size(15)
+                        .w500
+                        .color50
+                        .lineHeight(1.33),
+                  ),
+                  SizedBox(height: 4.0),
+                  _hasSlot
+                      ? Text(
+                          widget.apt.deliverySlot,
+                          style: AppTheme.textStyle
+                              .size(15)
+                              .w500
+                              .color50
+                              .lineHeight(1.33),
+                        )
+                      : Container(),
+                ],
+              ),
+              GestureDetector(
+                onTap: () => _editBottomModal(context),
+                child: Text(
+                  'EDIT',
+                  style: AppTheme.textStyle
+                      .size(15)
+                      .w600
+                      .colored(AppTheme.primaryColor)
+                      .lineHeight(1.33),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 16,
+          ),
+          Divider(
+            color: AppTheme.dividerColor,
+            thickness: 1.2,
+          )
+        ],
+      ),
     );
   }
 

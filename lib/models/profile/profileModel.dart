@@ -17,14 +17,15 @@ class Profile {
   Contact contact;
   List<Apartment> apartments;
 
-  Profile(
-      {this.firstName,
-      this.lastName,
-      this.businessName,
-      this.businessCategory,
-      this.brand,
-      this.contact,
-      this.apartments});
+  Profile({
+    this.firstName,
+    this.lastName,
+    this.businessName,
+    this.businessCategory,
+    this.brand,
+    this.contact,
+    this.apartments,
+  });
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);
@@ -38,7 +39,11 @@ class Brand {
   String tagline;
   String imageUrl;
 
-  Brand({this.name, this.tagline, this.imageUrl});
+  Brand({
+    this.name,
+    this.tagline,
+    this.imageUrl,
+  });
 
   factory Brand.fromJson(Map<String, dynamic> json) => _$BrandFromJson(json);
 
@@ -52,7 +57,12 @@ class Contact {
   String phone;
   Address address;
 
-  Contact({this.email, this.whatsapp, this.phone, this.address});
+  Contact({
+    this.email,
+    this.whatsapp,
+    this.phone,
+    this.address,
+  });
 
   factory Contact.fromJson(Map<String, dynamic> json) =>
       _$ContactFromJson(json);
@@ -68,13 +78,15 @@ class Address {
   String building;
   String state;
   String street;
-  Address(
-      {this.area,
-      this.pincode,
-      this.city,
-      this.building,
-      this.state,
-      this.street});
+
+  Address({
+    this.area,
+    this.pincode,
+    this.city,
+    this.building,
+    this.state,
+    this.street,
+  });
 
   factory Address.fromJson(Map<String, dynamic> json) =>
       _$AddressFromJson(json);
@@ -90,15 +102,18 @@ class Apartment {
   String id;
   bool live;
   String deliveryMessage;
+  String deliverySlot;
   AprtmentContact contact;
 
-  Apartment(
-      {this.apartmentName,
-      this.apartmentArea,
-      this.id,
-      this.live,
-      this.deliveryMessage,
-      this.contact});
+  Apartment({
+    this.apartmentName,
+    this.apartmentArea,
+    this.id,
+    this.live,
+    this.deliveryMessage,
+    this.deliverySlot,
+    this.contact,
+  });
 
   factory Apartment.fromJson(Map<String, dynamic> json) =>
       _$ApartmentFromJson(json);
@@ -112,7 +127,11 @@ class AprtmentContact {
   String whatsapp;
   String phone;
 
-  AprtmentContact({this.email, this.whatsapp, this.phone});
+  AprtmentContact({
+    this.email,
+    this.whatsapp,
+    this.phone,
+  });
 
   factory AprtmentContact.fromJson(Map<String, dynamic> json) =>
       _$AprtmentContactFromJson(json);
