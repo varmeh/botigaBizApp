@@ -81,62 +81,8 @@ class _CommunityTileState extends State<CommunityTile> {
             ),
             child: InkWell(
               onTap: () {
-                setState(() {
-                  _deliveryType = 'duration';
-                });
-
-                BotigaBottomModal(
-                  isDismissible: true,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      BotigaAppBar('Fixed duration'),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text('Deliver order in',
-                          style: AppTheme.textStyle.color100.size(17).w700),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        child: ListWheelScrollViewFixedDuration(
-                            setDeliveryDays: setDeliveryDays),
-                      ),
-                      SizedBox(
-                        height: 60,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: SizedBox(
-                              height: 52,
-                              child: FlatButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    6.0,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  widget.updateDeliverySchedule(
-                                      _apartmentId, _deliveryType, _day);
-                                },
-                                textColor: AppTheme.backgroundColor,
-                                color: AppTheme.primaryColor,
-                                child: Text('Done',
-                                    style: AppTheme.textStyle
-                                        .colored(AppTheme.backgroundColor)
-                                        .size(15)
-                                        .w600),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ).show(context);
+                setState(() => _deliveryType = 'duration');
+                _deliverScheduleModal(context);
               },
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -177,62 +123,8 @@ class _CommunityTileState extends State<CommunityTile> {
             ),
             child: InkWell(
               onTap: () {
-                setState(() {
-                  _deliveryType = 'day';
-                });
-
-                BotigaBottomModal(
-                  isDismissible: true,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      BotigaAppBar('Fixed day'),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text('Deliver order every',
-                          style: AppTheme.textStyle.color100.size(17).w700),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
-                        child: ListWheelScrollViewFixedDay(
-                            setDeliveryDays: setDeliveryDays),
-                      ),
-                      SizedBox(
-                        height: 60,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: SizedBox(
-                              height: 52,
-                              child: FlatButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    6.0,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  widget.updateDeliverySchedule(
-                                      _apartmentId, _deliveryType, _day);
-                                },
-                                textColor: AppTheme.backgroundColor,
-                                color: AppTheme.primaryColor,
-                                child: Text('Done',
-                                    style: AppTheme.textStyle
-                                        .colored(AppTheme.backgroundColor)
-                                        .size(15)
-                                        .w600),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ).show(context);
+                setState(() => _deliveryType = 'day');
+                _deliverScheduleModal(context);
               },
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -385,5 +277,70 @@ class _CommunityTileState extends State<CommunityTile> {
         )
       ],
     );
+  }
+
+  void _deliverScheduleModal(BuildContext context) {
+    bool _isFixedDuration = _deliveryType == 'duration';
+    const _sizedBox20 = SizedBox(height: 20);
+    final _appBar = _isFixedDuration ? 'Fixed duration' : 'Fixed day';
+
+    final _deliveryMessage =
+        _isFixedDuration ? 'Deliver order in' : 'Deliver order every';
+
+    BotigaBottomModal(
+      isDismissible: true,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          BotigaAppBar(_appBar),
+          _sizedBox20,
+          Text(
+            _deliveryMessage,
+            style: AppTheme.textStyle.color100.size(17).w700,
+          ),
+          _sizedBox20,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.45,
+            child: _isFixedDuration
+                ? ListWheelScrollViewFixedDuration(
+                    setDeliveryDays: setDeliveryDays)
+                : ListWheelScrollViewFixedDay(setDeliveryDays: setDeliveryDays),
+          ),
+          SizedBox(height: 60),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: SizedBox(
+                  height: 52,
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        6.0,
+                      ),
+                    ),
+                    onPressed: () {
+                      widget.updateDeliverySchedule(
+                        _apartmentId,
+                        _deliveryType,
+                        _day,
+                      );
+                    },
+                    textColor: AppTheme.backgroundColor,
+                    color: AppTheme.primaryColor,
+                    child: Text(
+                      'Done',
+                      style: AppTheme.textStyle
+                          .colored(AppTheme.backgroundColor)
+                          .size(15)
+                          .w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ).show(context);
   }
 }
