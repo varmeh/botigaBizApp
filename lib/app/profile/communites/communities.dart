@@ -46,7 +46,7 @@ class _CommunitiesState extends State<Communities> {
   }
 
   void updateDeliverySchedule(
-      String _apartmentId, String _deliveryType, int _day) async {
+      String _apartmentId, String _deliveryType, int _day, String _slot) async {
     try {
       Navigator.of(context).popUntil(ModalRoute.withName(HomeScreen.routeName));
       final profileProvider =
@@ -55,7 +55,7 @@ class _CommunitiesState extends State<Communities> {
         isLoading = true;
       });
       await profileProvider.updateApartmentDeliveryScheduled(
-          _apartmentId, _deliveryType, _day);
+          _apartmentId, _deliveryType, _day, _slot);
       await profileProvider.fetchProfile();
       Toast(
         message: 'Delivery scheduled updated',

@@ -147,11 +147,12 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future updateApartmentDeliveryScheduled(
-      String apartmentId, String deliveryType, int day) async {
+      String apartmentId, String deliveryType, int day, String slot) async {
     return Http.patch('/api/seller/apartments/delivery', body: {
       'apartmentId': apartmentId,
       'deliveryType': deliveryType,
-      'day': day
+      'day': day,
+      'slot': slot,
     });
   }
 
