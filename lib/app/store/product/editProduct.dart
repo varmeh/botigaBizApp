@@ -477,8 +477,9 @@ class _EditProductState extends State<EditProduct>
         _name = product.name;
         _price = double.parse(product.price.toString());
         if (product.mrp != null) {
-          _mrpController.text = product.mrp.toString();
-          _mrp = product.mrp;
+          _mrpController.text =
+              product.mrp.toString(); // used to set initial value of mrp
+          _mrp = product.mrp; // used for validation in isFormEdited()
         }
         _quantity = double.parse(productSpec.elementAt(0));
         _selectedUnit = productSpec.elementAt(1);
