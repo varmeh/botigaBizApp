@@ -94,7 +94,7 @@ class DeliveryRow extends StatelessWidget {
                         RichText(
                           text: TextSpan(
                             text:
-                                '#${delivery.order.number} • ${delivery.order.products.length} ITEMS',
+                                '#${delivery.order.number} • ${delivery.order.products.length} ITEM${delivery.order.products.length > 1 ? 'S' : ''}',
                             style: AppTheme.textStyle.color50.w500.size(13),
                             children: <TextSpan>[
                               TextSpan(

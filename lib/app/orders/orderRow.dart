@@ -42,7 +42,8 @@ class OrderRow extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Flexible(
-                      child: Text('#$number .$productsLength ITEMS',
+                      child: Text(
+                          '#$number • $productsLength ITEM${productsLength > 1 ? 'S' : ''}',
                           style: AppTheme.textStyle.color100.w600
                               .size(15)
                               .letterSpace(1)),
