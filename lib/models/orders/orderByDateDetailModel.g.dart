@@ -109,8 +109,8 @@ PaymentModel _$PaymentModelFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$PaymentModelToJson(PaymentModel instance) =>
     <String, dynamic>{
-      'paymentId': instance.paymentId,
       'status': instance.status,
+      'paymentId': instance.paymentId,
       'paymentMode': instance.paymentMode,
     };
 

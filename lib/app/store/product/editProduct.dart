@@ -28,11 +28,14 @@ class EditProduct extends StatefulWidget {
   final String categoryId;
   final String categoryName;
   final bool showWithImage;
-  EditProduct(
-      {this.productId,
-      this.categoryId,
-      this.categoryName,
-      this.showWithImage = false});
+
+  EditProduct({
+    this.productId,
+    this.categoryId,
+    this.categoryName,
+    this.showWithImage = false,
+  });
+
   static const routeName = 'edit-product';
   @override
   _EditProductState createState() => _EditProductState();
@@ -43,11 +46,14 @@ class _EditProductState extends State<EditProduct>
   File _imageFile;
   TextEditingController maxWidthController,
       maxHeightController,
-      qualityController;
+      qualityController,
+      _mrpController;
+
   GlobalKey<FormState> _formKey;
   bool _isInit;
   String _name;
   double _price;
+  double _mrp;
   double _quantity;
   String _selectedUnit;
   String _seletedCategory;
@@ -58,6 +64,7 @@ class _EditProductState extends State<EditProduct>
   String uploadurl = '', downloadUrl = '', _imageUrl = '';
   bool isSaving;
   FocusNode _nameFocusNode,
+      _mrpFocusNode,
       _priceFocusNode,
       _quantityFocusNode,
       _descriptionFocusNode;
@@ -74,8 +81,11 @@ class _EditProductState extends State<EditProduct>
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
+    _mrpController = TextEditingController();
+
     _isInit = false;
     _nameFocusNode = FocusNode();
+    _mrpFocusNode = FocusNode();
     _priceFocusNode = FocusNode();
     _quantityFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
@@ -102,8 +112,10 @@ class _EditProductState extends State<EditProduct>
     maxWidthController.dispose();
     maxHeightController.dispose();
     qualityController.dispose();
+    _mrpController.dispose();
 
     _nameFocusNode.dispose();
+    _mrpFocusNode.dispose();
     _priceFocusNode.dispose();
     _quantityFocusNode.dispose();
     _descriptionFocusNode.dispose();
@@ -113,6 +125,8 @@ class _EditProductState extends State<EditProduct>
 
   @override
   Widget build(BuildContext context) {
+    final _sizedBox26 = SizedBox(height: 26);
+
     return LoaderOverlay(
       isLoading: isSaving,
       child: GestureDetector(
@@ -135,7 +149,7 @@ class _EditProductState extends State<EditProduct>
                             style: AppTheme.textStyle.w500.color100,
                           ),
                           content: Text(
-                            'Are you sure you want to delete this product ?',
+                            'Are you sure you want to delete this product?',
                             style: AppTheme.textStyle.w400.color100,
                           ),
                           actions: [
@@ -179,7 +193,7 @@ class _EditProductState extends State<EditProduct>
                 color: AppTheme.backgroundColor,
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
                 child: Row(
-                  children: <Widget>[
+                  children: [
                     Expanded(
                       child: SizedBox(
                           height: 52,
@@ -205,21 +219,19 @@ class _EditProductState extends State<EditProduct>
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    children: <Widget>[
+                    children: [
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 10),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
+                          children: [
                             _imageFile != null
                                 ? getSelectedImageContainer()
                                 : _showWithImage == false
                                     ? getSelectImageContainer()
                                     : getNetworkImage(),
-                            SizedBox(
-                              height: 26,
-                            ),
+                            _sizedBox26,
                             BotigaTextFieldForm(
                                 initialValue: _name,
                                 focusNode: _nameFocusNode,
@@ -228,9 +240,7 @@ class _EditProductState extends State<EditProduct>
                                 onChange: (_) => handleFormChange(),
                                 validator: emptyValidator,
                                 nextFocusNode: _priceFocusNode),
-                            SizedBox(
-                              height: 26,
-                            ),
+                            _sizedBox26,
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(3.5),
@@ -253,30 +263,53 @@ class _EditProductState extends State<EditProduct>
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 26,
-                            ),
+                            _sizedBox26,
                             BotigaTextFieldForm(
-                                initialValue: _price.toString(),
-                                icon: BotigaIcons.rupee,
-                                iconSize: 14.0,
-                                focusNode: _priceFocusNode,
-                                labelText: 'Price',
-                                keyboardType: TextInputType.datetime,
-                                onSave: (value) => _price = double.parse(value),
-                                onChange: (_) => handleFormChange(),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Required';
-                                  } else if (double.tryParse(value) == null) {
-                                    return 'Please use numbers for price';
-                                  }
-                                  return null;
-                                },
-                                nextFocusNode: _quantityFocusNode),
-                            SizedBox(
-                              height: 26,
+                              icon: BotigaIcons.rupee,
+                              iconSize: 14.0,
+                              focusNode: _mrpFocusNode,
+                              textEditingController: _mrpController,
+                              labelText: 'MRP (Optional)',
+                              keyboardType: TextInputType.datetime,
+                              onSave: (value) {
+                                if (value.isNotEmpty)
+                                  _mrp = double.parse(value);
+                              },
+                              onChange: (_) => handleFormChange(),
+                              validator: (value) {
+                                if (value.isNotEmpty &&
+                                    double.tryParse(value) == null) {
+                                  return 'Please use numbers for price';
+                                }
+                                return null;
+                              },
+                              nextFocusNode: _priceFocusNode,
                             ),
+                            _sizedBox26,
+                            BotigaTextFieldForm(
+                              initialValue: _price.toString(),
+                              icon: BotigaIcons.rupee,
+                              iconSize: 14.0,
+                              focusNode: _priceFocusNode,
+                              labelText: 'Price',
+                              keyboardType: TextInputType.datetime,
+                              onSave: (value) => _price = double.parse(value),
+                              onChange: (_) => handleFormChange(),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Required';
+                                } else if (double.tryParse(value) == null) {
+                                  return 'Please use numbers for price';
+                                } else if (_mrpController.text.isNotEmpty &&
+                                    double.parse(_mrpController.text) <=
+                                        double.tryParse(value)) {
+                                  return 'Selling Price should be lower than MRP';
+                                }
+                                return null;
+                              },
+                              nextFocusNode: _quantityFocusNode,
+                            ),
+                            _sizedBox26,
                             BotigaTextFieldForm(
                               initialValue: _quantity.toString(),
                               focusNode: _quantityFocusNode,
@@ -304,7 +337,7 @@ class _EditProductState extends State<EditProduct>
                           height: 44,
                           child: ListView(
                             scrollDirection: Axis.horizontal,
-                            children: <Widget>[
+                            children: [
                               ...['kg', 'gms', 'lt', 'ml', 'piece', 'pieces']
                                   .map(
                                 (val) {
@@ -352,7 +385,7 @@ class _EditProductState extends State<EditProduct>
                           width: double.infinity,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
+                            children: [
                               Text(
                                 'Add description',
                                 style:
@@ -423,7 +456,8 @@ class _EditProductState extends State<EditProduct>
           quantity == _quantity &&
           selectedUnit == _selectedUnit &&
           product.description == description &&
-          _imageFile == null) {
+          _imageFile == null &&
+          product.mrp == _mrp) {
         isEdited = false;
       }
     }
@@ -442,6 +476,10 @@ class _EditProductState extends State<EditProduct>
         _imageUrl = product.imageUrl;
         _name = product.name;
         _price = double.parse(product.price.toString());
+        if (product.mrp != null) {
+          _mrpController.text = product.mrp.toString();
+          _mrp = product.mrp;
+        }
         _quantity = double.parse(productSpec.elementAt(0));
         _selectedUnit = productSpec.elementAt(1);
         _switchValue =
@@ -520,9 +558,7 @@ class _EditProductState extends State<EditProduct>
 
   void _getPreSignedUrl() async {
     try {
-      setState(() {
-        isSaving = true;
-      });
+      setState(() => isSaving = true);
       final value = await Provider.of<ServicesProvider>(context, listen: false)
           .getPresignedImageUrl();
       setState(() {
@@ -532,9 +568,7 @@ class _EditProductState extends State<EditProduct>
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
-      setState(() {
-        isSaving = false;
-      });
+      setState(() => isSaving = false);
     }
   }
 
@@ -542,9 +576,7 @@ class _EditProductState extends State<EditProduct>
     if (file == null) {
       return;
     }
-    setState(() {
-      isSaving = true;
-    });
+    setState(() => isSaving = true);
     try {
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
@@ -554,9 +586,7 @@ class _EditProductState extends State<EditProduct>
       });
       Toast(message: 'Something went wrong!').show(context);
     } finally {
-      setState(() {
-        isSaving = false;
-      });
+      setState(() => isSaving = false);
     }
   }
 
@@ -565,9 +595,7 @@ class _EditProductState extends State<EditProduct>
       width: 180,
       height: 135,
       onImageSelection: (imageFile) {
-        setState(() {
-          _imageFile = imageFile;
-        });
+        setState(() => _imageFile = imageFile);
         this._handleImageUpload(imageFile);
       },
     ).show(context);
@@ -575,40 +603,39 @@ class _EditProductState extends State<EditProduct>
 
   void _handleProductEdit() async {
     try {
-      setState(() {
-        isSaving = true;
-      });
+      setState(() => isSaving = true);
+
       final _productDescription = _switchValue == true ? _description : '';
       final updateImage = _imageFile != null ? true : false;
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
+
       await productProvider.updateProduct(
-          _seletedCategoryId,
-          _productId,
-          _name,
-          _price,
-          _quantity,
-          _selectedUnit,
-          downloadUrl,
-          _productDescription,
-          _available,
-          updateImage);
+        categoryId: _seletedCategoryId,
+        productId: _productId,
+        name: _name,
+        price: _price,
+        mrp: _mrp,
+        quantity: _quantity,
+        unit: _selectedUnit,
+        imageUrl: downloadUrl,
+        description: _productDescription,
+        availableStatus: _available,
+        updateImagurl: updateImage,
+      );
+
       await productProvider.fetchProducts();
       BotigaBottomModal(child: editSuccessful()).show(context);
     } catch (error) {
       Toast(message: Http.message(error)).show(context);
     } finally {
-      setState(() {
-        isSaving = false;
-      });
+      setState(() => isSaving = false);
     }
   }
 
   void _handleDelete() async {
     try {
-      setState(() {
-        isSaving = true;
-      });
+      setState(() => isSaving = true);
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.deleteProduct(
@@ -620,9 +647,7 @@ class _EditProductState extends State<EditProduct>
     } catch (error) {
       Toast(message: Http.message(error)).show(context);
     } finally {
-      setState(() {
-        isSaving = false;
-      });
+      setState(() => isSaving = false);
     }
   }
 
@@ -630,39 +655,35 @@ class _EditProductState extends State<EditProduct>
     final serviceProvider =
         Provider.of<ServicesProvider>(context, listen: false);
     try {
-      setState(() {
-        isSaving = true;
-      });
+      setState(() => isSaving = true);
       if (_imageFile == null) {
         final productProvider =
             Provider.of<ProductProvider>(context, listen: false);
+
         await productProvider.updateProduct(
-            _seletedCategoryId,
-            _productId,
-            _name,
-            _price,
-            _quantity,
-            _selectedUnit,
-            "",
-            _description,
-            _available,
-            true);
+          categoryId: _seletedCategoryId,
+          productId: _productId,
+          name: _name,
+          price: _price,
+          mrp: _mrp,
+          quantity: _quantity,
+          unit: _selectedUnit,
+          imageUrl: "",
+          description: _description,
+          availableStatus: _available,
+          updateImagurl: true,
+        );
+
         await productProvider.fetchProducts();
-        setState(() {
-          _showWithImage = false;
-        });
+        setState(() => _showWithImage = false);
       } else {
         await serviceProvider.deleteImageFromS3(downloadUrl);
-        setState(() {
-          _imageFile = null;
-        });
+        setState(() => _imageFile = null);
       }
     } catch (err) {
       Toast(message: "Unable to delete image").show(context);
     } finally {
-      setState(() {
-        isSaving = false;
-      });
+      setState(() => isSaving = false);
     }
   }
 
@@ -723,7 +744,7 @@ class _EditProductState extends State<EditProduct>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
+        children: [
           FlatButton.icon(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),

@@ -92,18 +92,20 @@ class ProductProvider with ChangeNotifier {
     });
   }
 
-  Future updateProduct(
-      String categoryId,
-      String productId,
-      String name,
-      double price,
-      double quantity,
-      String unit,
-      String imageUrl,
-      String description,
-      bool availableStatus,
-      bool updateImagurl) async {
-    return Http.patch('/api/seller/products', body: {
+  Future updateProduct({
+    String categoryId,
+    String productId,
+    String name,
+    double price,
+    double mrp,
+    double quantity,
+    String unit,
+    String imageUrl,
+    String description,
+    bool availableStatus,
+    bool updateImagurl,
+  }) async {
+    final body = {
       'categoryId': categoryId,
       'productId': productId,
       'name': name,
@@ -114,7 +116,12 @@ class ProductProvider with ChangeNotifier {
       'updateImage': updateImagurl,
       'imageUrl': imageUrl,
       'description': description,
-    });
+    };
+
+    if (mrp != null) {
+      body['mrp'] = mrp;
+    }
+    return Http.patch('/api/seller/products', body: body);
   }
 
   Future deleteProduct(

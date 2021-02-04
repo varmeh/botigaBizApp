@@ -20,19 +20,24 @@ class Product {
   String id;
   String name;
   double price;
+  double mrp;
   bool available;
   String size;
   String description;
   String imageUrl;
+  String tag;
 
-  Product(
-      {this.id,
-      this.name,
-      this.price,
-      this.available,
-      this.size,
-      this.description = '',
-      this.imageUrl});
+  Product({
+    this.id,
+    this.name,
+    this.price,
+    this.mrp,
+    this.available,
+    this.size,
+    this.description = '',
+    this.imageUrl,
+    this.tag,
+  });
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);
