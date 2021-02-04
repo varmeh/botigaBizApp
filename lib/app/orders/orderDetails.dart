@@ -202,7 +202,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       child: Container(
         padding: EdgeInsets.all(10),
         child: Row(
-          children: <Widget>[
+          children: [
             Expanded(
               child: SizedBox(
                 height: 52,
@@ -241,6 +241,10 @@ class _OrderDetailsState extends State<OrderDetails> {
     final apartmentName = routeArgs['apartmentName'];
     final apartmentId = routeArgs['apartmentId'];
     final selectedDateForRequest = routeArgs['selectedDateForRequest'];
+    final divider = Divider(
+      color: AppTheme.dividerColor,
+      thickness: 4,
+    );
 
     OrderByDateDetail orderDetail = (routeArgs['flowType'] == 'order')
         ? ordersProvider.getOrderDetails(id)
@@ -322,167 +326,147 @@ class _OrderDetailsState extends State<OrderDetails> {
           child: Container(
             color: AppTheme.backgroundColor,
             child: ListView(
-              children: <Widget>[
+              children: [
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 20.0,
-                    right: 20,
+                    right: 20.0,
+                    bottom: 24.0,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      OrderSummary(orderDetail, apartmentName)
-                    ],
+                  child: OrderSummary(orderDetail, apartmentName),
+                ),
+                divider,
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 16.0,
+                  ),
+                  child: ContactWidget(
+                    whatsapp: orderDetail.buyer.whatsapp,
+                    phone: orderDetail.buyer.phone,
                   ),
                 ),
-                Divider(
-                  color: AppTheme.dividerColor,
-                  thickness: 4,
-                ),
+                divider,
                 OrderStatusWidget(orderDetails: orderDetail),
-                Divider(
-                  color: AppTheme.dividerColor,
-                  thickness: 4,
-                ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      OrderListSummary(orderDetail),
-                      SizedBox(
-                        height: 87,
-                      ),
-                      (orderDetail.order.isOpen == true ||
-                              orderDetail.order.isDelayed == true)
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 20, bottom: 40),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    width: 90,
-                                    height: 128,
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.backgroundColor,
-                                      borderRadius: BorderRadius.circular(12),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppTheme.color100
-                                              .withOpacity(0.12),
-                                          blurRadius: 40.0, // soften the shadow
-                                          spreadRadius: 0.0, //extend the shadow
-                                          offset: Offset(
-                                            0.0, // Move to right 10  horizontally
-                                            0.0, // Move to bottom 10 Vertically
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    child: InkWell(
-                                      onTap: () {
-                                        getBotigaCalendar(
-                                          context,
-                                          DateTime.now(),
-                                          DateTime.now()
-                                              .add(const Duration(days: 90)),
-                                          DateTime.now(),
-                                          (DateTime date) {
-                                            handleMarkAsDelayOrders(
-                                                id,
-                                                date,
-                                                apartmentId,
-                                                selectedDateForRequest);
-                                          },
-                                        );
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Icon(BotigaIcons.delay),
-                                            Text(
-                                              'Mark as delay',
-                                              textAlign: TextAlign.center,
-                                              style: AppTheme
-                                                  .textStyle.color100.w500
-                                                  .size(12)
-                                                  .letterSpace(0.2),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 24,
-                                  ),
-                                  Container(
-                                    width: 90,
-                                    height: 128,
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.backgroundColor,
-                                      borderRadius: BorderRadius.circular(12),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: AppTheme.color100
-                                              .withOpacity(0.12),
-                                          blurRadius: 40.0, // soften the shadow
-                                          spreadRadius: 0.0, //extend the shadow
-                                          offset: Offset(
-                                            0.0, // Move to right 10  horizontally
-                                            0.0, // Move to bottom 10 Vertically
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    child: InkWell(
-                                      onTap: () {
-                                        handleOutForDelivery(
-                                            id,
-                                            apartmentName,
-                                            apartmentId,
-                                            selectedDateForRequest);
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Icon(
-                                              BotigaIcons.truck,
-                                              color: AppTheme.primaryColor,
-                                              size: 34,
-                                            ),
-                                            Text(
-                                              'Out for delivery',
-                                              textAlign: TextAlign.center,
-                                              style: AppTheme.textStyle
-                                                  .colored(
-                                                      AppTheme.primaryColor)
-                                                  .w500
-                                                  .size(12)
-                                                  .letterSpace(0.3),
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                divider,
+                OrderListSummary(orderDetail),
+                SizedBox(height: 87),
+                (orderDetail.order.isOpen == true ||
+                        orderDetail.order.isDelayed == true)
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, bottom: 40),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 90,
+                              height: 128,
+                              decoration: BoxDecoration(
+                                color: AppTheme.backgroundColor,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppTheme.color100.withOpacity(0.12),
+                                    blurRadius: 40.0, // soften the shadow
+                                    spreadRadius: 0.0, //extend the shadow
+                                    offset: Offset(
+                                      0.0, // Move to right 10  horizontally
+                                      0.0, // Move to bottom 10 Vertically
                                     ),
                                   )
                                 ],
                               ),
+                              child: InkWell(
+                                onTap: () {
+                                  getBotigaCalendar(
+                                    context,
+                                    DateTime.now(),
+                                    DateTime.now()
+                                        .add(const Duration(days: 90)),
+                                    DateTime.now(),
+                                    (DateTime date) {
+                                      handleMarkAsDelayOrders(id, date,
+                                          apartmentId, selectedDateForRequest);
+                                    },
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(BotigaIcons.delay),
+                                      Text(
+                                        'Mark as delay',
+                                        textAlign: TextAlign.center,
+                                        style: AppTheme.textStyle.color100.w500
+                                            .size(12)
+                                            .letterSpace(0.2),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 24,
+                            ),
+                            Container(
+                              width: 90,
+                              height: 128,
+                              decoration: BoxDecoration(
+                                color: AppTheme.backgroundColor,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppTheme.color100.withOpacity(0.12),
+                                    blurRadius: 40.0, // soften the shadow
+                                    spreadRadius: 0.0, //extend the shadow
+                                    offset: Offset(
+                                      0.0, // Move to right 10  horizontally
+                                      0.0, // Move to bottom 10 Vertically
+                                    ),
+                                  )
+                                ],
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  handleOutForDelivery(id, apartmentName,
+                                      apartmentId, selectedDateForRequest);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        BotigaIcons.truck,
+                                        color: AppTheme.primaryColor,
+                                        size: 34,
+                                      ),
+                                      Text(
+                                        'Out for delivery',
+                                        textAlign: TextAlign.center,
+                                        style: AppTheme.textStyle
+                                            .colored(AppTheme.primaryColor)
+                                            .w500
+                                            .size(12)
+                                            .letterSpace(0.3),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                             )
-                          : SizedBox.shrink(),
-                    ],
-                  ),
-                )
+                          ],
+                        ),
+                      )
+                    : SizedBox.shrink()
               ],
             ),
           ),

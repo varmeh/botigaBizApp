@@ -103,12 +103,6 @@ class OrderSummary extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 24, bottom: 24),
-          child: ContactWidget(
-              whatsapp: orderDetail.buyer.whatsapp,
-              phone: orderDetail.buyer.phone),
-        ),
       ],
     );
   }

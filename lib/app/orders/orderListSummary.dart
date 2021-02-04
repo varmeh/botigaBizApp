@@ -18,7 +18,7 @@ class OrderListSummary extends StatelessWidget {
           padding:
               const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
           child: Text(
-            '${orderDetail.order.products.length} Items',
+            '${orderDetail.order.products.length} Item${orderDetail.order.products.length > 1 ? 's' : ''}',
             style: AppTheme.textStyle.color100.w500.size(12).letterSpace(.02),
           ),
         ),
