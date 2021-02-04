@@ -31,7 +31,8 @@ class OrderStatusWidget extends StatelessWidget {
     // Order Payment Message
     if (orderDetails.payment.isSuccess) {
       paymentStatus = ImageStatus.success;
-      paymentTitle = 'Paid via ${orderDetails.payment.paymentMode}';
+      paymentTitle =
+          'Paid via ${orderDetails.payment.paymentMode.toUpperCase()}';
     } else {
       paymentStatus = ImageStatus.failure;
       paymentTitle = 'Payment Failed';

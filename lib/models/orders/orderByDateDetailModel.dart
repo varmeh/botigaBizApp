@@ -32,13 +32,14 @@ class Order {
   double totalAmount;
   List<Product> products;
 
-  Order(
-      {this.expectedDeliveryDate,
-      this.number,
-      this.orderDate,
-      this.products,
-      this.status,
-      this.totalAmount});
+  Order({
+    this.expectedDeliveryDate,
+    this.number,
+    this.orderDate,
+    this.products,
+    this.status,
+    this.totalAmount,
+  });
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
 
@@ -111,18 +112,13 @@ class Buyer {
 
 @JsonSerializable()
 class PaymentModel {
-  @JsonKey(name: 'paymentId')
-  final String id;
   final String status;
-  final String txnId;
-  final DateTime txnDate;
+  final String paymentId;
   final String paymentMode;
 
   PaymentModel({
-    this.id,
     this.status,
-    this.txnId,
-    this.txnDate,
+    this.paymentId,
     this.paymentMode,
   });
 

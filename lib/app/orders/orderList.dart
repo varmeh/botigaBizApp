@@ -256,7 +256,7 @@ class _OrderListState extends State<OrderList> {
                                               },
                                             );
                                           },
-                                          orderRow.order,
+                                          orderRow,
                                         );
                                       })
                                     ],
