@@ -30,13 +30,15 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   File _imageFile;
   TextEditingController maxWidthController,
       maxHeightController,
-      qualityController;
+      qualityController,
+      _mrpController;
 
   GlobalKey<FormState> _formKey;
 
   bool _isInit;
   String _name;
   double _price;
+  double _mrp;
   double _quantity;
   String _selectedQuantity;
   String _seletedCategory;
@@ -47,6 +49,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   bool isSaving;
 
   FocusNode _nameFocusNode,
+      _mrpFocusNode,
       _priceFocusNode,
       _quantityFocusNode,
       _descriptionFocusNode;
@@ -60,6 +63,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     maxWidthController = TextEditingController();
     maxHeightController = TextEditingController();
     qualityController = TextEditingController();
+    _mrpController = TextEditingController();
 
     _isInit = false;
     _switchValue = false;
@@ -72,6 +76,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     _description = '';
 
     _nameFocusNode = FocusNode();
+    _mrpFocusNode = FocusNode();
     _priceFocusNode = FocusNode();
     _quantityFocusNode = FocusNode();
     _descriptionFocusNode = FocusNode();
@@ -89,8 +94,10 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     maxWidthController.dispose();
     maxHeightController.dispose();
     qualityController.dispose();
+    _mrpController.dispose();
 
     _nameFocusNode.dispose();
+    _mrpFocusNode.dispose();
     _priceFocusNode.dispose();
     _quantityFocusNode.dispose();
     _descriptionFocusNode.dispose();
@@ -156,9 +163,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
 
   void _getPreSignedUrl() async {
     try {
-      setState(() {
-        isSaving = true;
-      });
+      setState(() => isSaving = true);
       final value = await Provider.of<ServicesProvider>(context, listen: false)
           .getPresignedImageUrl();
       setState(() {
@@ -168,9 +173,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
-      setState(() {
-        isSaving = false;
-      });
+      setState(() => isSaving = false);
     }
   }
 
@@ -179,25 +182,19 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
       return;
     }
     try {
-      setState(() {
-        isSaving = true;
-      });
+      setState(() => isSaving = true);
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadImageToS3(uploadurl, file);
     } catch (err) {
-      setState(() {
-        _imageFile = null;
-      });
+      setState(() => _imageFile = null);
       Toast(message: 'Something went wrong!').show(context);
     } finally {
-      setState(() {
-        isSaving = false;
-      });
+      setState(() => isSaving = false);
     }
   }
 
   void showCategories() {
-    List<Widget> widgets = [];
+    List widgets = [];
     final categories =
         Provider.of<CategoryProvider>(context, listen: false).allCategories;
     for (final category in categories) {
@@ -237,7 +234,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text('Select category',
                     style: AppTheme.textStyle.color100.w700.size(22)),
                 SizedBox(
@@ -272,46 +269,48 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
 
   void _handleProductSave() async {
     try {
-      setState(() {
-        isSaving = true;
-      });
+      setState(() => isSaving = true);
       final saveImageUrl = _imageFile != null ? downloadUrl : '';
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
-      await productProvider.saveProduct(_seletedCategoryId, _name, _price,
-          _quantity, _selectedQuantity, saveImageUrl, _description);
+      await productProvider.saveProduct(
+        categoryId: _seletedCategoryId,
+        name: _name,
+        price: _price,
+        quantity: _quantity,
+        unit: _selectedQuantity,
+        imageUrl: saveImageUrl,
+        description: _description,
+        mrp: _mrp,
+      );
       await productProvider.fetchProducts();
       BotigaBottomModal(child: addProductSuccessful()).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
     } finally {
-      setState(() {
-        isSaving = false;
-      });
+      setState(() => isSaving = false);
     }
   }
 
   void _handleImageDelete() async {
     try {
-      setState(() {
-        isSaving = true;
-      });
+      setState(() => isSaving = true);
       await Provider.of<ServicesProvider>(context, listen: false)
           .deleteImageFromS3(downloadUrl);
       setState(() {
         _imageFile = null;
       });
     } catch (err) {
-      Toast(message: "Unable to delete image").show(context);
+      Toast(message: 'Unable to delete image').show(context);
     } finally {
-      setState(() {
-        isSaving = false;
-      });
+      setState(() => isSaving = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    const _sizedBox26 = SizedBox(height: 26);
+
     return LoaderOverlay(
       isLoading: isSaving,
       child: GestureDetector(
@@ -326,7 +325,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                 color: AppTheme.backgroundColor,
                 padding: EdgeInsets.all(10),
                 child: Row(
-                  children: <Widget>[
+                  children: [
                     Expanded(
                       child: SizedBox(
                         height: 52,
@@ -360,14 +359,14 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                 child: Form(
                   key: _formKey,
                   child: Column(
-                    children: <Widget>[
+                    children: [
                       Padding(
                         padding: const EdgeInsets.only(
                             left: 20.0, right: 20, top: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
+                          children: [
                             _imageFile != null
                                 ? ConstrainedBox(
                                     constraints: BoxConstraints.tight(
@@ -400,7 +399,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               PassiveButton(
-                                                title: "Change",
+                                                title: 'Change',
                                                 onPressed: () {
                                                   showImageSelectOption(
                                                       context);
@@ -413,7 +412,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                                 height: 44,
                                               ),
                                               PassiveButton(
-                                                title: "Remove",
+                                                title: 'Remove',
                                                 onPressed: () {
                                                   _handleImageDelete();
                                                 },
@@ -447,7 +446,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                           MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
-                                      children: <Widget>[
+                                      children: [
                                         FlatButton.icon(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -462,9 +461,8 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                             child: Icon(BotigaIcons.gallery,
                                                 size: 18),
                                           ),
-                                          onPressed: () {
-                                            showImageSelectOption(context);
-                                          },
+                                          onPressed: () =>
+                                              showImageSelectOption(context),
                                           color: Colors.black.withOpacity(0.05),
                                           label: Padding(
                                             padding: const EdgeInsets.only(
@@ -481,7 +479,10 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 55, right: 55, top: 16),
+                                            left: 55,
+                                            right: 55,
+                                            top: 16,
+                                          ),
                                           child: Text(
                                             'Adding image will increase people interest in your product',
                                             textAlign: TextAlign.center,
@@ -495,18 +496,15 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                       ],
                                     ),
                                   ),
-                            SizedBox(
-                              height: 26,
-                            ),
+                            _sizedBox26,
                             BotigaTextFieldForm(
-                                focusNode: _nameFocusNode,
-                                labelText: 'Product name',
-                                onSave: (value) => _name = value,
-                                validator: emptyValidator,
-                                nextFocusNode: _priceFocusNode),
-                            SizedBox(
-                              height: 26,
+                              focusNode: _nameFocusNode,
+                              labelText: 'Product name',
+                              onSave: (value) => _name = value,
+                              validator: emptyValidator,
+                              nextFocusNode: _mrpFocusNode,
                             ),
+                            _sizedBox26,
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(3.5),
@@ -538,28 +536,50 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                       ),
                               ),
                             ),
-                            SizedBox(
-                              height: 26,
-                            ),
+                            _sizedBox26,
                             BotigaTextFieldForm(
-                                icon: BotigaIcons.rupee,
-                                iconSize: 14.0,
-                                focusNode: _priceFocusNode,
-                                labelText: 'Price',
-                                keyboardType: TextInputType.datetime,
-                                onSave: (value) => _price = double.parse(value),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Required';
-                                  } else if (double.tryParse(value) == null) {
-                                    return 'Please use numbers for price';
-                                  }
-                                  return null;
-                                },
-                                nextFocusNode: _quantityFocusNode),
-                            SizedBox(
-                              height: 26,
+                              icon: BotigaIcons.rupee,
+                              iconSize: 14.0,
+                              focusNode: _mrpFocusNode,
+                              textEditingController: _mrpController,
+                              labelText: 'MRP (Optional)',
+                              keyboardType: TextInputType.datetime,
+                              onSave: (value) {
+                                if (value.isNotEmpty)
+                                  _mrp = double.parse(value);
+                              },
+                              validator: (value) {
+                                if (value.isNotEmpty &&
+                                    double.tryParse(value) == null) {
+                                  return 'Please use numbers for price';
+                                }
+                                return null;
+                              },
+                              nextFocusNode: _priceFocusNode,
                             ),
+                            _sizedBox26,
+                            BotigaTextFieldForm(
+                              icon: BotigaIcons.rupee,
+                              iconSize: 14.0,
+                              focusNode: _priceFocusNode,
+                              labelText: 'Selling Price',
+                              keyboardType: TextInputType.datetime,
+                              onSave: (value) => _price = double.parse(value),
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return 'Required';
+                                } else if (double.tryParse(value) == null) {
+                                  return 'Please use numbers for price';
+                                } else if (_mrpController.text.isNotEmpty &&
+                                    double.parse(_mrpController.text) <=
+                                        double.tryParse(value)) {
+                                  return 'Selling Price should be lower than MRP';
+                                }
+                                return null;
+                              },
+                              nextFocusNode: _quantityFocusNode,
+                            ),
+                            _sizedBox26,
                             BotigaTextFieldForm(
                               focusNode: _quantityFocusNode,
                               labelText: 'Quantity',
@@ -585,7 +605,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                           height: 44,
                           child: ListView(
                             scrollDirection: Axis.horizontal,
-                            children: <Widget>[
+                            children: [
                               ...['kg', 'gms', 'lt', 'ml', 'piece', 'pieces']
                                   .map(
                                 (val) {
@@ -633,7 +653,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                           width: double.infinity,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
+                            children: [
                               Text(
                                 'Add description',
                                 style:

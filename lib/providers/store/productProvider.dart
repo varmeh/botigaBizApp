@@ -48,9 +48,17 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future saveProduct(String categoryId, String name, double price,
-      double quantity, String unit, String imageUrl, String description) async {
-    return Http.post('/api/seller/products', body: {
+  Future saveProduct({
+    String categoryId,
+    String name,
+    double price,
+    final mrp, // double or null
+    double quantity,
+    String unit,
+    String imageUrl,
+    String description,
+  }) async {
+    final body = {
       'categoryId': categoryId,
       'name': name,
       'price': price,
@@ -58,7 +66,13 @@ class ProductProvider with ChangeNotifier {
       'imageUrl': imageUrl,
       'description': description,
       'available': true
-    });
+    };
+
+    if (mrp != null) {
+      body['mrp'] = mrp;
+    }
+
+    return Http.post('/api/seller/products', body: body);
   }
 
   Future updateProductStatus(
