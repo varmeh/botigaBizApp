@@ -96,7 +96,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                     constraints: BoxConstraints(minHeight: 90),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,6 +118,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 _hasMrp
                                     ? Text(
@@ -318,7 +319,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
   Widget _tag() {
     return Container(
       decoration: BoxDecoration(
-        // borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        borderRadius: BorderRadius.all(Radius.circular(2.0)),
         color: Color(0xffffd953),
       ),
       padding: const EdgeInsets.symmetric(
