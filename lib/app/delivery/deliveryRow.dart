@@ -207,21 +207,23 @@ class DeliveryRow extends StatelessWidget {
       onTap: () {
         this._handleOutForDelivery(delivery.id);
       },
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: AppTheme.dividerColor,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minWidth: 180),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppTheme.dividerColor,
+            ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(4.0),
+            ),
           ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(4.0),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+          child: Text(
+            'Out for delivery'.toUpperCase(),
+            textAlign: TextAlign.center,
+            style: AppTheme.textStyle.color100.w600.size(12).letterSpace(0.2),
           ),
-        ),
-        width: 160,
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-        child: Text(
-          'Out for delivery'.toUpperCase(),
-          textAlign: TextAlign.center,
-          style: AppTheme.textStyle.color100.w600.size(12).letterSpace(0.2),
         ),
       ),
     );
@@ -232,31 +234,34 @@ class DeliveryRow extends StatelessWidget {
       onTap: () {
         this._handleMarkAsDeliverd(delivery.id);
       },
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: AppTheme.dividerColor,
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(4.0),
-          ),
-        ),
-        width: 160,
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.check,
-              size: 18,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minWidth: 180),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppTheme.dividerColor,
             ),
-            SizedBox(width: 4),
-            Text(
-              'Mark Delivered'.toUpperCase(),
-              textAlign: TextAlign.center,
-              style: AppTheme.textStyle.color100.w600.size(12).letterSpace(0.2),
+            borderRadius: BorderRadius.all(
+              Radius.circular(4.0),
             ),
-          ],
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.check,
+                size: 18,
+              ),
+              SizedBox(width: 4),
+              Text(
+                'Mark Delivered'.toUpperCase(),
+                textAlign: TextAlign.center,
+                style:
+                    AppTheme.textStyle.color100.w600.size(12).letterSpace(0.2),
+              ),
+            ],
+          ),
         ),
       ),
     );
