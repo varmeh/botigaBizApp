@@ -200,6 +200,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
   Widget getRowWithoutProductImage(Product product, String statusText) {
     widget.setImageStatus(product.id, false);
     final _hasTag = product.tag != null && product.tag.isNotEmpty;
+    final _hasMrp = product.mrp != null;
 
     return Container(
       padding: EdgeInsets.only(top: 12, bottom: 12),
@@ -224,7 +225,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                     children: [
                       Container(
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 180),
+                          constraints: BoxConstraints(maxWidth: 220),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,14 +237,49 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                     .lineHeight(1.33)
                                     .w500,
                               ),
-                              Text(
-                                '${product.size} ・ ₹${product.price}',
-                                style: AppTheme.textStyle.color50
-                                    .size(13)
-                                    .lineHeight(1.33)
-                                    .w500
-                                    .letterSpace(0.5),
+                              RichText(
+                                text: TextSpan(
+                                  text: '${product.size} • ',
+                                  style: AppTheme.textStyle.color50
+                                      .size(13)
+                                      .lineHeight(1.33)
+                                      .w500
+                                      .letterSpace(0.5),
+                                  children: [
+                                    _hasMrp
+                                        ? TextSpan(
+                                            text: '₹${product.mrp}',
+                                            style: AppTheme.textStyle.color50
+                                                .size(13)
+                                                .lineHeight(1.33)
+                                                .w500
+                                                .letterSpace(0.5)
+                                                .lineThrough,
+                                          )
+                                        : TextSpan(text: ''),
+                                    TextSpan(
+                                      text:
+                                          '${_hasMrp ? '  ' : ''}₹${product.price}',
+                                      style: AppTheme.textStyle
+                                          .size(13)
+                                          .lineHeight(1.33)
+                                          .w500
+                                          .letterSpace(0.5)
+                                          .colored(_hasMrp
+                                              ? AppTheme.color100
+                                              : AppTheme.color50),
+                                    )
+                                  ],
+                                ),
                               ),
+                              // Text(
+                              //   '${product.size} ・ ₹${product.price}',
+                              //   style: AppTheme.textStyle.color50
+                              //       .size(13)
+                              //       .lineHeight(1.33)
+                              //       .w500
+                              //       .letterSpace(0.5),
+                              // ),
                             ],
                           ),
                         ),
