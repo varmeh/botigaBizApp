@@ -50,6 +50,8 @@ class _ProductItemRowState extends State<ProductItemRow> {
   Widget getRowWithProductImage(Product product, String statusText) {
     widget.setImageStatus(product.id, true);
     final _hasTag = product.tag != null && product.tag.isNotEmpty;
+    final _hasMrp = product.mrp != null;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 24),
       child: SingleChildScrollView(
@@ -80,44 +82,56 @@ class _ProductItemRowState extends State<ProductItemRow> {
                     _hasTag
                         ? Positioned(
                             top: -14,
-                            // left: -6,
                             child: _tag(),
                           )
                         : Container(),
                   ],
                 ),
+                SizedBox(width: 16),
                 Expanded(
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minHeight: 90),
-                    child: Container(
-                      padding: EdgeInsets.only(left: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            '${product.name}',
-                            style: AppTheme.textStyle.color100
-                                .size(15)
-                                .lineHeight(1.33)
-                                .w500,
-                          ),
-                          Text(
-                            '${product.size}',
-                            style: AppTheme.textStyle.color50
-                                .size(13)
-                                .lineHeight(1.33)
-                                .w500
-                                .letterSpace(0.5),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  maxWidth: 90,
-                                ),
-                                child: Text(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${product.name}',
+                              style: AppTheme.textStyle.color100
+                                  .size(15)
+                                  .lineHeight(1.33)
+                                  .w500,
+                            ),
+                            Text(
+                              '${product.size}',
+                              style: AppTheme.textStyle.color50
+                                  .size(13)
+                                  .lineHeight(1.33)
+                                  .w500
+                                  .letterSpace(0.5),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                _hasMrp
+                                    ? Text(
+                                        '₹${product.mrp}',
+                                        style: AppTheme.textStyle.color50
+                                            .size(13)
+                                            .lineHeight(1.33)
+                                            .w500
+                                            .letterSpace(0.5)
+                                            .lineThrough,
+                                      )
+                                    : Container(),
+                                Text(
                                   '₹${product.price}',
                                   style: AppTheme.textStyle.color100
                                       .size(13)
@@ -125,40 +139,38 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                       .w500
                                       .letterSpace(0.5),
                                 ),
-                              ),
-                              Row(
-                                children: [
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      maxWidth: 90,
-                                    ),
-                                    child: Text(
-                                      statusText,
-                                      textAlign: TextAlign.center,
-                                      style: AppTheme.textStyle.color50
-                                          .size(12)
-                                          .lineHeight(1.33)
-                                          .w500
-                                          .letterSpace(0.2),
-                                    ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(maxWidth: 90),
+                                  child: Text(
+                                    statusText,
+                                    textAlign: TextAlign.center,
+                                    style: AppTheme.textStyle.color50
+                                        .size(12)
+                                        .lineHeight(1.33)
+                                        .w500
+                                        .letterSpace(0.2),
                                   ),
-                                  BotigaSwitch(
-                                    handleSwitchChage: (bool value) {
-                                      setState(() => _switchValue = value);
-                                      widget.setProductAvilablity(
-                                          widget.product, value, () {
-                                        setState(() => _switchValue = !value);
-                                      });
-                                    },
-                                    switchValue: _switchValue,
-                                    alignment: Alignment.centerRight,
-                                  ),
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      ),
+                                ),
+                                BotigaSwitch(
+                                  handleSwitchChage: (bool value) {
+                                    setState(() => _switchValue = value);
+                                    widget.setProductAvilablity(
+                                        widget.product, value, () {
+                                      setState(() => _switchValue = !value);
+                                    });
+                                  },
+                                  switchValue: _switchValue,
+                                  alignment: Alignment.centerRight,
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 )
@@ -308,7 +320,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
         horizontal: 6.0,
       ),
       child: Text(
-        widget.product.tag,
+        widget.product.tag.toUpperCase(),
         style: AppTheme.textStyle.w600.color100
             .size(12)
             .lineHeight(1.3)
