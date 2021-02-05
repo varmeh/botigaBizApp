@@ -192,22 +192,6 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
                     endIndent: 285,
                   ),
                   ...productWithCategory.products.asMap().entries.map((entry) {
-                    int idx = entry.key;
-                    if (idx == productWithCategory.products.length - 1) {
-                      return OpenContainer(
-                        closedElevation: 0.0,
-                        transitionDuration: Duration(milliseconds: 300),
-                        closedBuilder: (context, openContainer) =>
-                            ProductItemRow(entry.value, setProductAvilablity,
-                                openContainer, setImageStatus),
-                        openBuilder: (_, __) => EditProduct(
-                          productId: entry.value.id,
-                          categoryId: productWithCategory.categoryId,
-                          categoryName: productWithCategory.name,
-                          showWithImage: imageStatus[entry.value.id],
-                        ),
-                      );
-                    }
                     return Column(
                       children: [
                         OpenContainer(
@@ -223,10 +207,12 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
                             showWithImage: imageStatus[entry.value.id],
                           ),
                         ),
-                        Divider(
-                          color: AppTheme.dividerColor,
-                          thickness: 1.2,
-                        ),
+                        entry.key != productWithCategory.products.length - 1
+                            ? Divider(
+                                color: AppTheme.dividerColor,
+                                thickness: 1.2,
+                              )
+                            : Container(),
                       ],
                     );
                   })
