@@ -10,7 +10,6 @@ import '../../widget/index.dart';
 import 'deliveryRow.dart';
 import 'emptyDelivery.dart';
 
-const rupeeSymbol = '\u20B9';
 const TODAY = 'TODAY';
 
 class DeliveryScreen extends StatefulWidget {

@@ -5,7 +5,6 @@ import '../../theme/index.dart';
 import 'orderListItem.dart';
 
 class OrderListSummary extends StatelessWidget {
-  final String rupeeSymbol = '\u20B9';
   final OrderByDateDetail orderDetail;
   OrderListSummary(this.orderDetail);
 
@@ -54,7 +53,7 @@ class OrderListSummary extends StatelessWidget {
               ),
               Flexible(
                 child: Text(
-                  '$rupeeSymbol${orderDetail.order.totalAmount}',
+                  '₹${orderDetail.order.totalAmount}',
                   style: AppTheme.textStyle.color100.w600.size(13),
                 ),
               )

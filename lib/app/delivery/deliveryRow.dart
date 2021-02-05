@@ -5,8 +5,6 @@ import '../../theme/index.dart';
 import '../../util/index.dart';
 import '../orders/index.dart' show OrderDetails;
 
-const rupeeSymbol = '\u20B9';
-
 class DeliveryRow extends StatelessWidget {
   final OrderByDateDetail delivery;
   final String apartmentName;
@@ -100,8 +98,7 @@ class DeliveryRow extends StatelessWidget {
                               TextSpan(
                                   text: [1, 2, 3, 4, 5].map((e) => ' ').join()),
                               TextSpan(
-                                text:
-                                    '$rupeeSymbol${delivery.order.totalAmount}',
+                                text: '₹${delivery.order.totalAmount}',
                                 style: AppTheme.textStyle.color100.w500
                                     .size(16)
                                     .lineHeight(1.33),

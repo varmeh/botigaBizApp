@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../theme/index.dart';
 
 class OrderListItem extends StatelessWidget {
-  final String rupeeSymbol = '\u20B9';
   final String name;
   final double price;
   final int quantity;
@@ -29,7 +28,7 @@ class OrderListItem extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              '$rupeeSymbol${quantity * price}',
+              '₹${quantity * price}',
               style: AppTheme.textStyle.color100.w500.size(13),
             ),
           )

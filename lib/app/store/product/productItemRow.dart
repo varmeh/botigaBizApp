@@ -5,8 +5,6 @@ import '../../../models/store/index.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
 
-const rupeeSymbol = '\u20B9';
-
 class ProductItemRow extends StatefulWidget {
   final Product product;
   final Function setProductAvilablity;
@@ -32,7 +30,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
   @override
   Widget build(BuildContext context) {
     Product product = widget.product;
-    String statusText = _switchValue ? "Available" : "Not Available";
+    String statusText = _switchValue ? 'Available' : 'Not Available';
     return GestureDetector(
       onTap: () {
         widget.onOpen();
@@ -43,8 +41,8 @@ class _ProductItemRowState extends State<ProductItemRow> {
 
   Widget getProductRow(Product product, String statusText) {
     if (product.imageUrl != null &&
-        product.imageUrl != "" &&
-        product.imageUrl.startsWith("https://")) {
+        product.imageUrl != '' &&
+        product.imageUrl.startsWith('https://')) {
       return getRowWithProductImage(product, statusText);
     } else {
       return getRowWithoutProductImage(product, statusText);
@@ -60,9 +58,9 @@ class _ProductItemRowState extends State<ProductItemRow> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Row(
-              children: <Widget>[
+              children: [
                 ColorFiltered(
                   colorFilter: _switchValue
                       ? ColorFilter.mode(
@@ -87,7 +85,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
+                        children: [
                           Text(
                             '${product.name}',
                             style: AppTheme.textStyle.color100
@@ -111,7 +109,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                   maxWidth: 90,
                                 ),
                                 child: Text(
-                                  '$rupeeSymbol${product.price}',
+                                  '₹${product.price}',
                                   style: AppTheme.textStyle.color100
                                       .size(13)
                                       .lineHeight(1.33)
@@ -120,7 +118,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                 ),
                               ),
                               Row(
-                                children: <Widget>[
+                                children: [
                                   ConstrainedBox(
                                     constraints: BoxConstraints(
                                       maxWidth: 90,
@@ -187,19 +185,17 @@ class _ProductItemRowState extends State<ProductItemRow> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Row(
-              children: <Widget>[
+              children: [
                 Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                    children: [
                       Container(
                         child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: 180,
-                          ),
+                          constraints: BoxConstraints(maxWidth: 180),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,7 +208,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                     .w500,
                               ),
                               Text(
-                                '${product.size} ・ $rupeeSymbol${product.price}',
+                                '${product.size} ・ ₹${product.price}',
                                 style: AppTheme.textStyle.color50
                                     .size(13)
                                     .lineHeight(1.33)

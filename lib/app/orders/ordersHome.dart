@@ -14,7 +14,6 @@ class OrdersHome extends StatefulWidget {
 }
 
 class _OrdersHomeState extends State<OrdersHome> {
-  final String rupeeSymbol = '\u20B9';
   var _loadData = true;
   DateTime selectedDate;
 
@@ -225,7 +224,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                               height: 5,
                             ),
                             Text(
-                              '$rupeeSymbol $revenue',
+                              '₹ $revenue',
                               style: AppTheme.textStyle.color100.w500.size(22),
                             ),
                           ],
@@ -370,7 +369,7 @@ class _OrdersHomeState extends State<OrdersHome> {
                                             height: 3,
                                           ),
                                           Text(
-                                            '$rupeeSymbol $revenue',
+                                            '₹ $revenue',
                                             style: AppTheme
                                                 .textStyle.color100.w500
                                                 .size(17),
