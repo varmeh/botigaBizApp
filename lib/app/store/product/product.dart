@@ -59,33 +59,22 @@ class _ProductsState extends State<Products> {
         child: GestureDetector(
           onVerticalDragDown: (_) => FocusScope.of(context).unfocus(),
           child: Container(
-            padding: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 12, bottom: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   child: SearchBar(
                     placeholder: 'Search by product name...',
-                    onClear: () {
-                      setState(() {
-                        _query = '';
-                      });
-                    },
-                    onChange: (value) {
-                      setState(() {
-                        _query = value;
-                      });
-                    },
+                    onClear: () => setState(() => _query = ''),
+                    onChange: (value) => setState(() => _query = value),
                     onSubmit: (_) {},
                   ),
                 ),
                 (_query != '' && _query != null)
                     ? Expanded(
                         child: ListView(
-                          children: <Widget>[
+                          children: [
                             ..._products.map((productWithCategory) {
                               return getProductTile(
                                   context,
@@ -100,14 +89,15 @@ class _ProductsState extends State<Products> {
                       )
                     : Expanded(
                         child: ListView(
-                          children: <Widget>[
+                          children: [
                             ..._products.map((productWithCategory) {
                               return getTile(
-                                  context,
-                                  productWithCategory,
-                                  this._setApiInProgressStatus,
-                                  this._setNetworkImageStatus,
-                                  _imageStatus);
+                                context,
+                                productWithCategory,
+                                this._setApiInProgressStatus,
+                                this._setNetworkImageStatus,
+                                _imageStatus,
+                              );
                             })
                           ],
                         ),
@@ -129,9 +119,15 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
       setApiStatus(true);
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
+
       await productProvider.updateProductStatus(
-          productWithCategory.categoryId, product, availabelStatus);
+        productWithCategory.categoryId,
+        product,
+        availabelStatus,
+      );
+
       await productProvider.fetchProducts();
+
       Toast(
         message: 'Product status updated',
         icon: Icon(
@@ -155,11 +151,13 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
     highlightColor: Colors.transparent,
     splashColor: Colors.transparent,
   );
+
   final totalProducts = productWithCategory.products.length < 10
       ? '0${productWithCategory.products.length}'
       : '${productWithCategory.products.length}';
+
   return Column(
-    children: <Widget>[
+    children: [
       Theme(
         data: theme,
         child: ListTileTheme(
@@ -203,10 +201,11 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
                             ProductItemRow(entry.value, setProductAvilablity,
                                 openContainer, setImageStatus),
                         openBuilder: (_, __) => EditProduct(
-                            productId: entry.value.id,
-                            categoryId: productWithCategory.categoryId,
-                            categoryName: productWithCategory.name,
-                            showWithImage: imageStatus[entry.value.id]),
+                          productId: entry.value.id,
+                          categoryId: productWithCategory.categoryId,
+                          categoryName: productWithCategory.name,
+                          showWithImage: imageStatus[entry.value.id],
+                        ),
                       );
                     }
                     return Column(
@@ -218,10 +217,11 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
                               ProductItemRow(entry.value, setProductAvilablity,
                                   openContainer, setImageStatus),
                           openBuilder: (_, __) => EditProduct(
-                              productId: entry.value.id,
-                              categoryId: productWithCategory.categoryId,
-                              categoryName: productWithCategory.name,
-                              showWithImage: imageStatus[entry.value.id]),
+                            productId: entry.value.id,
+                            categoryId: productWithCategory.categoryId,
+                            categoryName: productWithCategory.name,
+                            showWithImage: imageStatus[entry.value.id],
+                          ),
                         ),
                         Divider(
                           color: AppTheme.dividerColor,

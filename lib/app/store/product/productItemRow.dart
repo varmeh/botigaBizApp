@@ -32,9 +32,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
     Product product = widget.product;
     String statusText = _switchValue ? 'Available' : 'Not Available';
     return GestureDetector(
-      onTap: () {
-        widget.onOpen();
-      },
+      onTap: () => widget.onOpen(),
       child: Container(child: this.getProductRow(product, statusText)),
     );
   }
@@ -51,8 +49,9 @@ class _ProductItemRowState extends State<ProductItemRow> {
 
   Widget getRowWithProductImage(Product product, String statusText) {
     widget.setImageStatus(product.id, true);
-    return Container(
-      padding: EdgeInsets.only(top: 12, bottom: 12),
+    final _hasTag = product.tag != null && product.tag.isNotEmpty;
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 24),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -61,27 +60,37 @@ class _ProductItemRowState extends State<ProductItemRow> {
           children: [
             Row(
               children: [
-                ColorFiltered(
-                  colorFilter: _switchValue
-                      ? ColorFilter.mode(
-                          Colors.transparent,
-                          BlendMode.multiply,
-                        )
-                      : ColorFilter.mode(
-                          AppTheme.backgroundColor,
-                          BlendMode.saturation,
-                        ),
-                  child: ProductNetworkAvatar(
-                    imageUrl: '${product.imageUrl}',
-                  ),
+                Stack(
+                  overflow: Overflow.visible,
+                  children: [
+                    ColorFiltered(
+                      colorFilter: _switchValue
+                          ? ColorFilter.mode(
+                              Colors.transparent,
+                              BlendMode.multiply,
+                            )
+                          : ColorFilter.mode(
+                              AppTheme.backgroundColor,
+                              BlendMode.saturation,
+                            ),
+                      child: ProductNetworkAvatar(
+                        imageUrl: '${product.imageUrl}',
+                      ),
+                    ),
+                    _hasTag
+                        ? Positioned(
+                            top: -14,
+                            // left: -6,
+                            child: _tag(),
+                          )
+                        : Container(),
+                  ],
                 ),
                 Expanded(
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: 90,
-                    ),
+                    constraints: BoxConstraints(minHeight: 90),
                     child: Container(
-                      padding: EdgeInsets.only(left: 12),
+                      padding: EdgeInsets.only(left: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -178,6 +187,8 @@ class _ProductItemRowState extends State<ProductItemRow> {
 
   Widget getRowWithoutProductImage(Product product, String statusText) {
     widget.setImageStatus(product.id, false);
+    final _hasTag = product.tag != null && product.tag.isNotEmpty;
+
     return Container(
       padding: EdgeInsets.only(top: 12, bottom: 12),
       child: SingleChildScrollView(
@@ -186,6 +197,12 @@ class _ProductItemRowState extends State<ProductItemRow> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            _hasTag
+                ? Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: _tag(),
+                  )
+                : Container(),
             Row(
               children: [
                 Expanded(
@@ -276,6 +293,26 @@ class _ProductItemRowState extends State<ProductItemRow> {
                 : SizedBox.shrink()
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _tag() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        color: Color(0xffffd953),
+      ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 4.0,
+        horizontal: 6.0,
+      ),
+      child: Text(
+        widget.product.tag,
+        style: AppTheme.textStyle.w600.color100
+            .size(12)
+            .lineHeight(1.3)
+            .letterSpace(0.2),
       ),
     );
   }
