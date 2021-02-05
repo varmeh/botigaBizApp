@@ -52,6 +52,9 @@ class _ProductItemRowState extends State<ProductItemRow> {
     final _hasTag = product.tag != null && product.tag.isNotEmpty;
     final _hasMrp = product.mrp != null;
 
+    final _priceTextStyle =
+        AppTheme.textStyle.w500.size(13).lineHeight(1.5).letterSpace(0.5);
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 24),
       child: SingleChildScrollView(
@@ -102,16 +105,12 @@ class _ProductItemRowState extends State<ProductItemRow> {
                               '${product.name}',
                               style: AppTheme.textStyle.color100
                                   .size(15)
-                                  .lineHeight(1.33)
+                                  .lineHeight(1.3)
                                   .w500,
                             ),
                             Text(
                               '${product.size}',
-                              style: AppTheme.textStyle.color50
-                                  .size(13)
-                                  .lineHeight(1.33)
-                                  .w500
-                                  .letterSpace(0.5),
+                              style: _priceTextStyle.color50,
                             ),
                           ],
                         ),
@@ -123,21 +122,13 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                 _hasMrp
                                     ? Text(
                                         '₹${product.mrp}',
-                                        style: AppTheme.textStyle.color50
-                                            .size(13)
-                                            .lineHeight(1.33)
-                                            .w500
-                                            .letterSpace(0.5)
-                                            .lineThrough,
+                                        style:
+                                            _priceTextStyle.color50.lineThrough,
                                       )
                                     : Container(),
                                 Text(
                                   '₹${product.price}',
-                                  style: AppTheme.textStyle.color100
-                                      .size(13)
-                                      .lineHeight(1.33)
-                                      .w500
-                                      .letterSpace(0.5),
+                                  style: _priceTextStyle.color100,
                                 ),
                               ],
                             ),
@@ -148,11 +139,10 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                   child: Text(
                                     statusText,
                                     textAlign: TextAlign.center,
-                                    style: AppTheme.textStyle.color50
+                                    style: AppTheme.textStyle.color50.w500
                                         .size(12)
-                                        .lineHeight(1.33)
-                                        .w500
-                                        .letterSpace(0.2),
+                                        .lineHeight(1.3)
+                                        .letterSpace(0.5),
                                   ),
                                 ),
                                 BotigaSwitch(
@@ -182,10 +172,9 @@ class _ProductItemRowState extends State<ProductItemRow> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         '${product.description}',
-                        style: AppTheme.textStyle.color50
+                        style: AppTheme.textStyle.color50.w500
                             .size(12)
                             .lineHeight(1.5)
-                            .w500
                             .letterSpace(0.2),
                       ),
                     ),
@@ -201,6 +190,9 @@ class _ProductItemRowState extends State<ProductItemRow> {
     widget.setImageStatus(product.id, false);
     final _hasTag = product.tag != null && product.tag.isNotEmpty;
     final _hasMrp = product.mrp != null;
+
+    final _priceTextStyle =
+        AppTheme.textStyle.w500.size(13).lineHeight(1.5).letterSpace(0.5);
 
     return Container(
       padding: EdgeInsets.only(top: 12, bottom: 12),
@@ -232,54 +224,32 @@ class _ProductItemRowState extends State<ProductItemRow> {
                             children: [
                               Text(
                                 '${product.name}',
-                                style: AppTheme.textStyle.color100
+                                style: AppTheme.textStyle.color100.w500
                                     .size(15)
-                                    .lineHeight(1.33)
-                                    .w500,
+                                    .lineHeight(1.3),
                               ),
                               RichText(
                                 text: TextSpan(
                                   text: '${product.size} • ',
-                                  style: AppTheme.textStyle.color50
-                                      .size(13)
-                                      .lineHeight(1.33)
-                                      .w500
-                                      .letterSpace(0.5),
+                                  style: _priceTextStyle.color50,
                                   children: [
                                     _hasMrp
                                         ? TextSpan(
                                             text: '₹${product.mrp}',
-                                            style: AppTheme.textStyle.color50
-                                                .size(13)
-                                                .lineHeight(1.33)
-                                                .w500
-                                                .letterSpace(0.5)
-                                                .lineThrough,
+                                            style: _priceTextStyle
+                                                .color50.lineThrough,
                                           )
                                         : TextSpan(text: ''),
                                     TextSpan(
                                       text:
                                           '${_hasMrp ? '  ' : ''}₹${product.price}',
-                                      style: AppTheme.textStyle
-                                          .size(13)
-                                          .lineHeight(1.33)
-                                          .w500
-                                          .letterSpace(0.5)
-                                          .colored(_hasMrp
-                                              ? AppTheme.color100
-                                              : AppTheme.color50),
+                                      style: _priceTextStyle.colored(_hasMrp
+                                          ? AppTheme.color100
+                                          : AppTheme.color50),
                                     )
                                   ],
                                 ),
                               ),
-                              // Text(
-                              //   '${product.size} ・ ₹${product.price}',
-                              //   style: AppTheme.textStyle.color50
-                              //       .size(13)
-                              //       .lineHeight(1.33)
-                              //       .w500
-                              //       .letterSpace(0.5),
-                              // ),
                             ],
                           ),
                         ),
@@ -348,7 +318,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
   Widget _tag() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(4.0)),
+        // borderRadius: BorderRadius.all(Radius.circular(4.0)),
         color: Color(0xffffd953),
       ),
       padding: const EdgeInsets.symmetric(
