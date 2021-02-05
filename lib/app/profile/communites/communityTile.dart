@@ -16,11 +16,11 @@ class CommunityTile extends StatefulWidget {
 }
 
 final _slotRange = [
-  {'title': '6 AM - 9 AM', 'value': '6AM - 9AM', 'index': 0},
-  {'title': '9 AM - 12 PM', 'value': '9AM - 12PM', 'index': 1},
-  {'title': '12 PM - 3 PM', 'value': '12PM - 3PM', 'index': 2},
-  {'title': '3 PM - 6 PM', 'value': '3PM - 6PM', 'index': 3},
-  {'title': '6 PM - 9 PM', 'value': '6PM - 9PM', 'index': 4},
+  {'title': '6 AM - 9 AM', 'value': '6AM - 9AM'},
+  {'title': '9 AM - 12 PM', 'value': '9AM - 12PM'},
+  {'title': '12 PM - 3 PM', 'value': '12PM - 3PM'},
+  {'title': '3 PM - 6 PM', 'value': '3PM - 6PM'},
+  {'title': '6 PM - 9 PM', 'value': '6PM - 9PM'},
 ];
 
 class _CommunityTileState extends State<CommunityTile> {
@@ -440,10 +440,13 @@ class _CommunityTileState extends State<CommunityTile> {
                         ),
                       ),
                       SizedBox(height: 24),
-                      ..._slotRange.map(
-                        (slot) =>
-                            _slotButton(slot['title'], slot['index'], setState),
-                      ),
+                      ..._slotRange.asMap().entries.map(
+                            (entry) => _slotButton(
+                              entry.value['title'],
+                              entry.key,
+                              setState,
+                            ),
+                          ),
                       SizedBox(height: 80),
                       Row(
                         children: [
