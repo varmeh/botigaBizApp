@@ -99,7 +99,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                     constraints: BoxConstraints(minHeight: 90),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,120 +199,131 @@ class _ProductItemRowState extends State<ProductItemRow> {
         AppTheme.textStyle.w500.size(13).lineHeight(1.5).letterSpace(0.5);
 
     return Container(
-      padding: EdgeInsets.only(top: 12, bottom: 12),
+      padding: _hasTag
+          ? EdgeInsets.only(top: 24, bottom: 12)
+          : EdgeInsets.only(top: 12, bottom: 12),
       child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
+          overflow: Overflow.visible,
           children: [
             _hasTag
-                ? Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                ? Positioned(
+                    top: -14,
+                    left: -10,
                     child: _tag(),
                   )
                 : Container(),
-            Row(
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: 220),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${product.name}',
-                                style: AppTheme.textStyle.color100.w500
-                                    .size(15)
-                                    .lineHeight(1.3),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 220),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${product.name}',
+                                    style: AppTheme.textStyle.color100.w500
+                                        .size(15)
+                                        .lineHeight(1.3),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: '${product.size} • ',
+                                      style: _priceTextStyle.color50,
+                                      children: [
+                                        _hasMrp
+                                            ? TextSpan(
+                                                text: '₹${product.mrp}',
+                                                style: _priceTextStyle
+                                                    .color50.lineThrough,
+                                              )
+                                            : TextSpan(text: ''),
+                                        TextSpan(
+                                          text:
+                                              '${_hasMrp ? '  ' : ''}₹${product.price}',
+                                          style: _priceTextStyle.colored(_hasMrp
+                                              ? AppTheme.color100
+                                              : AppTheme.color50),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              RichText(
-                                text: TextSpan(
-                                  text: '${product.size} • ',
-                                  style: _priceTextStyle.color50,
-                                  children: [
-                                    _hasMrp
-                                        ? TextSpan(
-                                            text: '₹${product.mrp}',
-                                            style: _priceTextStyle
-                                                .color50.lineThrough,
-                                          )
-                                        : TextSpan(text: ''),
-                                    TextSpan(
-                                      text:
-                                          '${_hasMrp ? '  ' : ''}₹${product.price}',
-                                      style: _priceTextStyle.colored(_hasMrp
-                                          ? AppTheme.color100
-                                          : AppTheme.color50),
-                                    )
-                                  ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxWidth: 80,
+                                ),
+                                child: Text(
+                                  statusText,
+                                  textAlign: TextAlign.center,
+                                  style: AppTheme.textStyle.color50
+                                      .size(12)
+                                      .lineHeight(1.33)
+                                      .w500
+                                      .letterSpace(0.2),
                                 ),
                               ),
+                              BotigaSwitch(
+                                handleSwitchChage: (bool value) {
+                                  setState(
+                                    () {
+                                      _switchValue = value;
+                                    },
+                                  );
+                                  widget.setProductAvilablity(
+                                      widget.product, value, () {
+                                    setState(() {
+                                      _switchValue = !value;
+                                    });
+                                  });
+                                },
+                                switchValue: _switchValue,
+                                alignment: Alignment.centerRight,
+                              ),
                             ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                (product.description != null && product.description != '')
+                    ? Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            '${product.description}',
+                            style: AppTheme.textStyle.color50
+                                .size(12)
+                                .lineHeight(1.5)
+                                .w500
+                                .letterSpace(0.2),
                           ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxWidth: 80,
-                            ),
-                            child: Text(
-                              statusText,
-                              textAlign: TextAlign.center,
-                              style: AppTheme.textStyle.color50
-                                  .size(12)
-                                  .lineHeight(1.33)
-                                  .w500
-                                  .letterSpace(0.2),
-                            ),
-                          ),
-                          BotigaSwitch(
-                            handleSwitchChage: (bool value) {
-                              setState(
-                                () {
-                                  _switchValue = value;
-                                },
-                              );
-                              widget.setProductAvilablity(widget.product, value,
-                                  () {
-                                setState(() {
-                                  _switchValue = !value;
-                                });
-                              });
-                            },
-                            switchValue: _switchValue,
-                            alignment: Alignment.centerRight,
-                          ),
-                        ],
                       )
-                    ],
-                  ),
-                )
+                    : SizedBox.shrink()
               ],
             ),
-            (product.description != null && product.description != '')
-                ? Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        '${product.description}',
-                        style: AppTheme.textStyle.color50
-                            .size(12)
-                            .lineHeight(1.5)
-                            .w500
-                            .letterSpace(0.2),
-                      ),
-                    ),
-                  )
-                : SizedBox.shrink()
           ],
         ),
       ),
