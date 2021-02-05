@@ -203,9 +203,7 @@ class _StoreScreenState extends State<StoreScreen>
                     .w700
                     .letterSpace(1)
                     .colored(AppTheme.primaryColor)),
-            onPressed: () {
-              openContainer();
-            },
+            onPressed: () => openContainer(),
           );
         },
         openBuilder: (_, __) => AddProduct(),
@@ -249,26 +247,24 @@ class _StoreScreenState extends State<StoreScreen>
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
+                      children: [
                         Text(
                           'Add category',
                           style: AppTheme.textStyle.color100.w700.size(22),
                         ),
-                        SizedBox(
-                          height: 24,
-                        ),
+                        SizedBox(height: 24),
                         BotigaTextFieldForm(
-                            focusNode: _categoryNameFocusNode,
-                            labelText: 'Category name',
-                            onSave: (value) => _categoryName = value,
-                            validator: nameValidator,
-                            autofocus: true),
-                        SizedBox(
-                          height: 40,
+                          maxLength: 24,
+                          focusNode: _categoryNameFocusNode,
+                          labelText: 'Category name',
+                          onSave: (value) => _categoryName = value,
+                          validator: nameValidator,
+                          autofocus: true,
                         ),
+                        SizedBox(height: 40),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
+                          children: [
                             FlatButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -303,13 +299,15 @@ class _StoreScreenState extends State<StoreScreen>
                               child: Padding(
                                 padding:
                                     const EdgeInsets.only(top: 14, bottom: 14),
-                                child: Text('Save category',
-                                    style: AppTheme.textStyle
-                                        .colored(AppTheme.backgroundColor)
-                                        .w600
-                                        .size(15)),
+                                child: Text(
+                                  'Save category',
+                                  style: AppTheme.textStyle
+                                      .colored(AppTheme.backgroundColor)
+                                      .w600
+                                      .size(15),
+                                ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ],

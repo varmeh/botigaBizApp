@@ -87,10 +87,14 @@ class _CategoryState extends State<Category> {
               child: Container(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: ListView(
-                  children: <Widget>[
+                  children: [
                     ...categories.map((category) {
-                      return getTile(context, category, this.setStatus,
-                          this._handleCategoryEdit);
+                      return getTile(
+                        context,
+                        category,
+                        this.setStatus,
+                        this._handleCategoryEdit,
+                      );
                     })
                   ],
                 ),
@@ -103,9 +107,9 @@ class _CategoryState extends State<Category> {
       Function setStatus, Function handleCategoryEdit) {
     final productProvider = Provider.of<ProductProvider>(context, listen: true);
     final productCount = productProvider.productCountForCategory(category.id);
-    final countDispaly = productCount < 10 ? '0$productCount' : productCount;
+    final countDisplay = productCount < 10 ? '0$productCount' : productCount;
     return Column(
-      children: <Widget>[
+      children: [
         ListTile(
           onTap: () {
             final _formKey = GlobalKey<FormState>();
@@ -128,27 +132,24 @@ class _CategoryState extends State<Category> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
+                        children: [
                           Text(
                             'Edit category',
                             style: AppTheme.textStyle.color100.w700.size(22),
                           ),
-                          SizedBox(
-                            height: 24,
-                          ),
+                          SizedBox(height: 24),
                           BotigaTextFieldForm(
+                            maxLength: 24,
                             initialValue: _categoryName,
                             focusNode: _categoryNameFocusNode,
                             labelText: 'Category name',
                             onSave: (value) => _categoryName = value,
                             validator: nameValidator,
                           ),
-                          SizedBox(
-                            height: 40,
-                          ),
+                          SizedBox(height: 40),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
+                            children: [
                               FlatButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
@@ -181,12 +182,16 @@ class _CategoryState extends State<Category> {
                                 highlightColor: AppTheme.primaryColorVariant,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
-                                      top: 14, bottom: 14),
-                                  child: Text('Edit category',
-                                      style: AppTheme.textStyle
-                                          .colored(AppTheme.backgroundColor)
-                                          .w600
-                                          .size(15)),
+                                    top: 14,
+                                    bottom: 14,
+                                  ),
+                                  child: Text(
+                                    'Edit category',
+                                    style: AppTheme.textStyle
+                                        .colored(AppTheme.backgroundColor)
+                                        .w600
+                                        .size(15),
+                                  ),
                                 ),
                               )
                             ],
@@ -203,7 +208,7 @@ class _CategoryState extends State<Category> {
           contentPadding: EdgeInsets.only(left: 0, right: 0),
           title: RichText(
             text: TextSpan(
-              text: '$countDispaly',
+              text: '$countDisplay',
               style: AppTheme.textStyle.color50.w600.size(12).letterSpace(1),
               children: <TextSpan>[
                 TextSpan(
@@ -233,7 +238,7 @@ class _CategoryState extends State<Category> {
           trailing: productCount != 0
               ? GestureDetector(
                   onTap: () {
-                    Toast(message: "Deletion possible for empty category")
+                    Toast(message: 'Deletion possible for empty category')
                         .show(context);
                   },
                   child: Icon(
