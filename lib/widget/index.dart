@@ -22,3 +22,4 @@ export 'statusImageWidget.dart';
 export 'toast.dart';
 export 'inviteTile.dart';
 export 'calendar/BotigaCalendar.dart';
+export 'dottedDivider.dart';

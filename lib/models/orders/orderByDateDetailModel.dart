@@ -51,6 +51,8 @@ class Order {
   bool get isDelivered => status == 'delivered';
   bool get isCancelled => status == 'cancelled';
 
+  bool get isCompleted => isDelivered || isCancelled;
+
   String get statusMessage {
     if (isOpen) {
       return 'Order Placed';
@@ -73,7 +75,7 @@ class Order {
     } else if (isCancelled) {
       return Color.fromRGBO(233, 86, 54, 1);
     } else {
-      return Color.fromRGBO(23, 159, 87, 1);
+      return Color.fromRGBO(54, 185, 233, 1);
     }
   }
 }
