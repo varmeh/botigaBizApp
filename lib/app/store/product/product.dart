@@ -59,11 +59,11 @@ class _ProductsState extends State<Products> {
         child: GestureDetector(
           onVerticalDragDown: (_) => FocusScope.of(context).unfocus(),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
                   child: SearchBar(
                     placeholder: 'Search by product name...',
                     onClear: () => setState(() => _query = ''),
@@ -161,7 +161,7 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
       Theme(
         data: theme,
         child: ListTileTheme(
-          contentPadding: EdgeInsets.all(0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 20),
           child: ExpansionTile(
             title: RichText(
               text: TextSpan(
@@ -185,11 +185,14 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
             children: [
               Column(
                 children: [
-                  Divider(
-                    color: AppTheme.color100,
-                    thickness: 1,
-                    indent: 0,
-                    endIndent: 285,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Divider(
+                      color: AppTheme.color100,
+                      thickness: 1,
+                      indent: 0,
+                      endIndent: 285,
+                    ),
                   ),
                   ...productWithCategory.products.asMap().entries.map((entry) {
                     return Column(

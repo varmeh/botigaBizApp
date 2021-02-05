@@ -33,7 +33,9 @@ class _ProductItemRowState extends State<ProductItemRow> {
     String statusText = _switchValue ? 'Available' : 'Not Available';
     return GestureDetector(
       onTap: () => widget.onOpen(),
-      child: Container(child: this.getProductRow(product, statusText)),
+      child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: this.getProductRow(product, statusText)),
     );
   }
 
@@ -85,6 +87,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                     _hasTag
                         ? Positioned(
                             top: -14,
+                            left: -10,
                             child: _tag(),
                           )
                         : Container(),
