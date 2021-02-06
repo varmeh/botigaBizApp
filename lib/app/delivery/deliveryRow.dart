@@ -183,15 +183,19 @@ class DeliveryRow extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                     ),
-                    Text(
-                      delivery.order.statusMessage,
-                      style: AppTheme.textStyle.w500.color50
-                          .size(12)
-                          .lineHeight(1.3),
+                    Expanded(
+                      child: Text(
+                        delivery.order.statusMessage,
+                        overflow: TextOverflow.clip,
+                        style: AppTheme.textStyle.w500.color50
+                            .size(12)
+                            .lineHeight(1.3),
+                      ),
                     ),
                   ],
                 ),
               ),
+              SizedBox(width: 8),
               (delivery.order.isOpen || delivery.order.isDelayed)
                   ? _outForDeliveryButton()
                   : _markDeliveredButton()
