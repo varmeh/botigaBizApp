@@ -414,7 +414,7 @@ class _EditProductState extends State<EditProduct>
                                 textCapitalization:
                                     TextCapitalization.sentences,
                                 maxLines: 3,
-                                maxLength: 300,
+                                maxLength: 140,
                                 focusNode: _descriptionFocusNode,
                                 labelText: 'Description',
                                 onSave: (value) => _description = value,

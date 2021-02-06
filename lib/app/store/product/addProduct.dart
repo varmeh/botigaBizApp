@@ -679,7 +679,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                   left: 20, right: 15, bottom: 15, top: 25),
                               child: BotigaTextFieldForm(
                                 maxLines: 3,
-                                maxLength: 300,
+                                maxLength: 140,
                                 textCapitalization:
                                     TextCapitalization.sentences,
                                 focusNode: _descriptionFocusNode,
