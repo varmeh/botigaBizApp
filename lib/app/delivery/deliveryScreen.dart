@@ -112,24 +112,25 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                               color: AppTheme.backgroundColor,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
+                                children: [
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: <Widget>[
+                                    children: [
                                       _getSearch(),
                                     ],
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.only(
-                                        top: 5,
-                                        bottom: 20,
-                                        left: 20,
-                                        right: 20),
+                                      top: 5,
+                                      bottom: 20,
+                                      left: 20,
+                                      right: 20,
+                                    ),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
+                                      children: [
                                         Container(
                                           child: Expanded(
                                             child: Row(
@@ -140,9 +141,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                                     size: 18,
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
+                                                SizedBox(width: 5),
                                                 Flexible(
                                                   child: Text(
                                                     '${apartment.apartmentName}',
@@ -184,7 +183,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
-                                              children: <Widget>[
+                                              children: [
                                                 Flexible(
                                                   child: Text(
                                                       '${selectedDate.getTodayOrSelectedDate()}',
@@ -260,8 +259,37 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                               );
                                             }
 
+                                            final slotMsg = apartment
+                                                            .deliverySlot !=
+                                                        null &&
+                                                    apartment
+                                                        .deliverySlot.isNotEmpty
+                                                ? 'Delivery by ${apartment.deliverySlot}'
+                                                : 'Please add delivery slot';
                                             return Column(
                                               children: [
+                                                Container(
+                                                  color: AppTheme.primaryColor,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 20,
+                                                    vertical: 6,
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      slotMsg,
+                                                      style: AppTheme
+                                                          .textStyle.w500
+                                                          .size(13)
+                                                          .lineHeight(1.3)
+                                                          .colored(
+                                                            AppTheme
+                                                                .backgroundColor,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 12),
                                                 ...deliveries
                                                     .map((deliveryRow) {
                                                   return DeliveryRow(
@@ -479,7 +507,7 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                         color: AppTheme.backgroundColor,
                         child: ListView(
                           padding: EdgeInsets.all(0),
-                          children: <Widget>[
+                          children: [
                             ...apartments.map((_apartment) {
                               return ListTile(
                                 title: Text(
