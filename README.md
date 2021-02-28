@@ -107,7 +107,7 @@ The reason to use appbundle has been detailed in [article](https://developer.and
 -   Create an **[obfuscated](https://flutter.dev/docs/deployment/obfuscate)** appbundle version for sharing with command:
 
 ```
-flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaBizApp_1.0.0+3 --flavor prod --release
+flutter build ios --obfuscate --split-debug-info=/Users/varunmehta/Projects/botiga/symbols/botigaBizApp_1.4.0+8 --flavor prod --release
 ```
 
 -   `botigaBizApp_<version>` Version here should match one in pubspec.yaml
