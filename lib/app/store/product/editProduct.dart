@@ -16,8 +16,6 @@ import '../../../widget/index.dart'
         BotigaBottomModal,
         BotigaTextFieldForm,
         LoaderOverlay,
-        EditProductNetworkAvatar,
-        ImageSelectionWidget,
         ActiveButton,
         PassiveButton,
         BotigaSwitch;
@@ -27,13 +25,11 @@ class EditProduct extends StatefulWidget {
   final String productId;
   final String categoryId;
   final String categoryName;
-  final bool showWithImage;
 
   EditProduct({
     this.productId,
     this.categoryId,
     this.categoryName,
-    this.showWithImage = false,
   });
 
   static const routeName = 'edit-product';
@@ -43,14 +39,11 @@ class EditProduct extends StatefulWidget {
 
 class _EditProductState extends State<EditProduct>
     with TickerProviderStateMixin {
-  File _imageFile;
-  TextEditingController maxWidthController,
-      maxHeightController,
-      qualityController,
-      _mrpController;
+  TextEditingController _mrpController;
 
   GlobalKey<FormState> _formKey;
   bool _isInit;
+  String imageUrl;
   String _name;
   double _price;
   double _mrp;
@@ -61,7 +54,6 @@ class _EditProductState extends State<EditProduct>
   String _productId;
   bool _switchValue;
   String _description;
-  String uploadurl = '', downloadUrl = '', _imageUrl = '';
   bool isSaving;
   FocusNode _nameFocusNode,
       _mrpFocusNode,
@@ -69,7 +61,6 @@ class _EditProductState extends State<EditProduct>
       _quantityFocusNode,
       _descriptionFocusNode;
   bool _available;
-  bool _showWithImage;
 
   AnimationController _controller;
 
@@ -77,10 +68,6 @@ class _EditProductState extends State<EditProduct>
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-
-    maxWidthController = TextEditingController();
-    maxHeightController = TextEditingController();
-    qualityController = TextEditingController();
     _mrpController = TextEditingController();
 
     _isInit = false;
@@ -97,7 +84,6 @@ class _EditProductState extends State<EditProduct>
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      this._getPreSignedUrl();
       loadInitialFormValue();
       _isInit = true;
     }
@@ -108,10 +94,6 @@ class _EditProductState extends State<EditProduct>
   void dispose() {
     _controller.removeStatusListener(loadTabbarAfterAnimationCompletion);
     _controller.dispose();
-
-    maxWidthController.dispose();
-    maxHeightController.dispose();
-    qualityController.dispose();
     _mrpController.dispose();
 
     _nameFocusNode.dispose();
@@ -226,12 +208,6 @@ class _EditProductState extends State<EditProduct>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            _imageFile != null
-                                ? getSelectedImageContainer()
-                                : _showWithImage == false
-                                    ? getSelectImageContainer()
-                                    : getNetworkImage(),
-                            _sizedBox26,
                             BotigaTextFieldForm(
                                 initialValue: _name,
                                 focusNode: _nameFocusNode,
@@ -456,7 +432,6 @@ class _EditProductState extends State<EditProduct>
           quantity == _quantity &&
           selectedUnit == _selectedUnit &&
           product.description == description &&
-          _imageFile == null &&
           product.mrp == _mrp) {
         isEdited = false;
       }
@@ -473,7 +448,7 @@ class _EditProductState extends State<EditProduct>
         _productId = widget.productId;
         _seletedCategory = widget.categoryName;
         _seletedCategoryId = widget.categoryId;
-        _imageUrl = product.imageUrl;
+        imageUrl = product.imageUrl;
         _name = product.name;
         _price = double.parse(product.price.toString());
         if (product.mrp != null) {
@@ -489,7 +464,6 @@ class _EditProductState extends State<EditProduct>
                 : false;
         _description = product.description;
         _available = product.available;
-        _showWithImage = widget.showWithImage;
       });
     }
   }
@@ -557,57 +531,12 @@ class _EditProductState extends State<EditProduct>
     );
   }
 
-  void _getPreSignedUrl() async {
-    try {
-      setState(() => isSaving = true);
-      final value = await Provider.of<ServicesProvider>(context, listen: false)
-          .getPresignedImageUrl();
-      setState(() {
-        uploadurl = value['uploadUrl'];
-        downloadUrl = value['downloadUrl'];
-      });
-    } catch (err) {
-      Toast(message: Http.message(err)).show(context);
-    } finally {
-      setState(() => isSaving = false);
-    }
-  }
-
-  void _handleImageUpload(File file) async {
-    if (file == null) {
-      return;
-    }
-    setState(() => isSaving = true);
-    try {
-      await Provider.of<ServicesProvider>(context, listen: false)
-          .uploadImageToS3(uploadurl, file);
-    } catch (err) {
-      setState(() {
-        _imageFile = null;
-      });
-      Toast(message: 'Something went wrong!').show(context);
-    } finally {
-      setState(() => isSaving = false);
-    }
-  }
-
-  void showImageSelectOption(BuildContext context) {
-    ImageSelectionWidget(
-      width: 180,
-      height: 135,
-      onImageSelection: (imageFile) {
-        setState(() => _imageFile = imageFile);
-        this._handleImageUpload(imageFile);
-      },
-    ).show(context);
-  }
-
   void _handleProductEdit() async {
     try {
       setState(() => isSaving = true);
 
       final _productDescription = _switchValue == true ? _description : '';
-      final updateImage = _imageFile != null ? true : false;
+      final updateImage = false;
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
 
@@ -619,7 +548,7 @@ class _EditProductState extends State<EditProduct>
         mrp: _mrp,
         quantity: _quantity,
         unit: _selectedUnit,
-        imageUrl: downloadUrl,
+        imageUrl: imageUrl,
         description: _productDescription,
         availableStatus: _available,
         updateImagurl: updateImage,
@@ -650,197 +579,5 @@ class _EditProductState extends State<EditProduct>
     } finally {
       setState(() => isSaving = false);
     }
-  }
-
-  void handleImageDeleteFromS3() async {
-    final serviceProvider =
-        Provider.of<ServicesProvider>(context, listen: false);
-    try {
-      setState(() => isSaving = true);
-      if (_imageFile == null) {
-        final productProvider =
-            Provider.of<ProductProvider>(context, listen: false);
-
-        await productProvider.updateProduct(
-          categoryId: _seletedCategoryId,
-          productId: _productId,
-          name: _name,
-          price: _price,
-          mrp: _mrp,
-          quantity: _quantity,
-          unit: _selectedUnit,
-          imageUrl: "",
-          description: _description,
-          availableStatus: _available,
-          updateImagurl: true,
-        );
-
-        await productProvider.fetchProducts();
-        setState(() => _showWithImage = false);
-      } else {
-        await serviceProvider.deleteImageFromS3(downloadUrl);
-        setState(() => _imageFile = null);
-      }
-    } catch (err) {
-      Toast(message: "Unable to delete image").show(context);
-    } finally {
-      setState(() => isSaving = false);
-    }
-  }
-
-  Widget getImageChangeButton() {
-    return PassiveButton(
-      title: "Change",
-      onPressed: () {
-        showImageSelectOption(context);
-      },
-      icon: Image.asset(
-        'assets/images/edit.png',
-        height: 20,
-        width: 20,
-      ),
-      height: 44,
-      // width: 135,
-    );
-  }
-
-  Widget getImageDeleteButton() {
-    return PassiveButton(
-      title: "Remove",
-      onPressed: () {
-        handleImageDeleteFromS3();
-      },
-      icon: Image.asset(
-        'assets/images/trash.png',
-        height: 20,
-        width: 20,
-      ),
-      height: 44,
-      // width: 135,
-    );
-  }
-
-  Widget getProductImageEditButtons() {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [getImageChangeButton(), getImageDeleteButton()],
-      ),
-    );
-  }
-
-  Widget getSelectImageContainer() {
-    return Container(
-      width: double.infinity,
-      height: 176,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(
-          style: BorderStyle.solid,
-          color: AppTheme.color100.withOpacity(0.25),
-          width: 1.0,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          FlatButton.icon(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            icon: Padding(
-              padding: const EdgeInsets.only(
-                left: 20,
-                top: 14,
-                bottom: 14,
-              ),
-              child: Icon(BotigaIcons.gallery, size: 18),
-            ),
-            onPressed: () {
-              showImageSelectOption(context);
-            },
-            color: Colors.black.withOpacity(0.05),
-            label: Padding(
-              padding: const EdgeInsets.only(
-                right: 20,
-                top: 14,
-                bottom: 14,
-                left: 8,
-              ),
-              child: Text('Add image',
-                  style: AppTheme.textStyle.color100.w500.size(15)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 55, right: 55, top: 16),
-            child: Text(
-              'Adding image will increase people interest in your product',
-              textAlign: TextAlign.center,
-              style: AppTheme.textStyle.color50.w400
-                  .size(12)
-                  .letterSpace(0.2)
-                  .lineHeight(1.5),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget getNetworkImage() {
-    return ConstrainedBox(
-      constraints: BoxConstraints.tight(
-        Size(double.infinity, 135),
-      ),
-      child: Row(
-        children: [
-          ColorFiltered(
-            colorFilter: _available
-                ? ColorFilter.mode(
-                    Colors.transparent,
-                    BlendMode.multiply,
-                  )
-                : ColorFilter.mode(
-                    AppTheme.backgroundColor,
-                    BlendMode.saturation,
-                  ),
-            child: EditProductNetworkAvatar(
-              imageUrl: _imageUrl,
-            ),
-          ),
-          SizedBox(width: 20),
-          getProductImageEditButtons()
-        ],
-      ),
-    );
-  }
-
-  Widget getSelectedImageContainer() {
-    return ConstrainedBox(
-      constraints: BoxConstraints.tight(
-        Size(double.infinity, 135),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 180,
-            height: 135,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: ClipRRect(
-              child: Image.file(
-                File(_imageFile.path),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          getProductImageEditButtons()
-        ],
-      ),
-    );
   }
 }

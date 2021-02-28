@@ -48,7 +48,9 @@ class _CommunitiesState extends State<Communities> {
   void updateDeliverySchedule(
       String _apartmentId, String _deliveryType, int _day, String _slot) async {
     try {
-      Navigator.of(context).popUntil(ModalRoute.withName(HomeScreen.routeName));
+      Navigator.of(context).popUntil((route) {
+        return route.isFirst;
+      });
       final profileProvider =
           Provider.of<ProfileProvider>(context, listen: false);
       setState(() {

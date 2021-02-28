@@ -207,7 +207,6 @@ Widget getTile(BuildContext context, ProductByCategory productWithCategory,
                             productId: entry.value.id,
                             categoryId: productWithCategory.categoryId,
                             categoryName: productWithCategory.name,
-                            showWithImage: imageStatus[entry.value.id],
                           ),
                         ),
                         entry.key != productWithCategory.products.length - 1
@@ -279,10 +278,10 @@ Widget getProductTile(
               closedBuilder: (context, openContainer) => ProductItemRow(
                   product, setProductAvilablity, openContainer, setImageStatus),
               openBuilder: (_, __) => EditProduct(
-                  productId: product.id,
-                  categoryId: productWithCategory.categoryId,
-                  categoryName: productWithCategory.name,
-                  showWithImage: imageStatus[product.id]),
+                productId: product.id,
+                categoryId: productWithCategory.categoryId,
+                categoryName: productWithCategory.name,
+              ),
             ),
             Divider(
               color: AppTheme.dividerColor,

@@ -1,12 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/index.dart'
-    show CategoryProvider, ProductProvider, ServicesProvider;
+import '../../../providers/index.dart' show CategoryProvider, ProductProvider;
 import '../../../theme/index.dart';
 import '../../../util/index.dart';
 import '../../../widget/buttons/index.dart';
@@ -16,8 +13,7 @@ import '../../../widget/index.dart'
         BotigaAppBar,
         BotigaBottomModal,
         BotigaTextFieldForm,
-        LoaderOverlay,
-        ImageSelectionWidget;
+        LoaderOverlay;
 import '../../home/index.dart' show HomeScreen;
 
 class AddProduct extends StatefulWidget {
@@ -27,12 +23,7 @@ class AddProduct extends StatefulWidget {
 }
 
 class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
-  File _imageFile;
-  TextEditingController maxWidthController,
-      maxHeightController,
-      qualityController,
-      _mrpController;
-
+  TextEditingController _mrpController;
   GlobalKey<FormState> _formKey;
 
   bool _isInit;
@@ -45,7 +36,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   String _seletedCategoryId;
   bool _switchValue;
   String _description;
-  String uploadurl = '', downloadUrl = '';
   bool isSaving;
 
   FocusNode _nameFocusNode,
@@ -60,9 +50,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _formKey = GlobalKey<FormState>();
-    maxWidthController = TextEditingController();
-    maxHeightController = TextEditingController();
-    qualityController = TextEditingController();
     _mrpController = TextEditingController();
 
     _isInit = false;
@@ -90,10 +77,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   void dispose() {
     _controller.removeStatusListener(loadTabbarAfterAnimationCompletion);
     _controller.dispose();
-
-    maxWidthController.dispose();
-    maxHeightController.dispose();
-    qualityController.dispose();
     _mrpController.dispose();
 
     _nameFocusNode.dispose();
@@ -145,7 +128,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     if (!_isInit) {
-      this._getPreSignedUrl();
       final firstCategories =
           Provider.of<CategoryProvider>(context, listen: true)
               .allCategories
@@ -159,38 +141,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
       _isInit = true;
     }
     super.didChangeDependencies();
-  }
-
-  void _getPreSignedUrl() async {
-    try {
-      setState(() => isSaving = true);
-      final value = await Provider.of<ServicesProvider>(context, listen: false)
-          .getPresignedImageUrl();
-      setState(() {
-        uploadurl = value['uploadUrl'];
-        downloadUrl = value['downloadUrl'];
-      });
-    } catch (err) {
-      Toast(message: Http.message(err)).show(context);
-    } finally {
-      setState(() => isSaving = false);
-    }
-  }
-
-  void _handleImageUpload(File file) async {
-    if (file == null) {
-      return;
-    }
-    try {
-      setState(() => isSaving = true);
-      await Provider.of<ServicesProvider>(context, listen: false)
-          .uploadImageToS3(uploadurl, file);
-    } catch (err) {
-      setState(() => _imageFile = null);
-      Toast(message: 'Something went wrong!').show(context);
-    } finally {
-      setState(() => isSaving = false);
-    }
   }
 
   void showCategories() {
@@ -254,23 +204,9 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
         .show(context);
   }
 
-  void showImageSelectOption(BuildContext context) {
-    ImageSelectionWidget(
-      width: 180,
-      height: 135,
-      onImageSelection: (imageFile) {
-        setState(() {
-          _imageFile = imageFile;
-        });
-        this._handleImageUpload(_imageFile);
-      },
-    ).show(context);
-  }
-
   void _handleProductSave() async {
     try {
       setState(() => isSaving = true);
-      final saveImageUrl = _imageFile != null ? downloadUrl : '';
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.saveProduct(
@@ -279,7 +215,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
         price: _price,
         quantity: _quantity,
         unit: _selectedQuantity,
-        imageUrl: saveImageUrl,
+        imageUrl: '',
         description: _description,
         mrp: _mrp,
       );
@@ -287,21 +223,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
       BotigaBottomModal(child: addProductSuccessful()).show(context);
     } catch (err) {
       Toast(message: Http.message(err)).show(context);
-    } finally {
-      setState(() => isSaving = false);
-    }
-  }
-
-  void _handleImageDelete() async {
-    try {
-      setState(() => isSaving = true);
-      await Provider.of<ServicesProvider>(context, listen: false)
-          .deleteImageFromS3(downloadUrl);
-      setState(() {
-        _imageFile = null;
-      });
-    } catch (err) {
-      Toast(message: 'Unable to delete image').show(context);
     } finally {
       setState(() => isSaving = false);
     }
@@ -367,136 +288,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            _imageFile != null
-                                ? ConstrainedBox(
-                                    constraints: BoxConstraints.tight(
-                                      Size(double.infinity, 135),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          width: 180,
-                                          height: 135,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: ClipRRect(
-                                            child: Image.file(
-                                              File(_imageFile.path),
-                                              fit: BoxFit.cover,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                        ),
-                                        SizedBox(width: 20),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              PassiveButton(
-                                                title: 'Change',
-                                                onPressed: () {
-                                                  showImageSelectOption(
-                                                      context);
-                                                },
-                                                icon: Icon(
-                                                  Icons.edit,
-                                                  color: AppTheme.color100,
-                                                  size: 17,
-                                                ),
-                                                height: 44,
-                                              ),
-                                              PassiveButton(
-                                                title: 'Remove',
-                                                onPressed: () {
-                                                  _handleImageDelete();
-                                                },
-                                                icon: Icon(
-                                                  Icons.delete_outline,
-                                                  color: AppTheme.color100,
-                                                  size: 17,
-                                                ),
-                                                height: 44,
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                : Container(
-                                    width: double.infinity,
-                                    height: 176,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      border: Border.all(
-                                        style: BorderStyle.solid,
-                                        color:
-                                            AppTheme.color100.withOpacity(0.25),
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        FlatButton.icon(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                          ),
-                                          icon: Padding(
-                                            padding: const EdgeInsets.only(
-                                              left: 20,
-                                              top: 14,
-                                              bottom: 14,
-                                            ),
-                                            child: Icon(BotigaIcons.gallery,
-                                                size: 18),
-                                          ),
-                                          onPressed: () =>
-                                              showImageSelectOption(context),
-                                          color: Colors.black.withOpacity(0.05),
-                                          label: Padding(
-                                            padding: const EdgeInsets.only(
-                                              right: 20,
-                                              top: 14,
-                                              bottom: 14,
-                                              left: 8,
-                                            ),
-                                            child: Text('Add image',
-                                                style: AppTheme
-                                                    .textStyle.color100.w500
-                                                    .size(15)),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 55,
-                                            right: 55,
-                                            top: 16,
-                                          ),
-                                          child: Text(
-                                            'Adding image will increase people interest in your product',
-                                            textAlign: TextAlign.center,
-                                            style: AppTheme
-                                                .textStyle.color50.w400
-                                                .size(12)
-                                                .letterSpace(0.2)
-                                                .lineHeight(1.5),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                            _sizedBox26,
                             BotigaTextFieldForm(
                               focusNode: _nameFocusNode,
                               labelText: 'Product name',
