@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/store/index.dart';
-import '../../../providers/index.dart' show ProductProvider, ServicesProvider;
+import '../../../providers/index.dart' show ProductProvider;
 import '../../../theme/index.dart';
 import '../../../util/index.dart';
 import '../../../widget/index.dart'

@@ -7,7 +7,6 @@ import '../../../providers/index.dart' show ProfileProvider;
 import '../../../theme/index.dart';
 import '../../../util/index.dart' show Http;
 import '../../../widget/index.dart';
-import '../../home/index.dart' show HomeScreen;
 import 'communityTile.dart';
 
 class Communities extends StatefulWidget {
