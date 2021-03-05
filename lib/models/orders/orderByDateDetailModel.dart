@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../util/index.dart' show StringExtensions;
+
 part 'orderByDateDetailModel.g.dart';
 
 @JsonSerializable()
@@ -30,6 +32,9 @@ class Order {
   DateTime orderDate;
   String status;
   double totalAmount;
+  String couponCode;
+  double discountAmount;
+
   List<Product> products;
 
   Order({
@@ -39,6 +44,8 @@ class Order {
     this.products,
     this.status,
     this.totalAmount,
+    this.discountAmount,
+    this.couponCode,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
@@ -52,6 +59,8 @@ class Order {
   bool get isCancelled => status == 'cancelled';
 
   bool get isCompleted => isDelivered || isCancelled;
+
+  bool get hasCoupon => couponCode.isNotNullAndEmpty;
 
   String get statusMessage {
     if (isOpen) {
