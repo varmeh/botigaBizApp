@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 const TODAY = 'TODAY';
 
-extension DateFormatter on DateTime {
+extension DateExtension on DateTime {
   String getLongformatDateWithTime() {
     return DateFormat('d MMM, y hh:mm a').format(this.toLocal());
   }

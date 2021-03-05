@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../models/orders/index.dart';
-import '../util/index.dart' show Http, DateFormatter;
+import '../util/index.dart' show Http, DateExtension;
 
 class DeliveryProvider with ChangeNotifier {
   List<OrderByDateDetail> _deliveryListByApartmentOtherDay = [];
