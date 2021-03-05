@@ -60,7 +60,7 @@ class Flavor {
     } else if (isQa) {
       return 'https://qa.botiga.app';
     } else {
-      return 'http://localhost:5000';
+      return 'https://dev.botiga.app';
     }
   }
 }
