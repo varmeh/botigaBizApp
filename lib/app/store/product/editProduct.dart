@@ -534,23 +534,24 @@ class _EditProductState extends State<EditProduct>
       setState(() => isSaving = true);
 
       final _productDescription = _switchValue == true ? _description : '';
-      final updateImage = false;
+      Product product = Provider.of<ProductProvider>(context, listen: false)
+          .getProductById(widget.categoryId, widget.productId);
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
 
       await productProvider.updateProduct(
-        categoryId: _seletedCategoryId,
-        productId: _productId,
-        name: _name,
-        price: _price,
-        mrp: _mrp,
-        quantity: _quantity,
-        unit: _selectedUnit,
-        imageUrl: imageUrl,
-        description: _productDescription,
-        availableStatus: _available,
-        updateImagurl: updateImage,
-      );
+          categoryId: _seletedCategoryId,
+          productId: _productId,
+          name: _name,
+          price: _price,
+          mrp: _mrp,
+          quantity: _quantity,
+          unit: _selectedUnit,
+          imageUrl: product.imageUrl,
+          description: _productDescription,
+          availableStatus: _available,
+          imageUrlLarge: product.imageUrlLarge,
+          secondaryImageUrls: product.secondaryImageUrls);
 
       await productProvider.fetchProducts();
       BotigaBottomModal(child: editSuccessful()).show(context);

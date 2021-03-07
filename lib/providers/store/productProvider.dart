@@ -48,22 +48,25 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future saveProduct({
-    String categoryId,
-    String name,
-    double price,
-    final mrp, // double or null
-    double quantity,
-    String unit,
-    String imageUrl,
-    String description,
-  }) async {
+  Future saveProduct(
+      {String categoryId,
+      String name,
+      double price,
+      final mrp, // double or null
+      double quantity,
+      String unit,
+      String imageUrl,
+      String description,
+      String imageUrlLarge,
+      List<String> secondaryImageUrls}) async {
     final body = {
       'categoryId': categoryId,
       'name': name,
       'price': price,
       'size': {'quantity': '$quantity', 'unit': unit},
       'imageUrl': imageUrl,
+      'imageUrlLarge': imageUrlLarge,
+      'secondaryImageUrls': [],
       'description': description,
       'available': true
     };
@@ -86,25 +89,26 @@ class ProductProvider with ChangeNotifier {
       'unit': productSpec.elementAt(1),
       'quantity': productSpec.elementAt(0),
       'available': availableStatus,
-      'updateImage': false,
       'imageUrl': product.imageUrl,
+      'imageUrlLarge': product.imageUrlLarge,
+      'secondaryImageUrls': product.secondaryImageUrls,
       'description': product.description,
     });
   }
 
-  Future updateProduct({
-    String categoryId,
-    String productId,
-    String name,
-    double price,
-    double mrp,
-    double quantity,
-    String unit,
-    String imageUrl,
-    String description,
-    bool availableStatus,
-    bool updateImagurl,
-  }) async {
+  Future updateProduct(
+      {String categoryId,
+      String productId,
+      String name,
+      double price,
+      double mrp,
+      double quantity,
+      String unit,
+      String imageUrl,
+      String description,
+      bool availableStatus,
+      String imageUrlLarge,
+      List<String> secondaryImageUrls}) async {
     final body = {
       'categoryId': categoryId,
       'productId': productId,
@@ -113,9 +117,10 @@ class ProductProvider with ChangeNotifier {
       'unit': unit,
       'quantity': quantity,
       'available': availableStatus,
-      'updateImage': updateImagurl,
       'imageUrl': imageUrl,
       'description': description,
+      'imageUrlLarge': imageUrlLarge,
+      'secondaryImageUrls': secondaryImageUrls
     };
 
     if (mrp != null) {

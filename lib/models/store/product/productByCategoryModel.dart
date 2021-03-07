@@ -25,6 +25,8 @@ class Product {
   String size;
   String description;
   String imageUrl;
+  String imageUrlLarge;
+  List<String> secondaryImageUrls;
   String tag;
 
   Product({
@@ -35,7 +37,9 @@ class Product {
     this.available,
     this.size,
     this.description = '',
-    this.imageUrl,
+    this.imageUrl = '',
+    this.imageUrlLarge = '',
+    this.secondaryImageUrls,
     this.tag,
   });
 

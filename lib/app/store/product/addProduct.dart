@@ -210,15 +210,16 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
       final productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.saveProduct(
-        categoryId: _seletedCategoryId,
-        name: _name,
-        price: _price,
-        quantity: _quantity,
-        unit: _selectedQuantity,
-        imageUrl: '',
-        description: _description,
-        mrp: _mrp,
-      );
+          categoryId: _seletedCategoryId,
+          name: _name,
+          price: _price,
+          quantity: _quantity,
+          unit: _selectedQuantity,
+          imageUrl: '',
+          description: _description,
+          mrp: _mrp,
+          imageUrlLarge: '',
+          secondaryImageUrls: []);
       await productProvider.fetchProducts();
       BotigaBottomModal(child: addProductSuccessful()).show(context);
     } catch (err) {
