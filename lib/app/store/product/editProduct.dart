@@ -246,8 +246,10 @@ class _EditProductState extends State<EditProduct>
                               labelText: 'MRP (Optional)',
                               keyboardType: TextInputType.datetime,
                               onSave: (value) {
-                                if (value.isNotEmpty)
+                                if (value.isNotEmpty &&
+                                    double.tryParse(value) != null) {
                                   _mrp = double.parse(value);
+                                }
                               },
                               onChange: (_) => handleFormChange(),
                               validator: (value) {
@@ -275,6 +277,8 @@ class _EditProductState extends State<EditProduct>
                                 } else if (double.tryParse(value) == null) {
                                   return 'Please use numbers for price';
                                 } else if (_mrpController.text.isNotEmpty &&
+                                    double.tryParse(_mrpController.text) !=
+                                        null &&
                                     double.parse(_mrpController.text) <=
                                         double.tryParse(value)) {
                                   return 'Selling Price should be lower than MRP';

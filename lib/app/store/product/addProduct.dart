@@ -337,8 +337,10 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                               labelText: 'MRP (Optional)',
                               keyboardType: TextInputType.datetime,
                               onSave: (value) {
-                                if (value.isNotEmpty)
+                                if (value.isNotEmpty &&
+                                    double.tryParse(value) != null) {
                                   _mrp = double.parse(value);
+                                }
                               },
                               validator: (value) {
                                 if (value.isNotEmpty &&
@@ -363,6 +365,8 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                 } else if (double.tryParse(value) == null) {
                                   return 'Please use numbers for price';
                                 } else if (_mrpController.text.isNotEmpty &&
+                                    double.tryParse(_mrpController.text) !=
+                                        null &&
                                     double.parse(_mrpController.text) <=
                                         double.tryParse(value)) {
                                   return 'Selling Price should be lower than MRP';
