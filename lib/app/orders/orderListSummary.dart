@@ -73,7 +73,7 @@ class OrderListSummary extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            'Saved with Coupon',
+                            'Coupon Applied (${orderDetail.order.couponCode})',
                             style: _style.color100,
                           ),
                         ),
