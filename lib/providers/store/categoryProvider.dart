@@ -43,6 +43,13 @@ class CategoryProvider with ChangeNotifier {
     });
   }
 
+  Future updateCategoryVisiblity(String categoryId, bool visible) {
+    return Http.patch('/api/seller/categories/visible', body: {
+      'categoryId': categoryId,
+      'visible': visible,
+    });
+  }
+
   Future resetCategory() async {
     this._categories = [];
     this._hasCategories = false;

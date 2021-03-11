@@ -6,8 +6,9 @@ part 'storeCategoryModel.g.dart';
 class StoreCategory {
   String id;
   String name;
+  bool visible;
 
-  StoreCategory({this.id, this.name});
+  StoreCategory({this.id, this.name, this.visible});
 
   factory StoreCategory.fromJson(Map<String, dynamic> json) =>
       _$StoreCategoryFromJson(json);

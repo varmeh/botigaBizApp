@@ -72,6 +72,22 @@ class _CategoryState extends State<Category> {
     }
   }
 
+  _handleCateoryVisiblity(
+      String categoryId, bool visible, Function onErr) async {
+    try {
+      setStatus(true);
+      final categoryProvider =
+          Provider.of<CategoryProvider>(context, listen: false);
+      await categoryProvider.updateCategoryVisiblity(categoryId, visible);
+      await categoryProvider.fetchCategories();
+    } catch (err) {
+      onErr();
+      Toast(message: Http.message(err)).show(context);
+    } finally {
+      setStatus(false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<StoreCategory> categories =
@@ -90,11 +106,11 @@ class _CategoryState extends State<Category> {
                   children: [
                     ...categories.map((category) {
                       return getTile(
-                        context,
-                        category,
-                        this.setStatus,
-                        this._handleCategoryEdit,
-                      );
+                          context,
+                          category,
+                          this.setStatus,
+                          this._handleCategoryEdit,
+                          this._handleCateoryVisiblity);
                     })
                   ],
                 ),
@@ -103,8 +119,12 @@ class _CategoryState extends State<Category> {
           );
   }
 
-  Widget getTile(BuildContext context, StoreCategory category,
-      Function setStatus, Function handleCategoryEdit) {
+  Widget getTile(
+      BuildContext context,
+      StoreCategory category,
+      Function setStatus,
+      Function handleCategoryEdit,
+      Function _handleCateoryVisiblity) {
     final productProvider = Provider.of<ProductProvider>(context, listen: true);
     final productCount = productProvider.productCountForCategory(category.id);
     final countDisplay = productCount < 10 ? '0$productCount' : productCount;
@@ -236,15 +256,9 @@ class _CategoryState extends State<Category> {
             ),
           ),
           trailing: productCount != 0
-              ? GestureDetector(
-                  onTap: () {
-                    Toast(message: 'Deletion possible for empty category')
-                        .show(context);
-                  },
-                  child: Icon(
-                    Icons.delete_sharp,
-                    color: AppTheme.color50,
-                  ),
+              ? CategoryAvailiblitySwitch(
+                  category: category,
+                  handleCateoryVisiblity: _handleCateoryVisiblity,
                 )
               : GestureDetector(
                   child: Icon(
@@ -295,6 +309,58 @@ class _CategoryState extends State<Category> {
         Divider(
           color: AppTheme.dividerColor,
           thickness: 1.2,
+        ),
+      ],
+    );
+  }
+}
+
+class CategoryAvailiblitySwitch extends StatefulWidget {
+  final StoreCategory category;
+  final Function handleCateoryVisiblity;
+
+  CategoryAvailiblitySwitch(
+      {@required this.category, @required this.handleCateoryVisiblity});
+
+  @override
+  _CategoryAvailiblitySwitchState createState() =>
+      _CategoryAvailiblitySwitchState();
+}
+
+class _CategoryAvailiblitySwitchState extends State<CategoryAvailiblitySwitch> {
+  bool visiblity = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      visiblity = widget.category.visible;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String statusText = visiblity ? 'Visible' : 'Not Visible';
+    return Wrap(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Text(
+            statusText,
+            textAlign: TextAlign.right,
+            style: AppTheme.textStyle.color50.w500.size(12).letterSpace(0.5),
+          ),
+        ),
+        BotigaSwitch(
+          scale: 0.65,
+          handleSwitchChage: (bool value) {
+            setState(() => visiblity = value);
+            widget.handleCateoryVisiblity(widget.category.id, value, () {
+              setState(() => visiblity = !value);
+            });
+          },
+          switchValue: visiblity,
+          alignment: Alignment.centerRight,
         ),
       ],
     );

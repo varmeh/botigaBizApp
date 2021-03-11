@@ -5,9 +5,10 @@ part 'productByCategoryModel.g.dart';
 class ProductByCategory {
   String categoryId;
   String name;
+  bool visible;
   List<Product> products;
 
-  ProductByCategory({this.categoryId, this.name, this.products});
+  ProductByCategory({this.categoryId, this.name, this.products, this.visible});
 
   factory ProductByCategory.fromJson(Map<String, dynamic> json) =>
       _$ProductByCategoryFromJson(json);

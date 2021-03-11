@@ -14,6 +14,7 @@ ProductByCategory _$ProductByCategoryFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Product.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    visible: json['visible'] as bool,
   );
 }
 
@@ -21,6 +22,7 @@ Map<String, dynamic> _$ProductByCategoryToJson(ProductByCategory instance) =>
     <String, dynamic>{
       'categoryId': instance.categoryId,
       'name': instance.name,
+      'visible': instance.visible,
       'products': instance.products,
     };
 
