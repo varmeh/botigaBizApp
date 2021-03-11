@@ -108,12 +108,16 @@ Apartment _$ApartmentFromJson(Map<String, dynamic> json) {
     contact: json['contact'] == null
         ? null
         : AprtmentContact.fromJson(json['contact'] as Map<String, dynamic>),
+    deliveryFee: json['deliveryFee'] as int,
+    deliveryMinOrder: json['deliveryMinOrder'] as int,
   );
 }
 
 Map<String, dynamic> _$ApartmentToJson(Apartment instance) => <String, dynamic>{
       'apartmentName': instance.apartmentName,
       'apartmentArea': instance.apartmentArea,
+      'deliveryFee': instance.deliveryFee,
+      'deliveryMinOrder': instance.deliveryMinOrder,
       '_id': instance.id,
       'live': instance.live,
       'deliveryMessage': instance.deliveryMessage,

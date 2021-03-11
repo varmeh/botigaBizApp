@@ -267,4 +267,16 @@ class ProfileProvider with ChangeNotifier {
       },
     );
   }
+
+  Future updateDeliveryFee(
+      String apartmentId, int deliveryMinOrder, int deliveryFee) {
+    return Http.patch(
+      '/api/seller/apartments/deliveryfee',
+      body: {
+        "apartmentId": apartmentId,
+        "deliveryMinOrder": deliveryMinOrder,
+        "deliveryFee": deliveryFee
+      },
+    );
+  }
 }
