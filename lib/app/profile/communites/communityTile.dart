@@ -145,6 +145,34 @@ class _CommunityTileState extends State<CommunityTile> {
           SizedBox(
             height: 16,
           ),
+          (widget.apt.deliveryFee != 0 && widget.apt.deliveryFee != null)
+              ? Row(
+                  children: [
+                    Text(
+                      'Delivery fee of ₹${widget.apt.deliveryFee} on order below ₹${widget.apt.deliveryMinOrder}',
+                      style: AppTheme.textStyle
+                          .size(15)
+                          .w500
+                          .color50
+                          .lineHeight(1.33),
+                    )
+                  ],
+                )
+              : Row(
+                  children: [
+                    Text(
+                      'Free delivery',
+                      style: AppTheme.textStyle
+                          .size(15)
+                          .w500
+                          .color50
+                          .lineHeight(1.33),
+                    )
+                  ],
+                ),
+          SizedBox(
+            height: 16,
+          ),
           Divider(
             color: AppTheme.dividerColor,
             thickness: 1.2,
