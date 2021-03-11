@@ -174,11 +174,17 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                             }
                           },
                           color: AppTheme.primaryColor,
-                          child: Text('Enable Community',
-                              style: AppTheme.textStyle
-                                  .colored(AppTheme.backgroundColor)
-                                  .size(15)
-                                  .w600),
+                          child: !widget.isSave
+                              ? Text('Update',
+                                  style: AppTheme.textStyle
+                                      .colored(AppTheme.backgroundColor)
+                                      .size(15)
+                                      .w600)
+                              : Text('Enable Community',
+                                  style: AppTheme.textStyle
+                                      .colored(AppTheme.backgroundColor)
+                                      .size(15)
+                                      .w600),
                         ),
                       ),
                     ),
