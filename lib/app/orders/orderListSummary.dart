@@ -29,18 +29,18 @@ class OrderListSummary extends StatelessWidget {
           return OrderListItem(el.name, el.price, el.quantity, el.unitInfo);
         }),
         SizedBox(height: 24.0),
-        _discountData(),
+        _discountAndDeliveryData(),
         _total(),
       ],
     );
   }
 
-  Widget _discountData() {
+  Widget _discountAndDeliveryData() {
     final _sizedBox20 = SizedBox(height: 20);
     final _style =
         AppTheme.textStyle.w500.size(13).lineHeight(1.2).letterSpace(0.2);
 
-    return orderDetail.order.hasCoupon
+    return orderDetail.order.hasCoupon || orderDetail.order.hasDeliveryFee
         ? Column(
             children: [
               Divider(color: AppTheme.dividerColor, thickness: 1),
@@ -60,32 +60,59 @@ class OrderListSummary extends StatelessWidget {
                         ),
                         Expanded(
                           child: Text(
-                            '₹${orderDetail.order.totalAmount + orderDetail.order.discountAmount}',
+                            '₹${orderDetail.order.totalAmount + orderDetail.order.discountAmount - orderDetail.order.deliveryFee}',
                             style: _style.color100,
                             textAlign: TextAlign.end,
                           ),
                         ),
                       ],
                     ),
-                    _sizedBox20,
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'Coupon Applied (${orderDetail.order.couponCode})',
-                            style: _style.color100,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            '-₹${orderDetail.order.discountAmount}',
-                            style: _style.colored(AppTheme.primaryColor),
-                            textAlign: TextAlign.end,
-                          ),
-                        ),
-                      ],
-                    ),
+                    orderDetail.order.hasDeliveryFee
+                        ? _sizedBox20
+                        : SizedBox.shrink(),
+                    orderDetail.order.hasDeliveryFee
+                        ? Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  'Delivery Fee',
+                                  style: _style.color100,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '₹${orderDetail.order.deliveryFee.toDouble()}',
+                                  style: _style.colored(AppTheme.color100),
+                                  textAlign: TextAlign.end,
+                                ),
+                              ),
+                            ],
+                          )
+                        : SizedBox.shrink(),
+                    orderDetail.order.hasCoupon
+                        ? _sizedBox20
+                        : SizedBox.shrink(),
+                    orderDetail.order.hasCoupon
+                        ? Row(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Text(
+                                  'Coupon Applied (${orderDetail.order.couponCode})',
+                                  style: _style.color100,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  '-₹${orderDetail.order.discountAmount}',
+                                  style: _style.colored(AppTheme.primaryColor),
+                                  textAlign: TextAlign.end,
+                                ),
+                              ),
+                            ],
+                          )
+                        : SizedBox.shrink()
                   ],
                 ),
               ),

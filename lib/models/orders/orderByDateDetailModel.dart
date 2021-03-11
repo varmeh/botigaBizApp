@@ -33,6 +33,7 @@ class Order {
   String status;
   double totalAmount;
   String couponCode;
+  final int deliveryFee;
   double discountAmount;
 
   List<Product> products;
@@ -46,6 +47,7 @@ class Order {
     this.totalAmount,
     this.discountAmount,
     this.couponCode,
+    this.deliveryFee = 0,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);
@@ -61,6 +63,9 @@ class Order {
   bool get isCompleted => isDelivered || isCancelled;
 
   bool get hasCoupon => couponCode.isNotNullAndEmpty;
+
+  bool get hasDeliveryFee =>
+      deliveryFee != 0 && deliveryFee.toString().isNotNullAndEmpty;
 
   String get statusMessage {
     if (isOpen) {
