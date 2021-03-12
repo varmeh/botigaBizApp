@@ -60,9 +60,14 @@ class _CommunityTileState extends State<CommunityTile> {
     final _hasSlot =
         widget.apt.deliverySlot != null && widget.apt.deliverySlot.isNotEmpty;
 
+    final _deliveryText = widget.apt.deliveryFee != 0
+        ? 'Delivery fee of ₹${widget.apt.deliveryFee} on order below ₹${widget.apt.deliveryMinOrder}'
+        : 'Free delivery';
+
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -142,37 +147,12 @@ class _CommunityTileState extends State<CommunityTile> {
               )
             ],
           ),
-          SizedBox(
-            height: 16,
+          SizedBox(height: 16),
+          Text(
+            _deliveryText,
+            style: AppTheme.textStyle.size(15).w500.color50.lineHeight(1.33),
           ),
-          (widget.apt.deliveryFee != 0 && widget.apt.deliveryFee != null)
-              ? Row(
-                  children: [
-                    Text(
-                      'Delivery fee of ₹${widget.apt.deliveryFee} on order below ₹${widget.apt.deliveryMinOrder}',
-                      style: AppTheme.textStyle
-                          .size(15)
-                          .w500
-                          .color50
-                          .lineHeight(1.33),
-                    )
-                  ],
-                )
-              : Row(
-                  children: [
-                    Text(
-                      'Free delivery',
-                      style: AppTheme.textStyle
-                          .size(15)
-                          .w500
-                          .color50
-                          .lineHeight(1.33),
-                    )
-                  ],
-                ),
-          SizedBox(
-            height: 16,
-          ),
+          SizedBox(height: 16),
           Divider(
             color: AppTheme.dividerColor,
             thickness: 1.2,
@@ -371,7 +351,7 @@ class _CommunityTileState extends State<CommunityTile> {
                   builder: (builder) {
                     return Container(
                       width: double.infinity,
-                      height: 425,
+                      height: 460,
                       decoration: BoxDecoration(
                         color: AppTheme.backgroundColor,
                         borderRadius: BorderRadius.only(

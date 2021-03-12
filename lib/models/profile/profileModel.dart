@@ -107,16 +107,17 @@ class Apartment {
   String deliverySlot;
   AprtmentContact contact;
 
-  Apartment(
-      {this.apartmentName,
-      this.apartmentArea,
-      this.id,
-      this.live,
-      this.deliveryMessage,
-      this.deliverySlot,
-      this.contact,
-      this.deliveryFee,
-      this.deliveryMinOrder});
+  Apartment({
+    this.apartmentName,
+    this.apartmentArea,
+    this.id,
+    this.live,
+    this.deliveryMessage,
+    this.deliverySlot,
+    this.contact,
+    this.deliveryFee = 0,
+    this.deliveryMinOrder,
+  });
 
   factory Apartment.fromJson(Map<String, dynamic> json) =>
       _$ApartmentFromJson(json);
