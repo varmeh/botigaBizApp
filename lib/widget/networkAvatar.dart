@@ -36,7 +36,7 @@ class _ProductNetworkAvatarState extends State<ProductNetworkAvatar> {
       child: CachedNetworkImage(
         fit: BoxFit.fill,
         width: 120.0,
-        height: 90.0,
+        height: 120.0,
         placeholder: (_, __) => _placeholderImage(),
         imageUrl: this.widget.imageUrl,
         errorWidget: (context, url, error) {
@@ -49,7 +49,7 @@ class _ProductNetworkAvatarState extends State<ProductNetworkAvatar> {
   Widget _placeholderImage() {
     return Container(
       width: 120.0,
-      height: 90.0,
+      height: 120.0,
       decoration: BoxDecoration(
         image: DecorationImage(
             fit: BoxFit.fill, image: AssetImage(this.widget.imagePlaceholder)),
