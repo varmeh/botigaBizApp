@@ -11,10 +11,11 @@ class AddDeliveryFee extends StatefulWidget {
   final int deliveryMinOrder;
   final int deliveryFee;
 
-  AddDeliveryFee(
-      {@required this.apartmentId,
-      @required this.deliveryMinOrder,
-      @required this.deliveryFee});
+  AddDeliveryFee({
+    @required this.apartmentId,
+    @required this.deliveryMinOrder,
+    @required this.deliveryFee,
+  });
   @override
   _AddDeliveryFeeState createState() => _AddDeliveryFeeState();
 }
@@ -88,7 +89,7 @@ class _AddDeliveryFeeState extends State<AddDeliveryFee> {
             child: Container(
                 padding: EdgeInsets.all(10),
                 child: Row(
-                  children: <Widget>[
+                  children: [
                     Expanded(
                       child: SizedBox(
                         height: 52,
@@ -122,7 +123,7 @@ class _AddDeliveryFeeState extends State<AddDeliveryFee> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
+                    children: [
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Container(
@@ -136,14 +137,12 @@ class _AddDeliveryFeeState extends State<AddDeliveryFee> {
                                         .size(22)
                                         .w700),
                               ),
-                              SizedBox(
-                                height: 25,
-                              ),
+                              SizedBox(height: 24),
                               BotigaTextFieldForm(
                                 initialValue: _deliveryMinOrder.toString(),
                                 focusNode: _deliveryMinOrderFocusNode,
                                 nextFocusNode: _deliveryFeeFocusNode,
-                                labelText: 'Min. Delivery amount',
+                                labelText: 'Min. Order Amount',
                                 keyboardType: TextInputType.datetime,
                                 onSave: (value) =>
                                     _deliveryMinOrder = int.parse(value),
@@ -161,18 +160,14 @@ class _AddDeliveryFeeState extends State<AddDeliveryFee> {
                                   return null;
                                 },
                               ),
-                              SizedBox(
-                                height: 9,
-                              ),
+                              SizedBox(height: 9),
                               Text(
-                                  'Keep the value 0, if there is no min delivery fee. Max - ₹400',
+                                  'Keep the value 0 for no delivery charges. Max - ₹400',
                                   style: AppTheme.textStyle.color50
                                       .size(12)
                                       .letterSpace(0.15)
                                       .w500),
-                              SizedBox(
-                                height: 25,
-                              ),
+                              SizedBox(height: 24),
                               BotigaTextFieldForm(
                                 initialValue: _deliveryFee.toString(),
                                 focusNode: _deliveryFeeFocusNode,
@@ -197,7 +192,7 @@ class _AddDeliveryFeeState extends State<AddDeliveryFee> {
                               SizedBox(
                                 height: 9,
                               ),
-                              Text('Max. Delivery fee you can charge is ₹20',
+                              Text('Max. Delivery fee allowed is ₹20',
                                   style: AppTheme.textStyle.color50
                                       .size(12)
                                       .letterSpace(0.15)

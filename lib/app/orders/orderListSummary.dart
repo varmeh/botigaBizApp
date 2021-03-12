@@ -36,90 +36,64 @@ class OrderListSummary extends StatelessWidget {
   }
 
   Widget _discountAndDeliveryData() {
-    final _sizedBox20 = SizedBox(height: 20);
-    final _style =
-        AppTheme.textStyle.w500.size(13).lineHeight(1.2).letterSpace(0.2);
-
     return orderDetail.order.hasCoupon || orderDetail.order.hasDeliveryFee
         ? Column(
             children: [
               Divider(color: AppTheme.dividerColor, thickness: 1),
-              _sizedBox20,
+              SizedBox(height: 4), // 20 pixels padding by _billTile
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Text(
-                            'Items total',
-                            style: _style.color100,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            '₹${orderDetail.order.totalAmount + orderDetail.order.discountAmount - orderDetail.order.deliveryFee}',
-                            style: _style.color100,
-                            textAlign: TextAlign.end,
-                          ),
-                        ),
-                      ],
+                    _billTile(
+                      title: 'Items total',
+                      amount:
+                          '₹${orderDetail.order.totalAmount + orderDetail.order.discountAmount - orderDetail.order.deliveryFee}',
                     ),
-                    orderDetail.order.hasDeliveryFee
-                        ? _sizedBox20
-                        : SizedBox.shrink(),
-                    orderDetail.order.hasDeliveryFee
-                        ? Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Text(
-                                  'Delivery Fee',
-                                  style: _style.color100,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '₹${orderDetail.order.deliveryFee.toDouble()}',
-                                  style: _style.colored(AppTheme.color100),
-                                  textAlign: TextAlign.end,
-                                ),
-                              ),
-                            ],
-                          )
-                        : SizedBox.shrink(),
+                    _billTile(
+                      title: 'Delivery Fee',
+                      amount: '₹${orderDetail.order.deliveryFee.toDouble()}',
+                    ),
                     orderDetail.order.hasCoupon
-                        ? _sizedBox20
-                        : SizedBox.shrink(),
-                    orderDetail.order.hasCoupon
-                        ? Row(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Text(
-                                  'Coupon Applied (${orderDetail.order.couponCode})',
-                                  style: _style.color100,
-                                ),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  '-₹${orderDetail.order.discountAmount}',
-                                  style: _style.colored(AppTheme.primaryColor),
-                                  textAlign: TextAlign.end,
-                                ),
-                              ),
-                            ],
-                          )
+                        ? _billTile(
+                            title:
+                                'Coupon Applied (${orderDetail.order.couponCode})',
+                            amount: '-₹${orderDetail.order.discountAmount}',
+                            color: AppTheme.primaryColor)
                         : SizedBox.shrink()
                   ],
                 ),
               ),
-              _sizedBox20,
+              SizedBox(height: 24),
             ],
           )
         : Container();
+  }
+
+  Widget _billTile({String title, String amount, Color color}) {
+    final _style = AppTheme.textStyle.w500.color100
+        .size(13)
+        .lineHeight(1.2)
+        .letterSpace(0.2);
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: _style.color100,
+          ),
+          SizedBox(width: 24),
+          Text(
+            amount,
+            style: color != null ? _style.colored(color) : _style,
+            textAlign: TextAlign.end,
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _total() {

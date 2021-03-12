@@ -371,16 +371,12 @@ class _CommunityTileState extends State<CommunityTile> {
                   builder: (builder) {
                     return Container(
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.80,
+                      height: 425,
                       decoration: BoxDecoration(
                         color: AppTheme.backgroundColor,
                         borderRadius: BorderRadius.only(
-                          topLeft: const Radius.circular(
-                            16.0,
-                          ),
-                          topRight: const Radius.circular(
-                            16.0,
-                          ),
+                          topLeft: const Radius.circular(16.0),
+                          topRight: const Radius.circular(16.0),
                         ),
                       ),
                       child: AddDeliveryFee(

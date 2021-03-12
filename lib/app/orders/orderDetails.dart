@@ -350,7 +350,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 OrderStatusWidget(orderDetails: orderDetail),
                 divider,
                 OrderListSummary(orderDetail),
-                SizedBox(height: 87),
+                SizedBox(height: 40),
                 (orderDetail.order.isOpen == true ||
                         orderDetail.order.isDelayed == true)
                     ? Padding(
