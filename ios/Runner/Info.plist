@@ -25,9 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Use camera to take photos of your product for upload on Botiga</string>
+	<string>Use camera to take photos of your product for upload on your Botiga Store</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Your photos library is used to upload your brand logo and product photos on Botiga Store</string>
+	<string>Use photo library to upload your brand logo and product photos on Botiga Store</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>whatsapp</string>
