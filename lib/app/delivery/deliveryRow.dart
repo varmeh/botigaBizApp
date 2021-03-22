@@ -16,12 +16,13 @@ class DeliveryRow extends StatelessWidget {
   final Function handleMarkAsDeliverd;
 
   DeliveryRow(
-      this.delivery,
-      this.apartmentName,
-      this.apartmentId,
-      this.handleOutForDelivery,
-      this.selectedDateForRequest,
-      this.handleMarkAsDeliverd);
+    this.delivery,
+    this.apartmentName,
+    this.apartmentId,
+    this.handleOutForDelivery,
+    this.selectedDateForRequest,
+    this.handleMarkAsDeliverd,
+  );
 
   _handleOutForDelivery(String orderId) {
     this.handleOutForDelivery(orderId);
@@ -215,9 +216,7 @@ class DeliveryRow extends StatelessWidget {
         constraints: BoxConstraints(minWidth: 180),
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: AppTheme.dividerColor,
-            ),
+            color: Color(0xfff3f3f3),
             borderRadius: BorderRadius.all(
               Radius.circular(4.0),
             ),
@@ -242,9 +241,7 @@ class DeliveryRow extends StatelessWidget {
         constraints: BoxConstraints(minWidth: 180),
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: AppTheme.dividerColor,
-            ),
+            color: Color(0xfff3f3f3),
             borderRadius: BorderRadius.all(
               Radius.circular(4.0),
             ),
