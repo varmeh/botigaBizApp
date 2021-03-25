@@ -114,7 +114,7 @@ class _OrderDetailsState extends State<OrderDetails> {
       await deliveryProvider.setStatusOutForDelivery(id);
       await refetchScreenData(apartmentId, selectedDateForRequest, false);
       Toast(
-        message: 'Out for delivery',
+        message: 'Order Shipped',
         icon: Icon(
           BotigaIcons.truck,
           size: 24,
@@ -191,10 +191,10 @@ class _OrderDetailsState extends State<OrderDetails> {
 
     if (orderDetail.order.isOutForDelivery == true) {
       fn = handleMarkAsDeliverd;
-      btnText = 'Mark as delivered';
+      btnText = 'Mark Delivered';
     } else if (orderDetail.refund.isRefundDue) {
       fn = handleRefundComplete;
-      btnText = 'Mark as Refunded';
+      btnText = 'Mark Refunded';
     } else {
       return SizedBox.shrink();
     }
@@ -398,9 +398,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Icon(BotigaIcons.delay),
+                                      Icon(
+                                        BotigaIcons.delay,
+                                        size: 24,
+                                      ),
+                                      SizedBox(height: 4),
                                       Text(
-                                        'Mark as delay',
+                                        'Change Delivery Date',
                                         textAlign: TextAlign.center,
                                         style: AppTheme.textStyle.color100.w500
                                             .size(12)
@@ -411,9 +415,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 24,
-                            ),
+                            SizedBox(width: 24),
                             Container(
                               width: 90,
                               height: 128,
@@ -450,7 +452,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                         size: 34,
                                       ),
                                       Text(
-                                        'Out for delivery',
+                                        'Mark Shipped',
                                         textAlign: TextAlign.center,
                                         style: AppTheme.textStyle
                                             .colored(AppTheme.primaryColor)

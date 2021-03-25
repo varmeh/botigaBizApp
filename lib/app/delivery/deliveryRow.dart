@@ -223,7 +223,7 @@ class DeliveryRow extends StatelessWidget {
           ),
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
           child: Text(
-            'Out for delivery'.toUpperCase(),
+            'Mark Shipped'.toUpperCase(),
             textAlign: TextAlign.center,
             style: AppTheme.textStyle.color100.w600.size(12).letterSpace(0.2),
           ),

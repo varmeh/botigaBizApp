@@ -16,7 +16,7 @@ class OrderSummary extends StatelessWidget {
       deliveryMsg =
           'Expected delivery ${orderDetail.order.expectedDeliveryDate.getDate()}';
     } else if (orderDetail.order.isOutForDelivery) {
-      deliveryMsg = 'Out for delivery';
+      deliveryMsg = 'Order Shipped';
     } else if (orderDetail.order.isDelivered) {
       deliveryMsg =
           'Delivered on ${orderDetail.order.expectedDeliveryDate.getDate()}';

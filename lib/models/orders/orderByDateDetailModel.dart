@@ -71,7 +71,7 @@ class Order {
     if (isOpen) {
       return 'Order Placed';
     } else if (isOutForDelivery) {
-      return 'Out For Delivery';
+      return 'Order Shipped';
     } else if (isDelivered) {
       return 'Delivered';
     } else if (isDelayed) {
