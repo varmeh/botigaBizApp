@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../util/index.dart' show StringExtensions;
 import '../models/orders/index.dart' show OrderByDateDetail;
 import '../theme/index.dart';
 import 'index.dart'
@@ -33,6 +34,10 @@ class OrderStatusWidget extends StatelessWidget {
       paymentStatus = ImageStatus.success;
       paymentTitle =
           'Paid via ${orderDetails.payment.paymentMode.toUpperCase()}';
+
+      if (orderDetails.payment.description.isNotNullAndEmpty) {
+        paymentTitle += ' ${orderDetails.payment.description.toUpperCase()}';
+      }
     } else {
       paymentStatus = ImageStatus.failure;
       paymentTitle = 'Payment Failed';

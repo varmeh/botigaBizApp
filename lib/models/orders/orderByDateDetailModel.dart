@@ -75,7 +75,7 @@ class Order {
     } else if (isDelivered) {
       return 'Delivered';
     } else if (isDelayed) {
-      return 'Delayed';
+      return 'Delivery Date Changed';
     } else if (isCancelled) {
       return 'Cancelled';
     } else {
@@ -84,12 +84,17 @@ class Order {
   }
 
   Color get statusColor {
-    if (isOpen || isDelayed) {
-      return Color.fromRGBO(233, 161, 54, 1);
-    } else if (isCancelled) {
-      return Color.fromRGBO(233, 86, 54, 1);
+    if (isDelivered) {
+      return Color(0xff179f57);
+    } else if (isOpen) {
+      return Color(0xffe9a136);
+    } else if (isOutForDelivery) {
+      return Color(0xff36b9e9);
+    } else if (isDelayed) {
+      return Color(0xffe95636);
     } else {
-      return Color.fromRGBO(54, 185, 233, 1);
+      // Cancelled
+      return Color(0xff787371);
     }
   }
 }
@@ -131,11 +136,15 @@ class PaymentModel {
   final String status;
   final String paymentId;
   final String paymentMode;
+  final String description;
+  final double transferredAmount;
 
   PaymentModel({
     this.status,
     this.paymentId,
     this.paymentMode,
+    this.description,
+    this.transferredAmount,
   });
 
   bool get isInitiated => status == 'initiated';

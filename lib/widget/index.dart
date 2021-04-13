@@ -23,3 +23,4 @@ export 'toast.dart';
 export 'inviteTile.dart';
 export 'calendar/BotigaCalendar.dart';
 export 'dottedDivider.dart';
+export 'dashedDivider.dart';

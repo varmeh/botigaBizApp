@@ -110,6 +110,8 @@ PaymentModel _$PaymentModelFromJson(Map<String, dynamic> json) {
     status: json['status'] as String,
     paymentId: json['paymentId'] as String,
     paymentMode: json['paymentMode'] as String,
+    description: json['description'] as String,
+    transferredAmount: (json['transferredAmount'] as num)?.toDouble(),
   );
 }
 
@@ -118,6 +120,8 @@ Map<String, dynamic> _$PaymentModelToJson(PaymentModel instance) =>
       'status': instance.status,
       'paymentId': instance.paymentId,
       'paymentMode': instance.paymentMode,
+      'description': instance.description,
+      'transferredAmount': instance.transferredAmount,
     };
 
 RefundModel _$RefundModelFromJson(Map<String, dynamic> json) {
