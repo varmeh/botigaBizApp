@@ -18,6 +18,9 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
+  bool _isProfileFetchComplete = false;
+  Exception _error;
+
   AnimationController _controller;
   bool _animationCompleted = false;
 
@@ -26,6 +29,8 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadNextScreen);
+
+    Future.delayed(Duration(milliseconds: 25), () => _getSellerProfile());
   }
 
   @override
@@ -37,43 +42,48 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future:
-          Provider.of<ProfileProvider>(context, listen: false).fetchProfile(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done &&
-            _animationCompleted) {
-          String next;
-          if (KeyStore.firstRun()) {
-            next = IntroScreen.routeName;
-          } else {
-            next = snapshot.hasError ? Welcome.routeName : HomeScreen.routeName;
-          }
-          Future.delayed(Duration.zero,
-              () => Navigator.of(context).pushReplacementNamed(next));
-        }
+    if (_isProfileFetchComplete && _animationCompleted) {
+      String next;
+      if (KeyStore.firstRun()) {
+        next = IntroScreen.routeName;
+      } else {
+        next = _error != null ? Welcome.routeName : HomeScreen.routeName;
+      }
+      Future.delayed(Duration.zero,
+          () => Navigator.of(context).pushReplacementNamed(next));
+    }
 
-        return Scaffold(
-          backgroundColor: AppTheme.primaryColor,
-          body: Center(
-            child: Lottie.asset(
-              'assets/lotties/splashScreen.json',
-              repeat: false,
-              fit: BoxFit.fill,
-              controller: _controller,
-              onLoaded: (composition) {
-                // Configure the AnimationController with the duration of the
-                // Lottie file and start the animation.
+    return Scaffold(
+      backgroundColor: AppTheme.primaryColor,
+      body: Center(
+        child: Lottie.asset(
+          'assets/lotties/splashScreen.json',
+          repeat: false,
+          fit: BoxFit.fill,
+          controller: _controller,
+          onLoaded: (composition) {
+            // Configure the AnimationController with the duration of the
+            // Lottie file and start the animation.
 
-                _controller.duration = composition.duration;
-                _controller.reset();
-                _controller.forward();
-              },
-            ),
-          ),
-        );
-      },
+            _controller.duration = composition.duration;
+            _controller.reset();
+            _controller.forward();
+          },
+        ),
+      ),
     );
+  }
+
+  void _getSellerProfile() async {
+    try {
+      await Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
+    } catch (error) {
+      _error = error;
+    } finally {
+      setState(() {
+        _isProfileFetchComplete = true;
+      });
+    }
   }
 
   void loadNextScreen(AnimationStatus status) {
