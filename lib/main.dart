@@ -14,7 +14,7 @@ import 'app/auth/index.dart'
         SignUpStoreDetails,
         VerifyOtp,
         SignUpBankeDetails;
-import 'app/delivery/index.dart' show DeliveryScreen;
+import 'app/delivery/index.dart' show DeliveryScreen, AggregateDeliveryScreen;
 import 'app/home/index.dart' show HomeScreen;
 import 'app/onboarding/index.dart' show SplashScreen, IntroScreen;
 import 'app/orders/index.dart' show OrderDetails, OrdersHome, OrderList;
@@ -109,7 +109,10 @@ class BotigaBizApp extends StatelessWidget {
         BussinessDetails.routeName: (ctx) => BussinessDetails(),
         StoreDeatils.routeName: (ctx) => StoreDeatils(),
         BankDetails.routeName: (ctx) => BankDetails(),
-        DeliveryScreen.routeName: (ctx) => DeliveryScreen(),
+        DeliveryScreen.routeName: (ctx) => DeliveryScreen(
+              argument: null,
+            ),
+        AggregateDeliveryScreen.routeName: (ctx) => AggregateDeliveryScreen(),
         Welcome.routeName: (ctx) => Welcome(),
         VerifyOtp.routeName: (ctx) => VerifyOtp(),
         SignupBuissnessDetails.routeName: (ctx) => SignupBuissnessDetails(),

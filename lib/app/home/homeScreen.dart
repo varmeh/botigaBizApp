@@ -9,7 +9,7 @@ import '../../providers/index.dart' show ProfileProvider;
 import '../../theme/index.dart';
 import '../../util/index.dart' show FlavorBanner, Http, KeyStore;
 import '../../widget/index.dart' show Loader, HttpExceptionWidget;
-import '../delivery/index.dart' show DeliveryScreen;
+import '../delivery/index.dart' show AggregateDeliveryScreen;
 import '../orders/index.dart' show OrdersHome;
 import '../profile/index.dart' show ProfileScreen;
 import '../store/index.dart' show StoreScreen;
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _pages = [
     OrdersHome(),
     StoreScreen(),
-    DeliveryScreen(),
+    AggregateDeliveryScreen(),
     ProfileScreen(),
   ];
 

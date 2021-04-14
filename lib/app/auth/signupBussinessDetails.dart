@@ -52,6 +52,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
   final _sizedBox24 = SizedBox(height: 24);
   List bsCategory;
   bool showFssaiOption;
+  bool _hasGstNumber;
 
   //Error state to handle on form submit
   bool _categoryError,
@@ -92,6 +93,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     _businessTypeError = false;
     _fssaiDateError = false;
     _fssiCertificateError = false;
+    _hasGstNumber = true;
   }
 
   @override
@@ -364,6 +366,11 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                             focusNode: _businessNameFocusNode,
                             labelText: 'Business Name',
                             onSave: (value) => _businessName = value,
+                            onChange: (value) {
+                              setState(() {
+                                _businessName = value;
+                              });
+                            },
                             nextFocusNode: _firstNameFocusNode,
                             validator: emptyValidator,
                           ),
@@ -446,6 +453,51 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                             focusNode: _gstNumberFocusNode,
                             labelText: 'GST No.',
                             onSave: (value) => _gstNumber = value,
+                            readOnly: !_hasGstNumber,
+                          ),
+                          _sizedBox24,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _hasGstNumber = !_hasGstNumber;
+                                  });
+                                },
+                                child: !_hasGstNumber
+                                    ? Icon(
+                                        Icons.check_box,
+                                        color: AppTheme.primaryColor,
+                                        size: 30,
+                                      )
+                                    : Icon(
+                                        Icons.check_box_outline_blank_rounded,
+                                        color: AppTheme.color100,
+                                        size: 30,
+                                      ),
+                              ),
+                              SizedBox(width: 10),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('I don’t have GST number',
+                                        style: AppTheme.textStyle.color100
+                                            .size(13)
+                                            .w600
+                                            .lineHeight(1.5)),
+                                    Text(
+                                        'I, ${_businessName != '' ? _businessName : "merchant"}, gives a declaration that I am not liable to register under section 22 of CGST Act, 2017 as my sales are below the prescribed threshold limit for registration under the aforesaid provision.',
+                                        style: AppTheme.textStyle.color50
+                                            .size(12)
+                                            .w500
+                                            .lineHeight(1.5))
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                           _sizedBox24,
                           Container(
@@ -1086,6 +1138,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       setState(() {
         _isLoading = true;
       });
+      final _gstString =
+          _hasGstNumber == true ? _gstNumber : 'GST NOT REQUIRED';
       await profileProvider.signup(
           _businessName,
           _seletedCategory,
@@ -1097,7 +1151,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
           downloadUrl,
           createToken,
           _seletedBusinessType,
-          _gstNumber,
+          _gstString,
           _fssaiNumber,
           fssaiDateString,
           pdfDownloadUrl);

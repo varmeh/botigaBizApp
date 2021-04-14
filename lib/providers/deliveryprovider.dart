@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 
 import '../models/orders/index.dart';
+import '../models//delivery/index.dart';
 import '../util/index.dart' show Http, DateExtension;
 
 class DeliveryProvider with ChangeNotifier {
   List<OrderByDateDetail> _deliveryListByApartmentOtherDay = [];
   Map<String, List<OrderByDateDetail>> _deliveryByApartmentToday = Map();
+  List<AggregateDelivery> _aggregateDelivery = [];
 
   get deliveryListByApartmentOtherDay {
     return this._deliveryListByApartmentOtherDay;
@@ -13,6 +15,10 @@ class DeliveryProvider with ChangeNotifier {
 
   get deliveryByApartmentToday {
     return this._deliveryByApartmentToday;
+  }
+
+  get aggregateDeliveries {
+    return this._aggregateDelivery;
   }
 
   OrderByDateDetail getDeliveryDetails(
@@ -57,9 +63,20 @@ class DeliveryProvider with ChangeNotifier {
         body: {'orderId': orderId, 'status': 'out'});
   }
 
+  Future getAggregateDelivery(String date) async {
+    final response = await Http.get('/api/seller/delivery/aggregate/$date');
+    List<AggregateDelivery> items = [];
+    for (var delivery in response) {
+      items.add(AggregateDelivery.fromJson(delivery));
+    }
+    _aggregateDelivery = items;
+    notifyListeners();
+  }
+
   Future resetDelivery() async {
     this._deliveryListByApartmentOtherDay = [];
     this._deliveryByApartmentToday = Map();
+    this._aggregateDelivery = [];
     notifyListeners();
   }
 }
