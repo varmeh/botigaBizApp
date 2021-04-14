@@ -447,59 +447,6 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                           ),
                           _getErrorText(_categoryError),
                           _sizedBox24,
-                          BotigaTextFieldForm(
-                            validator: emptyValidator,
-                            textCapitalization: TextCapitalization.sentences,
-                            focusNode: _gstNumberFocusNode,
-                            labelText: 'GST No.',
-                            onSave: (value) => _gstNumber = value,
-                            readOnly: !_hasGstNumber,
-                          ),
-                          _sizedBox24,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _hasGstNumber = !_hasGstNumber;
-                                  });
-                                },
-                                child: !_hasGstNumber
-                                    ? Icon(
-                                        Icons.check_box,
-                                        color: AppTheme.primaryColor,
-                                        size: 30,
-                                      )
-                                    : Icon(
-                                        Icons.check_box_outline_blank_rounded,
-                                        color: AppTheme.color100,
-                                        size: 30,
-                                      ),
-                              ),
-                              SizedBox(width: 10),
-                              Flexible(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('I don’t have GST number',
-                                        style: AppTheme.textStyle.color100
-                                            .size(13)
-                                            .w600
-                                            .lineHeight(1.5)),
-                                    Text(
-                                        'I, ${_businessName != '' ? _businessName : "merchant"}, gives a declaration that I am not liable to register under section 22 of CGST Act, 2017 as my sales are below the prescribed threshold limit for registration under the aforesaid provision.',
-                                        style: AppTheme.textStyle.color50
-                                            .size(12)
-                                            .w500
-                                            .lineHeight(1.5))
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          _sizedBox24,
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(3.5),
@@ -538,6 +485,65 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                             ),
                           ),
                           _getErrorText(_businessTypeError),
+                          _sizedBox24,
+                          BotigaTextFieldForm(
+                            validator:
+                                _hasGstNumber ? emptyValidator : (_) => null,
+                            textCapitalization: TextCapitalization.sentences,
+                            focusNode: _gstNumberFocusNode,
+                            labelText: 'GSTIN',
+                            onSave: (value) => _gstNumber = value,
+                            readOnly: !_hasGstNumber,
+                          ),
+                          _sizedBox24,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _hasGstNumber = !_hasGstNumber;
+                                      });
+                                    },
+                                    child: !_hasGstNumber
+                                        ? Icon(
+                                            Icons.check_box,
+                                            color: AppTheme.primaryColor,
+                                            size: 30,
+                                          )
+                                        : Icon(
+                                            Icons
+                                                .check_box_outline_blank_rounded,
+                                            color: AppTheme.color100,
+                                            size: 30,
+                                          ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'I don’t have GST number',
+                                    style: AppTheme.textStyle.color100
+                                        .size(13)
+                                        .w600
+                                        .lineHeight(1.5),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 12),
+                              Visibility(
+                                visible: !_hasGstNumber,
+                                child: Text(
+                                    'I, ${_businessName != '' ? _businessName : "merchant"}, gives a declaration that I am not liable to register under section 22 of CGST Act, 2017 as my sales are below the prescribed threshold limit for registration under the aforesaid provision.',
+                                    style: AppTheme.textStyle.color50
+                                        .size(12)
+                                        .w500
+                                        .lineHeight(1.5)),
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -1138,8 +1144,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       setState(() {
         _isLoading = true;
       });
-      final _gstString =
-          _hasGstNumber == true ? _gstNumber : 'GST NOT REQUIRED';
+      final _gstString = _hasGstNumber == true ? _gstNumber : 'GSTNotRequired';
       await profileProvider.signup(
           _businessName,
           _seletedCategory,
