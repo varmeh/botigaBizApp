@@ -35,6 +35,8 @@ class IntroScreen extends StatelessWidget {
   ];
 
   Widget _customTab(Slide slide) {
+    const _textPadding = const EdgeInsets.symmetric(horizontal: 40);
+
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -42,36 +44,34 @@ class IntroScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
-              child: Image.asset(
-            slide.pathImage,
-            width: 331.0,
-            height: 246.0,
-            fit: BoxFit.contain,
-          )),
-          SizedBox(
-            height: 100,
+            child: Image.asset(
+              slide.pathImage,
+              height: 246.0,
+              fit: BoxFit.contain,
+            ),
           ),
+          SizedBox(height: 100),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            padding: _textPadding,
             child: Container(
               width: double.infinity,
               child: Text(
                 slide.title,
                 style: AppTheme.textStyle.w700.size(22).color100,
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.center,
               ),
               margin: EdgeInsets.only(top: 20.0),
             ),
           ),
           Flexible(
             child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
+              padding: _textPadding,
               child: Container(
                 width: double.infinity,
                 child: Text(
                   slide.description,
                   style: AppTheme.textStyle.w500.size(15).color50,
-                  textAlign: TextAlign.left,
+                  textAlign: TextAlign.center,
                   maxLines: 3,
                 ),
                 margin: EdgeInsets.only(top: 20.0),
