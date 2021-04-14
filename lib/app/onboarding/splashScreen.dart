@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller = AnimationController(vsync: this);
     _controller.addStatusListener(loadNextScreen);
 
-    Future.delayed(Duration(milliseconds: 25), () => _getSellerProfile());
+    Future.delayed(Duration(milliseconds: 200), () => _getSellerProfile());
   }
 
   @override
