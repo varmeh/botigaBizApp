@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../models/profile/index.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
-import '../../profile/index.dart' show AddContactDetails, AddDeliveryFee;
+import '../../profile/index.dart' show AddContactDetails;
 
 class CommunityTile extends StatefulWidget {
   final Apartment apt;
@@ -286,9 +286,7 @@ class _CommunityTileState extends State<CommunityTile> {
               ),
             ),
           ),
-          SizedBox(
-            height: 12,
-          ),
+          SizedBox(height: 12),
           Card(
             elevation: 0,
             child: ListTile(
@@ -331,50 +329,6 @@ class _CommunityTileState extends State<CommunityTile> {
               ),
               title: Text(
                 'Update contact information',
-                style:
-                    AppTheme.textStyle.w500.color100.lineHeight(1.33).size(15),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          Card(
-            elevation: 0,
-            child: ListTile(
-              onTap: () {
-                Navigator.pop(context);
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (builder) {
-                    return Container(
-                      width: double.infinity,
-                      height: 460,
-                      decoration: BoxDecoration(
-                        color: AppTheme.backgroundColor,
-                        borderRadius: BorderRadius.only(
-                          topLeft: const Radius.circular(16.0),
-                          topRight: const Radius.circular(16.0),
-                        ),
-                      ),
-                      child: AddDeliveryFee(
-                        apartmentId: widget.apt.id,
-                        deliveryMinOrder: widget.apt.deliveryMinOrder,
-                        deliveryFee: widget.apt.deliveryFee,
-                      ),
-                    );
-                  },
-                );
-              },
-              tileColor: AppTheme.dividerColor,
-              leading: Image.asset(
-                'assets/images/delivery_fee.png',
-                width: 30,
-              ),
-              title: Text(
-                'Edit Delivery fee',
                 style:
                     AppTheme.textStyle.w500.color100.lineHeight(1.33).size(15),
               ),
