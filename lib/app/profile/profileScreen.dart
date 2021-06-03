@@ -12,8 +12,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   TabController _controller;
-  int slelectedTab = 0;
-  List<String> tabList = ['Profile', 'Communities'];
+  int selectedTab = 0;
+  List<String> tabList = ['Communities', 'Profile'];
 
   @override
   void initState() {
@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     _controller = TabController(length: tabList.length, vsync: this);
     _controller.addListener(() {
       setState(() {
-        slelectedTab = _controller.index;
+        selectedTab = _controller.index;
       });
     });
   }
@@ -76,8 +76,8 @@ class _ProfileScreenState extends State<ProfileScreen>
       body: TabBarView(
         controller: _controller,
         children: [
-          Profile(),
           Communities(),
+          Profile(),
         ],
       ),
     );
