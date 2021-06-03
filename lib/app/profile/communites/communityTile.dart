@@ -355,57 +355,6 @@ class _CommunityTileState extends State<CommunityTile> {
     final _deliveryMessage =
         _isFixedDuration ? 'Deliver order in' : 'Deliver order on';
 
-    // BotigaBottomModal(
-    //   isDismissible: true,
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //     children: [
-    //       BotigaAppBar(_appBar),
-    //       _sizedBox20,
-    //       Text(
-    //         _deliveryMessage,
-    //         style: AppTheme.textStyle.color100.size(17).w700,
-    //       ),
-    //       _sizedBox20,
-    //       SizedBox(
-    //         height: MediaQuery.of(context).size.height * 0.45,
-    //         child: _isFixedDuration
-    //             ? ListWheelScrollViewFixedDuration(
-    //                 setDeliveryDays: setDeliveryDays)
-    //             : FixedDaysSelector(setDeliveryWeek),
-    //       ),
-    //       SizedBox(height: 60),
-    //       Row(
-    //         children: [
-    //           Expanded(
-    //             child: SizedBox(
-    //               height: 52,
-    //               child: FlatButton(
-    //                 shape: RoundedRectangleBorder(
-    //                   borderRadius: BorderRadius.circular(
-    //                     6.0,
-    //                   ),
-    //                 ),
-    //                 onPressed: () => _slotBottomModal(context),
-    //                 textColor: AppTheme.backgroundColor,
-    //                 color: AppTheme.primaryColor,
-    //                 child: Text(
-    //                   'Next',
-    //                   style: AppTheme.textStyle
-    //                       .colored(AppTheme.backgroundColor)
-    //                       .size(15)
-    //                       .w600,
-    //                 ),
-    //               ),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //       SizedBox(height: 24),
-    //     ],
-    //   ),
-    // ).show(context);
-
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -447,7 +396,7 @@ class _CommunityTileState extends State<CommunityTile> {
                       ),
                       _sizedBox20,
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.45,
+                        height: MediaQuery.of(context).size.height * 0.50,
                         child: _isFixedDuration
                             ? ListWheelScrollViewFixedDuration(
                                 setDeliveryDays: setDeliveryDays)
@@ -456,7 +405,7 @@ class _CommunityTileState extends State<CommunityTile> {
                                 setModalState: setState,
                               ),
                       ),
-                      SizedBox(height: 60),
+                      SizedBox(height: 24),
                       Row(
                         children: [
                           Expanded(

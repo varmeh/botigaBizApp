@@ -89,7 +89,7 @@ class _ListWheelScrollViewFixedDurationState
     List<Widget> items = [
       Center(
         child: Text(
-          '1 days',
+          '1 day',
           style: TextStyle(
             fontSize: 34,
             fontWeight: FontWeight.bold,
