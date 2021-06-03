@@ -146,12 +146,26 @@ class ProfileProvider with ChangeNotifier {
     });
   }
 
-  Future updateApartmentDeliveryScheduled(
-      String apartmentId, String deliveryType, int day, String slot) async {
+  Future updateApartmentDeliveryScheduled({
+    String apartmentId,
+    String deliveryType,
+    int day,
+    List<bool> schedule,
+    String slot,
+  }) async {
     return Http.patch('/api/seller/apartments/delivery', body: {
       'apartmentId': apartmentId,
       'deliveryType': deliveryType,
       'day': day,
+      'weekly': {
+        'sun': schedule[0],
+        'mon': schedule[1],
+        'tue': schedule[2],
+        'wed': schedule[3],
+        'thu': schedule[4],
+        'fri': schedule[5],
+        'sat': schedule[6],
+      },
       'slot': slot,
     });
   }

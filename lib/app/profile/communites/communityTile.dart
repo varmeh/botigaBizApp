@@ -27,6 +27,7 @@ class _CommunityTileState extends State<CommunityTile> {
   bool _switchValue;
   String _deliveryType, _apartmentId;
   int _day, _selectedSlotIndex;
+  List<bool> _schedule = List.filled(7, false);
 
   @override
   void initState() {
@@ -53,6 +54,10 @@ class _CommunityTileState extends State<CommunityTile> {
 
   void setDeliveryDays(int days) {
     setState(() => _day = days);
+  }
+
+  void setDeliveryWeek(List<bool> schedule) {
+    _schedule = schedule;
   }
 
   @override
@@ -350,56 +355,144 @@ class _CommunityTileState extends State<CommunityTile> {
     final _deliveryMessage =
         _isFixedDuration ? 'Deliver order in' : 'Deliver order on';
 
-    BotigaBottomModal(
+    // BotigaBottomModal(
+    //   isDismissible: true,
+    //   child: Column(
+    //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //     children: [
+    //       BotigaAppBar(_appBar),
+    //       _sizedBox20,
+    //       Text(
+    //         _deliveryMessage,
+    //         style: AppTheme.textStyle.color100.size(17).w700,
+    //       ),
+    //       _sizedBox20,
+    //       SizedBox(
+    //         height: MediaQuery.of(context).size.height * 0.45,
+    //         child: _isFixedDuration
+    //             ? ListWheelScrollViewFixedDuration(
+    //                 setDeliveryDays: setDeliveryDays)
+    //             : FixedDaysSelector(setDeliveryWeek),
+    //       ),
+    //       SizedBox(height: 60),
+    //       Row(
+    //         children: [
+    //           Expanded(
+    //             child: SizedBox(
+    //               height: 52,
+    //               child: FlatButton(
+    //                 shape: RoundedRectangleBorder(
+    //                   borderRadius: BorderRadius.circular(
+    //                     6.0,
+    //                   ),
+    //                 ),
+    //                 onPressed: () => _slotBottomModal(context),
+    //                 textColor: AppTheme.backgroundColor,
+    //                 color: AppTheme.primaryColor,
+    //                 child: Text(
+    //                   'Next',
+    //                   style: AppTheme.textStyle
+    //                       .colored(AppTheme.backgroundColor)
+    //                       .size(15)
+    //                       .w600,
+    //                 ),
+    //               ),
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //       SizedBox(height: 24),
+    //     ],
+    //   ),
+    // ).show(context);
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       isDismissible: true,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          BotigaAppBar(_appBar),
-          _sizedBox20,
-          Text(
-            _deliveryMessage,
-            style: AppTheme.textStyle.color100.size(17).w700,
-          ),
-          _sizedBox20,
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.45,
-            child: _isFixedDuration
-                ? ListWheelScrollViewFixedDuration(
-                    setDeliveryDays: setDeliveryDays)
-                : ListWheelScrollViewFixedDay(setDeliveryDays: setDeliveryDays),
-          ),
-          SizedBox(height: 60),
-          Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 52,
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        6.0,
-                      ),
-                    ),
-                    onPressed: () => _slotBottomModal(context),
-                    textColor: AppTheme.backgroundColor,
-                    color: AppTheme.primaryColor,
-                    child: Text(
-                      'Next',
-                      style: AppTheme.textStyle
-                          .colored(AppTheme.backgroundColor)
-                          .size(15)
-                          .w600,
-                    ),
-                  ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              decoration: BoxDecoration(
+                color: AppTheme.backgroundColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(16.0),
+                  topRight: const Radius.circular(16.0),
                 ),
               ),
-            ],
-          ),
-          SizedBox(height: 24),
-        ],
-      ),
-    ).show(context);
+              padding: const EdgeInsets.only(
+                left: 22.0,
+                right: 22.0,
+                top: 42.0,
+                bottom: 32.0,
+              ),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      BotigaAppBar(_appBar),
+                      _sizedBox20,
+                      Text(
+                        _deliveryMessage,
+                        style: AppTheme.textStyle.color100.size(17).w700,
+                      ),
+                      _sizedBox20,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.45,
+                        child: _isFixedDuration
+                            ? ListWheelScrollViewFixedDuration(
+                                setDeliveryDays: setDeliveryDays)
+                            : FixedDaysSelector(
+                                setDeliveryWeek: setDeliveryWeek,
+                                setModalState: setState,
+                              ),
+                      ),
+                      SizedBox(height: 60),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 52,
+                              child: FlatButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    6.0,
+                                  ),
+                                ),
+                                onPressed: () => _slotBottomModal(context),
+                                textColor: AppTheme.backgroundColor,
+                                color: AppTheme.primaryColor,
+                                child: Text(
+                                  'Next',
+                                  style: AppTheme.textStyle
+                                      .colored(AppTheme.backgroundColor)
+                                      .size(15)
+                                      .w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 24),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   void _slotBottomModal(BuildContext context) {
@@ -472,6 +565,7 @@ class _CommunityTileState extends State<CommunityTile> {
                                   _apartmentId,
                                   _deliveryType,
                                   _day,
+                                  _schedule,
                                   _slotRange[_selectedSlotIndex]['value'],
                                 ),
                                 textColor: AppTheme.backgroundColor,
