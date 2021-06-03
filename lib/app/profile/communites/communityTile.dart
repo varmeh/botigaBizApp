@@ -207,7 +207,7 @@ class _CommunityTileState extends State<CommunityTile> {
                     Text('Fixed Duration',
                         style: AppTheme.textStyle.color100.size(15).w700),
                     Text(
-                        'Deliver orders within specific days of order placement. ex: 2 days from order',
+                        'Deliver orders within certain days of order placement eg: 2 days from date of order',
                         style: AppTheme.textStyle.color50.size(13).w500)
                   ],
                 ),
@@ -237,7 +237,7 @@ class _CommunityTileState extends State<CommunityTile> {
             ),
             child: InkWell(
               onTap: () {
-                setState(() => _deliveryType = 'day');
+                setState(() => _deliveryType = 'weeklySchedule');
                 _deliveryScheduleBottomModal(context);
               },
               child: Padding(
@@ -246,10 +246,10 @@ class _CommunityTileState extends State<CommunityTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Fixed Day',
+                    Text('Fixed Days',
                         style: AppTheme.textStyle.color100.size(15).w700),
                     Text(
-                      'Deliver orders on a specific day of the week. ex: every Sunday',
+                      'Deliver orders on specific days of the week. eg: Wed & Sat ',
                       style: AppTheme.textStyle.color50.size(13).w500,
                     )
                   ],
@@ -257,6 +257,7 @@ class _CommunityTileState extends State<CommunityTile> {
               ),
             ),
           ),
+          SizedBox(height: 24),
         ],
       ),
     ).show(context);
@@ -280,7 +281,7 @@ class _CommunityTileState extends State<CommunityTile> {
                 size: 30,
               ),
               title: Text(
-                'Change delivery details',
+                'Change Delivery Schedule',
                 style:
                     AppTheme.textStyle.w500.color100.lineHeight(1.33).size(15),
               ),
@@ -299,7 +300,7 @@ class _CommunityTileState extends State<CommunityTile> {
                   builder: (builder) {
                     return Container(
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.80,
+                      height: MediaQuery.of(context).size.height * 0.65,
                       decoration: BoxDecoration(
                         color: AppTheme.backgroundColor,
                         borderRadius: BorderRadius.only(
@@ -328,12 +329,13 @@ class _CommunityTileState extends State<CommunityTile> {
                 size: 30,
               ),
               title: Text(
-                'Update contact information',
+                'Update Contact Information',
                 style:
                     AppTheme.textStyle.w500.color100.lineHeight(1.33).size(15),
               ),
             ),
           ),
+          SizedBox(height: 24),
         ],
       ),
     ).show(context);
@@ -343,10 +345,10 @@ class _CommunityTileState extends State<CommunityTile> {
     Navigator.pop(context);
     bool _isFixedDuration = _deliveryType == 'duration';
     const _sizedBox20 = SizedBox(height: 20);
-    final _appBar = _isFixedDuration ? 'Fixed duration' : 'Fixed day';
+    final _appBar = _isFixedDuration ? 'Fixed duration' : 'Fixed days';
 
     final _deliveryMessage =
-        _isFixedDuration ? 'Deliver order in' : 'Deliver order every';
+        _isFixedDuration ? 'Deliver order in' : 'Deliver order on';
 
     BotigaBottomModal(
       isDismissible: true,
@@ -394,6 +396,7 @@ class _CommunityTileState extends State<CommunityTile> {
               ),
             ],
           ),
+          SizedBox(height: 24),
         ],
       ),
     ).show(context);
