@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/index.dart' show ProfileProvider;
 import '../../theme/index.dart';
-import '../../util/index.dart' show KeyStore;
+import '../../util/index.dart' show KeyStore, Http;
 import '../auth/index.dart' show Welcome;
 import '../home/index.dart' show HomeScreen;
 import 'index.dart' show IntroScreen;
@@ -76,6 +76,9 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _getSellerProfile() async {
     try {
+      if (Http.tokenNotExists) {
+        await Http.fetchToken();
+      }
       await Provider.of<ProfileProvider>(context, listen: false).fetchProfile();
     } catch (error) {
       _error = error;
