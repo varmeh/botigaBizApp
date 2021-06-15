@@ -115,30 +115,33 @@ class _CommunityTileState extends State<CommunityTile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.apt.deliveryMessage,
-                    style: AppTheme.textStyle
-                        .size(15)
-                        .w500
-                        .color50
-                        .lineHeight(1.33),
-                  ),
-                  SizedBox(height: 4.0),
-                  _hasSlot
-                      ? Text(
-                          widget.apt.deliverySlot,
-                          style: AppTheme.textStyle
-                              .size(15)
-                              .w500
-                              .color50
-                              .lineHeight(1.33),
-                        )
-                      : Container(),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.apt.deliveryMessage,
+                      style: AppTheme.textStyle
+                          .size(15)
+                          .w500
+                          .color50
+                          .lineHeight(1.33),
+                    ),
+                    SizedBox(height: 4.0),
+                    _hasSlot
+                        ? Text(
+                            widget.apt.deliverySlot,
+                            style: AppTheme.textStyle
+                                .size(15)
+                                .w500
+                                .color50
+                                .lineHeight(1.33),
+                          )
+                        : Container(),
+                  ],
+                ),
               ),
+              SizedBox(width: 24),
               GestureDetector(
                 onTap: () => _editBottomModal(context),
                 child: Text(
