@@ -80,9 +80,6 @@ class _CommunitiesState extends State<Communities> {
   void updateDeliverySchedule(String _apartmentId, String _deliveryType,
       int _day, List<bool> _schedule, String _slot) async {
     try {
-      Navigator.of(context).popUntil((route) {
-        return route.isFirst;
-      });
       final profileProvider =
           Provider.of<ProfileProvider>(context, listen: false);
       setState(() {
@@ -96,6 +93,9 @@ class _CommunitiesState extends State<Communities> {
         slot: _slot,
       );
       await profileProvider.fetchProfile();
+
+      Navigator.of(context).popUntil((route) => route.isFirst);
+
       Toast(
         message: 'Delivery scheduled updated',
         icon: Icon(
