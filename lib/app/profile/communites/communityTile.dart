@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../models/profile/index.dart';
 import '../../../theme/index.dart';
 import '../../../widget/index.dart';
-import '../../profile/index.dart' show AddContactDetails, AddDeliveryFee;
+import '../../profile/index.dart' show AddContactDetails;
 
 class CommunityTile extends StatefulWidget {
   final Apartment apt;
@@ -27,6 +27,7 @@ class _CommunityTileState extends State<CommunityTile> {
   bool _switchValue;
   String _deliveryType, _apartmentId;
   int _day, _selectedSlotIndex;
+  List<bool> _schedule = List.filled(7, false);
 
   @override
   void initState() {
@@ -53,6 +54,10 @@ class _CommunityTileState extends State<CommunityTile> {
 
   void setDeliveryDays(int days) {
     setState(() => _day = days);
+  }
+
+  void setDeliveryWeek(List<bool> schedule) {
+    _schedule = schedule;
   }
 
   @override
@@ -110,30 +115,33 @@ class _CommunityTileState extends State<CommunityTile> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.apt.deliveryMessage,
-                    style: AppTheme.textStyle
-                        .size(15)
-                        .w500
-                        .color50
-                        .lineHeight(1.33),
-                  ),
-                  SizedBox(height: 4.0),
-                  _hasSlot
-                      ? Text(
-                          widget.apt.deliverySlot,
-                          style: AppTheme.textStyle
-                              .size(15)
-                              .w500
-                              .color50
-                              .lineHeight(1.33),
-                        )
-                      : Container(),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.apt.deliveryMessage,
+                      style: AppTheme.textStyle
+                          .size(15)
+                          .w500
+                          .color50
+                          .lineHeight(1.33),
+                    ),
+                    SizedBox(height: 4.0),
+                    _hasSlot
+                        ? Text(
+                            widget.apt.deliverySlot,
+                            style: AppTheme.textStyle
+                                .size(15)
+                                .w500
+                                .color50
+                                .lineHeight(1.33),
+                          )
+                        : Container(),
+                  ],
+                ),
               ),
+              SizedBox(width: 24),
               GestureDetector(
                 onTap: () => _editBottomModal(context),
                 child: Text(
@@ -207,7 +215,7 @@ class _CommunityTileState extends State<CommunityTile> {
                     Text('Fixed Duration',
                         style: AppTheme.textStyle.color100.size(15).w700),
                     Text(
-                        'Deliver orders within specific days of order placement. ex: 2 days from order',
+                        'Deliver orders within certain days of order placement eg: 2 days from date of order',
                         style: AppTheme.textStyle.color50.size(13).w500)
                   ],
                 ),
@@ -237,7 +245,7 @@ class _CommunityTileState extends State<CommunityTile> {
             ),
             child: InkWell(
               onTap: () {
-                setState(() => _deliveryType = 'day');
+                setState(() => _deliveryType = 'weeklySchedule');
                 _deliveryScheduleBottomModal(context);
               },
               child: Padding(
@@ -246,10 +254,10 @@ class _CommunityTileState extends State<CommunityTile> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Fixed Day',
+                    Text('Fixed Days',
                         style: AppTheme.textStyle.color100.size(15).w700),
                     Text(
-                      'Deliver orders on a specific day of the week. ex: every Sunday',
+                      'Deliver orders on specific days of the week. eg: Wed & Sat ',
                       style: AppTheme.textStyle.color50.size(13).w500,
                     )
                   ],
@@ -257,6 +265,7 @@ class _CommunityTileState extends State<CommunityTile> {
               ),
             ),
           ),
+          SizedBox(height: 24),
         ],
       ),
     ).show(context);
@@ -280,15 +289,13 @@ class _CommunityTileState extends State<CommunityTile> {
                 size: 30,
               ),
               title: Text(
-                'Change delivery details',
+                'Change Delivery Schedule',
                 style:
                     AppTheme.textStyle.w500.color100.lineHeight(1.33).size(15),
               ),
             ),
           ),
-          SizedBox(
-            height: 12,
-          ),
+          SizedBox(height: 12),
           Card(
             elevation: 0,
             child: ListTile(
@@ -301,7 +308,7 @@ class _CommunityTileState extends State<CommunityTile> {
                   builder: (builder) {
                     return Container(
                       width: double.infinity,
-                      height: MediaQuery.of(context).size.height * 0.80,
+                      height: MediaQuery.of(context).size.height * 0.65,
                       decoration: BoxDecoration(
                         color: AppTheme.backgroundColor,
                         borderRadius: BorderRadius.only(
@@ -330,56 +337,13 @@ class _CommunityTileState extends State<CommunityTile> {
                 size: 30,
               ),
               title: Text(
-                'Update contact information',
+                'Update Contact Information',
                 style:
                     AppTheme.textStyle.w500.color100.lineHeight(1.33).size(15),
               ),
             ),
           ),
-          SizedBox(
-            height: 12,
-          ),
-          Card(
-            elevation: 0,
-            child: ListTile(
-              onTap: () {
-                Navigator.pop(context);
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (builder) {
-                    return Container(
-                      width: double.infinity,
-                      height: 460,
-                      decoration: BoxDecoration(
-                        color: AppTheme.backgroundColor,
-                        borderRadius: BorderRadius.only(
-                          topLeft: const Radius.circular(16.0),
-                          topRight: const Radius.circular(16.0),
-                        ),
-                      ),
-                      child: AddDeliveryFee(
-                        apartmentId: widget.apt.id,
-                        deliveryMinOrder: widget.apt.deliveryMinOrder,
-                        deliveryFee: widget.apt.deliveryFee,
-                      ),
-                    );
-                  },
-                );
-              },
-              tileColor: AppTheme.dividerColor,
-              leading: Image.asset(
-                'assets/images/delivery_fee.png',
-                width: 30,
-              ),
-              title: Text(
-                'Edit Delivery fee',
-                style:
-                    AppTheme.textStyle.w500.color100.lineHeight(1.33).size(15),
-              ),
-            ),
-          ),
+          SizedBox(height: 24),
         ],
       ),
     ).show(context);
@@ -389,61 +353,99 @@ class _CommunityTileState extends State<CommunityTile> {
     Navigator.pop(context);
     bool _isFixedDuration = _deliveryType == 'duration';
     const _sizedBox20 = SizedBox(height: 20);
-    final _appBar = _isFixedDuration ? 'Fixed duration' : 'Fixed day';
+    final _appBar = _isFixedDuration ? 'Fixed duration' : 'Fixed days';
 
     final _deliveryMessage =
-        _isFixedDuration ? 'Deliver order in' : 'Deliver order every';
+        _isFixedDuration ? 'Deliver order in' : 'Deliver order on';
 
-    BotigaBottomModal(
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       isDismissible: true,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          BotigaAppBar(_appBar),
-          _sizedBox20,
-          Text(
-            _deliveryMessage,
-            style: AppTheme.textStyle.color100.size(17).w700,
-          ),
-          _sizedBox20,
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.45,
-            child: _isFixedDuration
-                ? ListWheelScrollViewFixedDuration(
-                    setDeliveryDays: setDeliveryDays)
-                : ListWheelScrollViewFixedDay(setDeliveryDays: setDeliveryDays),
-          ),
-          SizedBox(height: 60),
-          Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 52,
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          6.0,
-                        ),
-                      ),
-                      backgroundColor: AppTheme.primaryColor,
-                    ),
-                    onPressed: () => _slotBottomModal(context),
-                    child: Text(
-                      'Next',
-                      style: AppTheme.textStyle
-                          .colored(AppTheme.backgroundColor)
-                          .size(15)
-                          .w600,
-                    ),
-                  ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              decoration: BoxDecoration(
+                color: AppTheme.backgroundColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(16.0),
+                  topRight: const Radius.circular(16.0),
                 ),
               ),
-            ],
-          ),
-        ],
-      ),
-    ).show(context);
+              padding: const EdgeInsets.only(
+                left: 22.0,
+                right: 22.0,
+                top: 42.0,
+                bottom: 32.0,
+              ),
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      BotigaAppBar(_appBar),
+                      _sizedBox20,
+                      Text(
+                        _deliveryMessage,
+                        style: AppTheme.textStyle.color100.size(17).w700,
+                      ),
+                      _sizedBox20,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.50,
+                        child: _isFixedDuration
+                            ? ListWheelScrollViewFixedDuration(
+                                setDeliveryDays: setDeliveryDays)
+                            : FixedDaysSelector(
+                                setDeliveryWeek: setDeliveryWeek,
+                                setModalState: setState,
+                              ),
+                      ),
+                      SizedBox(height: 24),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 52,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      6.0,
+                                    ),
+                                  ),
+                                  backgroundColor: AppTheme.primaryColor,
+                                ),
+                                onPressed: () => _slotBottomModal(context),
+                                child: Text(
+                                  'Next',
+                                  style: AppTheme.textStyle
+                                      .colored(AppTheme.backgroundColor)
+                                      .size(15)
+                                      .w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 24),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   void _slotBottomModal(BuildContext context) {
@@ -519,6 +521,7 @@ class _CommunityTileState extends State<CommunityTile> {
                                   _apartmentId,
                                   _deliveryType,
                                   _day,
+                                  _schedule,
                                   _slotRange[_selectedSlotIndex]['value'],
                                 ),
                                 child: Text(

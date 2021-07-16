@@ -97,12 +97,12 @@ class IntroScreen extends StatelessWidget {
           },
           listCustomTabs: _slides.map((slide) => _customTab(slide)).toList(),
           colorSkipBtn: AppTheme.backgroundColor,
-          styleSkipBtn: AppTheme.textStyle.w500.size(15).color50,
+          styleNameSkipBtn: AppTheme.textStyle.w500.size(15).color50,
           nameSkipBtn: 'Skip',
           nameNextBtn: 'Next',
           nameDoneBtn: 'Done',
           colorDoneBtn: AppTheme.backgroundColor,
-          styleDoneBtn:
+          styleNameDoneBtn:
               AppTheme.textStyle.w500.size(15).colored(AppTheme.primaryColor),
           highlightColorDoneBtn: AppTheme.primaryColor,
         ),

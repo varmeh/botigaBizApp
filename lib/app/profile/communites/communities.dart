@@ -17,6 +17,39 @@ class Communities extends StatefulWidget {
 class _CommunitiesState extends State<Communities> {
   bool isLoading = false;
 
+  @override
+  Widget build(BuildContext context) {
+    List<Apartment> apartments =
+        Provider.of<ProfileProvider>(context, listen: true).allApartment;
+    if (apartments.length == 0) {
+      return BrandingTile(
+        'Thriving communities, empowering people',
+        'Made by awesome team of Botiga',
+      );
+    }
+    return LoaderOverlay(
+      isLoading: isLoading,
+      child: Container(
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 10,
+          bottom: 10,
+        ),
+        child: ListView.builder(
+          itemCount: apartments.length,
+          itemBuilder: (context, index) {
+            return CommunityTile(
+              apartments[index],
+              setApartmentStatus,
+              updateDeliverySchedule,
+            );
+          },
+        ),
+      ),
+    );
+  }
+
   void setApartmentStatus(String aptId, bool value, Function onFail) async {
     setState(() {
       isLoading = true;
@@ -44,20 +77,25 @@ class _CommunitiesState extends State<Communities> {
     }
   }
 
-  void updateDeliverySchedule(
-      String _apartmentId, String _deliveryType, int _day, String _slot) async {
+  void updateDeliverySchedule(String _apartmentId, String _deliveryType,
+      int _day, List<bool> _schedule, String _slot) async {
     try {
-      Navigator.of(context).popUntil((route) {
-        return route.isFirst;
-      });
       final profileProvider =
           Provider.of<ProfileProvider>(context, listen: false);
       setState(() {
         isLoading = true;
       });
       await profileProvider.updateApartmentDeliveryScheduled(
-          _apartmentId, _deliveryType, _day, _slot);
+        apartmentId: _apartmentId,
+        deliveryType: _deliveryType,
+        day: _day,
+        schedule: _schedule,
+        slot: _slot,
+      );
       await profileProvider.fetchProfile();
+
+      Navigator.of(context).popUntil((route) => route.isFirst);
+
       Toast(
         message: 'Delivery scheduled updated',
         icon: Icon(
@@ -73,31 +111,5 @@ class _CommunitiesState extends State<Communities> {
         isLoading = false;
       });
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    List<Apartment> apartments =
-        Provider.of<ProfileProvider>(context, listen: true).allApartment;
-    if (apartments.length == 0) {
-      return BrandingTile(
-        'Thriving communities, empowering people',
-        'Made by awesome team of Botiga',
-      );
-    }
-    return LoaderOverlay(
-      isLoading: isLoading,
-      child: Container(
-        padding:
-            const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-        child: ListView.builder(
-          itemCount: apartments.length,
-          itemBuilder: (context, index) {
-            return CommunityTile(
-                apartments[index], setApartmentStatus, updateDeliverySchedule);
-          },
-        ),
-      ),
-    );
   }
 }

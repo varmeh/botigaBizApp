@@ -43,9 +43,6 @@ Future<void> main() async {
   );
 
   await Firebase.initializeApp();
-  await Flavor.shared.init();
-  await Http.fetchToken();
-  await KeyStore.initialize();
 
   //FirebaseCrashlytics for release mode
   if (kReleaseMode) {
@@ -56,6 +53,10 @@ Future<void> main() async {
       originalOnError(errorDetails);
     };
   }
+
+  await Flavor.shared.init();
+  await KeyStore.initialize();
+  await Http.fetchToken();
 
   runApp(
     MultiProvider(
