@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'dart:io' show Platform;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,27 +43,20 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     // Configure Firebase Messaging
-    _fbm = FirebaseMessaging();
+    _fbm = FirebaseMessaging.instance;
 
     // Request for permission on notification on Ios device
     if (Platform.isIOS) {
-      _fbm.onIosSettingsRegistered.listen((data) {
-        _saveToken();
-      });
       Future.delayed(
         Duration(seconds: 1),
-        () => _fbm
-            .requestNotificationPermissions(), //Delay request to ensure screen loading
+        () => _fbm.requestPermission(), //Delay request to ensure screen loading
       );
-    } else {
-      _saveToken();
     }
-
-    _fbm.configure(
-      onMessage: (Map<String, dynamic> message) async {},
-      onLaunch: (Map<String, dynamic> message) async {},
-      onResume: (Map<String, dynamic> message) async {},
-    );
+    _saveToken();
+    // FirebaseMessaging.onMessage  method to get messages
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {});
+    //FirebaseMessaging.onMessageOpenedApp as a replacement for onLaunch and onResume
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {});
 
     _selectedPageIndex = widget.index ?? 0;
     _initializeHome();

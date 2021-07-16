@@ -122,19 +122,23 @@ class _DeliveryScreenState extends State<DeliveryScreen> {
                                             const EdgeInsets.only(left: 16),
                                         child: Container(
                                           height: 34,
-                                          child: FlatButton(
-                                            shape: new RoundedRectangleBorder(
+                                          child: TextButton(
+                                            style: TextButton.styleFrom(
+                                              shape: new RoundedRectangleBorder(
                                                 borderRadius:
                                                     new BorderRadius.circular(
-                                                        8.0)),
+                                                        8.0),
+                                              ),
+                                              backgroundColor:
+                                                  selectedStatus == val
+                                                      ? AppTheme.primaryColor
+                                                      : AppTheme.dividerColor,
+                                            ),
                                             onPressed: () {
                                               setState(() {
                                                 selectedStatus = val;
                                               });
                                             },
-                                            color: selectedStatus == val
-                                                ? AppTheme.primaryColor
-                                                : AppTheme.dividerColor,
                                             child: Text('$val',
                                                 style: selectedStatus == val
                                                     ? AppTheme.textStyle

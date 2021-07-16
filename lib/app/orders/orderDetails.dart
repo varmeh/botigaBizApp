@@ -206,14 +206,16 @@ class _OrderDetailsState extends State<OrderDetails> {
             Expanded(
               child: SizedBox(
                 height: 52,
-                child: FlatButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6.0),
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
+                    backgroundColor: AppTheme.primaryColor,
                   ),
                   onPressed: () {
                     fn(id, apartmentName, apartmentId, selectedDateForRequest);
                   },
-                  color: AppTheme.primaryColor,
                   child: Text(
                     btnText,
                     style: AppTheme.textStyle
@@ -263,9 +265,11 @@ class _OrderDetailsState extends State<OrderDetails> {
           ...(orderDetail.order.isOpen == true ||
                   orderDetail.order.isDelayed == true)
               ? [
-                  FlatButton(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
+                  TextButton(
+                    style: ButtonStyle(
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                    ),
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -280,7 +284,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                               style: AppTheme.textStyle.w400.color100,
                             ),
                             actions: [
-                              FlatButton(
+                              TextButton(
                                 child: Text(
                                   'Don\'t Cancel',
                                   style: AppTheme.textStyle.w600.color50,
@@ -289,7 +293,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                                   Navigator.of(context).pop();
                                 },
                               ),
-                              FlatButton(
+                              TextButton(
                                 child: Text(
                                   'Confirm',
                                   style: AppTheme.textStyle.w600

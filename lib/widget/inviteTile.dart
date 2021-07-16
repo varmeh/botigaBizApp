@@ -39,7 +39,7 @@ class InviteTile extends StatelessWidget {
                         .color100,
                   ),
                   SizedBox(height: 10.0),
-                  FlatButton(
+                  TextButton(
                     onPressed: () {
                       BotigaBottomModal(
                               child: inviteShare(context),
@@ -53,11 +53,12 @@ class InviteTile extends StatelessWidget {
                           .lineHeight(1.5)
                           .colored(AppTheme.backgroundColor),
                     ),
-                    color: AppTheme.color100,
-                    height: 42.0,
-                    minWidth: 136.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      backgroundColor: AppTheme.color100,
+                      minimumSize: Size(136, 42),
                     ),
                   ),
                 ],

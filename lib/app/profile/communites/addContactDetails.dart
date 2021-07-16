@@ -159,9 +159,12 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                     Expanded(
                       child: SizedBox(
                         height: 52,
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                            ),
+                            backgroundColor: AppTheme.primaryColor,
                           ),
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
@@ -173,7 +176,6 @@ class _AddContactDetailsState extends State<AddContactDetails> {
                               }
                             }
                           },
-                          color: AppTheme.primaryColor,
                           child: !widget.isSave
                               ? Text('Update',
                                   style: AppTheme.textStyle

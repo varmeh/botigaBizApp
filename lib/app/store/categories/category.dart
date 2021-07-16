@@ -170,12 +170,14 @@ class _CategoryState extends State<Category> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              FlatButton(
+                              TextButton(
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                highlightColor: Colors.transparent,
-                                splashColor: Colors.transparent,
+                                style: ButtonStyle(
+                                  overlayColor: MaterialStateProperty.all(
+                                      Colors.transparent),
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       top: 14, bottom: 14),
@@ -187,9 +189,12 @@ class _CategoryState extends State<Category> {
                               SizedBox(
                                 width: 15,
                               ),
-                              FlatButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
+                              TextButton(
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  backgroundColor: AppTheme.primaryColor,
                                 ),
                                 onPressed: () {
                                   if (_formKey.currentState.validate()) {
@@ -198,8 +203,6 @@ class _CategoryState extends State<Category> {
                                         category.id, _categoryName);
                                   }
                                 },
-                                color: AppTheme.primaryColor,
-                                highlightColor: AppTheme.primaryColorVariant,
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                     top: 14,
@@ -279,7 +282,7 @@ class _CategoryState extends State<Category> {
                             style: AppTheme.textStyle.w400.color100,
                           ),
                           actions: [
-                            FlatButton(
+                            TextButton(
                               child: Text(
                                 'Don\'t Delete',
                                 style: AppTheme.textStyle.w600.color50,
@@ -288,7 +291,7 @@ class _CategoryState extends State<Category> {
                                 Navigator.of(context).pop();
                               },
                             ),
-                            FlatButton(
+                            TextButton(
                               child: Text(
                                 'Confirm',
                                 style: AppTheme.textStyle.w600

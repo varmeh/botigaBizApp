@@ -93,9 +93,12 @@ class _AddDeliveryFeeState extends State<AddDeliveryFee> {
                     Expanded(
                       child: SizedBox(
                         height: 52,
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                            ),
+                            backgroundColor: AppTheme.primaryColor,
                           ),
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
@@ -103,7 +106,6 @@ class _AddDeliveryFeeState extends State<AddDeliveryFee> {
                               this._handleDeliveryFeeUpdate();
                             }
                           },
-                          color: AppTheme.primaryColor,
                           child: Text('Update',
                               style: AppTheme.textStyle
                                   .colored(AppTheme.backgroundColor)

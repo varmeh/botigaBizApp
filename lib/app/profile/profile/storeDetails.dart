@@ -166,16 +166,19 @@ class _StoreDeatilsState extends State<StoreDeatils> {
                     Expanded(
                       child: SizedBox(
                         height: 52,
-                        child: FlatButton(
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(6.0)),
+                        child: TextButton(
+                            style: TextButton.styleFrom(
+                              shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(6.0),
+                              ),
+                              backgroundColor: AppTheme.primaryColor,
+                            ),
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
                                 _formKey.currentState.save();
                                 this._handleStoreDetailSave();
                               }
                             },
-                            color: AppTheme.primaryColor,
                             child: Text('Save and continue',
                                 style: AppTheme.textStyle
                                     .size(15)

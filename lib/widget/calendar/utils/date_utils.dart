@@ -1,6 +1,6 @@
 import 'date_models.dart';
 
-class DateUtils {
+class DateUtility {
   static List<Month> extractWeeks(DateTime minDate, DateTime maxDate) {
     DateTime weekMinDate = _findDayOfWeekInMonth(minDate, DateTime.monday);
     DateTime weekMaxDate = _findDayOfWeekInMonth(maxDate, DateTime.sunday);
@@ -13,8 +13,8 @@ class DateUtils {
         Month(<Week>[Week(firstDayOfWeek, lastDayOfWeek)])
       ];
     } else {
-      List<Month> months = List<Month>();
-      List<Week> weeks = List<Week>();
+      List<Month> months = List<Month>.empty(growable: true);
+      List<Week> weeks = List<Week>.empty(growable: true);
 
       while (lastDayOfWeek.isBefore(weekMaxDate)) {
         Week week = Week(firstDayOfWeek, lastDayOfWeek);
@@ -25,7 +25,7 @@ class DateUtils {
             months.add(Month(weeks));
           }
 
-          weeks = List<Week>();
+          weeks = List<Week>.empty(growable: true);
 
           firstDayOfWeek = firstDayOfWeek.toFirstDayOfNextMonth();
           lastDayOfWeek = _lastDayOfWeek(firstDayOfWeek);
@@ -111,7 +111,7 @@ extension DateUtilsExtensions on DateTime {
     return leapYear;
   }
 
-  int get daysInMonth => DateUtils.daysPerMonth(year)[month - 1];
+  int get daysInMonth => DateUtility.daysPerMonth(year)[month - 1];
 
   DateTime toFirstDayOfNextMonth() => DateTime(
         year,

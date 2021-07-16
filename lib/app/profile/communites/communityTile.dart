@@ -419,15 +419,16 @@ class _CommunityTileState extends State<CommunityTile> {
               Expanded(
                 child: SizedBox(
                   height: 52,
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        6.0,
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          6.0,
+                        ),
                       ),
+                      backgroundColor: AppTheme.primaryColor,
                     ),
                     onPressed: () => _slotBottomModal(context),
-                    textColor: AppTheme.backgroundColor,
-                    color: AppTheme.primaryColor,
                     child: Text(
                       'Next',
                       style: AppTheme.textStyle
@@ -505,11 +506,14 @@ class _CommunityTileState extends State<CommunityTile> {
                           Expanded(
                             child: SizedBox(
                               height: 52,
-                              child: FlatButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    6.0,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      6.0,
+                                    ),
                                   ),
+                                  backgroundColor: AppTheme.primaryColor,
                                 ),
                                 onPressed: () => widget.updateDeliverySchedule(
                                   _apartmentId,
@@ -517,8 +521,6 @@ class _CommunityTileState extends State<CommunityTile> {
                                   _day,
                                   _slotRange[_selectedSlotIndex]['value'],
                                 ),
-                                textColor: AppTheme.backgroundColor,
-                                color: AppTheme.primaryColor,
                                 child: Text(
                                   'Done',
                                   style: AppTheme.textStyle

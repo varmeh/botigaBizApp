@@ -251,9 +251,12 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                     Expanded(
                       child: SizedBox(
                         height: 52,
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6.0),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                            ),
+                            backgroundColor: AppTheme.primaryColor,
                           ),
                           onPressed: () {
                             if (_formKey.currentState.validate()) {
@@ -261,7 +264,6 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                               _handleProductSave();
                             }
                           },
-                          color: AppTheme.primaryColor,
                           child: Text(
                             'Add Product',
                             style: AppTheme.textStyle
@@ -409,19 +411,22 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                     padding: const EdgeInsets.only(right: 12),
                                     child: Container(
                                       height: 44,
-                                      child: FlatButton(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
+                                      child: TextButton(
+                                        style: TextButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          backgroundColor:
+                                              _selectedQuantity == val
+                                                  ? AppTheme.primaryColor
+                                                  : AppTheme.dividerColor,
                                         ),
                                         onPressed: () {
                                           setState(() {
                                             _selectedQuantity = val;
                                           });
                                         },
-                                        color: _selectedQuantity == val
-                                            ? AppTheme.primaryColor
-                                            : AppTheme.dividerColor,
                                         child: Text('$val',
                                             style: _selectedQuantity == val
                                                 ? AppTheme.textStyle

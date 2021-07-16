@@ -131,7 +131,7 @@ class ImageSelectionWidget {
           style: AppTheme.textStyle.w400.color100,
         ),
         actions: [
-          FlatButton(
+          TextButton(
             child: Text(
               'Cancel',
               style: AppTheme.textStyle.w600.color50,
@@ -140,7 +140,7 @@ class ImageSelectionWidget {
               Navigator.of(context).pop();
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(
               'Settings',
               style: AppTheme.textStyle.w600.colored(AppTheme.primaryColor),

@@ -265,12 +265,14 @@ class _StoreScreenState extends State<StoreScreen>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            FlatButton(
+                            TextButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              highlightColor: Colors.transparent,
-                              splashColor: Colors.transparent,
+                              style: ButtonStyle(
+                                overlayColor: MaterialStateProperty.all(
+                                    Colors.transparent),
+                              ),
                               child: Padding(
                                 padding:
                                     const EdgeInsets.only(top: 14, bottom: 14),
@@ -284,9 +286,12 @@ class _StoreScreenState extends State<StoreScreen>
                             SizedBox(
                               width: 15,
                             ),
-                            FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                backgroundColor: AppTheme.primaryColor,
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
@@ -294,8 +299,6 @@ class _StoreScreenState extends State<StoreScreen>
                                   _handleCategorySave(_categoryName);
                                 }
                               },
-                              color: AppTheme.primaryColor,
-                              highlightColor: AppTheme.primaryColorVariant,
                               child: Padding(
                                 padding:
                                     const EdgeInsets.only(top: 14, bottom: 14),

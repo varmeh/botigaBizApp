@@ -141,9 +141,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
   Container verifyButton(Function onVerification) {
     return Container(
       width: double.infinity,
-      child: FlatButton(
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(8.0),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(8.0),
+          ),
+          backgroundColor: AppTheme.primaryColor,
         ),
         onPressed: () {
           if (_form.currentState.validate()) {
@@ -151,7 +154,6 @@ class _VerifyOtpState extends State<VerifyOtp> {
             onVerification();
           }
         },
-        color: AppTheme.primaryColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 18.0),
           child: Text(

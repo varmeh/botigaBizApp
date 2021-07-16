@@ -200,9 +200,12 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                   Expanded(
                     child: SizedBox(
                       height: 52,
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.0),
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          backgroundColor: AppTheme.primaryColor,
                         ),
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
@@ -210,7 +213,6 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                             handleBusinessInformationSave();
                           }
                         },
-                        color: AppTheme.primaryColor,
                         child: Text(
                           'Save Details',
                           style: AppTheme.textStyle
@@ -279,14 +281,17 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: <Widget>[
-                                    FlatButton(
-                                      shape: RoundedRectangleBorder(
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(6.0)),
+                                              BorderRadius.circular(6.0),
+                                        ),
+                                        backgroundColor: AppTheme.color05,
+                                      ),
                                       onPressed: () {
                                         showImageSelectOption();
                                       },
-                                      color: AppTheme.color05,
                                       child: Padding(
                                         padding: const EdgeInsets.all(13.0),
                                         child: Text('Change logo',
@@ -295,17 +300,19 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                                                 .size(15)),
                                       ),
                                     ),
-                                    FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(6.0),
+                                        ),
+                                        backgroundColor: AppTheme.color05,
                                       ),
                                       onPressed: () {
                                         setState(() {
                                           _imageFile = null;
                                         });
                                       },
-                                      color: AppTheme.color05,
                                       child: Padding(
                                         padding: const EdgeInsets.all(13),
                                         child: Text(
@@ -322,14 +329,17 @@ class _BussinessDetailsState extends State<BussinessDetails> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: <Widget>[
-                                    FlatButton(
-                                      shape: new RoundedRectangleBorder(
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        shape: new RoundedRectangleBorder(
                                           borderRadius:
-                                              new BorderRadius.circular(6.0)),
+                                              new BorderRadius.circular(6.0),
+                                        ),
+                                        backgroundColor: AppTheme.color05,
+                                      ),
                                       onPressed: () {
                                         showImageSelectOption();
                                       },
-                                      color: AppTheme.color05,
                                       child: Padding(
                                         padding: const EdgeInsets.all(13.0),
                                         child: Text(

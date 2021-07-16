@@ -870,11 +870,14 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                                 Expanded(
                                   child: SizedBox(
                                     height: 52,
-                                    child: FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(6.0),
-                                      ),
+                                    child: TextButton(
+                                      style: TextButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(6.0),
+                                          ),
+                                          backgroundColor:
+                                              AppTheme.primaryColor),
                                       onPressed: () {
                                         if (_bsformkey.currentState
                                             .validate()) {
@@ -886,7 +889,6 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                                           Navigator.of(context).pop();
                                         }
                                       },
-                                      color: AppTheme.primaryColor,
                                       child: Text(
                                         'Save category',
                                         style: AppTheme.textStyle
@@ -962,13 +964,16 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  FlatButton(
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(6.0)),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(6.0),
+                      ),
+                      backgroundColor: AppTheme.color05,
+                    ),
                     onPressed: () {
                       showImageSelectOption(context);
                     },
-                    color: AppTheme.color05,
                     child: Padding(
                       padding: const EdgeInsets.all(13.0),
                       child: Text(
@@ -977,15 +982,17 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                       ),
                     ),
                   ),
-                  FlatButton(
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(6.0)),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(6.0),
+                        ),
+                        backgroundColor: AppTheme.color05),
                     onPressed: () {
                       setState(() {
                         _imageFile = null;
                       });
                     },
-                    color: AppTheme.color05,
                     child: Padding(
                       padding: const EdgeInsets.all(13),
                       child: Text(
@@ -999,13 +1006,16 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  FlatButton(
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(6.0)),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(6.0),
+                      ),
+                      backgroundColor: AppTheme.color05,
+                    ),
                     onPressed: () {
                       showImageSelectOption(context);
                     },
-                    color: AppTheme.color05,
                     child: Padding(
                       padding: const EdgeInsets.all(13.0),
                       child: Text(

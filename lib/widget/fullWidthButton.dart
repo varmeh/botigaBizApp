@@ -12,12 +12,14 @@ class FullWidthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      child: FlatButton(
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(8.0),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(8.0),
+          ),
+          backgroundColor: AppTheme.primaryColor,
         ),
         onPressed: onPressed,
-        color: AppTheme.primaryColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 18.0),
           child: Text(

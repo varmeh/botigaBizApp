@@ -116,9 +116,10 @@ class _EditProductState extends State<EditProduct>
             appBar: BotigaAppBar(
               'Update Product',
               actions: [
-                FlatButton(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
+                TextButton(
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  ),
                   onPressed: () {
                     showDialog(
                       context: context,
@@ -133,7 +134,7 @@ class _EditProductState extends State<EditProduct>
                             style: AppTheme.textStyle.w400.color100,
                           ),
                           actions: [
-                            FlatButton(
+                            TextButton(
                               child: Text(
                                 'Don\'t Delete',
                                 style: AppTheme.textStyle.w600.color50,
@@ -142,7 +143,7 @@ class _EditProductState extends State<EditProduct>
                                 Navigator.of(context).pop();
                               },
                             ),
-                            FlatButton(
+                            TextButton(
                               child: Text(
                                 'Confirm',
                                 style: AppTheme.textStyle.w600
@@ -323,19 +324,21 @@ class _EditProductState extends State<EditProduct>
                                     padding: const EdgeInsets.only(right: 12),
                                     child: Container(
                                       height: 44,
-                                      child: FlatButton(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
+                                      child: TextButton(
+                                        style: TextButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          backgroundColor: _selectedUnit == val
+                                              ? AppTheme.primaryColor
+                                              : AppTheme.dividerColor,
                                         ),
                                         onPressed: () {
                                           setState(() {
                                             _selectedUnit = val;
                                           });
                                         },
-                                        color: _selectedUnit == val
-                                            ? AppTheme.primaryColor
-                                            : AppTheme.dividerColor,
                                         child: Text('$val',
                                             style: _selectedUnit == val
                                                 ? AppTheme.textStyle

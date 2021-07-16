@@ -46,18 +46,18 @@ class LottieScreen extends StatelessWidget {
                 .letterSpace(0.2),
           ),
           sizedBox,
-          FlatButton(
+          TextButton(
             onPressed: onTap,
             child: Text(
               buttonTitle,
               style: AppTheme.textStyle.w500.color100.size(15).lineHeight(1.5),
             ),
-            color: AppTheme.color05,
-            height: 44.0,
-            minWidth: 188.0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
+            style: TextButton.styleFrom(
+                backgroundColor: AppTheme.color05,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                minimumSize: Size(188.0, 44.0)),
           )
         ],
       ),

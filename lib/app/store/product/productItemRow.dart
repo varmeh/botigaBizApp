@@ -68,7 +68,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
             Row(
               children: [
                 Stack(
-                  overflow: Overflow.visible,
+                  clipBehavior: Clip.none,
                   children: [
                     ColorFiltered(
                       colorFilter: _switchValue
@@ -204,7 +204,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
           : EdgeInsets.only(top: 12, bottom: 12),
       child: SingleChildScrollView(
         child: Stack(
-          overflow: Overflow.visible,
+          clipBehavior: Clip.none,
           children: [
             _hasTag
                 ? Positioned(

@@ -36,7 +36,7 @@ class _BotigaCalendarState extends State<BotigaCalendar> {
   @override
   void initState() {
     super.initState();
-    _months = DateUtils.extractWeeks(widget.minDate, widget.maxDate);
+    _months = DateUtility.extractWeeks(widget.minDate, widget.maxDate);
     _minDate = widget.minDate.removeTime();
     _maxDate = widget.maxDate.removeTime();
   }
@@ -47,7 +47,7 @@ class _BotigaCalendarState extends State<BotigaCalendar> {
 
     if (oldWidget.minDate != widget.minDate ||
         oldWidget.maxDate != widget.maxDate) {
-      _months = DateUtils.extractWeeks(widget.minDate, widget.maxDate);
+      _months = DateUtility.extractWeeks(widget.minDate, widget.maxDate);
       _minDate = widget.minDate.removeTime();
       _maxDate = widget.maxDate.removeTime();
     }
