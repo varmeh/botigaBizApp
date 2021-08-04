@@ -660,7 +660,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                                     ),
                                     _getErrorText(_fssaiDateError),
                                     _sizedBox24,
-                                    _pdfFile != null
+                                    _doc != null
                                         ? ConstrainedBox(
                                             constraints: BoxConstraints.tight(
                                               Size(double.infinity, 156),
@@ -709,6 +709,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                                                         onPressed: () {
                                                           setState(() {
                                                             _pdfFile = null;
+                                                            _doc = null;
                                                           });
                                                         },
                                                         height: 44,
