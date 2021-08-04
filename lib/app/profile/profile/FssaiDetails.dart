@@ -321,7 +321,7 @@ class _FssaiDetailsState extends State<FssaiDetails> {
                           SizedBox(
                             height: 24,
                           ),
-                          _pdfFile != null
+                          _doc != null
                               ? ConstrainedBox(
                                   constraints: BoxConstraints.tight(
                                     Size(double.infinity, 156),
@@ -330,18 +330,19 @@ class _FssaiDetailsState extends State<FssaiDetails> {
                                     children: [
                                       Container(
                                         width: 156,
-                                        height: 156,
-                                        color: Colors.orange,
+                                        height: 256,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
-                                        child: ClipRRect(
-                                          child: PDFViewer(document: _doc),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                        child: PDFViewer(
+                                          document: _doc,
+                                          showIndicator: false,
+                                          showNavigation: false,
+                                          showPicker: false,
                                         ),
                                       ),
+                                      SizedBox(width: 12),
                                       Expanded(
                                         child: Column(
                                           mainAxisAlignment:
@@ -358,152 +359,95 @@ class _FssaiDetailsState extends State<FssaiDetails> {
                                               width: 135,
                                             ),
                                             SizedBox(
-                                              height: 24,
+                                              height: 20,
                                             ),
                                             PassiveButton(
-                                              title: "Delete",
+                                              title: "View",
                                               onPressed: () {
-                                                setState(() {
-                                                  _pdfFile = null;
-                                                });
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute<Null>(
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return FssaiCertificate(
+                                                          _doc);
+                                                    },
+                                                  ),
+                                                );
                                               },
                                               height: 44,
                                               width: 135,
-                                            )
+                                            ),
                                           ],
                                         ),
                                       )
                                     ],
                                   ),
                                 )
-                              : _doc != null
-                                  ? ConstrainedBox(
-                                      constraints: BoxConstraints.tight(
-                                        Size(double.infinity, 156),
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: double.infinity,
+                                      height: 156,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                          style: BorderStyle.solid,
+                                          color: AppTheme.color100
+                                              .withOpacity(0.25),
+                                          width: 1.0,
+                                        ),
                                       ),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            width: 156,
-                                            height: 256,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          PassiveButton(
+                                            icon: Icon(
+                                              Icons.upload_file,
+                                              color: AppTheme.color50,
                                             ),
-                                            child: PDFViewer(
-                                              document: _doc,
-                                              showIndicator: false,
-                                              showNavigation: false,
-                                              showPicker: false,
+                                            title: "Upload",
+                                            onPressed: () {
+                                              handlePdfChange();
+                                            },
+                                            height: 44,
+                                            width: 135,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Text(
+                                              'Upload FSSAI certificate',
+                                              textAlign: TextAlign.center,
+                                              style: AppTheme
+                                                  .textStyle.color50.w500
+                                                  .size(12)
+                                                  .letterSpace(0.2)
+                                                  .lineHeight(1.5),
                                             ),
                                           ),
-                                          SizedBox(width: 12),
-                                          Expanded(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                PassiveButton(
-                                                  title: "Change",
-                                                  onPressed: () {
-                                                    handlePdfChange();
-                                                  },
-                                                  height: 44,
-                                                  width: 135,
-                                                ),
-                                                SizedBox(
-                                                  height: 20,
-                                                ),
-                                                PassiveButton(
-                                                  title: "View",
-                                                  onPressed: () {
-                                                    Navigator.of(context).push(
-                                                      MaterialPageRoute<Null>(
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return FssaiCertificate(
-                                                              _doc);
-                                                        },
-                                                      ),
-                                                    );
-                                                  },
-                                                  height: 44,
-                                                  width: 135,
-                                                ),
-                                              ],
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Text(
+                                              '* only pdf',
+                                              textAlign: TextAlign.center,
+                                              style: AppTheme
+                                                  .textStyle.color100.w500
+                                                  .size(10)
+                                                  .letterSpace(0.2)
+                                                  .lineHeight(1.2),
                                             ),
-                                          )
+                                          ),
                                         ],
                                       ),
-                                    )
-                                  : Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          width: double.infinity,
-                                          height: 156,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            border: Border.all(
-                                              style: BorderStyle.solid,
-                                              color: AppTheme.color100
-                                                  .withOpacity(0.25),
-                                              width: 1.0,
-                                            ),
-                                          ),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              PassiveButton(
-                                                icon: Icon(
-                                                  Icons.upload_file,
-                                                  color: AppTheme.color50,
-                                                ),
-                                                title: "Upload",
-                                                onPressed: () {
-                                                  handlePdfChange();
-                                                },
-                                                height: 44,
-                                                width: 135,
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: Text(
-                                                  'Upload FSSAI certificate',
-                                                  textAlign: TextAlign.center,
-                                                  style: AppTheme
-                                                      .textStyle.color50.w500
-                                                      .size(12)
-                                                      .letterSpace(0.2)
-                                                      .lineHeight(1.5),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 10),
-                                                child: Text(
-                                                  '* only pdf',
-                                                  textAlign: TextAlign.center,
-                                                  style: AppTheme
-                                                      .textStyle.color100.w500
-                                                      .size(10)
-                                                      .letterSpace(0.2)
-                                                      .lineHeight(1.2),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
                                     ),
+                                  ],
+                                ),
                         ],
                       ),
                     ),
