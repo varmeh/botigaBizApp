@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pdf_flutter/pdf_flutter.dart';
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:file_picker/file_picker.dart';
 
 import '../../../providers/index.dart' show ProfileProvider, ServicesProvider;
@@ -28,6 +28,7 @@ class _FssaiDetailsState extends State<FssaiDetails> {
   FocusNode _fssaiNumberFocusNode;
   File _pdfFile;
   String pdfUploadUrl = '', pdfDownloadUrl = '';
+  PDFDocument _doc;
 
   @override
   void initState() {
@@ -59,6 +60,7 @@ class _FssaiDetailsState extends State<FssaiDetails> {
   void loadInitialValueForForm() {
     final profile =
         Provider.of<ProfileProvider>(context, listen: false).profileInfo;
+
     setState(() {
       _brandName = profile.brand.name;
       _tagline = profile.brand.tagline;
@@ -69,10 +71,12 @@ class _FssaiDetailsState extends State<FssaiDetails> {
       _fssaiDate = _hasValue(profile.fssaiValidityDate)
           ? DateTime.parse(profile.fssaiValidityDate)
           : null;
+
       _fssaiCertificateUrl = _hasValue(profile.fssaiCertificateUrl)
           ? profile.fssaiCertificateUrl
           : '';
       _pdfFile = null;
+      PDFDocument.fromURL(_fssaiCertificateUrl).then((value) => _doc = value);
     });
   }
 
@@ -150,6 +154,7 @@ class _FssaiDetailsState extends State<FssaiDetails> {
     try {
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadPdfToS3(pdfUploadUrl, file);
+      _doc = await PDFDocument.fromFile(file);
     } catch (err) {
       setState(() {
         _pdfFile = null;
@@ -326,14 +331,13 @@ class _FssaiDetailsState extends State<FssaiDetails> {
                                       Container(
                                         width: 156,
                                         height: 156,
+                                        color: Colors.orange,
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(8),
                                         ),
                                         child: ClipRRect(
-                                          child: PDF.file(
-                                            _pdfFile,
-                                          ),
+                                          child: PDFViewer(document: _doc),
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),
@@ -372,7 +376,7 @@ class _FssaiDetailsState extends State<FssaiDetails> {
                                     ],
                                   ),
                                 )
-                              : _hasValue(_fssaiCertificateUrl)
+                              : _doc != null
                                   ? ConstrainedBox(
                                       constraints: BoxConstraints.tight(
                                         Size(double.infinity, 156),
@@ -381,15 +385,19 @@ class _FssaiDetailsState extends State<FssaiDetails> {
                                         children: [
                                           Container(
                                             width: 156,
-                                            height: 156,
+                                            height: 256,
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                             ),
-                                            child: PDF.network(
-                                              _fssaiCertificateUrl,
+                                            child: PDFViewer(
+                                              document: _doc,
+                                              showIndicator: false,
+                                              showNavigation: false,
+                                              showPicker: false,
                                             ),
                                           ),
+                                          SizedBox(width: 12),
                                           Expanded(
                                             child: Column(
                                               mainAxisAlignment:
@@ -416,7 +424,7 @@ class _FssaiDetailsState extends State<FssaiDetails> {
                                                         builder: (BuildContext
                                                             context) {
                                                           return FssaiCertificate(
-                                                              _fssaiCertificateUrl);
+                                                              _doc);
                                                         },
                                                       ),
                                                     );

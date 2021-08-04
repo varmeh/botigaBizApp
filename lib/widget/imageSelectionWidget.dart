@@ -69,9 +69,7 @@ class ImageSelectionWidget {
 
   void _onImageButtonPressed(BuildContext context, ImageSource source) async {
     try {
-      PickedFile pickedFile = await ImagePicker().getImage(
-        source: source,
-      );
+      XFile pickedFile = await ImagePicker().pickImage(source: source);
       if (pickedFile != null) {
         _cropImage(pickedFile);
       }

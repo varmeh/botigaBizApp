@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pdf_flutter/pdf_flutter.dart';
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 
 import '../../providers/index.dart' show ProfileProvider, ServicesProvider;
 import '../../theme/index.dart';
@@ -59,6 +59,8 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
       _businessTypeError,
       _fssaiDateError,
       _fssiCertificateError;
+
+  PDFDocument _doc;
 
   @override
   void initState() {
@@ -207,6 +209,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
     try {
       await Provider.of<ServicesProvider>(context, listen: false)
           .uploadPdfToS3(pdfUploadUrl, file);
+      _doc = await PDFDocument.fromFile(file);
     } catch (err) {
       setState(() {
         _pdfFile = null;
@@ -673,8 +676,11 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                                                             8),
                                                   ),
                                                   child: ClipRRect(
-                                                    child: PDF.file(
-                                                      _pdfFile,
+                                                    child: PDFViewer(
+                                                      document: _doc,
+                                                      showIndicator: false,
+                                                      showNavigation: false,
+                                                      showPicker: false,
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(

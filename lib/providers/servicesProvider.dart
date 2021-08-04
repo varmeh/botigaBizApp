@@ -22,7 +22,7 @@ class ServicesProvider with ChangeNotifier {
 
   Future uploadImageToS3(String url, File image) async {
     Uint8List bytes = await image.readAsBytes();
-    return http.put(url, body: bytes);
+    return http.put(Uri.parse(url), body: bytes);
   }
 
   Future deleteImageFromS3(String url) async {
@@ -31,8 +31,8 @@ class ServicesProvider with ChangeNotifier {
   }
 
   Future getAreaFromPincode(String pin) async {
-    final response =
-        await http.get('http://www.postalpincode.in/api/pincode/$pin');
+    final response = await http
+        .get(Uri.parse('http://www.postalpincode.in/api/pincode/$pin'));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -46,6 +46,6 @@ class ServicesProvider with ChangeNotifier {
 
   Future uploadPdfToS3(String url, File image) async {
     Uint8List bytes = await image.readAsBytes();
-    return http.put(url, body: bytes);
+    return http.put(Uri.parse(url), body: bytes);
   }
 }

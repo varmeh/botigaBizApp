@@ -255,8 +255,8 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future getBankNameFromIfsc(String ifsc) async {
-    final response =
-        await http.get('https://ifsc.razorpay.com/${ifsc.toUpperCase()}');
+    final response = await http
+        .get(Uri.parse('https://ifsc.razorpay.com/${ifsc.toUpperCase()}'));
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

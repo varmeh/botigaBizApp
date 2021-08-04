@@ -24,7 +24,7 @@ class Http {
 
   static Future<dynamic> get(String url) async {
     final response = await http.get(
-      '$_baseUrl$url',
+      Uri.parse('$_baseUrl$url'),
       headers: {..._globalHeaders, 'Authorization': _token},
     );
     return parse(response);
@@ -35,7 +35,7 @@ class Http {
     Map<String, String> body,
   }) async {
     final response = await http.post(
-      '$_baseUrl$url',
+      Uri.parse('$_baseUrl$url'),
       headers: {..._globalHeaders},
       body: body != null ? json.encode(body) : null,
     );
@@ -54,7 +54,7 @@ class Http {
   }) async {
     final _headers = headers == null ? {} : headers;
     final response = await http.post(
-      '$_baseUrl$url',
+      Uri.parse('$_baseUrl$url'),
       headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
       body: body != null ? json.encode(body) : null,
     );
@@ -68,7 +68,7 @@ class Http {
   }) async {
     final _headers = headers == null ? {} : headers;
     final response = await http.patch(
-      '$_baseUrl$url',
+      Uri.parse('$_baseUrl$url'),
       headers: {'Authorization': _token, ..._globalHeaders, ..._headers},
       body: body != null ? json.encode(body) : null,
     );
@@ -77,7 +77,7 @@ class Http {
 
   static Future<dynamic> delete(String url) async {
     final response = await http.delete(
-      '$_baseUrl$url',
+      Uri.parse('$_baseUrl$url'),
       headers: {..._globalHeaders, 'Authorization': _token},
     );
     return parse(response);
