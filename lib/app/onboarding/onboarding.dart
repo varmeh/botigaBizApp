@@ -95,18 +95,23 @@ class IntroScreen extends StatelessWidget {
           onDonePress: () {
             Navigator.of(context).pushNamed(Welcome.routeName);
           },
+          backgroundColorAllSlides: AppTheme.backgroundColor,
           listCustomTabs: _slides.map((slide) => _customTab(slide)).toList(),
-          // colorSkipBtn: AppTheme.backgroundColor,
-          // styleNameSkipBtn: AppTheme.textStyle.w500.size(15).color50,
-          // nameSkipBtn: 'Skip',
-          // nameNextBtn: 'Next',
-          // nameDoneBtn: 'Done',
-          // colorDoneBtn: AppTheme.backgroundColor,
-          // styleNameDoneBtn:
-          //     AppTheme.textStyle.w500.size(15).colored(AppTheme.primaryColor),
-          // highlightColorDoneBtn: AppTheme.primaryColor,
+          showSkipBtn: true,
+          showNextBtn: true,
+          showDoneBtn: true,
+          renderSkipBtn: _renderButton('Skip', AppTheme.color50),
+          renderNextBtn: _renderButton('Next', AppTheme.primaryColor),
+          renderDoneBtn: _renderButton('Done', AppTheme.primaryColor),
         ),
       ),
+    );
+  }
+
+  Widget _renderButton(String title, Color color) {
+    return Text(
+      title,
+      style: AppTheme.textStyle.w500.size(15).colored(color),
     );
   }
 }
