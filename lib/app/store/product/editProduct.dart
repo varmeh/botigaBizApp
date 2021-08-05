@@ -373,7 +373,7 @@ class _EditProductState extends State<EditProduct>
                                     AppTheme.textStyle.size(15).w500.color100,
                               ),
                               BotigaSwitch(
-                                handleSwitchChage: (bool value) {
+                                handleSwitchChange: (bool value) {
                                   setState(() {
                                     _switchValue = value;
                                   });

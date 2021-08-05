@@ -5,12 +5,12 @@ import '../../theme/index.dart';
 
 class BotigaSwitch extends StatelessWidget {
   final bool switchValue;
-  final Function handleSwitchChage;
+  final Function handleSwitchChange;
   final double scale;
   final Alignment alignment;
   BotigaSwitch(
       {@required this.switchValue,
-      @required this.handleSwitchChage,
+      @required this.handleSwitchChange,
       this.scale = 0.75,
       this.alignment = Alignment.centerRight});
   @override
@@ -22,7 +22,7 @@ class BotigaSwitch extends StatelessWidget {
         activeColor: AppTheme.primaryColor,
         value: this.switchValue,
         onChanged: (bool value) {
-          this.handleSwitchChage(value);
+          this.handleSwitchChange(value);
         },
       ),
     );

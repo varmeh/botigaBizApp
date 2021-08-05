@@ -579,7 +579,7 @@ class _SignupBuissnessDetailsState extends State<SignupBuissnessDetails> {
                                   .letterSpace(0.2),
                             ),
                             trailing: BotigaSwitch(
-                              handleSwitchChage: (bool value) {
+                              handleSwitchChange: (bool value) {
                                 _getPreSignedPdfUrl();
                                 setState(() {
                                   showFssaiOption = value;

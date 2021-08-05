@@ -356,7 +356,7 @@ class _CategoryAvailiblitySwitchState extends State<CategoryAvailiblitySwitch> {
         ),
         BotigaSwitch(
           scale: 0.65,
-          handleSwitchChage: (bool value) {
+          handleSwitchChange: (bool value) {
             setState(() => visiblity = value);
             widget.handleCateoryVisiblity(widget.category.id, value, () {
               setState(() => visiblity = !value);

@@ -461,7 +461,7 @@ class _AddProductState extends State<AddProduct> with TickerProviderStateMixin {
                                     AppTheme.textStyle.size(15).w500.color100,
                               ),
                               BotigaSwitch(
-                                handleSwitchChage: (bool value) {
+                                handleSwitchChange: (bool value) {
                                   setState(() {
                                     _switchValue = value;
                                   });

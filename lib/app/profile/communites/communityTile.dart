@@ -28,12 +28,12 @@ class _CommunityTileState extends State<CommunityTile> {
   String _deliveryType, _apartmentId;
   int _day, _selectedSlotIndex;
   List<bool> _schedule = List.filled(7, false);
+  bool _switchValueChangedByUser = false;
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      _switchValue = widget.apt.live;
       _deliveryType = '';
       _day = 1;
       _apartmentId = widget.apt.id;
@@ -41,14 +41,13 @@ class _CommunityTileState extends State<CommunityTile> {
     });
   }
 
-  void _handleSwitchChage(bool value) {
+  void _handleSwitchChange(bool value) {
     setState(() {
       _switchValue = value;
+      _switchValueChangedByUser = true;
     });
     widget.setApartmentStatus(widget.apt.id, value, () {
-      setState(() {
-        _switchValue = !value;
-      });
+      setState(() => _switchValue = !value);
     });
   }
 
@@ -62,6 +61,12 @@ class _CommunityTileState extends State<CommunityTile> {
 
   @override
   Widget build(BuildContext context) {
+    if (_switchValueChangedByUser) {
+      _switchValueChangedByUser = false;
+    } else {
+      _switchValue = widget.apt.live;
+    }
+
     final _hasSlot =
         widget.apt.deliverySlot != null && widget.apt.deliverySlot.isNotEmpty;
 
@@ -102,8 +107,8 @@ class _CommunityTileState extends State<CommunityTile> {
                 ),
               ),
               BotigaSwitch(
-                handleSwitchChage: (bool value) {
-                  this._handleSwitchChage(value);
+                handleSwitchChange: (bool value) {
+                  this._handleSwitchChange(value);
                 },
                 switchValue: _switchValue,
                 alignment: Alignment.topRight,

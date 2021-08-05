@@ -16,6 +16,22 @@ class Communities extends StatefulWidget {
 
 class _CommunitiesState extends State<Communities> {
   bool isLoading = false;
+  bool _switchValue = false;
+
+  @override
+  void initState() {
+    _setAllApartmentsStatus();
+    super.initState();
+  }
+
+  void _setAllApartmentsStatus() {
+    List<Apartment> apartments =
+        Provider.of<ProfileProvider>(context, listen: false).allApartment;
+
+    _switchValue =
+        apartments.firstWhere((apt) => apt.live == true, orElse: () => null) !=
+            null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +43,7 @@ class _CommunitiesState extends State<Communities> {
         'Made by awesome team of Botiga',
       );
     }
+
     return LoaderOverlay(
       isLoading: isLoading,
       child: Container(
@@ -37,10 +54,47 @@ class _CommunitiesState extends State<Communities> {
           bottom: 10,
         ),
         child: ListView.builder(
-          itemCount: apartments.length,
+          itemCount: apartments.length + 1,
           itemBuilder: (context, index) {
+            if (index == 0) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 12, bottom: 24),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'All Apartments Live Status',
+                            style: AppTheme.textStyle.w500
+                                .size(18)
+                                .lineHeight(1.33)
+                                .color100,
+                          ),
+                        ),
+                        BotigaSwitch(
+                          handleSwitchChange: (bool value) async {
+                            setState(() => _switchValue = value);
+                            setAllApartmentStatus(value);
+                          },
+                          switchValue: _switchValue,
+                          alignment: Alignment.topRight,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Divider(
+                      thickness: 1,
+                      color: AppTheme.primaryColor,
+                    ),
+                  ],
+                ),
+              );
+            }
             return CommunityTile(
-              apartments[index],
+              apartments[index - 1],
               setApartmentStatus,
               updateDeliverySchedule,
             );
@@ -67,6 +121,7 @@ class _CommunitiesState extends State<Communities> {
           color: AppTheme.backgroundColor,
         ),
       ).show(context);
+      _setAllApartmentsStatus();
     } catch (err) {
       onFail();
       Toast(message: Http.message(err)).show(context);
@@ -74,6 +129,29 @@ class _CommunitiesState extends State<Communities> {
       setState(() {
         isLoading = false;
       });
+    }
+  }
+
+  void setAllApartmentStatus(bool value) async {
+    setState(() => isLoading = true);
+    try {
+      final profileProvider =
+          Provider.of<ProfileProvider>(context, listen: false);
+      await profileProvider.setAllApartmentStatus(value);
+      await profileProvider.fetchProfile();
+      Toast(
+        message: 'Communities status updated',
+        icon: Icon(
+          Icons.check_circle,
+          size: 24,
+          color: AppTheme.backgroundColor,
+        ),
+      ).show(context);
+    } catch (err) {
+      setState(() => _switchValue = !_switchValue);
+      Toast(message: Http.message(err)).show(context);
+    } finally {
+      setState(() => isLoading = false);
     }
   }
 

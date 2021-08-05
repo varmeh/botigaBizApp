@@ -72,6 +72,11 @@ class ProfileProvider with ChangeNotifier {
         body: {'apartmentId': apartmentid, 'live': status});
   }
 
+  Future setAllApartmentStatus(bool status) async {
+    return Http.patch('/api/seller/apartments/all/live',
+        body: {'live': status});
+  }
+
   Future fetchProfile() async {
     final response = await Http.get('/api/seller/profile');
     this._profile = Profile.fromJson(response);

@@ -150,7 +150,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                   ),
                                 ),
                                 BotigaSwitch(
-                                  handleSwitchChage: (bool value) {
+                                  handleSwitchChange: (bool value) {
                                     setState(() => _switchValue = value);
                                     widget.setProductAvilablity(
                                         widget.product, value, () {
@@ -284,7 +284,7 @@ class _ProductItemRowState extends State<ProductItemRow> {
                                 ),
                               ),
                               BotigaSwitch(
-                                handleSwitchChage: (bool value) {
+                                handleSwitchChange: (bool value) {
                                   setState(
                                     () {
                                       _switchValue = value;
